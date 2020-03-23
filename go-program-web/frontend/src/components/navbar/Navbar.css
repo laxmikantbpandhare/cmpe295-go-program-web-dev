@@ -1,0 +1,23 @@
+.navbar-custom {
+    background-color: #0056a3;
+}
+
+.navbar-logo {
+    width: 2rem
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: #f8b21a;
+}
+
+.navbar-custom .navbar-toggler .fa-bars{
+    color: #f8b21a;
+}
+
+.navbar-custom .dropdown-item {
+    color: #0056a3;
+}
+
+.navbar-custom .dropdown-menu {
+    background-color: #f8b21a;
+}

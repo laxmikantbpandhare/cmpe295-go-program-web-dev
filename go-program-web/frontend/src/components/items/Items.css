@@ -1,0 +1,20 @@
+.items-below-heading{
+    padding-top: 3rem;
+}
+
+.items-search-section{
+    position: sticky;
+    top: 6.4rem;
+    position: -webkit-sticky;
+    z-index: 9;
+    background: white;
+}
+
+.all-items-heading{
+    background-color: #0056a3
+}
+
+.items-card-image {
+    width: 8rem;
+    height: 8rem;
+}

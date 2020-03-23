@@ -1,11 +1,16 @@
 import React from 'react';
 import './App.css';
-import Landing from './components/landing_page/Landing'
+import {HashRouter} from 'react-router-dom';
+import Main from './components/Main';
+
 function App() {
   return (
-    <div>
-        <Landing/>
-    </div>
+    <HashRouter>
+          <div>
+            {/* App Component Has a Child Component called Main*/}
+            <Main/>
+          </div>
+    </HashRouter>
   );
 }
 

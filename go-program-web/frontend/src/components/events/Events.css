@@ -1,0 +1,56 @@
+.events-card-image {
+    width: 8rem;
+    height: 8rem;
+}
+
+.all-events-heading{
+    background-color: #0056a3
+}
+
+.events-below-heading{
+    padding-top: 3rem;
+}
+
+.events-search-section{
+    position: sticky;
+    top: 6.4rem;
+    position: -webkit-sticky;
+    z-index: 9;
+    background: white;
+}
+
+.event-modal .modal-title {
+    font-weight: 800;
+}
+
+.image-upload > input{
+    display: none;
+}
+
+.image-upload img{
+    width: 25px;
+    cursor: pointer
+}
+
+.image-upload{
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin: 5px;
+}
+
+.event-image{
+    position: relative;
+}
+
+.event-image .delete-icon{
+    position: absolute;
+    height: 1rem;
+    width: 1rem;
+    top: 0.4rem;
+    right: 1.3rem;
+    opacity: 0.65;
+}
+
+.event-image .delete-icon:hover{
+    opacity: 1;
+}

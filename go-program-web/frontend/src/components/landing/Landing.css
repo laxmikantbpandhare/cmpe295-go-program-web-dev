@@ -1,0 +1,50 @@
+.landing-left {
+  width: 60% !important;
+}
+
+.signup-btn-landing {
+  margin-top: 1rem !important;
+  background-color: #0056a3;
+  font-weight: bold;font-size: 0.8rem
+}
+
+.login-btn-landing {
+  background-color: #0056a3;
+  font-weight: bold;font-size: 0.8rem
+}
+
+.msg-go-program-landing {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.msg-login {font-weight: 900;
+  font-size: 0.8rem
+}
+
+.btn-landing:focus {
+  outline:none !important;
+}
+
+@media (min-width: 576px){
+  .landing-height{
+    height: 100vh;
+  }
+  
+  .landing-image{
+    height: 100%;
+  }
+}
+
+@media (max-width: 576px){
+  .landing-image{
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 575.98px){
+  .landing-left{
+    width: 80% !important;
+    padding: 0;
+  }
+}

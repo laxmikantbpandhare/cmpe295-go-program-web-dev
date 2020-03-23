@@ -1,0 +1,53 @@
+.coe-logo {
+    width: 12%
+}
+
+.form-container {
+    margin: 2rem
+}
+
+.btn-style {
+    background-color: #0056a3;
+    font-weight: bold;
+    font-size: 0.8rem
+}
+
+.delete-btn-style {
+    background-color: #f8b21a;
+    font-weight: bold;
+    font-size: 0.8rem;
+    border: #f8b21a;
+    color: black
+}
+
+.delete-btn-style:hover {
+    background-color: #f8c41a;
+    color: black
+}
+
+/* input {
+    border: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    border-bottom: 2px solid #0056a3 !important;
+    border-radius: 0 !important
+} */
+
+.heading{
+    background-color: #f8b21a;
+    color: #0056a3;z-index: 10;
+    position: fixed;width: 100%;
+}
+
+.modal {display: block !important;
+    background-color: rgba(0, 0, 0,0.9);
+}
+
+/* .modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal-body {
+    max-height: calc(100vh - 10rem);
+    overflow-y: auto;
+} */

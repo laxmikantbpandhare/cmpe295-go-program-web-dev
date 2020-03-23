@@ -1,0 +1,51 @@
+import React from 'react';
+import {Link} from 'react-router-dom';
+import collegeLogo from '../../images/coe_logo.png';
+import './Navbar.css';
+import '../../Common.css';
+
+function Navbar() {
+    return (
+    <div>
+        <nav className="navbar navbar-dark navbar-custom navbar-expand-sm fixed-top">
+            <a class="navbar-brand" href="#/dashboard">
+                <img src={collegeLogo} className="navbar-logo" alt="Logo"/>
+            </a>
+            <button className="navbar-toggler" data-toggle="collapse" data-target="#menu">
+                <span><i class="fas fa-bars"></i></span>
+            </button>
+            <div className="collapse navbar-collapse" id="menu">
+                <ul className="navbar-nav">
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <a className="nav-link" href="#/dashboard"><i className="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <a className="nav-link" href="#/events"><i className="fas fa-calendar-check"></i> Events</a>
+                    </li>
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <a className="nav-link" href="#/claim-points"><i className="fas fa-award"></i> Claim Points</a>
+                    </li>
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <a className="nav-link" href="#/orders"><i className="fas fa-receipt"></i> Orders</a>
+                    </li>
+                </ul>
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <div className="dropdown">
+                            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-id-badge"></i> UserName</a>
+                            <div className="dropdown-menu">
+                                <a href="#/profile" className="dropdown-item"><i className="fas fa-id-card"></i> Profile</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <a className="nav-link" href="#/my-events"><i className="fas fa-sign-out-alt"></i> Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    );
+}
+
+export default Navbar;
