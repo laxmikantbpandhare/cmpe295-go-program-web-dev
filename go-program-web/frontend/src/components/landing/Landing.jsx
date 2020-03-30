@@ -23,10 +23,12 @@ function Landing() {
            <br/>
            <br/>
            <span className="msg-login">GO now.</span>
-           <Link to="/student-login">
+           <Link to="/login">
              <button type="button" className="btn btn-primary btn-block login-btn-landing">Log in</button>
            </Link>
-           <button type="button" className="btn btn-primary btn-block signup-btn-landing">Sign up</button>
+           <Link to="/signup">
+            <button type="button" className="btn btn-primary btn-block signup-btn-landing">Sign up</button>
+           </Link>
          </div>
        </div>
      </div>

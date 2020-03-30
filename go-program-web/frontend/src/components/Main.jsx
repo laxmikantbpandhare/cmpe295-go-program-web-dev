@@ -1,27 +1,21 @@
 import React from 'react';
 import {Route,Switch} from 'react-router-dom';
 import Landing from './landing/Landing';
-import StudentLogin from './studentLogin/StudentLogin';
-import Navbar from './navbar/Navbar';
-import Dashboard from './dashboard/Dashboard';
-import Events from './events/Events';
-import AllItems from './items/AllItems';
-import ItemDetails from './items/ItemDetails';
-import Orders from './orders/Orders';
+import Login from './login/Login';
+import Signup from './signup/Signup';
+import Student from './Student';
+import Admin from './Admin';
 
 //Create a Main Functional Component
 function Main() {
   return (
     <div>
-        <Navbar/>
         <Switch>
           <Route path="/" exact component={Landing}/>
-          <Route path="/student-login" exact component={StudentLogin}/>
-          <Route path="/dashboard" exact component={Dashboard}/>
-          <Route path="/events" exact component={Events}/>
-          <Route path="/claim-points" exact component={AllItems}/>
-          <Route path="/item-details/:id" exact component={ItemDetails}/>
-          <Route path="/orders" exact component={Orders}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/signup" component={Signup}/>
+          <Route path="/student/:id" component={Student}/>
+          <Route path="/admin/:id" component={Admin}/>
         </Switch>
     </div>
   );

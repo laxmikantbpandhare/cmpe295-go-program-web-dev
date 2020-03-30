@@ -1,3 +1,7 @@
+.top-align {
+    padding-top: 3.7rem
+}
+
 .coe-logo {
     width: 12%
 }
@@ -25,12 +29,40 @@
     color: black
 }
 
-/* input {
+.input-wrapper {
+    position: relative;
+}
+
+.form-label {
+    position: absolute;
+    top: -0.8rem;
+    left: 0rem;
+    font-size: .7rem;
+    font-weight: bold;
+    color: #0056a3
+}
+
+.form-input {
     border: 0 !important;
     outline: 0 !important;
     background: transparent !important;
-    border-bottom: 2px solid #0056a3 !important;
     border-radius: 0 !important
+}
+
+.input-valid {
+    border-bottom: 2px solid #0056a3 !important;
+}
+
+.input-invalid {
+    border-bottom: 2px solid #FF0000 !important;
+}
+
+.form-input:focus {
+    box-shadow: none;
+}
+
+/* .form-input:placeholder-shown {
+    border-bottom: 2px solid #FF0000 !important;   
 } */
 
 .heading{
@@ -42,12 +74,3 @@
 .modal {display: block !important;
     background-color: rgba(0, 0, 0,0.9);
 }
-
-/* .modal-dialog {
-    overflow-y: initial !important
-}
-
-.modal-body {
-    max-height: calc(100vh - 10rem);
-    overflow-y: auto;
-} */
