@@ -13,6 +13,9 @@ class AdminItemModal extends Component{
         this.state = {
             images: [],
             imagesUrl: [],
+            name:"",
+            description:"",
+            points:"",
             attributes: [{size:"",quantity:""}],
             message: ""
         }
@@ -104,6 +107,12 @@ class AdminItemModal extends Component{
         })
     }
 
+    handleInputChange = e => {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
+    }
+
     handleAttributeChange(index, e) {
         const { name, value } = e.target;
 
@@ -139,6 +148,33 @@ class AdminItemModal extends Component{
         attributes.splice(index, 1);
         this.setState({ attributes });
      }
+
+     isAttributeFieldEmpty = () => {
+        let totalAttributes = this.state.attributes.length;
+        if(this.state.attributes[totalAttributes-1].size==="" || this.state.attributes[totalAttributes-1].quantity===""){
+            return true;
+        } else {
+            return false;
+        }
+     }
+
+     isFieldEmpty = () => {
+        if(this.state.name === "" || this.state.description === "" || this.state.points === "" ||
+        this.state.images.length === 0 || this.isAttributeFieldEmpty()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+     handleSubmit = e => {
+        e.preventDefault();
+
+        if(this.isFieldEmpty()){
+            this.setState({ message: "All fields are mandatory" });
+            return;
+        }
+    }
     
     render() {
         let redirectVar = null;
@@ -164,43 +200,40 @@ class AdminItemModal extends Component{
                                 <div class="form-group row">
                                     <label className="col-3 col-form-label">Name</label>
                                     <div className="col-9">
-                                        {/* <select className="form-control" name="title" id="title" required>
-                                            <option value="" selected>Select an Event</option>
-                                            <option value="1">Event1</option>
-                                        </select> */}
-                                        <input type="text" className="form-control" name="name"
-                                        placeholder="Enter Name"/>
+                                        <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
+                                        className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label className="col-3 col-form-label">Description</label>
                                     <div className="col-9">
-                                        <textarea className="form-control" id="description" rows="3" 
-                                        placeholder="Enter a short description" required/>
+                                        <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
+                                        name="description"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label className="col-3 col-form-label">Points</label>
                                     <div className="col-9">
-                                        <input type="text" className="form-control" name="points"
-                                        placeholder="Enter Points"/>
+                                        <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
+                                        className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-3 col-form-label">Sizes</label>
+                                    <label className="col-3 col-form-label">Sizes (Eg: Size: XL, Quantity: 4)</label>
                                     <div className="col-9">
                                         {
                                             this.state.attributes.map((attribute, index) => (
                                                 <div className="row mb-1" key={index}>
-                                                    <div className = "col-6">
-                                                        <input type="text" className="form-control" name="size"
-                                                        value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} 
-                                                        placeholder="Size"/>
+                                                    <div className = "col-5">
+                                                        <input type="text" name="size" placeholder="Size"
+                                                        className={`form-control ${this.state.attributes[index].size!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                        value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                     </div>
-                                                    <div className = "col-4">
-                                                        <input type="text" className="form-control" name="quantity"
-                                                        value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} 
-                                                        placeholder="Quantity"/>
+                                                    <div className = "col-5">
+                                                        <input type="number" min="1"  name="quantity" placeholder="Quantity"
+                                                        className={`form-control ${this.state.attributes[index].quantity!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                        value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                     </div>
                                                     {
                                                         index!==0 ? 
@@ -220,7 +253,7 @@ class AdminItemModal extends Component{
                                     </div>
                                 </div>
                             <div className="form-group row">
-                                <label className="col-3 col-form-label">Attach Pic</label>
+                                <label className="col-3 col-form-label">Attach Pic (Max 4)</label>
                                 <div className="col-9">
                                     <div className="image-upload">
                                         <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
@@ -250,7 +283,7 @@ class AdminItemModal extends Component{
                                 <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Close</button>
                                 <button type="button" onClick = {this.clearMessage} className="btn btn-primary btn-style">Clear</button>
-                                <button type="submit" className="btn btn-primary btn-style">Add Event</button>
+                                <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
                             </div>
                         </form>
                     </div>

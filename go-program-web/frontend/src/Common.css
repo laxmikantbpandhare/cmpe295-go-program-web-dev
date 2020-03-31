@@ -57,6 +57,14 @@
     border-bottom: 2px solid #FF0000 !important;
 }
 
+.orig-inp-valid {
+    border: 2px solid #0056a3 !important;
+}
+
+.orig-inp-invalid {
+    border: 2px solid #FF0000 !important;
+}
+
 .form-input:focus {
     box-shadow: none;
 }
