@@ -19,10 +19,6 @@
     background: white;
 }
 
-.event-modal .modal-title {
-    font-weight: 800;
-}
-
 .image-upload > input{
     display: none;
 }

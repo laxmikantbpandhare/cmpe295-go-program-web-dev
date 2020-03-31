@@ -3,25 +3,25 @@ import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
 import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
-import './Events.css';
-import StudentEventModal from './StudentEventModal';
+import './Items.css'
+import AdminItemModal from './AdminItemModal';
 
-class Events extends Component{
+class AdminInventory extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showStudentEventModal: false
+            showAdminItemModal: false
         };
-        this.showStudentEventModal = this.showStudentEventModal.bind(this);
-        this.hideStudentEventModal = this.hideStudentEventModal.bind(this);
+        this.showAdminItemModal = this.showAdminItemModal.bind(this);
+        this.hideAdminItemModal = this.hideAdminItemModal.bind(this);
     }
     
-    showStudentEventModal = e => {
-        this.setState({showStudentEventModal: true});
+    showAdminItemModal = e => {
+        this.setState({showAdminItemModal: true});
     }
     
-    hideStudentEventModal = e => {
-        this.setState({showStudentEventModal: false});
+    hideAdminItemModal = e => {
+        this.setState({showAdminItemModal: false});
     }
     
     render() {
@@ -33,20 +33,22 @@ class Events extends Component{
         return(
         <div className="top-align">
             <div className="heading py-1">
-                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Events</h4>
+                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-boxes"></i> Inventory</h4>
             </div>
             
-            <div className="container-fluid events-below-heading">
+            <div className="container-fluid items-below-heading">
                 <div class="row">
                     <div class="col-sm-4 offset-4 offset-sm-5 mt-2">
-                        <a href="" class="btn btn-primary btn-style font-weight-bold"><i class="fas fa-plus"></i> &nbsp;Add Event</a>
+                        <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showAdminItemModal}>
+                            <i class="fas fa-plus"></i> &nbsp;Add Item
+                        </button>
                     </div>
                 </div>
-                <div className="events-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Submitted Events</h4>
+                <div className="items-search-section">
+                    <h4 className="text-center text-white all-items-heading p-1 mt-2">All Items</h4>
                     <div className="row">
                         <div class="col-10 col-sm-6">
-                            <input type="search" class="form-control" placeholder="Search by Event Title" />
+                            <input type="search" class="form-control" placeholder="Search by Item Name" />
                         </div>
                         <div  class="col-2 col-sm-2">
                             <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}>
@@ -76,7 +78,7 @@ class Events extends Component{
                                 <h5 className="card-title font-weight-bold">Event title</h5>
                                 <p className="card-text">Event description</p>
                                 <div className="d-flex flex-row">
-                                    <button type="button" onClick = {this.showStudentEventModal} 
+                                    <button type="button" onClick = {this.showAdminItemModal} 
                                         className="btn btn-primary btn-style mr-2">Edit</button>
                                     <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
                                 </div>
@@ -145,10 +147,10 @@ class Events extends Component{
                     </div>
                 </div>
             </div>
-            {this.state.showStudentEventModal ? 
-            <StudentEventModal hideStudentEventModal={this.hideStudentEventModal}/> : null}
+            {this.state.showAdminItemModal ? 
+            <AdminItemModal hideAdminItemModal={this.hideAdminItemModal}/> : null}
         </div>)
     }
 }
         
-export default Events;
+export default AdminInventory;

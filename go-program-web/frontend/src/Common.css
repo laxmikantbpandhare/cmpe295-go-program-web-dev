@@ -74,3 +74,12 @@
 .modal {display: block !important;
     background-color: rgba(0, 0, 0,0.9);
 }
+
+.modal-title {
+    font-weight: 800;
+}
+
+.modal-body {
+    max-height: calc(100vh - 10rem);
+    overflow-y: auto;
+  }

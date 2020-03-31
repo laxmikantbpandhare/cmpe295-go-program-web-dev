@@ -4,11 +4,11 @@ import collegeLogo from '../../images/coe_logo.png';
 import './Navbar.css';
 import '../../Common.css';
 
-function StudentNavbar() {
+function AdminNavbar() {
     return (
     <div>
         <nav className="navbar navbar-dark navbar-custom navbar-expand-sm fixed-top">
-            <a class="navbar-brand" href="#/student/dashboard">
+            <a class="navbar-brand" href="#/admin/dashboard">
                 <img src={collegeLogo} className="navbar-logo" alt="Logo"/>
             </a>
             <button className="navbar-toggler" data-toggle="collapse" data-target="#menu">
@@ -17,16 +17,16 @@ function StudentNavbar() {
             <div className="collapse navbar-collapse" id="menu">
                 <ul className="navbar-nav">
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/dashboard"><i className="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <a className="nav-link" href="#/admin/dashboard"><i className="fas fa-tachometer-alt"></i> Dashboard</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/events"><i className="fas fa-calendar-check"></i> Events</a>
+                        <a className="nav-link" href="#/admin/events"><i className="fas fa-calendar-check"></i> Events</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/claim-points"><i className="fas fa-award"></i> Claim Points</a>
+                        <a className="nav-link" href="#/admin/inventory"><i className="fas fa-boxes"></i> Inventory</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/orders"><i className="fas fa-receipt"></i> Orders</a>
+                        <a className="nav-link" href="#/admin/orders"><i className="fas fa-receipt"></i> Orders</a>
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">
@@ -40,7 +40,7 @@ function StudentNavbar() {
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <Link to="/" className="nav-link" onClick = {handleLogout}><i className="fas fa-sign-out-alt"></i>Log Out</Link>
-                    </li>    
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -52,4 +52,4 @@ function handleLogout() {
     localStorage.clear();
 }
 
-export default StudentNavbar;
+export default AdminNavbar;

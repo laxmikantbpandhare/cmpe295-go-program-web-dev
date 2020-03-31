@@ -1,13 +1,18 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import mainImage from '../../images/landing_image.jpg';
 import collegeLogo from '../../images/coe_logo.png';
 import './Landing.css';
 import '../../Common.css';
 
 function Landing() {
+  let redirectVar = null;
+  if(localStorage.getItem('token')){
+    redirectVar = <Redirect to= "/login"/>;
+  }
   return (
     <div>
+      {redirectVar}
     <div className="container-fluid p-0">
       <div className="row landing-height">
        <div className="col-sm-6">
