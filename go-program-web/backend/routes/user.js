@@ -39,7 +39,7 @@ router.post('/login',function(req,res){
                 if (result){
                     let user = {
                         email: row.email,
-                        id: row.id,
+                        id: id,
                     }
                     var token = jwt.sign(user, secret, {
                         expiresIn: 10080 // in seconds

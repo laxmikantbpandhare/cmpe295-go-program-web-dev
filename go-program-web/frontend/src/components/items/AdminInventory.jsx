@@ -1,21 +1,31 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Items.css'
+import AdminItem from './AdminItem';
 import AdminItemModal from './AdminItemModal';
+import {connect} from 'react-redux';
+import {getItems} from '../../redux/actions/adminInventoryAction';
 
 class AdminInventory extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showAdminItemModal: false
+            showAdminItemModal: false,
+            search: "",
+            filter: "",
+            sort: ""
         };
         this.showAdminItemModal = this.showAdminItemModal.bind(this);
         this.hideAdminItemModal = this.hideAdminItemModal.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
     
+    componentDidMount(){
+        this.props.getItems();
+    }
+
     showAdminItemModal = e => {
         this.setState({showAdminItemModal: true});
     }
@@ -23,13 +33,34 @@ class AdminInventory extends Component{
     hideAdminItemModal = e => {
         this.setState({showAdminItemModal: false});
     }
+
+    handleChange = e => {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
+    }
     
     render() {
         let redirectVar = null;
         if(localStorage.getItem('token')){
 
         }
+        let sortedItems = [...this.props.items];
         
+        if(this.state.sort !== ""){
+            this.state.sort === "Ascending" 
+            ? sortedItems.sort((item1, item2) => item1.points - item2.points)
+            : sortedItems.sort((item1, item2) => item2.points - item1.points);
+        }
+
+        let filteredItems = sortedItems.filter(item => {
+            return (item.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 &&
+            item.category.indexOf(this.state.filter)!==-1)
+        });
+         
+        let noItemText = this.state.search !== "" || this.state.filter !== "" 
+        ? "No Item Matching the Search or Filter Criteria"
+        : "No Item in the Inventory";
         return(
         <div className="top-align">
             <div className="heading py-1">
@@ -47,110 +78,68 @@ class AdminInventory extends Component{
                 <div className="items-search-section">
                     <h4 className="text-center text-white all-items-heading p-1 mt-2">All Items</h4>
                     <div className="row">
-                        <div class="col-10 col-sm-6">
-                            <input type="search" class="form-control" placeholder="Search by Item Name" />
+                       
+
+                        <div  class="col-6 col-sm-2 order-sm-2">
+                            <select className="form-control" name="filter" onChange={this.handleChange}>
+                                <option selected value="">Filter by Category</option>
+                                {this.props.categories.map(category => <option>{category}</option>)}
+                            </select>
                         </div>
-                        <div  class="col-2 col-sm-2">
-                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}>
-                                <i className="fas fa-search"></i>
-                                <span className="d-none d-sm-inline"> Search</span>
-                            </button>
+
+                        <div  class="col-6 col-sm-2 order-sm-3">
+                            <select className="form-control" name="sort" onChange={this.handleChange}>
+                                <option selected value="">Sort by Points</option>
+                                <option>Ascending</option>
+                                <option>Descending</option>
+                            </select>
                         </div>
+
                         <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
-                        <div  class="col-6 col-sm-2">
-                            <select className="form-control" name="some">
-                                <option selected>Filter</option>
-                            </select>
+                        
+                        <div className="input-group col-10 col-sm-6 order-sm-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            </div>
+                            <input class="form-control py-2" name="search" placeholder="Search by Item Name"
+                            onChange={this.handleChange}></input>
                         </div>
-                        <div  class="col-6 col-sm-2">
-                            <select className="form-control" name="some1">
-                                <option selected>Sort</option>
-                            </select>
+
+                        <div  class="col-2 col-sm-2 order-sm-4">
+                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}>
+                                <i className="fas fa-sync"></i>
+                                <span className="d-none d-sm-inline"> Reset</span>
+                            </button>
                         </div>
                     </div>
                     <hr/>
                 </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <button type="button" onClick = {this.showAdminItemModal} 
-                                        className="btn btn-primary btn-style mr-2">Edit</button>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {
+                    filteredItems.length!==0 ? filteredItems.map((item,index)=>
+                    <AdminItem item={item} key={index}/>
+                    )
+                    :
+                    <h2>{noItemText}</h2>
+                    
+                }
             </div>
             {this.state.showAdminItemModal ? 
             <AdminItemModal hideAdminItemModal={this.hideAdminItemModal}/> : null}
         </div>)
     }
 }
-        
-export default AdminInventory;
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getItems: () => {dispatch(getItems())}
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        items: state.inventory.items,
+        categories: state.inventory.categories
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminInventory);

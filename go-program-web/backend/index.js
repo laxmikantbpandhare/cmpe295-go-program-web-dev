@@ -8,9 +8,9 @@ const {database, frontendURL} = require('./config/config');
 var mongoose = require('mongoose');
 
 var user = require('./routes/user');
-// var admin = require('./routes/admin');
+var admin = require('./routes/admin');
 // var student = require('./routes/student');
-// var upload = require('./routes/upload');
+var upload = require('./routes/upload');
 
 //use cors to allow cross origin resource sharing
 app.use(cors({ origin: `${frontendURL}`, credentials: true }));
@@ -45,9 +45,9 @@ const connectDB = async () => {
   connectDB();
 
 app.use('/user', user);
-// app.use('/admin', admin);
+app.use('/admin', admin);
 // app.use('/student', student);
-// app.use('/upload', upload);
+app.use('/upload', upload);
 
 app.use(passport.initialize());
 require("./config/passport")(passport);

@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Item = require('../models/item');
 
 var queries = {};
 
@@ -30,6 +31,33 @@ queries.getUserPasswordById = (id, successcb, failurecb) => {
     .select('password fname email userType')
     .then(result => successcb(result))
     .catch(err => failurecb(err))
+}
+
+queries.getItems = (successcb, failurecb) => {
+    Item.find().sort({ updated_date: -1 })
+    .then(items => {
+        console.log("items----", items);
+        successcb(items)})
+    .catch(err => failurecb(err))
+}
+
+queries.createItem = (item, successcb, failurecb) => {
+    const doc = new Item({
+        name: item.name,
+        description: item.description,
+        category: item.category,
+        points: item.points,
+        attributes: item.attributes,
+        images: item.images,
+        created_by: item.created_by,
+        created_date: item.created_date,
+        updated_date: item.updated_date
+    });
+    doc.save()
+    .then(result => {
+        successcb(result)})
+    .catch(err => {
+        failurecb(err)})
 }
 
 module.exports = queries;

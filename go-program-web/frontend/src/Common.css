@@ -90,4 +90,12 @@
 .modal-body {
     max-height: calc(100vh - 10rem);
     overflow-y: auto;
-  }
+}
+
+.modal-header {
+    padding: 0.5rem !important
+}
+
+.modal-footer {
+    padding: 0.5rem !important
+}

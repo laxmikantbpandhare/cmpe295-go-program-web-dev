@@ -6,6 +6,9 @@ import closeIcon from '../../images/close_icon.png';
 import addIcon from '../../images/add_icon.png';
 import '../../Common.css';
 import './Items.css'
+import {connect} from 'react-redux';
+import {createItem, resetCreateResponseMessageProps} from '../../redux/actions/adminInventoryAction';
+import {itemCategories} from '../../config';
 
 class AdminItemModal extends Component{
     constructor(props){
@@ -15,6 +18,7 @@ class AdminItemModal extends Component{
             imagesUrl: [],
             name:"",
             description:"",
+            category:"",
             points:"",
             attributes: [{size:"",quantity:""}],
             message: ""
@@ -160,7 +164,7 @@ class AdminItemModal extends Component{
 
      isFieldEmpty = () => {
         if(this.state.name === "" || this.state.description === "" || this.state.points === "" ||
-        this.state.images.length === 0 || this.isAttributeFieldEmpty()){
+        this.state.images.length === 0 || this.state.category ==="" || this.isAttributeFieldEmpty()){
             return true;
         } else {
             return false;
@@ -171,8 +175,31 @@ class AdminItemModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory" });
+            this.setState({ message: "All fields are mandatory with at least 1 pic" });
             return;
+        } else {
+            this.setState({ message: "" });
+        }
+
+        const data = {
+            name: this.state.name,
+            description : this.state.description,
+            category : this.state.category,
+            points : this.state.points,
+            attributes : this.state.attributes,
+            images : this.state.images,
+            created_by: localStorage.getItem('id'),
+            created_date: new Date().toLocaleString(),
+            updated_date: new Date().toLocaleString()
+        }
+
+        this.props.createItem(data);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.responseMessage === "Item created successfully") {
+            this.hideModal();
+            this.props.resetCreateResponseMessageProps();
         }
     }
     
@@ -197,31 +224,42 @@ class AdminItemModal extends Component{
                         <form>
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
+                                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                                 <div class="form-group row">
-                                    <label className="col-3 col-form-label">Name</label>
-                                    <div className="col-9">
+                                    <label className="col-4">Name</label>
+                                    <div className="col-8">
                                         <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
                                         className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-3 col-form-label">Description</label>
-                                    <div className="col-9">
+                                    <label className="col-4">Description</label>
+                                    <div className="col-8">
                                         <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                         rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                         name="description"/>
                                     </div>
                                 </div>
+                                <div className="form-group row">
+                                    <label className="col-4">Category</label>
+                                    <div className="col-8">
+                                        <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        name="category" onChange={this.handleInputChange}>
+                                            <option selected value="">Select a Category</option>
+                                            {itemCategories.map(category => <option>{category}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
-                                    <label className="col-3 col-form-label">Points</label>
-                                    <div className="col-9">
+                                    <label className="col-4">Points</label>
+                                    <div className="col-8">
                                         <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
                                         className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-3 col-form-label">Sizes (Eg: Size: XL, Quantity: 4)</label>
-                                    <div className="col-9">
+                                    <label className="col-4">Sizes<strong className="font-italic">(Eg: Size: XL, Quantity: 4)</strong></label>
+                                    <div className="col-8">
                                         {
                                             this.state.attributes.map((attribute, index) => (
                                                 <div className="row mb-1" key={index}>
@@ -253,8 +291,8 @@ class AdminItemModal extends Component{
                                     </div>
                                 </div>
                             <div className="form-group row">
-                                <label className="col-3 col-form-label">Attach Pic (Max 4)</label>
-                                <div className="col-9">
+                                <label className="col-4">Attach Pic<strong className="font-italic">(Min 1, Max 4)</strong></label>
+                                <div className="col-8">
                                     <div className="image-upload">
                                         <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
                                         <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png"
@@ -263,8 +301,8 @@ class AdminItemModal extends Component{
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-3 col-form-label">Images</label>
-                                    <div className="col-9">
+                                <label className="col-4">Images</label>
+                                    <div className="col-8">
                                         <div className="row">
                                         {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
                                             (<div className="col-5 event-image m-1" key ={index}>
@@ -294,4 +332,17 @@ class AdminItemModal extends Component{
     }
 }
 
-export default AdminItemModal;
+const mapDispatchToProps = dispatch => {
+    return {
+        createItem: data => {dispatch(createItem(data))},
+        resetCreateResponseMessageProps: () => {dispatch(resetCreateResponseMessageProps())}
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+        responseMessage: state.inventory.createResponseMessage
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminItemModal);

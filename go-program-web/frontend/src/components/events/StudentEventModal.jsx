@@ -119,7 +119,7 @@ class StudentEventModal extends Component{
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
                                 <div class="form-group row">
-                                    <label for="title" className="col-3 col-form-label">Event</label>
+                                    <label for="title" className="col-3">Event</label>
                                     <div className="col-9">
                                         <select className="form-control" name="title" id="title" required>
                                             <option value="" selected>Select an Event</option>
@@ -130,7 +130,7 @@ class StudentEventModal extends Component{
                                 <div className="invalid-feedback">Please select an event.</div>
                             </div>
                             <div className="form-group row">
-                                <label for="description" className="col-3 col-form-label">Description</label>
+                                <label for="description" className="col-3">Description</label>
                                 <div className="col-9">
                                     <textarea className="form-control" id="description" rows="3" 
                                     placeholder="Enter a short description" required/>
@@ -139,7 +139,7 @@ class StudentEventModal extends Component{
                                 <div className="invalid-feedback">Please fill out this field.</div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-3 col-form-label">Attach Proof</label>
+                                <label className="col-3">Attach Proof</label>
                                 <div className="col-9">
                                     <div className="image-upload">
                                         <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
@@ -149,7 +149,7 @@ class StudentEventModal extends Component{
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-3 col-form-label">Images</label>
+                                <label className="col-3">Images</label>
                                     <div className="col-9">
                                         <div className="row">
                                         {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
