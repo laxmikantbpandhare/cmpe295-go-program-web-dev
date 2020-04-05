@@ -78,12 +78,13 @@ const saveItemImages = (images,successcb, failurecb) => {
 export const createItem = data =>  dispatch => {
     saveItemImages(data.images, imagesUrl => {
         data.images = imagesUrl;
+        const token = localStorage.getItem('token');
         fetch(`${backendUrl}/admin/createItem`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json,  text/plain, */*',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${data.token}`
+                'Authorization': `Bearer ${token}`
                 },
             credentials: 'include',
             body: JSON.stringify(data)
