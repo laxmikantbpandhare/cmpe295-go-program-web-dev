@@ -6,6 +6,8 @@ const aws = require("aws-sdk");
 var path = require('path');
 var passport = require("passport");
 var {AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_S3_BUCKET_NAME, AWS_S3_BUCKET_REGION} = require('../config/config');
+var config = require('../config/config');
+
 
 aws.config.update({
     secretAccessKey: AWS_SECRET_KEY,
