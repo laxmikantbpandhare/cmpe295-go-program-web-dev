@@ -4,6 +4,7 @@ import {HashRouter} from 'react-router-dom';
 import Main from './components/Main';
 import store from './redux/store';
 import { Provider } from "react-redux";
+import 'react-image-lightbox/style.css';
 
 function App() {
   return (

@@ -4,7 +4,7 @@ import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Items.css'
 import AdminItem from './AdminItem';
-import AdminItemModal from './AdminItemModal';
+import AdminNewItemModal from './AdminNewItemModal';
 import {connect} from 'react-redux';
 import {getItems} from '../../redux/actions/adminInventoryAction';
 
@@ -12,13 +12,13 @@ class AdminInventory extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showAdminItemModal: false,
+            showAdminNewItemModal: false,
             search: "",
             filter: "",
             sort: ""
         };
-        this.showAdminItemModal = this.showAdminItemModal.bind(this);
-        this.hideAdminItemModal = this.hideAdminItemModal.bind(this);
+        this.showAdminNewItemModal = this.showAdminNewItemModal.bind(this);
+        this.hideAdminNewItemModal = this.hideAdminNewItemModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
     
@@ -26,12 +26,12 @@ class AdminInventory extends Component{
         this.props.getItems();
     }
 
-    showAdminItemModal = e => {
-        this.setState({showAdminItemModal: true});
+    showAdminNewItemModal = e => {
+        this.setState({showAdminNewItemModal: true});
     }
     
-    hideAdminItemModal = e => {
-        this.setState({showAdminItemModal: false});
+    hideAdminNewItemModal = e => {
+        this.setState({showAdminNewItemModal: false});
     }
 
     handleChange = e => {
@@ -39,11 +39,21 @@ class AdminInventory extends Component{
             [e.target.name] : e.target.value
         })
     }
+
+    resetSearchSection = e => {
+        this.setState(
+            {
+                search: "",
+                filter: "",
+                sort: ""
+            }
+        );   
+    }
     
     render() {
         let redirectVar = null;
-        if(localStorage.getItem('token')){
-
+        if(!localStorage.getItem('token')){
+            redirectVar = <Redirect to= "/login"/>
         }
         let sortedItems = [...this.props.items];
         
@@ -63,6 +73,7 @@ class AdminInventory extends Component{
         : "No Item in the Inventory";
         return(
         <div className="top-align">
+            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-boxes"></i> Inventory</h4>
             </div>
@@ -70,7 +81,7 @@ class AdminInventory extends Component{
             <div className="container-fluid items-below-heading">
                 <div class="row">
                     <div class="col-sm-4 offset-4 offset-sm-5 mt-2">
-                        <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showAdminItemModal}>
+                        <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showAdminNewItemModal}>
                             <i class="fas fa-plus"></i> &nbsp;Add Item
                         </button>
                     </div>
@@ -81,14 +92,16 @@ class AdminInventory extends Component{
                        
 
                         <div  class="col-6 col-sm-2 order-sm-2">
-                            <select className="form-control" name="filter" onChange={this.handleChange}>
+                            <select className="form-control" name="filter" onChange={this.handleChange}
+                             value={this.state.filter}>
                                 <option selected value="">Filter by Category</option>
                                 {this.props.categories.map(category => <option>{category}</option>)}
                             </select>
                         </div>
 
                         <div  class="col-6 col-sm-2 order-sm-3">
-                            <select className="form-control" name="sort" onChange={this.handleChange}>
+                            <select className="form-control" name="sort" onChange={this.handleChange}
+                             value={this.state.sort}>
                                 <option selected value="">Sort by Points</option>
                                 <option>Ascending</option>
                                 <option>Descending</option>
@@ -102,11 +115,12 @@ class AdminInventory extends Component{
                                 <div class="input-group-text"><i class="fas fa-search"></i></div>
                             </div>
                             <input class="form-control py-2" name="search" placeholder="Search by Item Name"
-                            onChange={this.handleChange}></input>
+                            onChange={this.handleChange} value={this.state.search}></input>
                         </div>
 
                         <div  class="col-2 col-sm-2 order-sm-4">
-                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}>
+                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
+                                onClick={this.resetSearchSection}>
                                 <i className="fas fa-sync"></i>
                                 <span className="d-none d-sm-inline"> Reset</span>
                             </button>
@@ -114,6 +128,7 @@ class AdminInventory extends Component{
                     </div>
                     <hr/>
                 </div>
+                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                 {
                     filteredItems.length!==0 ? filteredItems.map((item,index)=>
                     <AdminItem item={item} key={index}/>
@@ -123,8 +138,8 @@ class AdminInventory extends Component{
                     
                 }
             </div>
-            {this.state.showAdminItemModal ? 
-            <AdminItemModal hideAdminItemModal={this.hideAdminItemModal}/> : null}
+            {this.state.showAdminNewItemModal ? 
+            <AdminNewItemModal hideAdminNewItemModal={this.hideAdminNewItemModal}/> : null}
         </div>)
     }
 }
@@ -137,6 +152,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
+        responseMessage: state.inventory.getResponseMessage,
         items: state.inventory.items,
         categories: state.inventory.categories
     }

@@ -1,5 +1,7 @@
 import { ADMIN_CREATE_ITEM_SUCCESS, ADMIN_CREATE_ITEM_FAILED, ADMIN_GET_ITEMS_SUCCESS,
-    ADMIN_GET_ITEMS_FAILED, RESET_ITEM_CREATE_RESPONSE_MESSAGE } from './types';
+    ADMIN_GET_ITEMS_FAILED, RESET_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE,
+    ADMIN_ITEM_ATTRIBUTE_CHANGE, ADMIN_ITEM_ADD_ATTRIBUTE, ADMIN_ITEM_REMOVE_ATTRIBUTE,
+    ADMIN_ITEM_EDIT_CANCEL, ADMIN_UPDATE_ITEM_SUCCESS, ADMIN_UPDATE_ITEM_FAILED} from './types';
 import {backendUrl} from '../../config';
 
 export const getItems = () => dispatch => {
@@ -75,15 +77,6 @@ const saveItemImages = (images,successcb, failurecb) => {
 
 export const createItem = data =>  dispatch => {
     saveItemImages(data.images, imagesUrl => {
-        // const body = {
-        //     user_id: data.id,
-        //     user_username: data.username,
-        //     user_image: data.image,
-        //     images_path: imagesUrl,
-        //     content: data.content,
-        //     created_date_time: new Date().toLocaleString(),
-        //     hashtag: data.hashtag
-        // }
         data.images = imagesUrl;
         fetch(`${backendUrl}/admin/createItem`, {
             method: 'POST',
@@ -137,4 +130,87 @@ export const resetCreateResponseMessageProps = () => {
     return{
         type: RESET_ITEM_CREATE_RESPONSE_MESSAGE
     }
+}
+
+export const adminItemInputChangeHandler = (id, name, value) => {
+    let payload = {id, name, value};
+    return{
+        type: ADMIN_ITEM_INPUT_CHANGE,
+        payload: {id, name, value}
+    }
+}
+
+export const adminItemAttributeChangeHandler = (id, index, name, value) => {
+    return{
+        type: ADMIN_ITEM_ATTRIBUTE_CHANGE,
+        payload: {id, index, name, value}
+    }
+}
+
+export const adminItemAddAttribute = (id) => {
+    return{
+        type: ADMIN_ITEM_ADD_ATTRIBUTE,
+        payload: {id}
+    }
+}
+
+export const adminItemRemoveAttribute = (id, index) => {
+    return{
+        type: ADMIN_ITEM_REMOVE_ATTRIBUTE,
+        payload: {id, index}
+    }
+}
+
+export const adminItemEditCancelHandler = previousProps => {
+    return{
+        type: ADMIN_ITEM_EDIT_CANCEL,
+        payload: {item: previousProps}
+    }
+}
+
+export const updateItem = data =>  dispatch =>  {
+    const token = localStorage.getItem('token');
+    data.updated_date = new Date().toLocaleString();
+    return fetch(`${backendUrl}/admin/updateItem`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+            },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: ADMIN_UPDATE_ITEM_SUCCESS,
+                    payload: {
+                        message: resData.message
+                    }
+                });
+                return Promise.resolve();
+            });
+        }else{
+            res.json().then(resData => {
+                dispatch({
+                    type: ADMIN_UPDATE_ITEM_FAILED,
+                    payload: {
+                        message: resData.message
+                    }
+                });
+                return Promise.reject();
+            }) 
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: ADMIN_UPDATE_ITEM_FAILED,
+            payload: {
+                message: `Internal Error -- ${err}`
+            }
+        });
+        return Promise.reject();
+    });
 }

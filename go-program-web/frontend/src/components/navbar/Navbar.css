@@ -1,5 +1,6 @@
 .navbar-custom {
     background-color: #0056a3;
+    z-index: 999 !important;
 }
 
 .navbar-logo {

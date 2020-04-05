@@ -51,3 +51,11 @@
     background-color: #f8b21a;
     border: 1px solid #f8b21a
 }
+
+.view-details-color {
+    color: #0056a3; 
+}
+
+.delete-color {
+    color: #FF0000; 
+}

@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 import {createItem, resetCreateResponseMessageProps} from '../../redux/actions/adminInventoryAction';
 import {itemCategories} from '../../config';
 
-class AdminItemModal extends Component{
+class AdminNewItemModal extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -34,7 +34,7 @@ class AdminItemModal extends Component{
     }
     
     hideModal = e => {
-        this.props.hideAdminItemModal();
+        this.props.hideAdminNewItemModal();
     }
     
     changeHandler = (e) => {
@@ -285,7 +285,7 @@ class AdminItemModal extends Component{
                                                 </div>
                                             ))
                                         }
-                                        Add a Row &nbsp;
+                                        <span>Add a Row &nbsp;</span>
                                         <img onClick={this.addAttribute} className= "add-icon" 
                                         src={addIcon}/>
                                     </div>
@@ -319,8 +319,8 @@ class AdminItemModal extends Component{
                             </div>
                             <div className="modal-footer">
                                 <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
-                                data-dismiss="modal">Close</button>
-                                <button type="button" onClick = {this.clearMessage} className="btn btn-primary btn-style">Clear</button>
+                                data-dismiss="modal">Cancel</button>
+                                {/* <button type="button" onClick = {this.clearMessage} className="btn btn-primary btn-style">Clear</button> */}
                                 <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
                             </div>
                         </form>
@@ -345,4 +345,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminItemModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminNewItemModal);

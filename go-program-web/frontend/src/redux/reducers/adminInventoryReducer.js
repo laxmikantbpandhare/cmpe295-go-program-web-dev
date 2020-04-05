@@ -1,11 +1,16 @@
 import { ADMIN_CREATE_ITEM_SUCCESS, ADMIN_CREATE_ITEM_FAILED, ADMIN_GET_ITEMS_SUCCESS,
-    ADMIN_GET_ITEMS_FAILED, RESET_ITEM_CREATE_RESPONSE_MESSAGE } from '../actions/types';
+    ADMIN_GET_ITEMS_FAILED, RESET_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE, 
+    ADMIN_ITEM_ATTRIBUTE_CHANGE, ADMIN_ITEM_ADD_ATTRIBUTE, ADMIN_ITEM_REMOVE_ATTRIBUTE,
+    ADMIN_ITEM_EDIT_CANCEL, 
+    ADMIN_UPDATE_ITEM_SUCCESS,
+    ADMIN_UPDATE_ITEM_FAILED} from '../actions/types';
 
 const initialState = {
     items: [],
     categories: [],
     createResponseMessage: "",
-    responseMessage: ""
+    getResponseMessage: "",
+    updateResponseMessage: ""
 };
 
 const adminInventoryReducer = (state = initialState, action) => {
@@ -20,7 +25,7 @@ const adminInventoryReducer = (state = initialState, action) => {
         case ADMIN_GET_ITEMS_FAILED:
             return {
                 ...state,
-                responseMessage: action.payload.message
+                getResponseMessage: action.payload.message
             }
         case ADMIN_CREATE_ITEM_SUCCESS:
             var categoriesCopy = [...state.categories];
@@ -43,7 +48,98 @@ const adminInventoryReducer = (state = initialState, action) => {
                 ...state,
                 createResponseMessage: ""
             }
-
+        case ADMIN_ITEM_INPUT_CHANGE:
+            var items = state.items.map(item => {
+                // Find a menu with the matching id
+                if(item._id == action.payload.id){
+                    //Return a new object
+                    return{
+                        ...item, //copy the existing menu
+                        [action.payload.name]: action.payload.value //replace the name with new name
+                    }
+                }
+                // Leave every other menu unchanged
+                return item;
+            });
+            return {
+                ...state,
+                items
+            }
+        case ADMIN_ITEM_ATTRIBUTE_CHANGE:
+            var items = state.items.map(item => {
+                if(item._id == action.payload.id){
+                    let itemToUpdate = {...item};
+                    const attributes = itemToUpdate.attributes.map((attribute, curr_index)=> {
+                        if(curr_index === action.payload.index){
+                            return{
+                                ...attribute,
+                                [action.payload.name]:action.payload.value
+                            }
+                        }
+                        return attribute;
+                    });
+                    itemToUpdate.attributes = [...attributes];
+                    return itemToUpdate;
+                }
+                // Leave every other item unchanged
+                return item;
+            });
+            return {
+                ...state,
+                items
+            }
+        case ADMIN_ITEM_ADD_ATTRIBUTE:
+            var items = state.items.map(item => {
+                if(item._id == action.payload.id){
+                    let itemToUpdate = {...item};
+                    itemToUpdate.attributes = [...itemToUpdate.attributes, { size: "", quantity: "" }];
+                    return itemToUpdate;
+                }
+                // Leave every other item unchanged
+                return item;
+            });
+            return {
+                ...state,
+                items
+            }
+        case ADMIN_ITEM_REMOVE_ATTRIBUTE:
+            var items = state.items.map(item => {
+                if(item._id == action.payload.id){
+                    let itemToUpdate = {...item};
+                    itemToUpdate.attributes = itemToUpdate.attributes.filter((attribute, curr_index) => {
+                        return curr_index !==  action.payload.index;
+                    });
+                    return itemToUpdate;
+                }
+                // Leave every other item unchanged
+                return item;
+            });
+            return {
+                ...state,
+                items
+            }
+        case ADMIN_ITEM_EDIT_CANCEL:
+            var items = state.items.map(item => {
+                if(item._id == action.payload.item._id){
+                    return action.payload.item;
+                }
+                // Leave every other item unchanged
+                return item;
+            });
+            return {
+                ...state,
+                items
+            }
+        case ADMIN_UPDATE_ITEM_SUCCESS:
+            return {
+                ...state,
+                updateResponseMessage: action.payload.message
+            }
+        case ADMIN_UPDATE_ITEM_FAILED:
+            return {
+                ...state,
+                updateResponseMessage: action.payload.message
+            }
         default:
             return state;
     }
