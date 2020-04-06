@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Items.css'
@@ -95,7 +94,11 @@ class AdminInventory extends Component{
                             <select className="form-control" name="filter" onChange={this.handleChange}
                              value={this.state.filter}>
                                 <option selected value="">Filter by Category</option>
-                                {this.props.categories.map(category => <option>{category}</option>)}
+                                {
+                                    this.props.categories.length!==0
+                                    ? this.props.categories.map(category => <option>{category}</option>)
+                                    : null
+                                }
                             </select>
                         </div>
 

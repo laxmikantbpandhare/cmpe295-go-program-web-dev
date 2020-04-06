@@ -3,7 +3,7 @@ import { Switch, Route ,Link} from 'react-router-dom';
 import AdminDashboard from './dashboard/AdminDashboard';
 import AdminNavbar from './navbar/AdminNavbar';
 import AdminInventory from './items/AdminInventory';
-import AdminItemDetails from './items/AdminItemDetails';
+import AdminAllEvents from './events/AdminAllEvents';
 
 function Admin() {
     return (
@@ -11,8 +11,8 @@ function Admin() {
           <AdminNavbar/>
           <Switch>
             <Route path="/admin/dashboard" component={AdminDashboard}/>
-            <Route exact path="/admin/inventory" component={AdminInventory}/>
-            <Route path="/admin/inventory/item/:id" component={AdminItemDetails}/>
+            <Route path="/admin/inventory" component={AdminInventory}/>
+            <Route path="/admin/events" component={AdminAllEvents}/>
           </Switch>
       </div>
     );

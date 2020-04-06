@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import deleteIcon from '../../images/delete_icon.png';
 import closeIcon from '../../images/close_icon.png';
 import addIcon from '../../images/add_icon.png';
@@ -25,8 +23,6 @@ class AdminNewItemModal extends Component{
         }
         
         this.hideModal = this.hideModal.bind(this);
-        this.changeHandler = this.changeHandler.bind(this);
-        this.clearMessage = this.clearMessage.bind(this);
         this.removeImage = this.removeImage.bind(this);
         this.handleAttributeChange = this.handleAttributeChange.bind(this);
         this.addAttribute = this.addAttribute.bind(this);
@@ -35,14 +31,6 @@ class AdminNewItemModal extends Component{
     
     hideModal = e => {
         this.props.hideAdminNewItemModal();
-    }
-    
-    changeHandler = (e) => {
-        this.setState({[e.target.name] : e.target.value})
-    }
-    
-    clearMessage(e) {
-        this.setState({message: ""})
     }
     
     maxSelectFile=(event)=>{
@@ -162,7 +150,7 @@ class AdminNewItemModal extends Component{
         }
      }
 
-     isFieldEmpty = () => {
+    isFieldEmpty = () => {
         if(this.state.name === "" || this.state.description === "" || this.state.points === "" ||
         this.state.images.length === 0 || this.state.category ==="" || this.isAttributeFieldEmpty()){
             return true;
@@ -204,14 +192,9 @@ class AdminNewItemModal extends Component{
     }
     
     render() {
-        let redirectVar = null;
-        if(localStorage.getItem('token')){
-
-        }
-
         return(
         <div>
-            <div className="modal event-modal">
+            <div className="modal">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -305,7 +288,7 @@ class AdminNewItemModal extends Component{
                                     <div className="col-8">
                                         <div className="row">
                                         {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
-                                            (<div className="col-5 event-image m-1" key ={index}>
+                                            (<div className="col-5 modal-image m-1" key ={index}>
                                                 <img onClick={e => this.removeImage(index)} className= "delete-icon" 
                                                 src={closeIcon}/>
                                                 <img className="rounded img-thumbnail" src= {imageUrl} 
@@ -320,7 +303,6 @@ class AdminNewItemModal extends Component{
                             <div className="modal-footer">
                                 <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
-                                {/* <button type="button" onClick = {this.clearMessage} className="btn btn-primary btn-style">Clear</button> */}
                                 <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
                             </div>
                         </form>

@@ -1,33 +1,118 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
 import deleteIcon from '../../images/delete_icon.png';
 import addIcon from '../../images/add_icon.png';
 import '../../Common.css';
-import './Items.css'
+// import './Items.css'
 import {connect} from 'react-redux';
 import {adminItemInputChangeHandler, adminItemAttributeChangeHandler, adminItemAddAttribute, 
     adminItemRemoveAttribute, adminItemEditCancelHandler, updateItem} from '../../redux/actions/adminInventoryAction';
 import {itemCategories} from '../../config';
 
 
-class AdminViewItemModal extends Component{
+class AdminViewEventModal extends Component{
     constructor(props){
         super(props);
         this.initialProp = props.item;
         this.state = {
+            images: [],
+            imagesUrl: [],
+            name:"",
+            description:"",
+            category:"",
+            points:"",
+            attributes: [{size:"",quantity:""}],
             message: "",
             isEdited: false
         }
         
         this.hideModal = this.hideModal.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
+        this.removeImage = this.removeImage.bind(this);
         this.handleAttributeChange = this.handleAttributeChange.bind(this);
         this.addAttribute = this.addAttribute.bind(this);
         this.removeAttribute = this.removeAttribute.bind(this);
     }
+
+    // componentDidMount() {
+    //     initialProp = this.props.item;
+    // }
     
     hideModal = e => {
         this.props.hideAdminViewItemModal();
     }
     
+    changeHandler = (e) => {
+        this.setState({[e.target.name] : e.target.value})
+    }
+    
+    maxSelectFile=(event)=>{
+        let files = event.target.files // create file object
+        if (files.length + this.state.images.length > 4) {
+            const msg = 'Only 4 images can be uploaded at a time';
+            event.target.value = null // discard selected file   
+            console.log(msg);
+            return false;
+        }
+        return true;
+    }
+    
+    checkMimeType=(event)=>{
+        //getting file object
+        let files = event.target.files 
+        //define message container
+        let err = ''
+        // list allow mime type
+        const types = ['image/png', 'image/jpeg']
+        // loop access array
+        for(var x = 0; x<files.length; x++) { 
+            // compare file type find doesn't matach 
+            if (types.every(type => files[x].type !== type)) { 
+                // create error message and assign to container
+                err += files[x].type+' is not a supported format';   
+            } 
+        };
+        if (err !== '') { 
+            // if message not same old that mean has error 
+            event.target.value = null 
+            // discard selected file
+            console.log(err);
+            return false; 
+        }return true;
+    }
+    
+    handleFileUpload = (e) => {
+        if(!this.checkMimeType(e)){
+            alert("Please upload png/jpeg file only");
+        }
+        if(!this.maxSelectFile(e)){
+            alert("Total 4 images are allowed");
+        }
+        if(this.maxSelectFile(e) && this.checkMimeType(e)){
+            // if return true allow to setState
+            var tempUrl =[];
+            for(var x = 0; x<e.target.files.length; x++) {
+                tempUrl.push(URL.createObjectURL(e.target.files[x]));
+            }
+            this.setState({ 
+                images: [...this.state.images, ...e.target.files],
+                imagesUrl: [...this.state.imagesUrl, ...tempUrl]
+            })
+        }
+    }
+
+    removeImage = index => {
+        const images = this.state.images; 
+        // make a separate copy of the array
+        images.splice(index, 1);
+        var imagesUrl = this.state.imagesUrl;
+        imagesUrl.splice(index,1);
+        this.setState({
+            images,imagesUrl
+        })
+    }
+
     handleInputChange = e => {
         const { name, value } = e.target;
         this.props.handleInputChange(this.props.item._id, name, value);
@@ -48,6 +133,9 @@ class AdminViewItemModal extends Component{
     }
 
     removeAttribute(index){
+        // let attributes = [...this.state.attributes];
+        // attributes.splice(index, 1);
+        // this.setState({ attributes });
         this.props.removeAttribute(this.props.item._id, index);
      }
 
@@ -86,6 +174,17 @@ class AdminViewItemModal extends Component{
             this.setState({ message: "" });
         }
 
+        // const data = {
+        //     name: this.state.name,
+        //     description : this.state.description,
+        //     category : this.state.category,
+        //     points : this.state.points,
+        //     attributes : this.state.attributes,
+        //     images : this.state.images,
+        //     created_by: localStorage.getItem('id'),
+        //     created_date: new Date().toLocaleString(),
+        //     updated_date: new Date().toLocaleString()
+        // }
         this.props.updateItem(this.props.item).then(() => {
             this.setState({
                 isEdited: false
@@ -93,6 +192,15 @@ class AdminViewItemModal extends Component{
         });
         
     }
+
+    // componentDidUpdate(prevProps) {
+    //     if (this.props.responseMessage === "Item updated successfully") {
+    //         // this.setState({
+    //         //     isEdited: false
+    //         // });
+    //         // this.props.resetCreateResponseMessageProps();
+    //     }
+    // }
 
     editItem = () => {
         this.setState({
@@ -235,7 +343,7 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         <div className="row" >
                                             { this.props.item.images.map((image,index) => 
-                                            (<div className="col-6 modal-image mb-1" key ={index}>
+                                            (<div className="col-6 event-image mb-1" key ={index}>
                                                 <img className="rounded img-thumbnail" src= {image} 
                                                 alt="Responsive image"/>
                                             </div>
@@ -286,4 +394,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminViewItemModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminViewEventModal);

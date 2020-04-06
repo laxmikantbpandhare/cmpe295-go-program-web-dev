@@ -105,7 +105,7 @@ class StudentEventModal extends Component{
         }
         return(
         <div>
-            <div className="modal event-modal">
+            <div className="modal">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className="modal-content">
                         <div className="modal-header">

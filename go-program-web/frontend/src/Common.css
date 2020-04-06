@@ -88,7 +88,7 @@
 }
 
 .modal-body {
-    max-height: calc(100vh - 10rem);
+    max-height: calc(100vh - 5rem);
     overflow-y: auto;
 }
 
@@ -98,4 +98,71 @@
 
 .modal-footer {
     padding: 0.5rem !important
+}
+
+.view-details-color {
+    color: #0056a3; 
+}
+
+.delete-color {
+    color: #FF0000; 
+}
+
+.image-upload > input{
+    display: none;
+}
+
+.image-upload img{
+    width: 25px;
+    cursor: pointer
+}
+
+.image-upload{
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin: 5px;
+}
+
+.modal-image{
+    position: relative;
+}
+
+.modal-image .delete-icon{
+    position: absolute;
+    height: 1rem;
+    width: 1rem;
+    top: 0.4rem;
+    right: 1.3rem;
+    opacity: 0.65;
+}
+
+.modal-image .delete-icon:hover{
+    opacity: 1;
+}
+
+.add-icon{
+    height: 1rem;
+    width: 1rem
+}
+
+.delete-icon{
+    height: 1rem;
+    width: 1rem
+}
+
+.card-body-lesspad {
+    padding: 0.5rem
+}
+
+.card-body-lesspad p{
+    padding: 0;
+    margin-block-end: 0
+}
+
+.card-body-lesspad h5{
+    margin-bottom: 0 !important
+}
+
+.card-body-lesspad h6{
+    padding-top: 0.5rem
 }

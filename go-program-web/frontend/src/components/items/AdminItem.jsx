@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Items.css'
 import AdminViewItemModal from './AdminViewItemModal';
 import Lightbox from 'react-image-lightbox';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import {connect} from 'react-redux';
+import {deleteItem} from '../../redux/actions/adminInventoryAction';
 
 class AdminItem extends Component{
     constructor(props){
@@ -24,6 +26,23 @@ class AdminItem extends Component{
     hideAdminViewItemModal = e => {
         this.setState({showAdminViewItemModal: false});
     }
+
+    handleDelete = () => {
+        confirmAlert({
+            title: 'Delete Item',
+            message: 'Are you sure you want to delete this Item?',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => {this.props.deleteItem(this.props.item._id);}
+              },
+              {
+                label: 'No',
+                onClick: () => {}
+              }
+            ]
+          });
+    }
     
     render() {
         const { photoIndex, isOpen } = this.state;
@@ -33,8 +52,9 @@ class AdminItem extends Component{
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
+                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                     <div className="card d-flex flex-row">
-                        <img src={this.props.item.images[0]} className="img-fluid events-card-image align-self-center" alt="..."/>
+                        <img src={this.props.item.images[0]} className="img-fluid items-card-image align-self-center" alt="..."/>
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold">{this.props.item.name}</h5>
                             <p className="card-text">{trimmedDescription}</p>
@@ -47,10 +67,10 @@ class AdminItem extends Component{
                                 </button>
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showAdminViewItemModal}>
-                                    <i className="fas fa-eye"/>View Details
+                                    <i className="fas fa-eye"/> View Details
                                 </button>
                                 <button type="button" className="btn btn-link delete-color"
-                                onClick = {this.showAdminNewItemModal}>
+                                onClick = {this.handleDelete}>
                                     <i className="fas fa-trash-alt"/> Delete
                                 </button>
                             </div>
@@ -82,5 +102,17 @@ class AdminItem extends Component{
         )
     }
 }
-        
-export default AdminItem;
+
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteItem: id => {dispatch(deleteItem(id))}
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        responseMessage: state.inventory.deleteResponseMessage
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminItem);

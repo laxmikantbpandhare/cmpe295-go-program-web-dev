@@ -1,16 +1,16 @@
 import { ADMIN_CREATE_ITEM_SUCCESS, ADMIN_CREATE_ITEM_FAILED, ADMIN_GET_ITEMS_SUCCESS,
     ADMIN_GET_ITEMS_FAILED, RESET_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE, 
     ADMIN_ITEM_ATTRIBUTE_CHANGE, ADMIN_ITEM_ADD_ATTRIBUTE, ADMIN_ITEM_REMOVE_ATTRIBUTE,
-    ADMIN_ITEM_EDIT_CANCEL, 
-    ADMIN_UPDATE_ITEM_SUCCESS,
-    ADMIN_UPDATE_ITEM_FAILED} from '../actions/types';
+    ADMIN_ITEM_EDIT_CANCEL, ADMIN_UPDATE_ITEM_SUCCESS, ADMIN_UPDATE_ITEM_FAILED,
+    ADMIN_DELETE_ITEM_SUCCESS, ADMIN_DELETE_ITEM_FAILED} from '../actions/types';
 
 const initialState = {
     items: [],
     categories: [],
     createResponseMessage: "",
     getResponseMessage: "",
-    updateResponseMessage: ""
+    updateResponseMessage: "",
+    deleteResponseMessage: ""
 };
 
 const adminInventoryReducer = (state = initialState, action) => {
@@ -50,15 +50,15 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_INPUT_CHANGE:
             var items = state.items.map(item => {
-                // Find a menu with the matching id
+                // Find a item with the matching id
                 if(item._id == action.payload.id){
                     //Return a new object
                     return{
-                        ...item, //copy the existing menu
+                        ...item, //copy the existing item
                         [action.payload.name]: action.payload.value //replace the name with new name
                     }
                 }
-                // Leave every other menu unchanged
+                // Leave every other item unchanged
                 return item;
             });
             return {
@@ -139,6 +139,18 @@ const adminInventoryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 updateResponseMessage: action.payload.message
+            }
+        case ADMIN_DELETE_ITEM_SUCCESS:
+            var items = state.items.filter(item => item._id !== action.payload.id);
+            return {
+                ...state,
+                items,
+                deleteResponseMessage: action.payload.message
+            }
+        case ADMIN_DELETE_ITEM_FAILED:
+            return {
+                ...state,
+                deleteResponseMessage: action.payload.message
             }
         default:
             return state;
