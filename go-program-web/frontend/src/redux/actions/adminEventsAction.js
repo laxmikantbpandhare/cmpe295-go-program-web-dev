@@ -1,7 +1,7 @@
 import { ADMIN_CREATE_EVENT_SUCCESS, ADMIN_CREATE_EVENT_FAILED, ADMIN_GET_EVENTS_SUCCESS,
     ADMIN_GET_EVENTS_FAILED, RESET_EVENT_CREATE_RESPONSE_MESSAGE, ADMIN_EVENT_INPUT_CHANGE,
     ADMIN_EVENT_EDIT_CANCEL, ADMIN_UPDATE_EVENT_SUCCESS, ADMIN_UPDATE_EVENT_FAILED,
-    ADMIN_DELETE_EVENT_SUCCESS, ADMIN_DELETE_EVENT_FAILED} from './types';
+    ADMIN_DELETE_EVENT_SUCCESS, ADMIN_DELETE_EVENT_FAILED, ADMIN_EVENT_DATE_CHANGE} from './types';
 import {backendUrl} from '../../config';
 
 export const getEvents = () => dispatch => {
@@ -95,6 +95,13 @@ export const adminEventInputChangeHandler = (id, name, value) => {
     return{
         type: ADMIN_EVENT_INPUT_CHANGE,
         payload: {id, name, value}
+    }
+}
+
+export const adminEventDateChangeHandler = (id, date) => {
+    return{
+        type: ADMIN_EVENT_DATE_CHANGE,
+        payload: {id, date}
     }
 }
 

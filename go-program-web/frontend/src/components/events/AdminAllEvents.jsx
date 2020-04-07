@@ -54,19 +54,23 @@ class AdminAllEvents extends Component{
             redirectVar = <Redirect to= "/login"/>
         }
         let sortedEvents = [...this.props.events];
-        
         if(this.state.sort !== ""){
-            this.state.sort === "Ascending" 
-            ? sortedEvents.sort((event1, event2) => event1.points - event2.points)
-            : sortedEvents.sort((event1, event2) => event2.points - event1.points);
+            if(this.state.sort === "Points Asc"){
+                sortedEvents.sort((event1, event2) => event1.points - event2.points);
+            } else if(this.state.sort === "Points Desc"){
+                sortedEvents.sort((event1, event2) => event2.points - event1.points);
+            } else if(this.state.sort === "Created Date Asc"){
+                sortedEvents.sort((event1, event2) => new Date(event1.created_date) - new Date(event2.created_date));
+            } else {
+                sortedEvents.sort((event1, event2) => new Date(event2.created_date) - new Date(event1.created_date));
+            }
         }
 
-        // let filteredEvents = sortedEvents.filter(event => {
-        //     return (event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 &&
-        //     event.category.indexOf(this.state.filter)!==-1)
-        // });
+        let filteredEvents = sortedEvents.filter(event => {
+            return (event.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1)
+        });
          
-        let noEventText = this.state.search !== "" || this.state.filter !== "" 
+        let noEventText = this.state.search !== ""
         ? "No Event Matching the Search or Filter Criteria"
         : "No Event is created yet";
         return(
@@ -100,8 +104,8 @@ class AdminAllEvents extends Component{
                                 <option selected value="">Sort by</option>
                                 <option>Points Asc</option>
                                 <option>Points Desc</option>
-                                <option>Expiry Date Asc</option>
-                                <option>Expiry Date Desc</option>
+                                <option>Created Date Asc</option>
+                                <option>Created Date Desc</option>
                             </select>
                         </div>
 
@@ -127,7 +131,7 @@ class AdminAllEvents extends Component{
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                 {
-                    sortedEvents.length!==0 ? sortedEvents.map((event,index)=>
+                    filteredEvents.length!==0 ? filteredEvents.map((event,index)=>
                     <AdminEvent event={event} key={index}/>
                     )
                     :

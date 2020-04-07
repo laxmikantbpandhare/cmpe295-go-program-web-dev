@@ -65,10 +65,10 @@ class AdminNewEventModal extends Component{
             created_date: new Date().toLocaleString(),
             updated_date: new Date().toLocaleString()
         }
-        if(this.state.expiry === null){
-            data.expiry_date = ""
-        } else if(this.state.expiry !=""){
-            data.expiry_date = this.state.expiry.toLocaleDateString()
+        if(this.state.expiry === null || this.state.expiry === ""){
+            data.expiry_date = "";
+        } else{
+            data.expiry_date = this.state.expiry.toLocaleDateString();
         }
 
         this.props.createEvent(data).then(() => {
@@ -76,13 +76,6 @@ class AdminNewEventModal extends Component{
             this.props.resetCreateResponseMessageProps();
         });
     }
-
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.responseMessage === "Item created successfully") {
-    //         this.hideModal();
-    //         this.props.resetCreateResponseMessageProps();
-    //     }
-    // }
     
     render() {
         return(
@@ -160,7 +153,7 @@ class AdminNewEventModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        createEvent: data => {dispatch(createEvent(data))},
+        createEvent: data => dispatch(createEvent(data)),
         resetCreateResponseMessageProps: () => {dispatch(resetCreateResponseMessageProps())}
     };
 };

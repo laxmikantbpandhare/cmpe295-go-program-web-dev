@@ -62,6 +62,7 @@ router.get('/events',passport.authenticate("jwt", { session: false }),function(r
     console.log("Inside Admin Events Get Request");
     
     queries.getEvents(events => {
+        console.log("Events====", events);
         res.status(200).json({success: true, events: events});
     }, err=> {
         res.status(500).send({ message: `Something failed when getting events from the collection. ${err.message}`});

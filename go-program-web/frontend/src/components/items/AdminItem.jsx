@@ -52,7 +52,7 @@ class AdminItem extends Component{
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                {/* <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6> */}
                     <div className="card d-flex flex-row">
                         <img src={this.props.item.images[0]} className="img-fluid items-card-image align-self-center" alt="..."/>
                         <div className="card-body card-body-lesspad">
