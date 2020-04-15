@@ -1,0 +1,737 @@
+Server Listening on port 3001.
+MongoDB connected successfully
+Inside User Login Post Request
+Req Body :  { id: '000000000', password: 'manager123' }
+Inside Admin Items Get Request
+items---- [
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1586055608603.png'
+    ],
+    _id: 5e8949b9b871804dde48ecb3,
+    name: 'Item Goggles',
+    description: 'Goggles',
+    category: 'Stationaries',
+    points: '210',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/4/2020, 8:00:08 PM',
+    updated_date: '4/4/2020, 8:00:08 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585957063194.jpg'
+    ],
+    _id: 5e87c8c79d8655f7ef0f2510,
+    name: 'hkj-edit-2',
+    description: 'lkjklj-edit-1',
+    category: 'Books',
+    points: '81',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/3/2020, 4:37:43 PM',
+    updated_date: '4/4/2020, 7:37:40 PM',
+    __v: 6
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585956157126.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585956157126.png'
+    ],
+    _id: 5e87c53d9d8655f7ef0f250d,
+    name: 'Shirt latest',
+    description: 'Shirt latest',
+    category: 'Clothing',
+    points: '20',
+    attributes: [ [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/3/2020, 4:22:37 PM',
+    updated_date: '4/3/2020, 4:22:37 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049145.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049146.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.png'
+    ],
+    _id: 5e86b74b9d8655f7ef0f2509,
+    name: 'Item with 4images',
+    description: 'Item with 4images',
+    category: 'Clothing',
+    points: '70',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 9:10:49 PM',
+    updated_date: '4/2/2020, 9:10:49 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585821659848.jpg'
+    ],
+    _id: 5e85b7dc9d8655f7ef0f2507,
+    name: 'Pizza',
+    description: 'Pizza',
+    category: 'Foods',
+    points: '200',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 3:00:59 AM',
+    updated_date: '4/2/2020, 3:00:59 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585818002083.jpg'
+    ],
+    _id: 5e85a9929d8655f7ef0f2505,
+    name: 'Shaving Cream',
+    description: 'Shaving Cream',
+    category: 'Beauty Products',
+    points: '20',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 2:00:01 AM',
+    updated_date: '4/2/2020, 2:00:01 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585817844751.png'
+    ],
+    _id: 5e85a8f49d8655f7ef0f2503,
+    name: 'Burger',
+    description: 'Burger',
+    category: 'Foods',
+    points: '10',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:57:24 AM',
+    updated_date: '4/2/2020, 1:57:24 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585815894957.jpg'
+    ],
+    _id: 5e85a1579d8655f7ef0f2500,
+    name: 'Black Shirt',
+    description: 'Black Shirt',
+    category: 'Clothing',
+    points: '20',
+    attributes: [ [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:24:54 AM',
+    updated_date: '4/2/2020, 1:24:54 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585789709189.jpg'
+    ],
+    _id: 5e853b0d9d8655f7ef0f24fe,
+    name: 'iPhone - Black',
+    description: 'iPhone - Black',
+    category: 'Electronics',
+    points: '100',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/1/2020, 6:08:29 PM',
+    updated_date: '4/1/2020, 6:08:29 PM',
+    __v: 0
+  }
+]
+Server Listening on port 3001.
+events.js:288
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (net.js:1309:16)
+    at listenInCluster (net.js:1357:12)
+    at Server.listen (net.js:1445:7)
+    at Function.listen (/Users/laxmikantbhaskarpandhare/Desktop/Final Project 295 REpos/cmpe295-go-program-web-dev/go-program-web/backend/node_modules/express/lib/application.js:618:24)
+    at Object.<anonymous> (/Users/laxmikantbhaskarpandhare/Desktop/Final Project 295 REpos/cmpe295-go-program-web-dev/go-program-web/backend/index.js:56:5)
+    at Module._compile (internal/modules/cjs/loader.js:1158:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10)
+    at Module.load (internal/modules/cjs/loader.js:1002:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:901:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:74:12)
+    at internal/main/run_main_module.js:18:47
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (net.js:1336:8)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) {
+  code: 'EADDRINUSE',
+  errno: 'EADDRINUSE',
+  syscall: 'listen',
+  address: '::',
+  port: 3001
+}
+Inside User Login Post Request
+Req Body :  { id: '000000000', password: 'manager123' }
+Inside Admin Items Get Request
+items---- [
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585957063194.jpg'
+    ],
+    _id: 5e87c8c79d8655f7ef0f2510,
+    name: 'hkj-edit-2',
+    description: 'lkjklj-edit-1',
+    category: 'Books',
+    points: '81',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/3/2020, 4:37:43 PM',
+    updated_date: '4/7/2020, 1:29:30 PM',
+    __v: 7
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049145.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049146.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.png'
+    ],
+    _id: 5e86b74b9d8655f7ef0f2509,
+    name: 'Item with 4images',
+    description: 'Item with 4images',
+    category: 'Clothing',
+    points: '70',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 9:10:49 PM',
+    updated_date: '4/2/2020, 9:10:49 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585821659848.jpg'
+    ],
+    _id: 5e85b7dc9d8655f7ef0f2507,
+    name: 'Pizza',
+    description: 'Pizza',
+    category: 'Foods',
+    points: '200',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 3:00:59 AM',
+    updated_date: '4/2/2020, 3:00:59 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585818002083.jpg'
+    ],
+    _id: 5e85a9929d8655f7ef0f2505,
+    name: 'Shaving Cream',
+    description: 'Shaving Cream',
+    category: 'Beauty Products',
+    points: '20',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 2:00:01 AM',
+    updated_date: '4/2/2020, 2:00:01 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585817844751.png'
+    ],
+    _id: 5e85a8f49d8655f7ef0f2503,
+    name: 'Burger',
+    description: 'Burger',
+    category: 'Foods',
+    points: '10',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:57:24 AM',
+    updated_date: '4/2/2020, 1:57:24 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585815894957.jpg'
+    ],
+    _id: 5e85a1579d8655f7ef0f2500,
+    name: 'Black Shirt',
+    description: 'Black Shirt',
+    category: 'Clothing',
+    points: '20',
+    attributes: [ [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:24:54 AM',
+    updated_date: '4/2/2020, 1:24:54 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585789709189.jpg'
+    ],
+    _id: 5e853b0d9d8655f7ef0f24fe,
+    name: 'iPhone - Black',
+    description: 'iPhone - Black',
+    category: 'Electronics',
+    points: '100',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/1/2020, 6:08:29 PM',
+    updated_date: '4/1/2020, 6:08:29 PM',
+    __v: 0
+  }
+]
+Inside User Login Post Request
+Req Body :  { id: '013764595', password: 'test123' }
+Inside User Login Post Request
+Req Body :  { id: '000000000', password: 'manager123' }
+Inside Admin Items Get Request
+items---- [
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585957063194.jpg'
+    ],
+    _id: 5e87c8c79d8655f7ef0f2510,
+    name: 'hkj-edit-2',
+    description: 'lkjklj-edit-1',
+    category: 'Books',
+    points: '81',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/3/2020, 4:37:43 PM',
+    updated_date: '4/7/2020, 1:29:30 PM',
+    __v: 7
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049145.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049146.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.png'
+    ],
+    _id: 5e86b74b9d8655f7ef0f2509,
+    name: 'Item with 4images',
+    description: 'Item with 4images',
+    category: 'Clothing',
+    points: '70',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 9:10:49 PM',
+    updated_date: '4/2/2020, 9:10:49 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585821659848.jpg'
+    ],
+    _id: 5e85b7dc9d8655f7ef0f2507,
+    name: 'Pizza',
+    description: 'Pizza',
+    category: 'Foods',
+    points: '200',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 3:00:59 AM',
+    updated_date: '4/2/2020, 3:00:59 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585818002083.jpg'
+    ],
+    _id: 5e85a9929d8655f7ef0f2505,
+    name: 'Shaving Cream',
+    description: 'Shaving Cream',
+    category: 'Beauty Products',
+    points: '20',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 2:00:01 AM',
+    updated_date: '4/2/2020, 2:00:01 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585817844751.png'
+    ],
+    _id: 5e85a8f49d8655f7ef0f2503,
+    name: 'Burger',
+    description: 'Burger',
+    category: 'Foods',
+    points: '10',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:57:24 AM',
+    updated_date: '4/2/2020, 1:57:24 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585815894957.jpg'
+    ],
+    _id: 5e85a1579d8655f7ef0f2500,
+    name: 'Black Shirt',
+    description: 'Black Shirt',
+    category: 'Clothing',
+    points: '20',
+    attributes: [ [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:24:54 AM',
+    updated_date: '4/2/2020, 1:24:54 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585789709189.jpg'
+    ],
+    _id: 5e853b0d9d8655f7ef0f24fe,
+    name: 'iPhone - Black',
+    description: 'iPhone - Black',
+    category: 'Electronics',
+    points: '100',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/1/2020, 6:08:29 PM',
+    updated_date: '4/1/2020, 6:08:29 PM',
+    __v: 0
+  }
+]
+Inside Admin Items Get Request
+items---- [
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585957063194.jpg'
+    ],
+    _id: 5e87c8c79d8655f7ef0f2510,
+    name: 'hkj-edit-2',
+    description: 'lkjklj-edit-1',
+    category: 'Books',
+    points: '81',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/3/2020, 4:37:43 PM',
+    updated_date: '4/7/2020, 1:29:30 PM',
+    __v: 7
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049145.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049146.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.png'
+    ],
+    _id: 5e86b74b9d8655f7ef0f2509,
+    name: 'Item with 4images',
+    description: 'Item with 4images',
+    category: 'Clothing',
+    points: '70',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 9:10:49 PM',
+    updated_date: '4/2/2020, 9:10:49 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585821659848.jpg'
+    ],
+    _id: 5e85b7dc9d8655f7ef0f2507,
+    name: 'Pizza',
+    description: 'Pizza',
+    category: 'Foods',
+    points: '200',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 3:00:59 AM',
+    updated_date: '4/2/2020, 3:00:59 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585818002083.jpg'
+    ],
+    _id: 5e85a9929d8655f7ef0f2505,
+    name: 'Shaving Cream',
+    description: 'Shaving Cream',
+    category: 'Beauty Products',
+    points: '20',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 2:00:01 AM',
+    updated_date: '4/2/2020, 2:00:01 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585817844751.png'
+    ],
+    _id: 5e85a8f49d8655f7ef0f2503,
+    name: 'Burger',
+    description: 'Burger',
+    category: 'Foods',
+    points: '10',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:57:24 AM',
+    updated_date: '4/2/2020, 1:57:24 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585815894957.jpg'
+    ],
+    _id: 5e85a1579d8655f7ef0f2500,
+    name: 'Black Shirt',
+    description: 'Black Shirt',
+    category: 'Clothing',
+    points: '20',
+    attributes: [ [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:24:54 AM',
+    updated_date: '4/2/2020, 1:24:54 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585789709189.jpg'
+    ],
+    _id: 5e853b0d9d8655f7ef0f24fe,
+    name: 'iPhone - Black',
+    description: 'iPhone - Black',
+    category: 'Electronics',
+    points: '100',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/1/2020, 6:08:29 PM',
+    updated_date: '4/1/2020, 6:08:29 PM',
+    __v: 0
+  }
+]
+Inside User Login Post Request
+Req Body :  { id: '000000000', password: 'manager123' }
+Inside Admin Items Get Request
+items---- [
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585957063194.jpg'
+    ],
+    _id: 5e87c8c79d8655f7ef0f2510,
+    name: 'hkj-edit-2',
+    description: 'lkjklj-edit-1',
+    category: 'Books',
+    points: '81',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/3/2020, 4:37:43 PM',
+    updated_date: '4/7/2020, 1:29:30 PM',
+    __v: 7
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049145.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049146.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.png'
+    ],
+    _id: 5e86b74b9d8655f7ef0f2509,
+    name: 'Item with 4images',
+    description: 'Item with 4images',
+    category: 'Clothing',
+    points: '70',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 9:10:49 PM',
+    updated_date: '4/2/2020, 9:10:49 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585821659848.jpg'
+    ],
+    _id: 5e85b7dc9d8655f7ef0f2507,
+    name: 'Pizza',
+    description: 'Pizza',
+    category: 'Foods',
+    points: '200',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 3:00:59 AM',
+    updated_date: '4/2/2020, 3:00:59 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585818002083.jpg'
+    ],
+    _id: 5e85a9929d8655f7ef0f2505,
+    name: 'Shaving Cream',
+    description: 'Shaving Cream',
+    category: 'Beauty Products',
+    points: '20',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 2:00:01 AM',
+    updated_date: '4/2/2020, 2:00:01 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585817844751.png'
+    ],
+    _id: 5e85a8f49d8655f7ef0f2503,
+    name: 'Burger',
+    description: 'Burger',
+    category: 'Foods',
+    points: '10',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:57:24 AM',
+    updated_date: '4/2/2020, 1:57:24 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585815894957.jpg'
+    ],
+    _id: 5e85a1579d8655f7ef0f2500,
+    name: 'Black Shirt',
+    description: 'Black Shirt',
+    category: 'Clothing',
+    points: '20',
+    attributes: [ [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:24:54 AM',
+    updated_date: '4/2/2020, 1:24:54 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585789709189.jpg'
+    ],
+    _id: 5e853b0d9d8655f7ef0f24fe,
+    name: 'iPhone - Black',
+    description: 'iPhone - Black',
+    category: 'Electronics',
+    points: '100',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/1/2020, 6:08:29 PM',
+    updated_date: '4/1/2020, 6:08:29 PM',
+    __v: 0
+  }
+]
+Inside User Login Post Request
+Req Body :  { id: '000000000', password: 'manager123' }
+Inside Admin Items Get Request
+items---- [
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585957063194.jpg'
+    ],
+    _id: 5e87c8c79d8655f7ef0f2510,
+    name: 'hkj-edit-2',
+    description: 'lkjklj-edit-1',
+    category: 'Books',
+    points: '81',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/3/2020, 4:37:43 PM',
+    updated_date: '4/7/2020, 1:29:30 PM',
+    __v: 7
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049145.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049146.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.jpg',
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585887049153.png'
+    ],
+    _id: 5e86b74b9d8655f7ef0f2509,
+    name: 'Item with 4images',
+    description: 'Item with 4images',
+    category: 'Clothing',
+    points: '70',
+    attributes: [ [Object], [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 9:10:49 PM',
+    updated_date: '4/2/2020, 9:10:49 PM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585821659848.jpg'
+    ],
+    _id: 5e85b7dc9d8655f7ef0f2507,
+    name: 'Pizza',
+    description: 'Pizza',
+    category: 'Foods',
+    points: '200',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 3:00:59 AM',
+    updated_date: '4/2/2020, 3:00:59 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585818002083.jpg'
+    ],
+    _id: 5e85a9929d8655f7ef0f2505,
+    name: 'Shaving Cream',
+    description: 'Shaving Cream',
+    category: 'Beauty Products',
+    points: '20',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 2:00:01 AM',
+    updated_date: '4/2/2020, 2:00:01 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585817844751.png'
+    ],
+    _id: 5e85a8f49d8655f7ef0f2503,
+    name: 'Burger',
+    description: 'Burger',
+    category: 'Foods',
+    points: '10',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:57:24 AM',
+    updated_date: '4/2/2020, 1:57:24 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585815894957.jpg'
+    ],
+    _id: 5e85a1579d8655f7ef0f2500,
+    name: 'Black Shirt',
+    description: 'Black Shirt',
+    category: 'Clothing',
+    points: '20',
+    attributes: [ [Object], [Object] ],
+    created_by: '000000000',
+    created_date: '4/2/2020, 1:24:54 AM',
+    updated_date: '4/2/2020, 1:24:54 AM',
+    __v: 0
+  },
+  {
+    images: [
+      'https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1585789709189.jpg'
+    ],
+    _id: 5e853b0d9d8655f7ef0f24fe,
+    name: 'iPhone - Black',
+    description: 'iPhone - Black',
+    category: 'Electronics',
+    points: '100',
+    attributes: [ [Object] ],
+    created_by: '000000000',
+    created_date: '4/1/2020, 6:08:29 PM',
+    updated_date: '4/1/2020, 6:08:29 PM',
+    __v: 0
+  }
+]

@@ -140,7 +140,7 @@ class AdminInventory extends Component{
                     <h2>{noItemText}</h2>
                     
                 }
-            </div>
+            </div>  
             {this.state.showAdminNewItemModal ? 
             <AdminNewItemModal hideAdminNewItemModal={this.hideAdminNewItemModal}/> : null}
         </div>)

@@ -49,6 +49,7 @@ class AdminItem extends Component{
         const trimmedDescription = this.props.item.description.length > 35 
                                     ? this.props.item.description.substring(0,35)+"..."
                                     : this.props.item.description;
+
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">

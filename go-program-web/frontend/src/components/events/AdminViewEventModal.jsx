@@ -100,7 +100,7 @@ class AdminViewEventModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.event.name}/>
                                             : <p>{this.props.event.name}</p>
                                         }
@@ -111,7 +111,7 @@ class AdminViewEventModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            ? <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                             name="description" value = {this.props.event.description}/>
                                             : <p>{this.props.event.description}</p>
@@ -124,7 +124,7 @@ class AdminViewEventModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.state.points!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.event.points}/>
                                             : <p>{this.props.event.points}</p>
                                         }  

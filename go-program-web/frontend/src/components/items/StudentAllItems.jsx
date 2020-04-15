@@ -4,6 +4,9 @@ import {Redirect} from 'react-router';
 import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Items.css'
+import {connect} from 'react-redux';
+import {getItems} from '../../redux/actions/adminInventoryAction';
+import AdminItem from '../items/AdminItem';
 
 class StudentAllItems extends Component{
     constructor(props){
@@ -11,15 +14,47 @@ class StudentAllItems extends Component{
         this.state = {}
     }
     
+
+    componentDidMount(){
+        console.log("In Componenent DID Mount");
+        this.props.getItems();
+    }
+
+    resetSearchSection = e => {
+        this.setState(
+            {
+                search: "",
+                filter: "",
+                sort: ""
+            }
+        );   
+    }
+
+
     render() {
+
         let redirectVar = null;
         if(localStorage.getItem('token')){
-
+            redirectVar = <Redirect to= "/login"/>
         }
+
+
+
+        let sortedItems = [...this.props.items];
+
+        let noItemText = this.state.search !== "" || this.state.filter !== "" 
+        ? "No Item Matching the Search or Filter Criteria"
+        : "No Item in the Inventory";
+
+        let filteredItems = sortedItems.filter(item => {
+            // return (item.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 &&
+            // item.category.indexOf(this.state.filter)!==-1)
+        });
+
         return(
         <div className="top-align">
             <div className="heading py-1">
-                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Claim Points</h4>
+                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Claim Prizes</h4>
             </div>
             <div className="container-fluid items-below-heading">
                 <div className="items-search-section">
@@ -46,6 +81,11 @@ class StudentAllItems extends Component{
                         <div className="col-6 col-sm-2">
                             <select className="form-control" name="some1">
                                 <option selected>Filter by Category</option>
+                                {
+                                    this.props.categories.length!==0
+                                    ? this.props.categories.map(category => <option>{category}</option>)
+                                    : null
+                                }
                             </select>
                         </div>
                     </div>
@@ -57,7 +97,7 @@ class StudentAllItems extends Component{
                             <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
                             <div className="card-body">
                                 <h6 className="card-title font-weight-bold">Shirt</h6>
-                                <h6 className="card-text">Tier 2</h6>
+                                <h6 className="card-text">Tier 3</h6>
                                 <h6 className="card-text">299 Points</h6>
                                 <button type="button" className="btn btn-primary btn-style">Select</button>
                             </div>
@@ -69,16 +109,42 @@ class StudentAllItems extends Component{
                             <div className="card-body">
                                 <h6 className="card-title font-weight-bold">Shirt</h6>
                                 <h6 className="card-text">Tier 2</h6>
-                                <h6 className="card-text">299 Points</h6>
+                                <h6 className="card-text">{this.props.items.points} Points</h6>
                                 <button type="button" className="btn btn-primary btn-style">Select</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                {
+                    filteredItems.length!==0 ? filteredItems.map((item,index)=>
+                    <AdminItem item={item} key={index}/>
+                    )
+                    :
+                    <h2>{noItemText}</h2>
+                    
+                } */}
             </div>
         </div>
         )
     }
 }
 
-export default StudentAllItems;
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getItems: () => {dispatch(getItems())}
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        responseMessage: state.inventory.getResponseMessage,
+        items: state.inventory.items,
+        categories: state.inventory.categories
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentAllItems);
+//export default StudentAllItems;

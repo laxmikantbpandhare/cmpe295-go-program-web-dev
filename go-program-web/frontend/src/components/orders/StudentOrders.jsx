@@ -5,17 +5,25 @@ import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Orders.css'
 
+
 class StudentOrders extends Component{
     constructor(props){
         super(props);
         this.state = {}
     }
     
+    componentDidMount(){
+
+    }
+    
+
     render() {
         let redirectVar = null;
         if(localStorage.getItem('token')){
-
+       
         }
+
+
         return(
         <div className="top-align">
             <div className="heading py-1">
