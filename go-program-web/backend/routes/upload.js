@@ -32,8 +32,8 @@ var uploadSingle = multer({ storage: storage }).single('image');
 
 var uploadMultiple = multer({ storage: storage }).array('image');
 
-router.post('/item-images', passport.authenticate("jwt", { session: false }),(req, res) => {
-    console.log("Inside item images post Request");
+router.post('/images', passport.authenticate("jwt", { session: false }),(req, res) => {
+    console.log("Inside upload images post Request");
 
     uploadMultiple(req, res, function(err){
         if(err){

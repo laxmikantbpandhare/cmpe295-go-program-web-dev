@@ -176,9 +176,7 @@ class AdminNewItemModal extends Component{
             points : this.state.points,
             attributes : this.state.attributes,
             images : this.state.images,
-            created_by: localStorage.getItem('id'),
-            created_date: new Date().toLocaleString(),
-            updated_date: new Date().toLocaleString()
+            createdBy: localStorage.getItem('id')
         }
 
         this.props.createItem(data);
@@ -204,108 +202,106 @@ class AdminNewItemModal extends Component{
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form>
-                            <div className="modal-body">
-                                <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
-                                <div class="form-group row">
-                                    <label className="col-4">Name</label>
-                                    <div className="col-8">
-                                        <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                        className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label className="col-4">Description</label>
-                                    <div className="col-8">
-                                        <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                        rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
-                                        name="description"/>
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label className="col-4">Category</label>
-                                    <div className="col-8">
-                                        <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                        name="category" onChange={this.handleInputChange}>
-                                            <option selected value="">Select a Category</option>
-                                            {itemCategories.map(category => <option>{category}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label className="col-4">Points</label>
-                                    <div className="col-8">
-                                        <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                        className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label className="col-4">Sizes<strong className="font-italic">(Eg: Size: XL, Quantity: 4)</strong></label>
-                                    <div className="col-8">
-                                        {
-                                            this.state.attributes.map((attribute, index) => (
-                                                <div className="row mb-1" key={index}>
-                                                    <div className = "col-5">
-                                                        <input type="text" name="size" placeholder="Size"
-                                                        className={`form-control ${this.state.attributes[index].size!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
-                                                        value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} />
-                                                    </div>
-                                                    <div className = "col-5">
-                                                        <input type="number" min="1"  name="quantity" placeholder="Quantity"
-                                                        className={`form-control ${this.state.attributes[index].quantity!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
-                                                        value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} />
-                                                    </div>
-                                                    {
-                                                        index!==0 ? 
-                                                        <div className = "col-1">
-                                                            <img onClick={e => this.removeAttribute(index)} className= "delete-icon" 
-                                                            src={deleteIcon}/>
-                                                        </div> 
-                                                        : null
-                                                    }
-                                                    
-                                                </div>
-                                            ))
-                                        }
-                                        <span>Add a Row &nbsp;</span>
-                                        <img onClick={this.addAttribute} className= "add-icon" 
-                                        src={addIcon}/>
-                                    </div>
-                                </div>
-                            <div className="form-group row">
-                                <label className="col-4">Attach Pic<strong className="font-italic">(Min 1, Max 4)</strong></label>
+                        <div className="modal-body">
+                            <h6 style= {{color:"red"}}>{this.state.message}</h6>
+                            <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                            <div class="form-group row">
+                                <label className="col-4">Name</label>
                                 <div className="col-8">
-                                    <div className="image-upload">
-                                        <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
-                                        <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png"
-                                            onChange= {this.handleFileUpload}/>
-                                    </div>
+                                    <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
+                                    className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-4">Images</label>
-                                    <div className="col-8">
-                                        <div className="row">
-                                        {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
-                                            (<div className="col-5 modal-image m-1" key ={index}>
-                                                <img onClick={e => this.removeImage(index)} className= "delete-icon" 
-                                                src={closeIcon}/>
-                                                <img className="rounded img-thumbnail" src= {imageUrl} 
-                                                alt="Responsive image"/>
+                                <label className="col-4">Description</label>
+                                <div className="col-8">
+                                    <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
+                                    name="description"/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-4">Category</label>
+                                <div className="col-8">
+                                    <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    name="category" onChange={this.handleInputChange}>
+                                        <option selected value="">Select a Category</option>
+                                        {itemCategories.map(category => <option>{category}</option>)}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label className="col-4">Points</label>
+                                <div className="col-8">
+                                    <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
+                                    className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-4">Sizes<strong className="font-italic">(Eg: Size: XL, Quantity: 4)</strong></label>
+                                <div className="col-8">
+                                    {
+                                        this.state.attributes.map((attribute, index) => (
+                                            <div className="row mb-1" key={index}>
+                                                <div className = "col-5">
+                                                    <input type="text" name="size" placeholder="Size"
+                                                    className={`form-control ${this.state.attributes[index].size!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                    value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} />
+                                                </div>
+                                                <div className = "col-5">
+                                                    <input type="number" min="1"  name="quantity" placeholder="Quantity"
+                                                    className={`form-control ${this.state.attributes[index].quantity!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                    value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} />
+                                                </div>
+                                                {
+                                                    index!==0 ? 
+                                                    <div className = "col-1">
+                                                        <img onClick={e => this.removeAttribute(index)} className= "delete-icon" 
+                                                        src={deleteIcon}/>
+                                                    </div> 
+                                                    : null
+                                                }
+                                                
                                             </div>
-                                            )) :null
-                                        }
+                                        ))
+                                    }
+                                    <span>Add a Row &nbsp;</span>
+                                    <img onClick={this.addAttribute} className= "add-icon" 
+                                    src={addIcon}/>
+                                </div>
+                            </div>
+                        <div className="form-group row">
+                            <label className="col-4">Attach Pic<strong className="font-italic">(Min 1, Max 4)</strong></label>
+                            <div className="col-8">
+                                <div className="image-upload">
+                                    <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
+                                    <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png"
+                                        onChange= {this.handleFileUpload}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-4">Images</label>
+                                <div className="col-8">
+                                    <div className="row">
+                                    {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
+                                        (<div className="col-5 modal-image m-1" key ={index}>
+                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                            src={closeIcon}/>
+                                            <img className="rounded img-thumbnail" src= {imageUrl} 
+                                            alt="Responsive image"/>
                                         </div>
+                                        )) :null
+                                    }
                                     </div>
                                 </div>
                             </div>
-                            <div className="modal-footer">
-                                <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
-                                data-dismiss="modal">Cancel</button>
-                                <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
-                            </div>
-                        </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
+                            data-dismiss="modal">Cancel</button>
+                            <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
+                        </div>
                     </div>
                 </div>
             </div>

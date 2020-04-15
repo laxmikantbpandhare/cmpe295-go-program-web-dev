@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Events.css'
 import {connect} from 'react-redux';
@@ -15,10 +13,9 @@ class AdminNewEventModal extends Component{
             name:"",
             description:"",
             points:"",
-            expiry:"",
+            expiry:null,
             message: ""
         }
-        
         this.hideModal = this.hideModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -56,24 +53,24 @@ class AdminNewEventModal extends Component{
         } else {
             this.setState({ message: "" });
         }
-
         const data = {
             name: this.state.name,
             description : this.state.description,
             points : this.state.points,
-            created_by: localStorage.getItem('id'),
-            created_date: new Date().toLocaleString(),
-            updated_date: new Date().toLocaleString()
+            createdBy: localStorage.getItem('id'),
+            expiryDate: this.state.expiry
         }
-        if(this.state.expiry === null || this.state.expiry === ""){
-            data.expiry_date = "";
-        } else{
-            data.expiry_date = this.state.expiry.toLocaleDateString();
-        }
+        // if(this.state.expiry === null || this.state.expiry === ""){
+        //     data.expiryDate = "";
+        // } else{
+        //     data.expiryDate = this.state.expiry.toLocaleDateString();
+        // }
 
         this.props.createEvent(data).then(() => {
             this.hideModal();
             this.props.resetCreateResponseMessageProps();
+        }).catch(() => {
+            
         });
     }
     
@@ -95,30 +92,30 @@ class AdminNewEventModal extends Component{
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
                                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                                 <div class="form-group row">
-                                    <label className="col-4">Name</label>
-                                    <div className="col-8">
+                                    <label className="col-3">Name</label>
+                                    <div className="col-9">
                                         <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
                                         className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-4">Description</label>
-                                    <div className="col-8">
+                                    <label className="col-3">Description</label>
+                                    <div className="col-9">
                                         <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                         rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                         name="description"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label className="col-4">Points</label>
-                                    <div className="col-8">
+                                    <label className="col-3">Points</label>
+                                    <div className="col-9">
                                         <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
                                         className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-4">Expiry Date</label>
-                                    <div className="col-8">
+                                    <label className="col-3">Expiry Date</label>
+                                    <div className="col-9">
                                     <DatePicker
                                         selected={this.state.expiry}
                                         onChange={this.handleDateChange}
@@ -160,7 +157,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.inventory.createResponseMessage
+        responseMessage: state.adminEvents.createResponseMessage
     }
 }
 

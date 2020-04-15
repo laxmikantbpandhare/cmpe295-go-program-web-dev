@@ -4,5 +4,5 @@ import adminEventsReducer from './adminEventsReducer';
 
 export default combineReducers({
     inventory: adminInventoryReducer,
-    events: adminEventsReducer
+    adminEvents: adminEventsReducer
 });
