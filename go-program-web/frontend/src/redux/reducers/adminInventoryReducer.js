@@ -1,5 +1,5 @@
 import { ADMIN_CREATE_ITEM_SUCCESS, ADMIN_CREATE_ITEM_FAILED, ADMIN_GET_ITEMS_SUCCESS,
-    ADMIN_GET_ITEMS_FAILED, RESET_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE, 
+    ADMIN_GET_ITEMS_FAILED, RESET_ADMIN_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE, 
     ADMIN_ITEM_ATTRIBUTE_CHANGE, ADMIN_ITEM_ADD_ATTRIBUTE, ADMIN_ITEM_REMOVE_ATTRIBUTE,
     ADMIN_ITEM_EDIT_CANCEL, ADMIN_UPDATE_ITEM_SUCCESS, ADMIN_UPDATE_ITEM_FAILED,
     ADMIN_DELETE_ITEM_SUCCESS, ADMIN_DELETE_ITEM_FAILED} from '../actions/types';
@@ -43,7 +43,7 @@ const adminInventoryReducer = (state = initialState, action) => {
                 ...state,
                 createResponseMessage: action.payload.message
             }
-        case RESET_ITEM_CREATE_RESPONSE_MESSAGE:
+        case RESET_ADMIN_ITEM_CREATE_RESPONSE_MESSAGE:
             return {
                 ...state,
                 createResponseMessage: ""
@@ -131,8 +131,16 @@ const adminInventoryReducer = (state = initialState, action) => {
                 items
             }
         case ADMIN_UPDATE_ITEM_SUCCESS:
+            var items = state.items.map(item => {
+            if(item._id == action.payload.item._id){
+                return action.payload.item;
+            }
+            // Leave every other item unchanged
+            return item;
+        });
             return {
                 ...state,
+                items,
                 updateResponseMessage: action.payload.message
             }
         case ADMIN_UPDATE_ITEM_FAILED:

@@ -1,10 +1,11 @@
 import { ADMIN_CREATE_EVENT_SUCCESS, ADMIN_CREATE_EVENT_FAILED, ADMIN_GET_EVENTS_SUCCESS,
-    ADMIN_GET_EVENTS_FAILED, RESET_EVENT_CREATE_RESPONSE_MESSAGE, ADMIN_EVENT_INPUT_CHANGE,
+    ADMIN_GET_EVENTS_FAILED, RESET_ADMIN_EVENT_CREATE_RESPONSE_MESSAGE, ADMIN_EVENT_INPUT_CHANGE,
     ADMIN_EVENT_EDIT_CANCEL, ADMIN_UPDATE_EVENT_SUCCESS, ADMIN_UPDATE_EVENT_FAILED,
-    ADMIN_DELETE_EVENT_SUCCESS, ADMIN_DELETE_EVENT_FAILED, ADMIN_EVENT_DATE_CHANGE} from '../actions/types';
+    ADMIN_DELETE_EVENT_SUCCESS, ADMIN_DELETE_EVENT_FAILED, ADMIN_EVENT_DATE_CHANGE, ADMIN_GET_ACTIVE_EVENTS_SUCCESS, ADMIN_GET_ACTIVE_EVENTS_FAILED} from '../actions/types';
 
 const initialState = {
     events: [],
+    activeEvents:[],
     createResponseMessage: "",
     getResponseMessage: "",
     updateResponseMessage: "",
@@ -16,9 +17,21 @@ const adminEventsReducer = (state = initialState, action) => {
         case ADMIN_GET_EVENTS_SUCCESS:
             return {
                 ...state,
-                events: initialState.events.concat(action.payload.events)
+                events: initialState.events.concat(action.payload.events),
+                getResponseMessage: ""
             }
         case ADMIN_GET_EVENTS_FAILED:
+            return {
+                ...state,
+                getResponseMessage: action.payload.message
+            }
+        case ADMIN_GET_ACTIVE_EVENTS_SUCCESS:
+            return {
+                ...state,
+                activeEvents: initialState.events.concat(action.payload.events),
+                getResponseMessage: ""
+            }
+        case ADMIN_GET_ACTIVE_EVENTS_FAILED:
             return {
                 ...state,
                 getResponseMessage: action.payload.message
@@ -34,7 +47,7 @@ const adminEventsReducer = (state = initialState, action) => {
                 ...state,
                 createResponseMessage: action.payload.message
             }
-        case RESET_EVENT_CREATE_RESPONSE_MESSAGE:
+        case RESET_ADMIN_EVENT_CREATE_RESPONSE_MESSAGE:
             return {
                 ...state,
                 createResponseMessage: ""
@@ -63,7 +76,7 @@ const adminEventsReducer = (state = initialState, action) => {
                     //Return a new object
                     return{
                         ...event, //copy the existing event
-                        ["expiry_date"]: action.payload.date //replace the name with new name
+                        ["expiryDate"]: action.payload.date //replace the name with new name
                     }
                 }
                 // Leave every other menu unchanged

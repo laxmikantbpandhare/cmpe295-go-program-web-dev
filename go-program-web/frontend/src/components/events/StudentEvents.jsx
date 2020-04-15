@@ -4,24 +4,24 @@ import {Redirect} from 'react-router';
 import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Events.css';
-import StudentEventModal from './StudentEventModal';
+import StudentNewEventModal from './StudentNewEventModal';
 
 class Events extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showStudentEventModal: false
+            showStudentNewEventModal: false
         };
-        this.showStudentEventModal = this.showStudentEventModal.bind(this);
-        this.hideStudentEventModal = this.hideStudentEventModal.bind(this);
+        this.showStudentNewEventModal = this.showStudentNewEventModal.bind(this);
+        this.hideStudentNewEventModal = this.hideStudentNewEventModal.bind(this);
     }
     
-    showStudentEventModal = e => {
-        this.setState({showStudentEventModal: true});
+    showStudentNewEventModal = e => {
+        this.setState({showStudentNewEventModal: true});
     }
     
-    hideStudentEventModal = e => {
-        this.setState({showStudentEventModal: false});
+    hideStudentNewEventModal = e => {
+        this.setState({showStudentNewEventModal: false});
     }
     
     render() {
@@ -76,7 +76,7 @@ class Events extends Component{
                                 <h5 className="card-title font-weight-bold">Event title</h5>
                                 <p className="card-text">Event description</p>
                                 <div className="d-flex flex-row">
-                                    <button type="button" onClick = {this.showStudentEventModal} 
+                                    <button type="button" onClick = {this.showStudentNewEventModal} 
                                         className="btn btn-primary btn-style mr-2">Edit</button>
                                     <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
                                 </div>
@@ -145,8 +145,8 @@ class Events extends Component{
                     </div>
                 </div>
             </div>
-            {this.state.showStudentEventModal ? 
-            <StudentEventModal hideStudentEventModal={this.hideStudentEventModal}/> : null}
+            {this.state.showStudentNewEventModal ? 
+            <StudentNewEventModal hideStudentNewEventModal={this.hideStudentNewEventModal}/> : null}
         </div>)
     }
 }

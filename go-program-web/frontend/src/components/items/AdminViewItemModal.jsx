@@ -90,6 +90,8 @@ class AdminViewItemModal extends Component{
             this.setState({
                 isEdited: false
             });
+        }).catch(() => {
+            
         });
         
     }
@@ -101,6 +103,29 @@ class AdminViewItemModal extends Component{
     }
     
     render() {
+        var updatedDate = null;
+        var updatedBy = null;
+        if(this.props.item.updatedDate){
+            updatedDate = (
+                <div className="form-group row">
+                    <label className="col-4">Updated Date</label>
+                    <div className="col-8">
+                        <p>{new Date(this.props.item.updatedDate).toLocaleString()}</p>                                       
+                    </div>
+                </div>
+            );
+        }
+        if(this.props.item.updatedBy){
+            updatedBy = (
+                <div className="form-group row">
+                    <label className="col-4">Last Updated By<strong className="font-italic">(SJSU ID)</strong></label>
+                    <div className="col-8">
+                        <p>{this.props.item.updatedBy}</p>                                       
+                    </div>
+                </div>
+            );
+        }
+        
         return(
         <div>
             <div className="modal">
@@ -228,6 +253,20 @@ class AdminViewItemModal extends Component{
                                     </div>
                                     }
                                 </div>
+                                <div className="form-group row">
+                                    <label className="col-4">Created By<strong className="font-italic">(SJSU ID)</strong></label>
+                                    <div className="col-8">
+                                        <p>{this.props.item.createdBy}</p>                                       
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-4">Created Date</label>
+                                    <div className="col-8">
+                                        <p>{new Date(this.props.item.createdDate).toLocaleString()}</p>                                       
+                                    </div>
+                                </div>
+                                {updatedBy}
+                                {updatedDate}
                             {
                                 !this.state.isEdited
                                 ? <div className="form-group row">
@@ -260,7 +299,6 @@ class AdminViewItemModal extends Component{
                                 data-dismiss="modal">Close</button>
                             </div>
                         }
-                        
                     </div>
                 </div>
             </div>

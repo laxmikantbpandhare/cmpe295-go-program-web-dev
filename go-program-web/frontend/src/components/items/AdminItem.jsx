@@ -63,11 +63,11 @@ class AdminItem extends Component{
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
-                                    <i class="fas fa-search-plus"/> Zoom Images
+                                    <i class="fas fa-search-plus"/> Images
                                 </button>
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showAdminViewItemModal}>
-                                    <i className="fas fa-eye"/> View Details
+                                    <i className="fas fa-eye"/> Details
                                 </button>
                                 <button type="button" className="btn btn-link delete-color"
                                 onClick = {this.handleDelete}>

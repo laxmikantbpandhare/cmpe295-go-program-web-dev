@@ -14,21 +14,32 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    expiry_date: {
+    expiryDate: {
+        type: Date,
+        default: null
+    },
+    createdBy : {
+        type: String,
+        required: true
+    },
+    createdDate : {
+        type: String,
+        required: true,
+        default: ()=> new Date()
+    },
+    updatedBy : {
         type: String
     },
-    created_by : {
-        type: String,
-        required: true
-    },
-    created_date : {
-        type: String,
-        required: true
-    },
-    updated_date : {
-        type: String,
-        required: true
+    updatedDate : {
+        type: String
     }
+});
+
+eventSchema.pre('save', function(next){
+    if(this.updatedBy){
+        this.updatedDate = new Date();
+    }
+    next();
 });
 
 module.exports = mongoose.model('Events', eventSchema);
