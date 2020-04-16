@@ -11,7 +11,12 @@ import AdminItem from '../items/AdminItem';
 class StudentAllItems extends Component{
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = {
+            search: "",
+            filter: "",
+            sort: "",
+            divide:""
+        }
     }
     
 
@@ -38,17 +43,73 @@ class StudentAllItems extends Component{
             redirectVar = <Redirect to= "/login"/>
         }
 
-
-
+        this.state.divide = Math.floor(this.props.items.length/2);
         let sortedItems = [...this.props.items];
 
+        let view = null;
+        let view1 = null;
+        if(this.props.items.length === 1 ){
+            console.log("only one 1")
+            view = this.props.items.map(item => {
+                    return (
+                        <div className="col-sm-6 my-1">
+                        <div className="card d-flex flex-row">
+                            <img src={item.images[0]} className="img-fluid items-card-image align-self-center" alt="..."/>
+                            <div className="card-body">
+                                <h6 className="card-title font-weight-bold">{item.name}</h6>
+                                <h6 className="card-text">Tier 3</h6>
+                                <h6 className="card-text">{item.points} Points</h6>
+                                <button type="button" className="btn btn-primary btn-style">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    )
+            })
+        }
+        else{
+            console.log("More than 2")
+            if(this.props.items.length%2 === 0){
+                this.state.divide = this.state.divide - 1;
+            }
+            view = this.props.items.slice(0,this.state.divide).map(item => {
+                return  (
+                    <div className="col-sm-6 my-1">
+                    <div className="card d-flex flex-row">
+                        <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
+                        <div className="card-body">
+                            <h6 className="card-title font-weight-bold">{item.name}</h6>
+                            <h6 className="card-text">Tier 3</h6>
+                            <h6 className="card-text">{item.points} Points</h6>
+                            <button type="button" className="btn btn-primary btn-style">Select</button>
+                        </div>
+                    </div>
+                </div>
+                )
+            })
+
+            view1 = this.props.items.slice(this.state.divide,this.props.items.length).map(item => {
+                return  (
+                    <div className="col-sm-6 my-1">
+                    <div className="card d-flex flex-row">
+                        <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
+                        <div className="card-body">
+                            <h6 className="card-title font-weight-bold">{item.name}</h6>
+                            <h6 className="card-text">Tier 2</h6>
+                            <h6 className="card-text">{item.points} Points</h6>
+                            <button type="button" className="btn btn-primary btn-style">Select</button>
+                        </div>
+                    </div>
+                </div>
+                )
+            })
+        }
         let noItemText = this.state.search !== "" || this.state.filter !== "" 
-        ? "No Item Matching the Search or Filter Criteria"
+        ? "No Item  Matching the Search or Filter Criteria"
         : "No Item in the Inventory";
 
         let filteredItems = sortedItems.filter(item => {
-            // return (item.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 &&
-            // item.category.indexOf(this.state.filter)!==-1)
+            return (item.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 &&
+            item.category.indexOf(this.state.filter)!==-1)
         });
 
         return(
@@ -92,14 +153,14 @@ class StudentAllItems extends Component{
                     <hr/>
                 </div>
                 <div className="row mt-2">
-                    <div className="col-sm-6 my-1">
+                    {/* <div className="col-sm-6 my-1">
                         <div className="card d-flex flex-row">
                             <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
                             <div className="card-body">
                                 <h6 className="card-title font-weight-bold">Shirt</h6>
                                 <h6 className="card-text">Tier 3</h6>
-                                <h6 className="card-text">299 Points</h6>
-                                <button type="button" className="btn btn-primary btn-style">Select</button>
+                                <h6 className="card-text">{this.props.items.points} Points</h6>
+                                   <button type="button" className="btn btn-primary btn-style">Select</button>
                             </div>
                         </div>
                     </div>
@@ -109,22 +170,14 @@ class StudentAllItems extends Component{
                             <div className="card-body">
                                 <h6 className="card-title font-weight-bold">Shirt</h6>
                                 <h6 className="card-text">Tier 2</h6>
-                                <h6 className="card-text">{this.props.items.points} Points</h6>
+                                  <h6 className="card-text">{this.props.items.points} Points</h6>
                                 <button type="button" className="btn btn-primary btn-style">Select</button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+                    {view}
+                    {view1}
                 </div>
-
-                {/* <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
-                {
-                    filteredItems.length!==0 ? filteredItems.map((item,index)=>
-                    <AdminItem item={item} key={index}/>
-                    )
-                    :
-                    <h2>{noItemText}</h2>
-                    
-                } */}
             </div>
         </div>
         )
@@ -147,4 +200,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentAllItems);
-//export default StudentAllItems;

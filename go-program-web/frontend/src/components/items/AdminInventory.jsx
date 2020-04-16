@@ -12,9 +12,9 @@ class AdminInventory extends Component{
         super(props);
         this.state = {
             showAdminNewItemModal: false,
-            search: "",
-            filter: "",
-            sort: ""
+                search: "",
+                filter: "",
+                sort: ""
         };
         this.showAdminNewItemModal = this.showAdminNewItemModal.bind(this);
         this.hideAdminNewItemModal = this.hideAdminNewItemModal.bind(this);
