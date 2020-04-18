@@ -182,12 +182,11 @@ export const updateItem = data =>  dispatch =>
     .then(res => {
         if(res.status === 200){
             res.json().then(resData => {
-                console.log("resdata", resData)
                 dispatch({
                     type: ADMIN_UPDATE_ITEM_SUCCESS,
                     payload: resData
                 });
-                return Promise.resolve();
+                resolve();
             });
         }else{
             res.json().then(resData => {
@@ -197,7 +196,7 @@ export const updateItem = data =>  dispatch =>
                         message: resData.message
                     }
                 });
-                return Promise.reject();
+                reject();
             }) 
         }
     })
@@ -208,7 +207,8 @@ export const updateItem = data =>  dispatch =>
                 message: `Internal Error -- ${err}`
             }
         });
-        return Promise.reject();
+        console.log("Rejecting catch update item");
+        return reject();
     });
 });
 

@@ -23,7 +23,7 @@ const eventSchema = mongoose.Schema({
         required: true
     },
     createdDate : {
-        type: String,
+        type: Date,
         required: true,
         default: ()=> new Date()
     },
@@ -31,14 +31,12 @@ const eventSchema = mongoose.Schema({
         type: String
     },
     updatedDate : {
-        type: String
+        type: Date
     }
 });
 
 eventSchema.pre('save', function(next){
-    if(this.updatedBy){
-        this.updatedDate = new Date();
-    }
+    this.updatedDate = new Date();
     next();
 });
 

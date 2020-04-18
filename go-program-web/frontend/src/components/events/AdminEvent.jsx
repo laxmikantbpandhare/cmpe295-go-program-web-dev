@@ -53,7 +53,12 @@ class AdminEvent extends Component{
                             <h5 className="card-title font-weight-bold pl-3">{this.props.event.name}</h5>
                             <p className="card-text pl-3">{trimmedDescription}</p>
                             <p className="card-text pl-3"><strong>Points: </strong>{this.props.event.points}</p>
-                            <p className="card-text pl-3"><strong>Expiry Date: </strong>{new Date(this.props.event.expiryDate).toLocaleDateString()}</p>
+                            <p className="card-text pl-3"><strong>Expiry Date: </strong>
+                                {this.props.event.expiryDate
+                                ? new Date(this.props.event.expiryDate).toLocaleDateString()
+                                : null
+                                }
+                            </p>
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showAdminViewEventModal}>

@@ -38,7 +38,6 @@ class AdminNewItemModal extends Component{
         if (files.length + this.state.images.length > 4) {
             const msg = 'Only 4 images can be uploaded at a time';
             event.target.value = null // discard selected file   
-            console.log(msg);
             return false;
         }
         return true;
@@ -63,7 +62,6 @@ class AdminNewItemModal extends Component{
             // if message not same old that mean has error 
             event.target.value = null 
             // discard selected file
-            console.log(err);
             return false; 
         }return true;
     }

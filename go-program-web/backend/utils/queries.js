@@ -7,7 +7,6 @@ const StudentEvent = require('../models/studentEvent');
 var queries = {};
 
 queries.createUser = (user, hash, successcb, failurecb) => {
-    console.log("Creating user");
     const doc = new User({
         fname: user.fname,
         lname: user.lname,
@@ -87,8 +86,8 @@ queries.getEvents = (successcb, failurecb) => {
 }
 
 queries.getActiveEvents = (successcb, failurecb) => {
-    var today = new Date().toLocaleDateString();
-    console.log("today----",today);
+    var today = new Date(new Date().toLocaleDateString());
+    
     Event.find({$or: [
         {expiryDate: ""}, 
         {expiryDate: {$gte: today}}

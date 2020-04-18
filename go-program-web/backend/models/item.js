@@ -54,9 +54,7 @@ const itemSchema = mongoose.Schema({
 });
 
 itemSchema.pre('save', function(next){
-    if(this.updatedBy){
-        this.updatedDate = new Date();
-    }
+    this.updatedDate = new Date();
     next();
 });
 

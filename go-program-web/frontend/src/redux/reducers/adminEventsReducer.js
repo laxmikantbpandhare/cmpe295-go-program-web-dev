@@ -99,8 +99,16 @@ const adminEventsReducer = (state = initialState, action) => {
                 events
             }
         case ADMIN_UPDATE_EVENT_SUCCESS:
+            var events = state.events.map(event => {
+                if(event._id == action.payload.event._id){
+                    return action.payload.event;
+                }
+                // Leave every other item unchanged
+                return event;
+            });
             return {
                 ...state,
+                events,
                 updateResponseMessage: action.payload.message
             }
         case ADMIN_UPDATE_EVENT_FAILED:
