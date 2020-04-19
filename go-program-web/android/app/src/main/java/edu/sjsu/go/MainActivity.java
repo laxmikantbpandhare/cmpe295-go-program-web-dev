@@ -17,9 +17,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    /* Dummy method for testing */
     public void clickLogin(View v) {
-        Intent i = new Intent(this, WebActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+    }
+
+    public void clickSignup(View v) {
+        Intent i = new Intent(this, SignupActivity.class);
         startActivity(i);
     }
 }

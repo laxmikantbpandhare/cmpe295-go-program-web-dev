@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.sjsu.go">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_foreground"
@@ -10,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WebActivity"></activity>
+        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".WebActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>

@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">SJSU GO</string>
+
+    <string name="dashboard">Dashboard</string>
+    <string name="events">Events</string>
+    <string name="redeem">Redeem</string>
+    <string name="orders">Orders</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="error_invalid_id">Not a valid SJSU ID</string>
+    <string name="error_invalid_password">Password must be >5 characters</string>
+    <string name="error_login_failed">"Login failed"</string>
 </resources>
