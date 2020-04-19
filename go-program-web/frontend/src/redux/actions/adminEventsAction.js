@@ -99,7 +99,6 @@ export const createEvent = data =>  dispatch =>
                     type: ADMIN_CREATE_EVENT_SUCCESS,
                     payload: resData
                 });
-                console.log("Returning resolve!!!!!!!!");
                 
                 resolve();
             });
@@ -111,7 +110,6 @@ export const createEvent = data =>  dispatch =>
                         message: resData.message
                     }
                 });
-                console.log("Returning reject@@@@@@@@@");
                 reject();
             }) 
         }
@@ -173,11 +171,9 @@ export const updateEvent = data =>  dispatch =>
             res.json().then(resData => {
                 dispatch({
                     type: ADMIN_UPDATE_EVENT_SUCCESS,
-                    payload: {
-                        message: resData.message
-                    }
+                    payload: resData
                 });
-                return Promise.resolve();
+                resolve();
             });
         }else{
             res.json().then(resData => {
@@ -187,7 +183,7 @@ export const updateEvent = data =>  dispatch =>
                         message: resData.message
                     }
                 });
-                return Promise.reject();
+                reject();
             }) 
         }
     })

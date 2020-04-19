@@ -105,7 +105,7 @@ class AdminViewItemModal extends Component{
     render() {
         var updatedDate = null;
         var updatedBy = null;
-        if(this.props.item.updatedDate){
+        if(this.props.item.updatedBy){
             updatedDate = (
                 <div className="form-group row">
                     <label className="col-4">Updated Date</label>
@@ -114,8 +114,6 @@ class AdminViewItemModal extends Component{
                     </div>
                 </div>
             );
-        }
-        if(this.props.item.updatedBy){
             updatedBy = (
                 <div className="form-group row">
                     <label className="col-4">Last Updated By<strong className="font-italic">(SJSU ID)</strong></label>

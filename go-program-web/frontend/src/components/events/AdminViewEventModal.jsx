@@ -29,8 +29,8 @@ class AdminViewEventModal extends Component{
     }
 
     handleDateChange = date => {
-        var formattedDate = date === null ? "" : date.toLocaleDateString();
-        this.props.handleDateChange(this.props.event._id, formattedDate);
+        // var formattedDate = date === null ? "" : date.toLocaleDateString();
+        this.props.handleDateChange(this.props.event._id, date);
     }
 
      isFieldEmpty = () => {
@@ -77,7 +77,7 @@ class AdminViewEventModal extends Component{
     render() {
         var updatedDate = null;
         var updatedBy = null;
-        if(this.props.item.updatedDate){
+        if(this.props.event.updatedBy){
             updatedDate = (
                 <div className="form-group row">
                     <label className="col-4">Updated Date</label>
@@ -86,8 +86,6 @@ class AdminViewEventModal extends Component{
                     </div>
                 </div>
             );
-        }
-        if(this.props.item.updatedBy){
             updatedBy = (
                 <div className="form-group row">
                     <label className="col-4">Last Updated By<strong className="font-italic">(SJSU ID)</strong></label>
@@ -183,20 +181,25 @@ class AdminViewEventModal extends Component{
                                                 showYearDropdown
                                                 dropdownMode="select"
                                             />
-                                            : <p>{new Date(this.props.item.expiryDate).toLocaleDateString}</p>
+                                            : <p>{
+                                                this.props.event.expiryDate
+                                                ? new Date(this.props.event.expiryDate).toLocaleDateString()
+                                                : null
+                                                }
+                                            </p>
                                         }  
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label className="col-4">Created By<strong className="font-italic">(SJSU ID)</strong></label>
                                     <div className="col-8">
-                                        <p>{this.props.item.createdBy}</p>                                       
+                                        <p>{this.props.event.createdBy}</p>                                       
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label className="col-4">Created Date</label>
                                     <div className="col-8">
-                                        <p>{new Date(this.props.item.createdDate).toLocaleString()}</p>                                       
+                                        <p>{new Date(this.props.event.createdDate).toLocaleString()}</p>                                       
                                     </div>
                                 </div>
                                 {updatedBy}

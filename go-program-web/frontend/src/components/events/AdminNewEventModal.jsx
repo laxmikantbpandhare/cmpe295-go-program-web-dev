@@ -60,11 +60,6 @@ class AdminNewEventModal extends Component{
             createdBy: localStorage.getItem('id'),
             expiryDate: this.state.expiry
         }
-        // if(this.state.expiry === null || this.state.expiry === ""){
-        //     data.expiryDate = "";
-        // } else{
-        //     data.expiryDate = this.state.expiry.toLocaleDateString();
-        // }
 
         this.props.createEvent(data).then(() => {
             this.hideModal();

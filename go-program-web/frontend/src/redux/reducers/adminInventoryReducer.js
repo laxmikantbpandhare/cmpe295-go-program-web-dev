@@ -132,12 +132,12 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_UPDATE_ITEM_SUCCESS:
             var items = state.items.map(item => {
-            if(item._id == action.payload.item._id){
-                return action.payload.item;
-            }
-            // Leave every other item unchanged
-            return item;
-        });
+                if(item._id == action.payload.item._id){
+                    return action.payload.item;
+                }
+                // Leave every other item unchanged
+                return item;
+            });
             return {
                 ...state,
                 items,
