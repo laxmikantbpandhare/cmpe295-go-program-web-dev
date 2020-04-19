@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import deleteIcon from '../../images/close_icon.png';
+import closeIcon from '../../images/close_icon.png';
 import '../../Common.css';
 import './Events.css'
 import {connect} from 'react-redux';
-import {getActiveEvents} from '../../redux/actions/adminEventsAction';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {createEvent, resetCreateResponseMessageProps} from '../../redux/actions/studentEventsAction';
 
 class StudentNewEventModal extends Component{
     constructor(props){
@@ -13,28 +15,34 @@ class StudentNewEventModal extends Component{
         this.state = {
             images: [],
             imagesUrl: [],
-            name:"",
+            eventId: null,
+            eventPoints: "",
             description: "",
-            completedDate:"",
-
-            message: ""
+            completedDate:null,
+            message: "",
+            loader: false
         }
-        
-        this.hideModal = this.hideModal.bind(this);
-        this.changeHandler = this.changeHandler.bind(this);
-        this.removeImage = this.removeImage.bind(this);
     }
     
     hideModal = e => {
         this.props.hideStudentNewEventModal();
     }
-    
-    changeHandler = (e) => {
-        this.setState({[e.target.name] : e.target.value})
+
+    handleSelectChange = e => {
+        let index = e.target.selectedIndex;
+        let el = e.target.childNodes[index];
+        let id = el.getAttribute('id');
+        this.setState({eventId : id})
     }
     
-    componentDidMount(){
-        this.props.getActiveEvents();
+    handleInputChange = (e) => {
+        this.setState({[e.target.name] : e.target.value})
+    }
+
+    handleDateChange = date => {
+        this.setState({
+            completedDate : date
+        })
     }
     
     maxSelectFile=(event)=>{
@@ -102,6 +110,63 @@ class StudentNewEventModal extends Component{
             images,imagesUrl
         })
     }
+
+    isFieldEmpty = () => {
+        if(this.state.eventId === null || this.state.description === "" || 
+        this.state.completedDate === null || this.state.images.length === 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    handleSubmit = e => {
+        e.preventDefault();
+
+        if(this.isFieldEmpty()){
+            this.setState({ message: "All fields are mandatory with at least 1 pic" });
+            return;
+        } else {
+            this.setState(
+                { 
+                    message: "",
+                    loader: true
+                }
+            );
+        }
+        const data = {
+            event: {
+                id: this.state.eventId
+            },
+            student: {
+                id: localStorage.getItem('id'),
+                fname: localStorage.getItem('fname'),
+                lname: localStorage.getItem('lname'),
+                email: localStorage.getItem('email'),
+                major: localStorage.getItem('major'),
+                year: localStorage.getItem('year')
+            },
+            description : this.state.description,
+            completedDate: this.state.completedDate,
+            images : this.state.images
+        }
+
+        this.props.createEvent(data).then(() => {
+            this.hideModal();
+            this.props.resetCreateResponseMessageProps();
+        }).catch(() => {
+            this.setState({
+                loader: false
+            });
+        });
+    }
+
+    // componentDidUpdate(prevProps) {
+    //     if (this.props.responseMessage === "Student event created successfully") {
+    //         this.hideModal();
+    //         this.props.resetCreateResponseMessageProps();
+    //     }
+    // }
     
     render() {
         let redirectVar = null;
@@ -124,42 +189,64 @@ class StudentNewEventModal extends Component{
                             <h6 style= {{color:"red"}}>{this.state.message}</h6>
                             <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                             <div class="form-group row">
-                                <label className="col-3">Name</label>
+                                <label className="col-3">Event</label>
                                 <div className="col-9">
-                                    <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                    name="name" onChange={this.handleInputChange}>
+                                    <select className={`form-control ${this.state.eventId?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    name="event" onChange={this.handleSelectChange}>
                                         <option selected value="">Select an Event</option>
-                                        {this.props.events.map(event => <option>{event.name}</option>)}
+                                        {this.props.events.map((event,index) => <option key={index} id={event._id}>
+                                            {`${event.points} Points - ${event.name}`}
+                                        </option>)}
                                     </select>
                                 </div>
                             </div>
-                        <div className="form-group row">
-                            <label for="description" className="col-3">Description</label>
-                            <div className="col-9">
-                                <textarea className="form-control" id="description" rows="3" 
-                                placeholder="Enter a short description" required/>
-                            </div>
-                            <div className="valid-feedback">Valid.</div>
-                            <div className="invalid-feedback">Please fill out this field.</div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-3">Attach Proof</label>
-                            <div className="col-9">
-                                <div className="image-upload">
-                                    <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
-                                    <input multiple type="file" id="upload" value=""
-                                        onChange= {this.handleFileUpload}/>
+                            <div className="form-group row">
+                                <label className="col-3">Description</label>
+                                <div className="col-9">
+                                    <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
+                                    name="description"/>
                                 </div>
                             </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-3">Images</label>
+                            <div className="form-group row">
+                                    <label className="col-3">Completed Date</label>
+                                    <div className="col-9">
+                                    <DatePicker
+                                        selected={this.state.completedDate}
+                                        onChange={this.handleDateChange}
+                                        className={`form-control ${this.state.completedDate!=null?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        dateFormat="MM/dd/yyyy"
+                                        todayButton="Today"
+                                        showPopperArrow={false}
+                                        placeholderText="Click to select a date"
+                                        isClearable
+                                        withPortal
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        maxDate={new Date()}
+                                    />
+                                    </div>
+                                </div>
+                            <div className="form-group row">
+                                <label className="col-3">Attach Pic<strong className="font-italic">(Min 1, Max 4)</strong></label>
+                                <div className="col-9">
+                                    <div className="image-upload">
+                                        <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
+                                        <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png"
+                                            onChange= {this.handleFileUpload}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-3">Images</label>
                                 <div className="col-9">
                                     <div className="row">
                                     {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
-                                        (<div className="col-5 event-image m-1" key ={index}>
+                                        (<div className="col-5 modal-image m-1" key ={index}>
                                             <img onClick={e => this.removeImage(index)} className= "delete-icon" 
-                                            src={deleteIcon}/>
+                                            src={closeIcon}/>
                                             <img className="rounded img-thumbnail" src= {imageUrl} 
                                             alt="Responsive image"/>
                                         </div>
@@ -170,10 +257,15 @@ class StudentNewEventModal extends Component{
                             </div>
                         </div>
                         <div className="modal-footer">
+                            {
+                                this.state.loader
+                                ? <div className="spinner-border text-primary" role="status"/>
+                                : null
+                            }
+                            
                             <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
-                            data-dismiss="modal">Close</button>
-                            <button type="button" onClick = {this.clearMessage} className="btn btn-primary btn-style">Clear</button>
-                            <button type="submit" className="btn btn-primary btn-style">Add Event</button>
+                                data-dismiss="modal">Cancel</button>
+                            <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -185,14 +277,14 @@ class StudentNewEventModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        getActiveEvents: () => {dispatch(getActiveEvents())}
+        createEvent: data => dispatch(createEvent(data)),
+        resetCreateResponseMessageProps: () => {dispatch(resetCreateResponseMessageProps())}
     }
 }
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminEvents.getResponseMessage,
-        events: state.adminEvents.activeEvents
+        responseMessage: state.studentEvents.createResponseMessage
     }
 }
 

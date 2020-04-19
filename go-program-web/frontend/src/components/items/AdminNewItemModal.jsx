@@ -280,31 +280,31 @@ class AdminNewItemModal extends Component{
                         </div>
                         <div className="form-group row">
                             <label className="col-4">Images</label>
-                                <div className="col-8">
-                                    <div className="row">
-                                    {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
-                                        (<div className="col-5 modal-image m-1" key ={index}>
-                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" 
-                                            src={closeIcon}/>
-                                            <img className="rounded img-thumbnail" src= {imageUrl} 
-                                            alt="Responsive image"/>
-                                        </div>
-                                        )) :null
-                                    }
+                            <div className="col-8">
+                                <div className="row">
+                                {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
+                                    (<div className="col-5 modal-image m-1" key ={index}>
+                                        <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                        src={closeIcon}/>
+                                        <img className="rounded img-thumbnail" src= {imageUrl} 
+                                        alt="Responsive image"/>
                                     </div>
+                                    )) :null
+                                }
                                 </div>
                             </div>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
-                            data-dismiss="modal">Cancel</button>
-                            <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
-                        </div>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
+                        data-dismiss="modal">Cancel</button>
+                        <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
                     </div>
                 </div>
             </div>
         </div>
-        )
+    </div>
+    )
     }
 }
 

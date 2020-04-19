@@ -72,7 +72,6 @@ router.get('/activeEvents',passport.authenticate("jwt", { session: false }),func
     console.log("Inside Admin Active Events Get Request");
     
     queries.getActiveEvents(events => {
-        console.log("new date route---", new Date());
         res.status(200).json({success: true, events: events});
     }, err=> {
         res.status(500).send({ message: `Something failed when getting events from the collection. ${err.message}`});

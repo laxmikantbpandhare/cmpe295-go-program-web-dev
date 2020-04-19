@@ -69,11 +69,12 @@ const saveEventImages = (images,successcb, failurecb) => {
     });
 }
 
-export const createEvent = data =>  dispatch => {
+export const createEvent = data =>  dispatch => new Promise(function(resolve, reject) {
     saveEventImages(data.images, imagesUrl => {
         data.images = imagesUrl;
         const token = localStorage.getItem('token');
-        fetch(`${backendUrl}/student/createEvent`, {
+        // return new Promise(function(resolve, reject) {
+            return fetch(`${backendUrl}/student/createEvent`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json,  text/plain, */*',
@@ -90,6 +91,7 @@ export const createEvent = data =>  dispatch => {
                         type: STUDENT_CREATE_EVENT_SUCCESS,
                         payload: resData
                     })
+                    resolve();
                 });
             }else{
                 res.json().then(resData => {
@@ -98,7 +100,8 @@ export const createEvent = data =>  dispatch => {
                         payload: {
                             message: resData.message
                         }
-                    })
+                    });
+                    reject();
                 }) 
             }
         })
@@ -109,6 +112,7 @@ export const createEvent = data =>  dispatch => {
                     message: `Internal Error -- ${err}`
                 }
             });
+            reject();
         });
 
     }, failedMessage => {
@@ -118,8 +122,10 @@ export const createEvent = data =>  dispatch => {
                     message: failedMessage
                 }
             });
-    });
-};
+            reject();
+        }
+    );
+});
 
 export const resetCreateResponseMessageProps = () => {
     return{
