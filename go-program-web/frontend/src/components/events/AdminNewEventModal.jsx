@@ -44,7 +44,7 @@ class AdminNewEventModal extends Component{
         }
     }
 
-     handleSubmit = e => {
+    handleSubmit = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
@@ -82,7 +82,6 @@ class AdminNewEventModal extends Component{
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form>
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
                                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
@@ -134,7 +133,6 @@ class AdminNewEventModal extends Component{
                                 data-dismiss="modal">Cancel</button>
                                 <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>

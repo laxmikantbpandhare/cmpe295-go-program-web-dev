@@ -5,8 +5,10 @@ import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Events.css';
 import StudentNewEventModal from './StudentNewEventModal';
+import {connect} from 'react-redux';
+import {getActiveEvents} from '../../redux/actions/adminEventsAction';
 
-class Events extends Component{
+class StudentAllEvents extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -22,6 +24,10 @@ class Events extends Component{
     
     hideStudentNewEventModal = e => {
         this.setState({showStudentNewEventModal: false});
+    }
+
+    componentDidMount(){
+        this.props.getActiveEvents();
     }
     
     render() {
@@ -39,7 +45,9 @@ class Events extends Component{
             <div className="container-fluid events-below-heading">
                 <div class="row">
                     <div class="col-sm-4 offset-4 offset-sm-5 mt-2">
-                        <a href="" class="btn btn-primary btn-style font-weight-bold"><i class="fas fa-plus"></i> &nbsp;Add Event</a>
+                        <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showStudentNewEventModal}>
+                            <i class="fas fa-plus"></i> &nbsp;Submit Event
+                        </button>
                     </div>
                 </div>
                 <div className="events-search-section">
@@ -145,10 +153,27 @@ class Events extends Component{
                     </div>
                 </div>
             </div>
-            {this.state.showStudentNewEventModal ? 
-            <StudentNewEventModal hideStudentNewEventModal={this.hideStudentNewEventModal}/> : null}
+            {
+                this.state.showStudentNewEventModal
+                ? <StudentNewEventModal hideStudentNewEventModal={this.hideStudentNewEventModal}
+                events = {this.props.events}/> 
+                : null
+            }
         </div>)
     }
 }
         
-export default Events;
+const mapDispatchToProps = dispatch => {
+    return {
+        getActiveEvents: () => {dispatch(getActiveEvents())}
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        responseMessage: state.adminEvents.getResponseMessage,
+        events: state.adminEvents.activeEvents
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentAllEvents);

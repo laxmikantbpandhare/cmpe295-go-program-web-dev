@@ -99,7 +99,6 @@ export const createEvent = data =>  dispatch =>
                     type: ADMIN_CREATE_EVENT_SUCCESS,
                     payload: resData
                 });
-                
                 resolve();
             });
         }else{
@@ -194,7 +193,7 @@ export const updateEvent = data =>  dispatch =>
                 message: `Internal Error -- ${err}`
             }
         });
-        return Promise.reject();
+        return reject();
     });
 });
 

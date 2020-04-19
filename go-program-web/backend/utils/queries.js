@@ -107,9 +107,11 @@ queries.createEvent = (event, successcb, failurecb) => {
     });
     doc.save()
     .then(result => {
-        successcb(result)})
+        successcb(result)
+    })
     .catch(err => {
-        failurecb(err)})
+        failurecb(err)
+    })
 }
 
 queries.updateEvent = (event, successcb, failurecb) => {
@@ -145,33 +147,67 @@ queries.getStudentEvents = (successcb, failurecb) => {
 }
 
 queries.createStudentEvent = (event, successcb, failurecb) => {
-    Student.findOne({sjsuId: event.studentId})
+    Student.findOne({sjsuId: event.student.id})
     .select('_id')
     .then(student => {
         if(student === null){
             const doc = new Student({
-                sjsuId:sjsuid 
+                sjsuId:event.student.id,
+                fname: event.student.fname,
+                lname: event.student.lname,
+                email: event.student.email,
+                major: event.student.major,
+                year: event.student.year
+            });
+            doc.save()
+            .then(result => {
+                const eventDoc = new StudentEvent({
+                    event:event.event.id,
+                    student: result._id,
+                    description: event.description,
+                    completedDate: event.completedDate,
+                    images: event.images,
+                    status: "Pending Approval"
+                });
+                eventDoc.save()
+                .then(studentEvent => {
+                    studentEvent.populate('event').populate('student').execPopulate()
+                    .then(studentEvent=> {successcb(studentEvent)})
+                    
+                    // StudentEvent.findOne({_id: studentEvent._id})
+                    // .populate('event')
+                    // .
+                })
+                .catch(err => {
+                    failurecb(err, "StudentEvent");
+                })
+            })
+            .catch(err => {
+                failurecb(err, "Student");
+            })
+        } else {
+            const eventDoc = new StudentEvent({
+                event: event.event.id,
+                student: student._id,
+                description: event.description,
+                completedDate: event.completedDate,
+                images: event.images,
+                status: "Pending Approval"
+            });
+            eventDoc.save()
+            .then(studentEvent => {
+                studentEvent.
+                populate('event').
+                populate('student').
+                execPopulate().
+                then(studentEvent => {successcb(studentEvent)})
+            })
+            .catch(err => {
+                failurecb(err, "StudentEvent");
             })
         }
     })
     .catch(err => failurecb(err))
-
-    const doc = new Event({
-        event: event.eventId,
-        student: event.studentId,
-        description: event.description,
-        completedDate: event.completedDate,
-        images: event.images,
-        status: "Pending Approval",
-        createdBy: event.createdBy,
-        createdDate: event.createdDate,
-        updatedDate: event.updatedDate
-    });
-    doc.save()
-    .then(result => {
-        successcb(result)})
-    .catch(err => {
-        failurecb(err)})
 }
 
 module.exports = queries;

@@ -49,7 +49,8 @@ const itemSchema = mongoose.Schema({
         type: String
     },
     updatedDate : {
-        type: Date
+        type: Date,
+        required: true
     }
 });
 

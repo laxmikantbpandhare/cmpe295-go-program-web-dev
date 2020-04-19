@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const studentEventSchema = mongoose.Schema({
     event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Event',
+        ref: 'Events',
         required: true
     },
     student: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student',
+        ref: 'Students',
         required: true
     },
     description: {
@@ -16,7 +16,7 @@ const studentEventSchema = mongoose.Schema({
         required: true
     },
     completedDate: {
-        type: String,
+        type: Date,
         required: true
     },
     images : [
@@ -30,15 +30,36 @@ const studentEventSchema = mongoose.Schema({
         required: true
     },
     createdDate: {
-        type: String,
-        required: true
+        type: Date,
+        required: true,
+        default: ()=> new Date()
     },
     updatedDate: {
-        type: String,
-        required: true
+        type: Date
     },
+    notes: [
+        {   
+            senderName: {
+                type: String,
+                required: true
+            },
+            text: {
+                type: String,
+                required: true
+            },
+            sentDate: {
+                type: Date,
+                required: true
+            }
+        }
+    ]
 });
 
 studentEventSchema.index({ event: 1, student: 1 }, { unique: true });
+
+studentEventSchema.pre('save', function(next){
+    this.updatedDate = new Date();
+    next();
+});
 
 module.exports = mongoose.model('StudentEvents', studentEventSchema);
