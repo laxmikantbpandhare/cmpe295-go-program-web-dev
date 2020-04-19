@@ -18,7 +18,7 @@ router.post('/signup',function(req,res){
             if(err.code === 11000){
                 res.status(401).send({ success: false, message: 'User with same SJSU Id/Email Id already exists.' });
             }else{
-                res.status(500).send({ success: false, message: `Something failed when inserting record. ${err}`});
+                res.status(500).send({ success: false, message: `Something failed when inserting record in the database. ${err}`});
             }
         });
     }, err => {
@@ -44,7 +44,7 @@ router.post('/login',function(req,res){
                     var token = jwt.sign(user, secret, {
                         expiresIn: 10080 // in seconds
                     });
-                    res.status(200).json({success: true, message: "Login successful", fname: row.fname, userType: row.userType, token: token});
+                    res.status(200).json({success: true, message: "Login successful", user: row, token: token});
                 }else{
                     res.status(401).json({success: false, message: "Incorrect Password"});
                 }
@@ -55,7 +55,7 @@ router.post('/login',function(req,res){
             res.status(401).json({success: false, message: "User does not exists. Please try again"});
         }
     }, err => {
-        res.status(500).json({success: false, message: "Something wrong when reading the record"});
+        res.status(500).json({success: false, message: "Something wrong when reading the record from the database"});
     });
 });
 

@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 
 var user = require('./routes/user');
 var admin = require('./routes/admin');
-// var student = require('./routes/student');
+var student = require('./routes/student');
 var upload = require('./routes/upload');
 
 //use cors to allow cross origin resource sharing
@@ -46,7 +46,7 @@ const connectDB = async () => {
 
 app.use('/user', user);
 app.use('/admin', admin);
-// app.use('/student', student);
+app.use('/student', student);
 app.use('/upload', upload);
 
 app.use(passport.initialize());
@@ -54,6 +54,8 @@ require("./config/passport")(passport);
 
 //start your server on port 3101
 app.listen(3001);
+// app.listen(3001, "127.0.0.1");
+
 console.log("Server Listening on port 3001.");
 
 module.exports = app;

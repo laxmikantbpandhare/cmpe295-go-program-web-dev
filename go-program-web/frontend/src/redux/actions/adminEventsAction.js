@@ -1,6 +1,7 @@
 import { ADMIN_CREATE_EVENT_SUCCESS, ADMIN_CREATE_EVENT_FAILED, ADMIN_GET_EVENTS_SUCCESS,
-    ADMIN_GET_EVENTS_FAILED, RESET_EVENT_CREATE_RESPONSE_MESSAGE, ADMIN_EVENT_INPUT_CHANGE,
-    ADMIN_EVENT_EDIT_CANCEL, ADMIN_UPDATE_EVENT_SUCCESS, ADMIN_UPDATE_EVENT_FAILED,
+    ADMIN_GET_EVENTS_FAILED, ADMIN_GET_ACTIVE_EVENTS_SUCCESS, ADMIN_GET_ACTIVE_EVENTS_FAILED, 
+    RESET_ADMIN_EVENT_CREATE_RESPONSE_MESSAGE, ADMIN_EVENT_INPUT_CHANGE, ADMIN_EVENT_EDIT_CANCEL, 
+    ADMIN_UPDATE_EVENT_SUCCESS, ADMIN_UPDATE_EVENT_FAILED,
     ADMIN_DELETE_EVENT_SUCCESS, ADMIN_DELETE_EVENT_FAILED, ADMIN_EVENT_DATE_CHANGE} from './types';
 import {backendUrl} from '../../config';
 
@@ -41,7 +42,45 @@ export const getEvents = () => dispatch => {
     });  
 };
 
-export const createEvent = data =>  dispatch => {
+export const getActiveEvents = () => dispatch => {
+    const token = localStorage.getItem('token');
+    fetch(`${backendUrl}/admin/ActiveEvents`,{
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include'
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(data => {
+                dispatch({
+                    type: ADMIN_GET_ACTIVE_EVENTS_SUCCESS,
+                    payload: data
+                })
+            });
+        }else{
+            res.json().then(data => {
+                dispatch({
+                    type: ADMIN_GET_ACTIVE_EVENTS_FAILED,
+                    payload: data
+                })
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: ADMIN_GET_ACTIVE_EVENTS_FAILED,
+            payload: {
+                message: `Internal error -- ${err}`
+            }
+        })
+    });  
+};
+
+export const createEvent = data =>  dispatch => 
+    new Promise(function(resolve, reject) {
     const token = localStorage.getItem('token');
     return fetch(`${backendUrl}/admin/createEvent`, {
         method: 'POST',
@@ -60,7 +99,8 @@ export const createEvent = data =>  dispatch => {
                     type: ADMIN_CREATE_EVENT_SUCCESS,
                     payload: resData
                 });
-                return Promise.resolve();
+                
+                resolve();
             });
         }else{
             res.json().then(resData => {
@@ -70,7 +110,7 @@ export const createEvent = data =>  dispatch => {
                         message: resData.message
                     }
                 });
-                return Promise.reject();
+                reject();
             }) 
         }
     })
@@ -81,13 +121,13 @@ export const createEvent = data =>  dispatch => {
                 message: `Internal Error -- ${err}`
             }
         });
-        return Promise.reject();
+        reject();
     });
-};
+});
 
 export const resetCreateResponseMessageProps = () => {
     return{
-        type: RESET_EVENT_CREATE_RESPONSE_MESSAGE
+        type: RESET_ADMIN_EVENT_CREATE_RESPONSE_MESSAGE
     }
 }
 
@@ -112,9 +152,10 @@ export const adminEventEditCancelHandler = previousProps => {
     }
 }
 
-export const updateEvent = data =>  dispatch =>  {
+export const updateEvent = data =>  dispatch =>  
+    new Promise(function(resolve, reject) {
     const token = localStorage.getItem('token');
-    data.updated_date = new Date().toLocaleString();
+    data.updatedBy = localStorage.getItem('id');
     return fetch(`${backendUrl}/admin/updateEvent`, {
         method: 'POST',
         headers: {
@@ -130,11 +171,9 @@ export const updateEvent = data =>  dispatch =>  {
             res.json().then(resData => {
                 dispatch({
                     type: ADMIN_UPDATE_EVENT_SUCCESS,
-                    payload: {
-                        message: resData.message
-                    }
+                    payload: resData
                 });
-                return Promise.resolve();
+                resolve();
             });
         }else{
             res.json().then(resData => {
@@ -144,7 +183,7 @@ export const updateEvent = data =>  dispatch =>  {
                         message: resData.message
                     }
                 });
-                return Promise.reject();
+                reject();
             }) 
         }
     })
@@ -157,7 +196,7 @@ export const updateEvent = data =>  dispatch =>  {
         });
         return Promise.reject();
     });
-}
+});
 
 export const deleteEvent = id =>  dispatch =>  {
     const token = localStorage.getItem('token');

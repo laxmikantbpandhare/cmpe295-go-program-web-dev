@@ -1,5 +1,5 @@
 import { ADMIN_CREATE_ITEM_SUCCESS, ADMIN_CREATE_ITEM_FAILED, ADMIN_GET_ITEMS_SUCCESS,
-    ADMIN_GET_ITEMS_FAILED, RESET_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE,
+    ADMIN_GET_ITEMS_FAILED, RESET_ADMIN_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE,
     ADMIN_ITEM_ATTRIBUTE_CHANGE, ADMIN_ITEM_ADD_ATTRIBUTE, ADMIN_ITEM_REMOVE_ATTRIBUTE,
     ADMIN_ITEM_EDIT_CANCEL, ADMIN_UPDATE_ITEM_SUCCESS, ADMIN_UPDATE_ITEM_FAILED,
     ADMIN_DELETE_ITEM_SUCCESS, ADMIN_DELETE_ITEM_FAILED} from './types';
@@ -43,37 +43,33 @@ export const getItems = () => dispatch => {
 };
 
 const saveItemImages = (images,successcb, failurecb) => {
-    if(images.length > 0){
-        const formData = new FormData();
-        for(var x = 0; x<images.length; x++) {
-            formData.append('image', images[x])
-        }
-        const token = localStorage.getItem('token');
-        fetch(`${backendUrl}/upload/item-images/`, {
-            method: "POST",
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            credentials: 'include',
-            body: formData
-        })
-        .then(res => {
-            if(res.status === 200){
-                res.json().then(resData => {
-                    successcb(resData.imagesUrl);
-                });
-            }else{
-                res.json().then(resData => {
-                    failurecb(resData.message);
-                }) 
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    } else {
-        successcb([]);
+    const formData = new FormData();
+    for(var x = 0; x<images.length; x++) {
+        formData.append('image', images[x])
     }
+    const token = localStorage.getItem('token');
+    fetch(`${backendUrl}/upload/images/`, {
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include',
+        body: formData
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                successcb(resData.imagesUrl);
+            });
+        }else{
+            res.json().then(resData => {
+                failurecb(resData.message);
+            }) 
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
 }
 
 export const createItem = data =>  dispatch => {
@@ -115,21 +111,22 @@ export const createItem = data =>  dispatch => {
                 payload: {
                     message: `Internal Error -- ${err}`
                 }
-            })
+            });
         });
 
     }, failedMessage => {
-        let payload = {responseMessage: failedMessage}
             dispatch({
                 type: ADMIN_CREATE_ITEM_FAILED,
-                payload: payload
-            })
+                payload: {
+                    message: failedMessage
+                }
+            });
     });
 };
 
 export const resetCreateResponseMessageProps = () => {
     return{
-        type: RESET_ITEM_CREATE_RESPONSE_MESSAGE
+        type: RESET_ADMIN_ITEM_CREATE_RESPONSE_MESSAGE
     }
 }
 
@@ -168,9 +165,10 @@ export const adminItemEditCancelHandler = previousProps => {
     }
 }
 
-export const updateItem = data =>  dispatch =>  {
+export const updateItem = data =>  dispatch =>  
+    new Promise(function(resolve, reject) {
     const token = localStorage.getItem('token');
-    data.updated_date = new Date().toLocaleString();
+    data.updatedBy = localStorage.getItem('id');
     return fetch(`${backendUrl}/admin/updateItem`, {
         method: 'POST',
         headers: {
@@ -186,11 +184,9 @@ export const updateItem = data =>  dispatch =>  {
             res.json().then(resData => {
                 dispatch({
                     type: ADMIN_UPDATE_ITEM_SUCCESS,
-                    payload: {
-                        message: resData.message
-                    }
+                    payload: resData
                 });
-                return Promise.resolve();
+                resolve();
             });
         }else{
             res.json().then(resData => {
@@ -200,7 +196,7 @@ export const updateItem = data =>  dispatch =>  {
                         message: resData.message
                     }
                 });
-                return Promise.reject();
+                reject();
             }) 
         }
     })
@@ -211,9 +207,10 @@ export const updateItem = data =>  dispatch =>  {
                 message: `Internal Error -- ${err}`
             }
         });
-        return Promise.reject();
+        console.log("Rejecting catch update item");
+        return reject();
     });
-}
+});
 
 export const deleteItem = id =>  dispatch =>  {
     const token = localStorage.getItem('token');

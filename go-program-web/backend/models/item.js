@@ -36,18 +36,26 @@ const itemSchema = mongoose.Schema({
             required: true
         }
     ],
-    created_by : {
+    createdBy : {
         type: String,
         required: true
     },
-    created_date : {
-        type: String,
-        required: true
+    createdDate : {
+        type: Date,
+        required: true,
+        default: ()=> new Date()
     },
-    updated_date : {
-        type: String,
-        required: true
+    updatedBy : {
+        type: String
+    },
+    updatedDate : {
+        type: Date
     }
+});
+
+itemSchema.pre('save', function(next){
+    this.updatedDate = new Date();
+    next();
 });
 
 module.exports = mongoose.model('Items', itemSchema);

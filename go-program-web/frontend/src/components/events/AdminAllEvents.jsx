@@ -60,9 +60,9 @@ class AdminAllEvents extends Component{
             } else if(this.state.sort === "Points Desc"){
                 sortedEvents.sort((event1, event2) => event2.points - event1.points);
             } else if(this.state.sort === "Created Date Asc"){
-                sortedEvents.sort((event1, event2) => new Date(event1.created_date) - new Date(event2.created_date));
+                sortedEvents.sort((event1, event2) => new Date(event1.createdDate) - new Date(event2.createdDate));
             } else {
-                sortedEvents.sort((event1, event2) => new Date(event2.created_date) - new Date(event1.created_date));
+                sortedEvents.sort((event1, event2) => new Date(event2.createdDate) - new Date(event1.createdDate));
             }
         }
 
@@ -153,8 +153,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.inventory.getResponseMessage,
-        events: state.events.events
+        responseMessage: state.adminEvents.getResponseMessage,
+        events: state.adminEvents.events
     }
 }
 

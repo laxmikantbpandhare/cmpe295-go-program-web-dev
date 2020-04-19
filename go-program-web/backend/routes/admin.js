@@ -36,7 +36,7 @@ router.post('/updateItem',passport.authenticate("jwt", { session: false }), func
     const item = req.body;
 
     queries.updateItem(item, result => {
-            res.status(200).send({message:'Item updated successfully'});
+            res.status(200).send({message:'Item updated successfully', item: result});
         }, err=>{
             if(err.code === 11000){
                 res.status(401).send({ message: "Item with same name already exist in the inventory. Please change name and try again" });
@@ -62,7 +62,17 @@ router.get('/events',passport.authenticate("jwt", { session: false }),function(r
     console.log("Inside Admin Events Get Request");
     
     queries.getEvents(events => {
-        console.log("Events====", events);
+        res.status(200).json({success: true, events: events});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting events from the collection. ${err.message}`});
+    });
+});
+
+router.get('/activeEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Admin Active Events Get Request");
+    
+    queries.getActiveEvents(events => {
+        console.log("new date route---", new Date());
         res.status(200).json({success: true, events: events});
     }, err=> {
         res.status(500).send({ message: `Something failed when getting events from the collection. ${err.message}`});
@@ -81,7 +91,7 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
             if(err.code === 11000){
                 res.status(401).send({ message: "Event with same name already exist. Please change name and try again" });
             }else{
-                res.status(500).send({ message: `Something failed when adding event in the collection. ${err.message}`});
+                res.status(500).send({ message: `Something failed when adding event in the database. ${err.message}`});
         }
     });
 });
@@ -92,12 +102,12 @@ router.post('/updateEvent',passport.authenticate("jwt", { session: false }), fun
     const event = req.body;
 
     queries.updateEvent(event, result => {
-            res.status(200).send({message:'Event updated successfully'});
+            res.status(200).send({message:'Event updated successfully', event: result});
         }, err=>{
             if(err.code === 11000){
                 res.status(401).send({ message: "Event with same name already exist in the inventory. Please change name and try again" });
             }else{
-                res.status(500).send({ message: `Something failed when adding event in the collection. ${err.message}`});
+                res.status(500).send({ message: `Something failed when adding event in the database. ${err.message}`});
         }
     });
 });
@@ -110,7 +120,7 @@ router.post('/deleteEvent',passport.authenticate("jwt", { session: false }), fun
     queries.deleteEvent(id, result => {
             res.status(200).send({message:'Event deleted successfully'});
         }, err=>{
-            res.status(500).send({ message: `Something failed when deleted item from the collection. ${err.message}`});
+            res.status(500).send({ message: `Something failed when deleted item from the database. ${err.message}`});
     });
 });
 

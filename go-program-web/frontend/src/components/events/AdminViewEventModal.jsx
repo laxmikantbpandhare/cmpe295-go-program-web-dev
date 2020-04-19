@@ -29,8 +29,8 @@ class AdminViewEventModal extends Component{
     }
 
     handleDateChange = date => {
-        var formattedDate = date === null ? "" : date.toLocaleDateString();
-        this.props.handleDateChange(this.props.event._id, formattedDate);
+        // var formattedDate = date === null ? "" : date.toLocaleDateString();
+        this.props.handleDateChange(this.props.event._id, date);
     }
 
      isFieldEmpty = () => {
@@ -62,6 +62,8 @@ class AdminViewEventModal extends Component{
             this.setState({
                 isEdited: false
             });
+        }).catch(() => {
+            
         });
         
     }
@@ -73,6 +75,26 @@ class AdminViewEventModal extends Component{
     }
     
     render() {
+        var updatedDate = null;
+        var updatedBy = null;
+        if(this.props.event.updatedBy){
+            updatedDate = (
+                <div className="form-group row">
+                    <label className="col-4">Updated Date</label>
+                    <div className="col-8">
+                        <p>{new Date(this.props.event.updatedDate).toLocaleString()}</p>                                       
+                    </div>
+                </div>
+            );
+            updatedBy = (
+                <div className="form-group row">
+                    <label className="col-4">Last Updated By<strong className="font-italic">(SJSU ID)</strong></label>
+                    <div className="col-8">
+                        <p>{this.props.event.updatedBy}</p>                                       
+                    </div>
+                </div>
+            );
+        }
         return(
         <div>
             <div className="modal">
@@ -136,10 +158,15 @@ class AdminViewEventModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <DatePicker
+                                                // selected={
+                                                //     this.props.event.expiryDate === null || this.props.event.expiryDate === ""
+                                                //     ? ""
+                                                //     : new Date(this.props.event.expiryDate)
+                                                // }
                                                 selected={
-                                                    this.props.event.expiry_date === null || this.props.event.expiry_date === ""
-                                                    ? ""
-                                                    : new Date(this.props.event.expiry_date)
+                                                    this.props.event.expiryDate
+                                                    ? new Date(this.props.event.expiryDate)
+                                                    : null
                                                 }
                                                 onChange={this.handleDateChange}
                                                 className="form-control orig-inp-valid"
@@ -154,10 +181,29 @@ class AdminViewEventModal extends Component{
                                                 showYearDropdown
                                                 dropdownMode="select"
                                             />
-                                            : <p>{this.props.event.expiry_date}</p>
+                                            : <p>{
+                                                this.props.event.expiryDate
+                                                ? new Date(this.props.event.expiryDate).toLocaleDateString()
+                                                : null
+                                                }
+                                            </p>
                                         }  
                                     </div>
                                 </div>
+                                <div className="form-group row">
+                                    <label className="col-4">Created By<strong className="font-italic">(SJSU ID)</strong></label>
+                                    <div className="col-8">
+                                        <p>{this.props.event.createdBy}</p>                                       
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-4">Created Date</label>
+                                    <div className="col-8">
+                                        <p>{new Date(this.props.event.createdDate).toLocaleString()}</p>                                       
+                                    </div>
+                                </div>
+                                {updatedBy}
+                                {updatedDate}
                         </div>
                         {
                             this.state.isEdited
@@ -192,7 +238,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.inventory.updateResponseMessage
+        responseMessage: state.adminEvents.updateResponseMessage
     }
 }
 

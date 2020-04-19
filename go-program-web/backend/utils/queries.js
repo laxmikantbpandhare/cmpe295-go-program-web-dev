@@ -1,11 +1,12 @@
 const User = require('../models/user');
 const Item = require('../models/item');
 const Event = require('../models/event');
+const Student = require('../models/student');
+const StudentEvent = require('../models/studentEvent');
 
 var queries = {};
 
 queries.createUser = (user, hash, successcb, failurecb) => {
-    console.log("Creating user");
     const doc = new User({
         fname: user.fname,
         lname: user.lname,
@@ -23,13 +24,12 @@ queries.createUser = (user, hash, successcb, failurecb) => {
 
 queries.getUserPasswordById = (id, successcb, failurecb) => {
     User.findOne({id})
-    .select('password fname email userType')
-    .then(result => successcb(result))
+    .then(user => successcb(user))
     .catch(err => failurecb(err))
 }
 
 queries.getItems = (successcb, failurecb) => {
-    Item.find().sort({ updated_date: -1 })
+    Item.find().sort({ updatedDate: -1 })
     .then(items => {
         successcb(items)})
     .catch(err => failurecb(err))
@@ -43,9 +43,7 @@ queries.createItem = (item, successcb, failurecb) => {
         points: item.points,
         attributes: item.attributes,
         images: item.images,
-        created_by: item.created_by,
-        created_date: item.created_date,
-        updated_date: item.updated_date
+        createdBy: item.createdBy
     });
     doc.save()
     .then(result => {
@@ -62,7 +60,7 @@ queries.updateItem = (item, successcb, failurecb) => {
         itemToUpdate["points"] = item.points;
         itemToUpdate["category"] = item.category;
         itemToUpdate["attributes"] = item.attributes;
-        itemToUpdate["updated_date"] = item.updated_date;
+        itemToUpdate["updatedBy"] = item.updatedBy;
         itemToUpdate.save()
         .then(item => {
             successcb(item);
@@ -81,7 +79,19 @@ queries.deleteItem = (id, successcb, failurecb) => {
 }
 
 queries.getEvents = (successcb, failurecb) => {
-    Event.find().sort({ updated_date: -1 })
+    Event.find().sort({ updatedDate: -1 })
+    .then(events => {
+        successcb(events)})
+    .catch(err => failurecb(err))
+}
+
+queries.getActiveEvents = (successcb, failurecb) => {
+    var today = new Date(new Date().toLocaleDateString());
+    
+    Event.find({$or: [
+        {expiryDate: ""}, 
+        {expiryDate: {$gte: today}}
+      ]}).sort({ updatedDate: -1 })
     .then(events => {
         successcb(events)})
     .catch(err => failurecb(err))
@@ -92,10 +102,8 @@ queries.createEvent = (event, successcb, failurecb) => {
         name: event.name,
         description: event.description,
         points: event.points,
-        expiry_date: event.expiry_date,
-        created_by: event.created_by,
-        created_date: event.created_date,
-        updated_date: event.updated_date
+        expiryDate: event.expiryDate,
+        createdBy: event.createdBy
     });
     doc.save()
     .then(result => {
@@ -110,8 +118,8 @@ queries.updateEvent = (event, successcb, failurecb) => {
         eventToUpdate["name"] = event.name;
         eventToUpdate["description"] = event.description;
         eventToUpdate["points"] = event.points;
-        eventToUpdate["expiry_date"] = event.expiry_date;
-        eventToUpdate["updated_date"] = event.updated_date;
+        eventToUpdate["expiryDate"] = event.expiryDate;
+        eventToUpdate["updatedBy"] = event.updatedBy;
         eventToUpdate.save()
         .then(event => {
             successcb(event);
@@ -127,6 +135,43 @@ queries.deleteEvent = (id, successcb, failurecb) => {
         successcb(result);
     })
     .catch(err => failurecb(err))
+}
+
+queries.getStudentEvents = (successcb, failurecb) => {
+    StudentEvent.find().sort({ updatedDate: -1 })
+    .then(events => {
+        successcb(events)})
+    .catch(err => failurecb(err))
+}
+
+queries.createStudentEvent = (event, successcb, failurecb) => {
+    Student.findOne({sjsuId: event.studentId})
+    .select('_id')
+    .then(student => {
+        if(student === null){
+            const doc = new Student({
+                sjsuId:sjsuid 
+            })
+        }
+    })
+    .catch(err => failurecb(err))
+
+    const doc = new Event({
+        event: event.eventId,
+        student: event.studentId,
+        description: event.description,
+        completedDate: event.completedDate,
+        images: event.images,
+        status: "Pending Approval",
+        createdBy: event.createdBy,
+        createdDate: event.createdDate,
+        updatedDate: event.updatedDate
+    });
+    doc.save()
+    .then(result => {
+        successcb(result)})
+    .catch(err => {
+        failurecb(err)})
 }
 
 module.exports = queries;
