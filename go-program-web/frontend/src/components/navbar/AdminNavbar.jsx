@@ -26,7 +26,13 @@ function AdminNavbar() {
                         <a className="nav-link" href="#/admin/inventory"><i className="fas fa-boxes"></i> Inventory</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/admin/orders"><i className="fas fa-receipt"></i> Orders</a>
+                        <div className="dropdown">
+                            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-bell"></i> Requests</a>
+                            <div className="dropdown-menu">
+                                <a href="#/admin/events-requests" className="dropdown-item"><i className="fas fa-calendar-check"></i> Students Events</a>
+                                <a href="#/admin/orders-requests" className="dropdown-item"><i className="fas fa-receipt"></i> Students Orders</a>
+                            </div>
+                        </div>
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">

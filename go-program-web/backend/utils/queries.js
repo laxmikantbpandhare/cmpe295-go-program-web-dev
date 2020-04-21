@@ -139,11 +139,20 @@ queries.deleteEvent = (id, successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
-queries.getStudentEvents = (successcb, failurecb) => {
-    StudentEvent.find().sort({ updatedDate: -1 })
-    .then(events => {
-        successcb(events)})
-    .catch(err => failurecb(err))
+queries.getStudentOwnEvents = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        StudentEvent.find({student: student._id})
+        .populate('student')
+        .populate('event')
+        .sort({updatedDate:-1})
+        .exec()
+        .then(events => {
+            successcb(events)})
+        .catch(err => failurecb(err,"Student Events"))
+    })
+    .catch(err => failurecb(err,"Student"))
 }
 
 queries.createStudentEvent = (event, successcb, failurecb) => {
@@ -172,11 +181,7 @@ queries.createStudentEvent = (event, successcb, failurecb) => {
                 eventDoc.save()
                 .then(studentEvent => {
                     studentEvent.populate('event').populate('student').execPopulate()
-                    .then(studentEvent=> {successcb(studentEvent)})
-                    
-                    // StudentEvent.findOne({_id: studentEvent._id})
-                    // .populate('event')
-                    // .
+                    .then(studentEvent=> {successcb(studentEvent);})
                 })
                 .catch(err => {
                     failurecb(err, "StudentEvent");
@@ -207,6 +212,17 @@ queries.createStudentEvent = (event, successcb, failurecb) => {
             })
         }
     })
+    .catch(err => failurecb(err,"Student"))
+}
+
+queries.getStudentsAllEvents = (successcb, failurecb) => {
+    StudentEvent.find()
+    .populate('student')
+    .populate('event')
+    .sort({updatedDate:-1})
+    .exec()
+    .then(events => {
+        successcb(events)})
     .catch(err => failurecb(err))
 }
 

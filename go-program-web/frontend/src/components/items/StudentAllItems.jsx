@@ -74,6 +74,28 @@ class StudentAllItems extends Component{
                             </div>
                         </div>
                     </div>
+                    <div className="col-sm-6 my-1">
+                        <div className="card d-flex flex-row">
+                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
+                            <div className="card-body">
+                                <h6 className="card-title font-weight-bold">Shirt</h6>
+                                <h6 className="card-text">Tier 2</h6>
+                                <h6 className="card-text">299 Points</h6>
+                                <button type="button" className="btn btn-primary btn-style">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-6 my-1">
+                        <div className="card d-flex flex-row">
+                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
+                            <div className="card-body">
+                                <h6 className="card-title font-weight-bold">Shirt</h6>
+                                <h6 className="card-text">Tier 2</h6>
+                                <h6 className="card-text">299 Points</h6>
+                                <button type="button" className="btn btn-primary btn-style">Select</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

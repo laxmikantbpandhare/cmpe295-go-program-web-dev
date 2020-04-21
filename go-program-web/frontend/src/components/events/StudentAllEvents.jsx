@@ -7,12 +7,15 @@ import './Events.css';
 import StudentNewEventModal from './StudentNewEventModal';
 import {connect} from 'react-redux';
 import {getActiveEvents} from '../../redux/actions/adminEventsAction';
+import {getEvents} from '../../redux/actions/studentEventsAction';
+import StudentEvent from './StudentEvent';
 
 class StudentAllEvents extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showStudentNewEventModal: false
+            showStudentNewEventModal: false,
+            search: ""
         };
         this.showStudentNewEventModal = this.showStudentNewEventModal.bind(this);
         this.hideStudentNewEventModal = this.hideStudentNewEventModal.bind(this);
@@ -28,16 +31,21 @@ class StudentAllEvents extends Component{
 
     componentDidMount(){
         this.props.getActiveEvents();
+        this.props.getStudentEvents();
     }
     
     render() {
         let redirectVar = null;
-        if(localStorage.getItem('token')){
-
+        if(!localStorage.getItem('token')){
+            redirectVar = <Redirect to= "/login"/>
         }
         
+        let noEventText = this.state.search !== ""
+        ? "No Event Matching the Search or Filter Criteria"
+        : "No Event is submitted yet by you.";
         return(
         <div className="top-align">
+            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Events</h4>
             </div>
@@ -76,87 +84,21 @@ class StudentAllEvents extends Component{
                     </div>
                     <hr/>
                 </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <button type="button" onClick = {this.showStudentNewEventModal} 
-                                        className="btn btn-primary btn-style mr-2">Edit</button>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row d-flex align-items-center justify-content-center mt-2">
-                    <div className="col-sm-8">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid events-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h5 className="card-title font-weight-bold">Event title</h5>
-                                <p className="card-text">Event description</p>
-                                <div className="d-flex flex-row">
-                                    <a href="#" class="btn btn-primary btn-style mr-2">Edit</a>
-                                    <a href="#" class="btn btn-primary delete-btn-style">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h6 style= {{color:"red"}}>{this.props.adminResponseMessage}</h6>
+                <h6 style= {{color:"red"}}>{this.props.studentResponseMessage}</h6>
+                {
+                    this.props.studentEvents.length!==0 ? this.props.studentEvents.map((event,index)=>
+                    <StudentEvent event={event} key={index}/>
+                    )
+                    :
+                    <h2>{noEventText}</h2>
+                    
+                }
             </div>
             {
                 this.state.showStudentNewEventModal
                 ? <StudentNewEventModal hideStudentNewEventModal={this.hideStudentNewEventModal}
-                events = {this.props.events}/> 
+                events = {this.props.adminEvents}/> 
                 : null
             }
         </div>)
@@ -165,14 +107,17 @@ class StudentAllEvents extends Component{
         
 const mapDispatchToProps = dispatch => {
     return {
-        getActiveEvents: () => {dispatch(getActiveEvents())}
+        getActiveEvents: () => {dispatch(getActiveEvents())},
+        getStudentEvents: () => {dispatch(getEvents())}
     }
 }
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminEvents.getResponseMessage,
-        events: state.adminEvents.activeEvents
+        adminResponseMessage: state.adminEvents.getResponseMessage,
+        studentResponseMessage:state.studentEvents.getResponseMessage,
+        adminEvents: state.adminEvents.activeEvents,
+        studentEvents: state.studentEvents.events
     }
 }
 

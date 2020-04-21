@@ -22,6 +22,7 @@ class AdminNewEventModal extends Component{
     
     hideModal = e => {
         this.props.hideAdminNewEventModal();
+        this.props.resetCreateResponseMessageProps();
     }
 
     handleInputChange = e => {
@@ -77,10 +78,10 @@ class AdminNewEventModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="eventModal">Add Event</h5>
-                            <button type="button" className="close" data-dismiss="modal"
+                            {/* <button type="button" className="close" data-dismiss="modal"
                                 onClick = {this.hideModal} aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
+                            </button> */}
                         </div>
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
