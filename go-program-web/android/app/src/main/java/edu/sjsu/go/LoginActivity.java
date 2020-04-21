@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("LoginActivity", error);
                                 if (TextUtils.isEmpty(error)) {
                                     Log.d("LoginActivity", token);
-                                    //TODO: Save token
+                                    Preferences.saveAuthToken(token, LoginActivity.this);
                                     Intent i = new Intent(LoginActivity.this, WebActivity.class);
                                     startActivity(i);
                                 } else {
