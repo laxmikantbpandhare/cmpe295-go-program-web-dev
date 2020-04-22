@@ -18,4 +18,7 @@
     <string name="error_invalid_id">Not a valid SJSU ID</string>
     <string name="error_invalid_password">Password must be >5 characters</string>
     <string name="error_login_failed">"Login failed"</string>
+    <string name="logout">Logout</string>
+    <string name="sign_in">Sign in</string>
+
 </resources>

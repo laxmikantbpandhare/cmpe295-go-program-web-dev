@@ -5,17 +5,51 @@ import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Items.css';
 import queryString from 'query-string';
+import {backendUrl} from '../../config';
 
 class StudentItemDetails extends Component{
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = {
+            itemdetails :""
+        }
     }
 
     componentDidMount(){
         console.log("test",this.props)
         const {id} = queryString.parse(this.props.location.search);
         console.log(id)
+
+
+        const token = localStorage.getItem('token');
+        fetch(`${backendUrl}/student/item/${id}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include'
+        })
+        .then(res => {
+            if(res.status === 200){
+                console.log("lux",res.body);
+                res.json().then(data => {
+                    console.log("lux",data.event[0]);
+                    // this.state.itemdetails = data.event[0];
+                    this.setState({
+                        itemdetails : data.event[0]
+                    });
+                    console.log("lux",this.state.itemdetails.images[0]);
+                });
+                console.log("lu",this.state.itemdetails)
+            }else{
+                    
+            }
+        })
+        .catch(err => {
+        
+            
+        });  
     }
     
     render() {

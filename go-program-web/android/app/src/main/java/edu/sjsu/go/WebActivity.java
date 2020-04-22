@@ -10,9 +10,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -42,16 +42,6 @@ public class WebActivity extends AppCompatActivity implements NavigationView.OnN
                     new DashboardFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_dashboard);
         }
-
-/*
-        WebView w = (WebView) findViewById(R.id.wV);
-        w.getSettings().setJavaScriptEnabled(true);
-        w.loadUrl("http://3.87.55.24:3000/#/login");
-
-        WebSettings settings = w.getSettings();
-        settings.setDomStorageEnabled(true);
-
- */
     }
 
     @Override
@@ -82,5 +72,10 @@ public class WebActivity extends AppCompatActivity implements NavigationView.OnN
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void submitEvent(View v) {
+        String token = Preferences.getAuthToken(this);
+        Log.d("EventsFragment", "Submit event with token " + token);
     }
 }

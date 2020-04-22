@@ -46,20 +46,6 @@ class StudentAllItems extends Component{
     handleSelect = (item) => {
         console.log("Verify data here",item)
         this.props.history.push(`/student/item-details/?id=${item._id}`);
-        // confirmAlert({
-        //     title: 'Buy Item',
-        //     message: 'Are you sure you want to Buy this Item?',
-        //     buttons: [  
-        //       {
-        //         label: 'Yes',
-        //         onClick: () => {this.props.deleteItem(this.props.item._id);}
-        //       },
-        //       {
-        //         label: 'No',
-        //         onClick: () => {}
-        //       }
-        //     ]
-        //   });
     }
 
 
@@ -74,27 +60,6 @@ class StudentAllItems extends Component{
         let sortedItems = [...this.props.items];
 
         let view = null;
-        let view1 = null;
-
-        if(this.props.items.length%2 === 0){
-            this.state.divide = this.state.divide - 1;
-        }
-        // view = this.props.items.slice(0,this.state.divide).map(item => {
-        //     return  (
-        //         <div className="col-sm-6 my-1">
-        //         <div className="card d-flex flex-row">
-        //             <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
-        //             <div className="card-body">     
-        //                 <h6 className="card-title font-weight-bold">{item.name}</h6>
-        //                 <h6 className="card-text">Tier 3</h6>
-        //                 <h6 className="card-text">{item.points} Points</h6>
-        //                 <button type="button" className="btn btn-primary btn-style" 
-        //                         onClick={() => this.handleSelect(item)}>Select</button>
-        //             </div>
-        //         </div>
-        //     </div>
-        //     )
-        // })
 
         view = this.props.items.map(item => {
 
@@ -113,21 +78,6 @@ class StudentAllItems extends Component{
             </div>
             )
         })
-
-        // view1 = this.props.items.slice(this.state.divide,this.props.items.length).map(item => {
-        //     return  (
-        //         <div className="col-sm-6 my-1">
-        //         <div className="card d-flex flex-row">
-        //             <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
-        //             <div className="card-body">
-        //                 <h6 className="card-title font-weight-bold">{item.name}</h6>
-        //                 <h6 className="card-text">Tier 2</h6>
-        //                 <h6 className="card-text">{item.points} Points</h6>
-        //                 <button type="button" className="btn btn-primary btn-style" onClick={() => this.handleSelect(item)}>Select</button>                        </div>
-        //         </div>
-        //     </div>
-        //     )
-        // })
 
         let noItemText = this.state.search !== "" || this.state.filter !== "" 
         ? "No Item  Matching the Search or Filter Criteria"
@@ -223,7 +173,6 @@ class StudentAllItems extends Component{
                 </div>
                 <div className="row mt-2">
                     {view}
-                    {view1}
                 </div>
             </div>
         </div>

@@ -31,6 +31,7 @@ class AdminNewItemModal extends Component{
     
     hideModal = e => {
         this.props.hideAdminNewItemModal();
+        this.props.resetCreateResponseMessageProps();
     }
     
     maxSelectFile=(event)=>{
@@ -195,10 +196,10 @@ class AdminNewItemModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="itemModal">Add Item</h5>
-                            <button type="button" className="close" data-dismiss="modal"
+                            {/* <button type="button" className="close" data-dismiss="modal"
                                 onClick = {this.hideModal} aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
+                            </button> */}
                         </div>
                         <div className="modal-body">
                             <h6 style= {{color:"red"}}>{this.state.message}</h6>

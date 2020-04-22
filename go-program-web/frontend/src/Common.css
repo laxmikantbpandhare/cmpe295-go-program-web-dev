@@ -166,3 +166,7 @@
 .card-body-lesspad h6{
     padding-top: 0.5rem
 }
+
+.text-pre-wrap{
+    white-space: pre-wrap
+}

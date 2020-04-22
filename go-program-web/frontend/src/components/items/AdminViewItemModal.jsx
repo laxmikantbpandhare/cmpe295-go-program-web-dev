@@ -137,10 +137,10 @@ class AdminViewItemModal extends Component{
                                 : `View Item Details`
                             }
                             </h5>
-                            <button type="button" className="close" data-dismiss="modal"
+                            {/* <button type="button" className="close" data-dismiss="modal"
                                 onClick = {this.hideModal} aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
+                            </button> */}
                         </div>
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
@@ -166,7 +166,7 @@ class AdminViewItemModal extends Component{
                                             ? <textarea className={`form-control ${this.props.item.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                             name="description" value = {this.props.item.description}/>
-                                            : <p>{this.props.item.description}</p>
+                                            : <p className="text-pre-wrap">{this.props.item.description}</p>
                                         }
                                     </div>
                                 </div>

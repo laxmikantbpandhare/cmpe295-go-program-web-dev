@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {adminEventInputChangeHandler, adminEventEditCancelHandler, updateEvent,
     adminEventDateChangeHandler} from '../../redux/actions/adminEventsAction';
 
-class AdminViewEventModal extends Component{
+class StudentViewEventModal extends Component{
     constructor(props){
         super(props);
         this.initialProp = props.event;
@@ -20,7 +20,7 @@ class AdminViewEventModal extends Component{
     }
     
     hideModal = e => {
-        this.props.hideAdminViewEventModal();
+        this.props.hideStudentViewEventModal();
     }
     
     handleInputChange = e => {
@@ -52,7 +52,7 @@ class AdminViewEventModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory." });
+            this.setState({ message: "Fields in red are mandatory." });
             return;
         } else {
             this.setState({ message: "" });
@@ -102,11 +102,12 @@ class AdminViewEventModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="eventModal">
-                            {
+                            {/* {
                                 this.state.isEdited
                                 ? `Edit Event`
                                 : `View Event Details`
-                            }
+                            } */}
+                            Edit Event
                             </h5>
                             {/* <button type="button" className="close" data-dismiss="modal"
                                 onClick = {this.hideModal} aria-label="Close">
@@ -117,45 +118,51 @@ class AdminViewEventModal extends Component{
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
                                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                                 <div class="form-group row">
-                                    <label className="col-4">Name</label>
-                                    <div className="col-8">
-                                        {
+                                    <label className="col-3">Event</label>
+                                    <div className="col-9">
+                                        {/* {
                                             this.state.isEdited
                                             ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.event.name}/>
                                             : <p>{this.props.event.name}</p>
-                                        }
+                                        } */}
+                                        <p>{this.props.event.name}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label className="col-3">Points</label>
+                                    <div className="col-9">
+                                        {/* {
+                                            this.state.isEdited
+                                            ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
+                                            className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            value={this.props.event.points}/>
+                                            : <p>{this.props.event.points}</p>
+                                        }   */}
+                                        <p>{this.props.event.points}</p>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-4">Description</label>
-                                    <div className="col-8">
-                                        {
+                                    <label className="col-3">Description</label>
+                                    <div className="col-9">
+                                        {/* {
                                             this.state.isEdited
-                                            ? <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            ? <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                             name="description" value = {this.props.event.description}/>
-                                            : <p className="text-pre-wrap">{this.props.event.description}</p>
-                                        }
+                                            : <p>{this.props.event.description}</p>
+                                        } */}
+                                        <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
+                                            name="description" value = {this.props.event.description}/>
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label className="col-4">Points</label>
-                                    <div className="col-8">
-                                        {
-                                            this.state.isEdited
-                                            ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.points!==""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            value={this.props.event.points}/>
-                                            : <p>{this.props.event.points}</p>
-                                        }  
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label className="col-4">Expiry Date</label>
-                                    <div className="col-8">
-                                        {
+                                    <label className="col-3">Completed Date</label>
+                                    <div className="col-9">
+                                        {/* {
                                             this.state.isEdited
                                             ? <DatePicker
                                                 // selected={
@@ -187,22 +194,21 @@ class AdminViewEventModal extends Component{
                                                 : null
                                                 }
                                             </p>
-                                        }  
+                                        }   */}
+                                        <p>{
+                                                this.props.event.expiryDate
+                                                ? new Date(this.props.event.expiryDate).toLocaleDateString()
+                                                : null
+                                                }
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-4">Created By<strong className="font-italic">(SJSU ID)</strong></label>
-                                    <div className="col-8">
-                                        <p>{this.props.event.createdBy}</p>                                       
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <label className="col-4">Created Date</label>
-                                    <div className="col-8">
+                                    <label className="col-3">Created Date</label>
+                                    <div className="col-9">
                                         <p>{new Date(this.props.event.createdDate).toLocaleString()}</p>                                       
                                     </div>
                                 </div>
-                                {updatedBy}
                                 {updatedDate}
                         </div>
                         {
@@ -242,4 +248,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminViewEventModal);
+export default connect(mapStateToProps, mapDispatchToProps)(StudentViewEventModal);

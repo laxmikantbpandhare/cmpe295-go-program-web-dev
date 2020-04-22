@@ -11,17 +11,17 @@ const initialState = {
 
 const studentEventsReducer = (state = initialState, action) => {
     switch(action.type){
-        // case ADMIN_GET_EVENTS_SUCCESS:
-        //     return {
-        //         ...state,
-        //         events: initialState.events.concat(action.payload.events),
-        //         getResponseMessage: ""
-        //     }
-        // case ADMIN_GET_EVENTS_FAILED:
-        //     return {
-        //         ...state,
-        //         getResponseMessage: action.payload.message
-        //     }
+        case STUDENT_GET_EVENTS_SUCCESS:
+            return {
+                ...state,
+                events: initialState.events.concat(action.payload.events),
+                getResponseMessage: ""
+            }
+        case STUDENT_GET_EVENTS_FAILED:
+            return {
+                ...state,
+                getResponseMessage: action.payload.message
+            }
         case STUDENT_CREATE_EVENT_SUCCESS:
             return {
                 ...state,

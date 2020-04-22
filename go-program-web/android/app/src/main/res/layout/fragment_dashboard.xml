@@ -8,12 +8,18 @@
     android:background="@android:color/darker_gray">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/evTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dashboard"
+        android:gravity="center_horizontal"
+        android:textSize="40sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@color/sjsuYellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,15 +29,13 @@ var passport = require("passport");
 // });
 
 
-
-router.get('/events',passport.authenticate("jwt", { session: false }),function(req,res){
-    console.log("Inside Student Events Get Request");
+router.get('/ownEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Own Events Get Request");
     
-    queries.getStudentEvents(events => {
-        console.log("Events====", events);
+    queries.getStudentOwnEvents(req.query.id,events => {
         res.status(200).json({success: true, events: events});
-    }, err=> {
-        res.status(500).send({ message: `Something failed when getting events from the database. ${err.message}`});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
     });
 });
 
@@ -56,6 +54,27 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
             }else{
                 res.status(500).send({ message: `Something failed when adding ${tag} in the database. ${err.message}`});
         }
+    });
+});
+
+router.get('/allEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student All Events Get Request");
+    
+    queries.getStudentsAllEvents(events => {
+        res.status(200).json({success: true, events: events});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting students events from the database. ${err.message}`});
+    });
+});
+
+router.get('/item/:id',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student All id Events Get Request",req.params.id);
+    
+    queries.getItem(req.params.id,event => {
+        console.log(event)
+        res.status(200).json({success: true, event: event});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting students events from the database. ${err.message}`});
     });
 });
 

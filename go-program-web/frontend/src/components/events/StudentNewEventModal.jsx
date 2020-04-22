@@ -26,6 +26,7 @@ class StudentNewEventModal extends Component{
     
     hideModal = e => {
         this.props.hideStudentNewEventModal();
+        this.props.resetCreateResponseMessageProps();
     }
 
     handleSelectChange = e => {
@@ -160,19 +161,8 @@ class StudentNewEventModal extends Component{
             });
         });
     }
-
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.responseMessage === "Student event created successfully") {
-    //         this.hideModal();
-    //         this.props.resetCreateResponseMessageProps();
-    //     }
-    // }
     
     render() {
-        let redirectVar = null;
-        if(localStorage.getItem('token')){
-
-        }
         return(
         <div>
             <div className="modal">
@@ -180,10 +170,10 @@ class StudentNewEventModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="eventModal">Submit Event</h5>
-                            <button type="button" className="close" data-dismiss="modal"
+                            {/* <button type="button" className="close" data-dismiss="modal"
                                 onClick = {this.hideModal} aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
+                            </button> */}
                         </div>
                         <div className="modal-body">
                             <h6 style= {{color:"red"}}>{this.state.message}</h6>
