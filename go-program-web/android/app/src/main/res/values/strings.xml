@@ -20,5 +20,8 @@
     <string name="error_login_failed">"Login failed"</string>
     <string name="logout">Logout</string>
     <string name="sign_in">Sign in</string>
+    <string name="submit_event">Submit Event</string>
+    <string name="attach_images">Attach images</string>
+    <string name="submit_new_event">Submit New Event</string>
 
 </resources>
