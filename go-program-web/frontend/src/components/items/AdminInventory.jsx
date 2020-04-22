@@ -128,6 +128,7 @@ class AdminInventory extends Component{
                                 <span className="d-none d-sm-inline"> Reset</span>
                             </button>
                         </div>
+                        
                     </div>
                     <hr/>
                 </div>

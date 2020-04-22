@@ -18,7 +18,6 @@ export const getItems = () => dispatch => {
     .then(res => {
         if(res.status === 200){
             res.json().then(data => {
-                console.log("Data",data)
                 dispatch({
                     type: ADMIN_GET_ITEMS_SUCCESS,
                     payload: data

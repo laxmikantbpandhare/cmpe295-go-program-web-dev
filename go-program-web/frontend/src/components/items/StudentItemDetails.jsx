@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
+// import {Link} from 'react-router-dom';
+// import {Redirect} from 'react-router';
 import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Items.css';
+import queryString from 'query-string';
 
 class StudentItemDetails extends Component{
     constructor(props){
         super(props);
         this.state = {}
+    }
+
+    componentDidMount(){
+        console.log("test",this.props)
+        const {id} = queryString.parse(this.props.location.search);
+        console.log(id)
     }
     
     render() {
@@ -34,19 +41,23 @@ class StudentItemDetails extends Component{
                             <p className="h6">Points: 600</p>
                             <p className="h6">Select a Size:</p>
                             <div className="row" style={{margin:'0'}}><button type="button" class="btn btn-outline-dark mr-1">XS</button>
+                            {/* {
+                                this.props.item.attributes.filter(attribute=> attribute.size > 0)
+                                .map(attribute => <button type="button" class="btn btn-outline-dark mr-1">{attribute.size}</button>)
+                            } */}
                             <button type="button" class="btn btn-outline-dark mr-1">S</button>
                             <button type="button" class="btn btn-outline-dark mr-1">M</button>
                             <button type="button" class="btn btn-outline-dark mr-1">L</button>
                             <button type="button" class="btn btn-outline-dark mr-1">XL</button>
                             <button type="button" class="btn btn-outline-dark mr-1">XXL</button>
                         </div>
-                        <p className="h6 mt-2">Select a Color:</p>
+                        {/* <p className="h6 mt-2">Select a Color:</p>
                         <div className="row" style={{margin:'0'}}>
                             <button type="button" class="btn btn-outline-dark mr-1">Black</button>
                             <button type="button" class="btn btn-outline-dark mr-1">White</button>
                             <button type="button" class="btn btn-outline-dark mr-1">Red</button>
                             <button type="button" class="btn btn-outline-dark mr-1">Red</button>
-                        </div>
+                        </div> */}
                         <button type="button" class="btn btn-primary btn-style mt-2">Confirm</button>
                     </div>
                 </div>

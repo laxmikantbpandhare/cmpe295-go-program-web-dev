@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import collegeLogo from '../../images/coe_logo.png';
+// import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Items.css'
 import {connect} from 'react-redux';
 import {getItems} from '../../redux/actions/adminInventoryAction';
-import AdminItem from '../items/AdminItem';
+import { confirmAlert } from 'react-confirm-alert';
+// import AdminItem from '../items/AdminItem';
 
 class StudentAllItems extends Component{
     constructor(props){
@@ -16,13 +17,20 @@ class StudentAllItems extends Component{
             filter: "",
             sort: "",
             divide:""
-        }
+        };
+        this.handleChange = this.handleChange.bind(this);
     }
     
 
     componentDidMount(){
-        console.log("In Componenent DID Mount");
+        // console.log("In Componenent DID Mount");
         this.props.getItems();
+    }
+
+    handleChange = e => {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
     }
 
     resetSearchSection = e => {
@@ -31,8 +39,27 @@ class StudentAllItems extends Component{
                 search: "",
                 filter: "",
                 sort: ""
-            }
+            }   
         );   
+    }
+
+    handleSelect = (item) => {
+        console.log("Verify data here",item)
+        this.props.history.push(`/student/item-details/?id=${item._id}`);
+        // confirmAlert({
+        //     title: 'Buy Item',
+        //     message: 'Are you sure you want to Buy this Item?',
+        //     buttons: [  
+        //       {
+        //         label: 'Yes',
+        //         onClick: () => {this.props.deleteItem(this.props.item._id);}
+        //       },
+        //       {
+        //         label: 'No',
+        //         onClick: () => {}
+        //       }
+        //     ]
+        //   });
     }
 
 
@@ -48,61 +75,60 @@ class StudentAllItems extends Component{
 
         let view = null;
         let view1 = null;
-        if(this.props.items.length === 1 ){
-            console.log("only one 1")
-            view = this.props.items.map(item => {
-                    return (
-                        <div className="col-sm-6 my-1">
-                        <div className="card d-flex flex-row">
-                            <img src={item.images[0]} className="img-fluid items-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h6 className="card-title font-weight-bold">{item.name}</h6>
-                                <h6 className="card-text">Tier 3</h6>
-                                <h6 className="card-text">{item.points} Points</h6>
-                                <button type="button" className="btn btn-primary btn-style">Select</button>
-                            </div>
-                        </div>
-                    </div>
-                    )
-            })
-        }
-        else{
-            console.log("More than 2")
-            if(this.props.items.length%2 === 0){
-                this.state.divide = this.state.divide - 1;
-            }
-            view = this.props.items.slice(0,this.state.divide).map(item => {
-                return  (
-                    <div className="col-sm-6 my-1">
-                    <div className="card d-flex flex-row">
-                        <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
-                        <div className="card-body">
-                            <h6 className="card-title font-weight-bold">{item.name}</h6>
-                            <h6 className="card-text">Tier 3</h6>
-                            <h6 className="card-text">{item.points} Points</h6>
-                            <button type="button" className="btn btn-primary btn-style">Select</button>
-                        </div>
-                    </div>
-                </div>
-                )
-            })
 
-            view1 = this.props.items.slice(this.state.divide,this.props.items.length).map(item => {
-                return  (
-                    <div className="col-sm-6 my-1">
-                    <div className="card d-flex flex-row">
-                        <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
-                        <div className="card-body">
-                            <h6 className="card-title font-weight-bold">{item.name}</h6>
-                            <h6 className="card-text">Tier 2</h6>
-                            <h6 className="card-text">{item.points} Points</h6>
-                            <button type="button" className="btn btn-primary btn-style">Select</button>
-                        </div>
+        if(this.props.items.length%2 === 0){
+            this.state.divide = this.state.divide - 1;
+        }
+        // view = this.props.items.slice(0,this.state.divide).map(item => {
+        //     return  (
+        //         <div className="col-sm-6 my-1">
+        //         <div className="card d-flex flex-row">
+        //             <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
+        //             <div className="card-body">     
+        //                 <h6 className="card-title font-weight-bold">{item.name}</h6>
+        //                 <h6 className="card-text">Tier 3</h6>
+        //                 <h6 className="card-text">{item.points} Points</h6>
+        //                 <button type="button" className="btn btn-primary btn-style" 
+        //                         onClick={() => this.handleSelect(item)}>Select</button>
+        //             </div>
+        //         </div>
+        //     </div>
+        //     )
+        // })
+
+        view = this.props.items.map(item => {
+
+            return  (
+                <div className="col-sm-6 my-1">
+                <div className="card d-flex flex-row">
+                    <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
+                    <div className="card-body">     
+                        <h6 className="card-title font-weight-bold">{item.name}</h6>
+                        <h6 className="card-text">Tier 3</h6>
+                        <h6 className="card-text">{item.points} Points</h6>
+                        <button type="button" className="btn btn-primary btn-style" 
+                                onClick={() => this.handleSelect(item)}>Select</button>
                     </div>
                 </div>
-                )
-            })
-        }
+            </div>
+            )
+        })
+
+        // view1 = this.props.items.slice(this.state.divide,this.props.items.length).map(item => {
+        //     return  (
+        //         <div className="col-sm-6 my-1">
+        //         <div className="card d-flex flex-row">
+        //             <img src={item.images[0]}  className="img-fluid items-card-image align-self-center" alt="..."/>
+        //             <div className="card-body">
+        //                 <h6 className="card-title font-weight-bold">{item.name}</h6>
+        //                 <h6 className="card-text">Tier 2</h6>
+        //                 <h6 className="card-text">{item.points} Points</h6>
+        //                 <button type="button" className="btn btn-primary btn-style" onClick={() => this.handleSelect(item)}>Select</button>                        </div>
+        //         </div>
+        //     </div>
+        //     )
+        // })
+
         let noItemText = this.state.search !== "" || this.state.filter !== "" 
         ? "No Item  Matching the Search or Filter Criteria"
         : "No Item in the Inventory";
@@ -121,15 +147,58 @@ class StudentAllItems extends Component{
                 <div className="items-search-section">
                     <h4 className="text-center text-white all-items-heading p-1">All Items</h4>
                     <div className="row">
-                        <div className="col-10 col-sm-6">
-                            <input type="search" class="form-control" placeholder="Search by Item Name" />
+
+                    <div  class="col-6 col-sm-2 order-sm-2">
+                            <select className="form-control" name="filter" onChange={this.handleChange}
+                             value={this.state.filter}>
+                                <option selected value="">Filter by Category</option>
+                                {
+                                    this.props.categories.length!==0
+                                    ? this.props.categories.map(category => <option>{category}</option>)
+                                    : null
+                                }
+                            </select>
                         </div>
-                        <div className="col-2 col-sm-2">
-                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}>
-                                <i className="fas fa-search"></i>
-                                <span className="d-none d-sm-inline"> Search</span>
+
+                        <div  class="col-6 col-sm-2 order-sm-3">
+                            <select className="form-control" name="sort" onChange={this.handleChange}
+                             value={this.state.sort}>
+                                <option selected>Filter by Tier</option>
+                                <option>Tier 1(400-500 Points)</option>
+                                <option>Tier 2(200-399 Points)</option>
+                                <option>Tier 3(100-199 Points)</option>
+                            </select>
+                        </div>
+
+                        <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
+                        
+                        <div className="input-group col-10 col-sm-6 order-sm-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            </div>
+                            <input class="form-control py-2" name="search" placeholder="Search by Item Name"
+                            onChange={this.handleChange} value={this.state.search}></input>
+                        </div>
+
+                        <div  class="col-2 col-sm-2 order-sm-4">
+                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
+                                onClick={this.resetSearchSection}>
+                                <i className="fas fa-sync"></i>
+                                <span className="d-none d-sm-inline"> Reset</span>
                             </button>
                         </div>
+                        {/* <div className="col-10 col-sm-6">
+                        <input class="form-control py-2" name="search" placeholder="Search by Item Name"
+                            onChange={this.handleChange} value={this.state.search}></input>
+                        </div>
+                        <div  class="col-2 col-sm-2">
+                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
+                                onClick={this.resetSearchSection}>
+                                <i className="fas fa-sync"></i>
+                                <span className="d-none d-sm-inline"> Reset</span>
+                            </button>
+                        </div>
+  
                         <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
                         <div className="col-6 col-sm-2">
                             <select className="form-control" name="some">
@@ -148,33 +217,11 @@ class StudentAllItems extends Component{
                                     : null
                                 }
                             </select>
-                        </div>
+                        </div> */}
                     </div>
                     <hr/>
                 </div>
                 <div className="row mt-2">
-                    {/* <div className="col-sm-6 my-1">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h6 className="card-title font-weight-bold">Shirt</h6>
-                                <h6 className="card-text">Tier 3</h6>
-                                <h6 className="card-text">{this.props.items.points} Points</h6>
-                                   <button type="button" className="btn btn-primary btn-style">Select</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 my-1">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h6 className="card-title font-weight-bold">Shirt</h6>
-                                <h6 className="card-text">Tier 2</h6>
-                                  <h6 className="card-text">{this.props.items.points} Points</h6>
-                                <button type="button" className="btn btn-primary btn-style">Select</button>
-                            </div>
-                        </div>
-                    </div> */}
                     {view}
                     {view1}
                 </div>
