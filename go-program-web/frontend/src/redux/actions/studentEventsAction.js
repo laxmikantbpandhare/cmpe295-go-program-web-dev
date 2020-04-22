@@ -1,5 +1,5 @@
 import { STUDENT_CREATE_EVENT_SUCCESS, STUDENT_CREATE_EVENT_FAILED, STUDENT_GET_EVENTS_SUCCESS,
-    STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE} from './types';
+    STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_EVENT_INPUT_CHANGE, STUDENT_EVENT_EDIT_CANCEL, STUDENT_UPDATE_EVENT_SUCCESS, STUDENT_UPDATE_EVENT_FAILED} from './types';
 import {backendUrl} from '../../config';
 
 export const getEvents = () => dispatch => {
@@ -40,33 +40,37 @@ export const getEvents = () => dispatch => {
 };
 
 const saveEventImages = (images,successcb, failurecb) => {
-    const formData = new FormData();
-    for(var x = 0; x<images.length; x++) {
-        formData.append('image', images[x])
-    }
-    const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/upload/images/`, {
-        method: "POST",
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
-        credentials: 'include',
-        body: formData
-    })
-    .then(res => {
-        if(res.status === 200){
-            res.json().then(resData => {
-                successcb(resData.imagesUrl);
-            });
-        }else{
-            res.json().then(resData => {
-                failurecb(resData.message);
-            }) 
+    if(images.length > 0){
+        const formData = new FormData();
+        for(var x = 0; x<images.length; x++) {
+            formData.append('image', images[x])
         }
-    })
-    .catch(err => {
-        failurecb(err);
-    });
+        const token = localStorage.getItem('token');
+        fetch(`${backendUrl}/upload/images/`, {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include',
+            body: formData
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(resData => {
+                    successcb(resData.imagesUrl);
+                });
+            }else{
+                res.json().then(resData => {
+                    failurecb(resData.message);
+                }) 
+            }
+        })
+        .catch(err => {
+            failurecb(err);
+        });
+    } else {
+        successcb([]);
+    }
 }
 
 export const createEvent = data =>  dispatch => new Promise(function(resolve, reject) {
@@ -132,3 +136,77 @@ export const resetCreateResponseMessageProps = () => {
         type: RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE
     }
 }
+
+export const eventInputChangeHandler = (id, name, value) => {
+    return{
+        type: STUDENT_EVENT_INPUT_CHANGE,
+        payload: {id, name, value}
+    }
+}
+
+export const eventEditCancelHandler = (id, previousDesc) => {
+    return{
+        type: STUDENT_EVENT_EDIT_CANCEL,
+        payload: {
+            id: id,
+            description: previousDesc}
+    }
+}
+
+export const updateEvent = data =>  dispatch => new Promise(function(resolve, reject) {
+    saveEventImages(data.images, imagesUrl => {
+        data.images = imagesUrl;
+        const token = localStorage.getItem('token');
+        // return new Promise(function(resolve, reject) {
+            return fetch(`${backendUrl}/student/updateEvent`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json,  text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+                },
+            credentials: 'include',
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(resData => {
+                    dispatch({
+                        type: STUDENT_UPDATE_EVENT_SUCCESS,
+                        payload: resData
+                    })
+                    resolve();
+                });
+            }else{
+                res.json().then(resData => {
+                    dispatch({
+                        type: STUDENT_UPDATE_EVENT_FAILED,
+                        payload: {
+                            message: resData.message
+                        }
+                    });
+                    reject();
+                }) 
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: STUDENT_UPDATE_EVENT_FAILED,
+                payload: {
+                    message: `Internal Error -- ${err}`
+                }
+            });
+            reject();
+        });
+
+    }, failedMessage => {
+            dispatch({
+                type: STUDENT_UPDATE_EVENT_FAILED,
+                payload: {
+                    message: failedMessage
+                }
+            });
+            reject();
+        }
+    );
+});

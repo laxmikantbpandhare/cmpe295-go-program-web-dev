@@ -10,14 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.webkit.WebView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
@@ -137,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("LoginActivity", error);
                                 if (TextUtils.isEmpty(error)) {
                                     Log.d("LoginActivity", token);
-                                    Preferences.saveAuthToken(token, LoginActivity.this);
+                                    PreferencesUtils.saveAuthToken(token, LoginActivity.this);
                                     Intent i = new Intent(LoginActivity.this, WebActivity.class);
                                     startActivity(i);
                                 } else {

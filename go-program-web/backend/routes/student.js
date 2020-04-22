@@ -58,7 +58,7 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
 });
 
 router.get('/allEvents',passport.authenticate("jwt", { session: false }),function(req,res){
-    console.log("Inside Student All Events Get Request");
+    console.log("Inside Student Requests All Events Get Request");
     
     queries.getStudentsAllEvents(events => {
         res.status(200).json({success: true, events: events});
@@ -77,5 +77,31 @@ router.get('/item/:id',passport.authenticate("jwt", { session: false }),function
         res.status(500).send({ message: `Something failed when getting students events from the database. ${err.message}`});
     });
 });
+
+router.post('/updateEventStatus', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Update Event Status Post Request");
+    console.log("Req Body : ",req.body);
+    const event = req.body;
+
+    queries.updateStudentEventStatus(event, result => {
+        console.log("Event updated: " + result);
+        res.status(200).send({message:'Student event updated successfully', event: result});
+    }, message =>{
+        res.status(500).send({ message });
+    });
+});
+
+router.post('/updateEvent', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Update Event Post Request");
+    console.log("Req Body : ",req.body);
+    const event = req.body;
+
+    queries.updateStudentEvent(event, result => {
+        res.status(200).send({message:'Student event updated successfully', event: result});
+    }, message =>{
+        res.status(500).send({ message });
+    });
+});
+
 
 module.exports = router;

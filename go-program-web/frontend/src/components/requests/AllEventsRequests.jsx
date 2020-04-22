@@ -5,7 +5,7 @@ import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Requests.css';
 import {connect} from 'react-redux';
-import {getAllEventsRequests} from '../../redux/actions/eventsRequestsAction';
+import {getAllEvents} from '../../redux/actions/eventsRequestsAction';
 import EventRequest from './EventRequest';
 
 class AllEventsRequests extends Component{
@@ -17,7 +17,7 @@ class AllEventsRequests extends Component{
     }
 
     componentDidMount(){
-        this.props.getAllEventsRequests();
+        this.props.getAllEvents();
     }
     
     render() {
@@ -79,7 +79,7 @@ class AllEventsRequests extends Component{
         
 const mapDispatchToProps = dispatch => {
     return {
-        getAllEventsRequests: () => {dispatch(getAllEventsRequests())}
+        getAllEvents: () => {dispatch(getAllEvents())}
     }
 }
 

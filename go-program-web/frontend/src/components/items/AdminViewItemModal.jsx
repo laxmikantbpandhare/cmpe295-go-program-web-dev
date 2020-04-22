@@ -4,8 +4,8 @@ import addIcon from '../../images/add_icon.png';
 import '../../Common.css';
 import './Items.css'
 import {connect} from 'react-redux';
-import {adminItemInputChangeHandler, adminItemAttributeChangeHandler, adminItemAddAttribute, 
-    adminItemRemoveAttribute, adminItemEditCancelHandler, updateItem} from '../../redux/actions/adminInventoryAction';
+import {itemInputChangeHandler, itemAttributeChangeHandler, itemAddAttribute, 
+    itemRemoveAttribute, itemEditCancelHandler, updateItem} from '../../redux/actions/adminInventoryAction';
 import {itemCategories} from '../../config';
 
 
@@ -86,7 +86,9 @@ class AdminViewItemModal extends Component{
             this.setState({ message: "" });
         }
 
-        this.props.updateItem(this.props.item).then(() => {
+        this.props.updateItem(this.props.item)
+        .then(() => {
+            this.initialProp = this.props.item;
             this.setState({
                 isEdited: false
             });
@@ -307,11 +309,11 @@ class AdminViewItemModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleInputChange: (id, name, value) => {dispatch(adminItemInputChangeHandler(id, name, value))},
-        handleAttributeChange: (id, index, name, value) => {dispatch(adminItemAttributeChangeHandler(id, index, name, value))},
-        addAttribute: id => {dispatch(adminItemAddAttribute(id))},
-        removeAttribute : (id, index) => {dispatch(adminItemRemoveAttribute(id, index))},
-        handleEditCancel : item => {dispatch(adminItemEditCancelHandler(item))},
+        handleInputChange: (id, name, value) => {dispatch(itemInputChangeHandler(id, name, value))},
+        handleAttributeChange: (id, index, name, value) => {dispatch(itemAttributeChangeHandler(id, index, name, value))},
+        addAttribute: id => {dispatch(itemAddAttribute(id))},
+        removeAttribute : (id, index) => {dispatch(itemRemoveAttribute(id, index))},
+        handleEditCancel : item => {dispatch(itemEditCancelHandler(item))},
         updateItem: item => dispatch(updateItem(item))
     };
 };

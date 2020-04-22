@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".SignupActivity">
 
     <ProgressBar
         android:id="@+id/signup_progress"
@@ -125,6 +125,7 @@
             android:text="Sign up"
             android:background="@color/sjsuBlue"
             android:layout_margin="10dp"
+            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

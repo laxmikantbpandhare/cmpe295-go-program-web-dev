@@ -2,24 +2,24 @@ import React, {Component} from 'react';
 import '../../Common.css';
 import './Events.css'
 import {connect} from 'react-redux';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import {adminEventInputChangeHandler, adminEventEditCancelHandler, updateEvent,
-    adminEventDateChangeHandler} from '../../redux/actions/adminEventsAction';
+import closeIcon from '../../images/close_icon.png';
+import {eventInputChangeHandler, eventEditCancelHandler, 
+    updateEvent} from '../../redux/actions/studentEventsAction';
 
 class StudentViewEventModal extends Component{
     constructor(props){
         super(props);
-        this.initialProp = props.event;
+        this.initialDesc = props.event.description;
         this.state = {
             message: "",
-            isEdited: false
+            images: [],
+            imagesUrl: []
         }
         
         this.hideModal = this.hideModal.bind(this);
     }
     
-    hideModal = e => {
+    hideModal = () => {
         this.props.hideStudentViewEventModal();
     }
     
@@ -28,13 +28,8 @@ class StudentViewEventModal extends Component{
         this.props.handleInputChange(this.props.event._id, name, value);
     }
 
-    handleDateChange = date => {
-        // var formattedDate = date === null ? "" : date.toLocaleDateString();
-        this.props.handleDateChange(this.props.event._id, date);
-    }
-
      isFieldEmpty = () => {
-        if(this.props.event.name === "" || this.props.event.description === "" || this.props.event.points === ""){
+        if(this.props.event.description === ""){
             return true;
         } else {
             return false;
@@ -42,54 +37,119 @@ class StudentViewEventModal extends Component{
     }
 
     handleEditCancel = () => {
-        this.props.handleEditCancel(this.initialProp);
-        this.setState({
-            isEdited: false
-        });
+        this.props.handleEditCancel(this.props.event._id, this.initialDesc);
+        this.hideModal();
     }
 
-     handleUpdate = e => {
+    maxSelectFile=(event)=>{
+        let files = event.target.files // create file object
+        if (files.length + this.state.images.length > 4) {
+            const msg = 'Only 4 images can be uploaded at a time';
+            event.target.value = null // discard selected file   
+            console.log(msg);
+            return false;
+        }
+        return true;
+    }
+    
+    checkMimeType=(event)=>{
+        //getting file object
+        let files = event.target.files 
+        //define message container
+        let err = ''
+        // list allow mime type
+        const types = ['image/png', 'image/jpeg']
+        // loop access array
+        for(var x = 0; x<files.length; x++) { 
+            // compare file type find doesn't matach 
+            if (types.every(type => files[x].type !== type)) { 
+                // create error message and assign to container
+                err += files[x].type+' is not a supported format';   
+            } 
+        };
+        if (err !== '') { 
+            // if message not same old that mean has error 
+            event.target.value = null 
+            // discard selected file
+            console.log(err);
+            return false; 
+        }return true;
+    }
+    
+    handleFileUpload = (e) => {
+        if(!this.checkMimeType(e)){
+            alert("Please upload png/jpeg file only");
+        }
+        if(!this.maxSelectFile(e)){
+            alert("Total 4 images are allowed");
+        }
+        if(this.maxSelectFile(e) && this.checkMimeType(e)){
+            // if return true allow to setState
+            var tempUrl =[];
+            for(var x = 0; x<e.target.files.length; x++) {
+                tempUrl.push(URL.createObjectURL(e.target.files[x]));
+            }
+            this.setState({ 
+                images: [...this.state.images, ...e.target.files],
+                imagesUrl: [...this.state.imagesUrl, ...tempUrl]
+            })
+        }
+    }
+    
+    removeImage = index => {
+        const images = this.state.images; 
+        // make a separate copy of the array
+        images.splice(index, 1);
+        var imagesUrl = this.state.imagesUrl;
+        imagesUrl.splice(index,1);
+        this.setState({
+            images,imagesUrl
+        })
+    }
+
+    handleUpdate = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "Fields in red are mandatory." });
+            this.setState({ message: "Description is a mandatory field." });
             return;
         } else {
             this.setState({ message: "" });
         }
 
-        this.props.updateEvent(this.props.event).then(() => {
-            this.setState({
-                isEdited: false
-            });
+        const data = {
+            id: this.props.event._id,
+            description: this.props.event.description,
+            updatedBy: localStorage.getItem('id'),
+            images: this.state.images,
+        }
+
+        this.props.updateEvent(data).then(() => {
+            this.hideModal();
         }).catch(() => {
             
         });
         
     }
-
-    editEvent = () => {
-        this.setState({
-            isEdited: true
-        });
-    }
     
     render() {
         var updatedDate = null;
         var updatedBy = null;
+        const isUpdateable = this.initialDesc === this.props.event.description && this.state.images.length<1;
+        const updateEnabled = isUpdateable ? false : true;
         if(this.props.event.updatedBy){
             updatedDate = (
                 <div className="form-group row">
-                    <label className="col-4">Updated Date</label>
-                    <div className="col-8">
+                    <label className="col-3">Updated</label>
+                    <div className="col-9">
                         <p>{new Date(this.props.event.updatedDate).toLocaleString()}</p>                                       
                     </div>
                 </div>
             );
             updatedBy = (
                 <div className="form-group row">
-                    <label className="col-4">Last Updated By<strong className="font-italic">(SJSU ID)</strong></label>
-                    <div className="col-8">
+                    <label className="col-3">Last Updated By<strong className="font-italic">(SJSU ID)</strong></label>
+                    <div className="col-9">
                         <p>{this.props.event.updatedBy}</p>                                       
                     </div>
                 </div>
@@ -127,7 +187,7 @@ class StudentViewEventModal extends Component{
                                             value={this.props.event.name}/>
                                             : <p>{this.props.event.name}</p>
                                         } */}
-                                        <p>{this.props.event.name}</p>
+                                        <p>{this.props.event.event.name}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -140,7 +200,7 @@ class StudentViewEventModal extends Component{
                                             value={this.props.event.points}/>
                                             : <p>{this.props.event.points}</p>
                                         }   */}
-                                        <p>{this.props.event.points}</p>
+                                        <p>{this.props.event.event.points}</p>
                                     </div>
                                 </div>
                                 <div className="form-group row">
@@ -153,14 +213,26 @@ class StudentViewEventModal extends Component{
                                             name="description" value = {this.props.event.description}/>
                                             : <p>{this.props.event.description}</p>
                                         } */}
-                                        <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        <textarea className={`form-control ${this.props.event.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                             name="description" value = {this.props.event.description}/>
-                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label className="col-3">Completed Date</label>
+                                    <label className="col-3">Status</label>
+                                    <div className="col-9">
+                                        {/* {
+                                            this.state.isEdited
+                                            ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
+                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            value={this.props.event.name}/>
+                                            : <p>{this.props.event.name}</p>
+                                        } */}
+                                        <p>{this.props.event.status}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label className="col-3">Completed</label>
                                     <div className="col-9">
                                         {/* {
                                             this.state.isEdited
@@ -195,36 +267,50 @@ class StudentViewEventModal extends Component{
                                                 }
                                             </p>
                                         }   */}
-                                        <p>{
-                                                this.props.event.expiryDate
-                                                ? new Date(this.props.event.expiryDate).toLocaleDateString()
-                                                : null
-                                                }
-                                        </p>
+                                        <p>{new Date(this.props.event.completedDate).toLocaleDateString()}</p>
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-3">Created Date</label>
+                                    <label className="col-3">Submitted</label>
                                     <div className="col-9">
                                         <p>{new Date(this.props.event.createdDate).toLocaleString()}</p>                                       
                                     </div>
                                 </div>
                                 {updatedDate}
+                                {updatedBy}
+                                <div className="form-group row">
+                                <label className="col-3">Attach Pic<strong className="font-italic">(Min 1, Max 4)</strong></label>
+                                <div className="col-9">
+                                    <div className="image-upload">
+                                        <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
+                                        <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png"
+                                            onChange= {this.handleFileUpload}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-3">Images</label>
+                                <div className="col-9">
+                                    <div className="row">
+                                    {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
+                                        (<div className="col-5 modal-image m-1" key ={index}>
+                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                            src={closeIcon}/>
+                                            <img className="rounded img-thumbnail" src= {imageUrl} 
+                                            alt="Responsive image"/>
+                                        </div>
+                                        )) :null
+                                    }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        {
-                            this.state.isEdited
-                            ? <div className="modal-footer">
-                                <button onClick = {this.handleUpdate} className="btn btn-primary btn-style">Update</button>
+                        <div className="modal-footer">
+                                <button onClick = {this.handleUpdate} disabled ={!updateEnabled}
+                                    className="btn btn-primary btn-style">Update</button>
                                 <button onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
-                            </div>
-                            : <div className="modal-footer">
-                                <button onClick = {this.editEvent} className="btn btn-primary btn-style">Edit</button>
-                                <button onClick = {this.hideModal} className="btn btn-primary btn-style" 
-                                data-dismiss="modal">Close</button>
-                            </div>
-                        }
-                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -235,16 +321,15 @@ class StudentViewEventModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleInputChange: (id, name, value) => {dispatch(adminEventInputChangeHandler(id, name, value))},
-        handleDateChange: (id, date) => {dispatch(adminEventDateChangeHandler(id, date))},
-        handleEditCancel : event => {dispatch(adminEventEditCancelHandler(event))},
+        handleInputChange: (id, name, value) => {dispatch(eventInputChangeHandler(id, name, value))},
+        handleEditCancel : (id, description) => {dispatch(eventEditCancelHandler(id, description))},
         updateEvent: event => dispatch(updateEvent(event))
     };
 };
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminEvents.updateResponseMessage
+        responseMessage: state.studentEvents.updateResponseMessage
     }
 }
 

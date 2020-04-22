@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import './Events.css'
-import AdminViewEventModal from './AdminViewEventModal';
+import StudentViewEventModal from './StudentViewEventModal';
 import Lightbox from 'react-image-lightbox';
 // import {connect} from 'react-redux';
 // import {deleteEvent} from '../../redux/actions/adminEventsAction';
@@ -10,19 +10,19 @@ class StudentEvent extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showAdminViewEventModal: false,
+            showStudentViewEventModal: false,
             photoIndex: 0,
             isOpen: false,
             isMore: false
         };
     }
 
-    showAdminViewEventModal = e => {
-        this.setState({showAdminViewEventModal: true});
+    showStudentViewEventModal = e => {
+        this.setState({showStudentViewEventModal: true});
     }
     
-    hideAdminViewEventModal = e => {
-        this.setState({showAdminViewEventModal: false});
+    hideStudentViewEventModal = e => {
+        this.setState({showStudentViewEventModal: false});
     }
 
     // handleDelete = () => {
@@ -88,10 +88,18 @@ class StudentEvent extends Component{
                                 onClick={() => this.setState({ isOpen: true })}>
                                     <i class="fas fa-search-plus"/> Images
                                 </button>
-                                <button type="button" className="btn btn-link view-details-color"
+                                {/* <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showAdminViewItemModal}>
                                     <i className="fas fa-edit"/> Edit
-                                </button>
+                                </button> */}
+                                {
+                                    this.props.event.status === "Action Required"
+                                    ? <button type="button" className="btn btn-link view-details-color"
+                                    onClick = {this.showStudentViewEventModal}>
+                                        <i className="fas fa-edit"/> Edit
+                                    </button>
+                                    : null
+                                }
                                 {/* <button type="button" className="btn btn-link delete-color"
                                 onClick = {this.handleDelete}>
                                     <i className="fas fa-trash-alt"/> Delete
@@ -122,8 +130,8 @@ class StudentEvent extends Component{
                     }
                 />
                 )}
-                {this.state.showAdminViewEventModal ? 
-                <AdminViewEventModal hideAdminViewEventModal={this.hideAdminViewEventModal}
+                {this.state.showStudentViewEventModal ? 
+                <StudentViewEventModal hideStudentViewEventModal={this.hideStudentViewEventModal}
                 event={this.props.event}/> : null}
             </div>
         )

@@ -1,23 +1,63 @@
-import { ADMIN_GET_ALL_EVENTS_REQUESTS_SUCCESS, ADMIN_GET_ACTIVE_EVENTS_FAILED, ADMIN_GET_ALL_EVENTS_REQUESTS_FAILED} from '../actions/types';
+import { REQUESTS_GET_ALL_EVENTS_SUCCESS, REQUESTS_GET_ALL_EVENTS_FAILED,
+    REQUESTS_EVENT_SELECT_CHANGE, REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, 
+    REQUESTS_UPDATE_EVENT_STATUS_FAILED } from '../actions/types';
 
 const initialState = {
     events: [],
     getResponseMessage: "",
-    updateResponseMessage: ""
+    updateResponseMessage: "",
+    updatedEvent: ""
 };
 
 const eventsRequestsReducer = (state = initialState, action) => {
     switch(action.type){
-        case ADMIN_GET_ALL_EVENTS_REQUESTS_SUCCESS:
+        case REQUESTS_GET_ALL_EVENTS_SUCCESS:
             return {
                 ...state,
                 events: initialState.events.concat(action.payload.events),
                 getResponseMessage: ""
             }
-        case ADMIN_GET_ALL_EVENTS_REQUESTS_FAILED:
+        case REQUESTS_GET_ALL_EVENTS_FAILED:
             return {
                 ...state,
                 getResponseMessage: action.payload.message
+            }
+        case REQUESTS_EVENT_SELECT_CHANGE:
+            var events = state.events.map(event => {
+                // Find a item with the matching id
+                if(event._id == action.payload.id){
+                    //Return a new object
+                    return{
+                        ...event, //copy the existing item
+                        ["status"]: action.payload.value //replace the name with new name
+                    }
+                }
+                // Leave every other item unchanged
+                return event;
+            });
+            return {
+                ...state,
+                events
+            }
+        case REQUESTS_UPDATE_EVENT_STATUS_SUCCESS:
+            var events = state.events.map(event => {
+                if(event._id == action.payload.event._id){
+                    return action.payload.event;
+                }
+                // Leave every other item unchanged
+                return event;
+            });
+            return {
+                ...state,
+                events,
+                updateResponseMessage: action.payload.message,
+                updatedEvent: action.payload.event._id
+            }
+        case REQUESTS_UPDATE_EVENT_STATUS_FAILED:
+            return {
+                ...state,
+                updateResponseMessage: action.payload.message,
+                updatedEvent: action.payload.id
             }
         default:
             return state;

@@ -25,7 +25,7 @@
         android:id="@+id/evAddButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subnit New Event"
+        android:text="@string/submit_new_event"
         android:background="@color/sjsuBlue"
         android:textColor="@android:color/white"
         android:textSize="20sp"
