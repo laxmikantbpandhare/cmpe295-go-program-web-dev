@@ -130,35 +130,35 @@ export const resetCreateResponseMessageProps = () => {
     }
 }
 
-export const adminItemInputChangeHandler = (id, name, value) => {
+export const itemInputChangeHandler = (id, name, value) => {
     return{
         type: ADMIN_ITEM_INPUT_CHANGE,
         payload: {id, name, value}
     }
 }
 
-export const adminItemAttributeChangeHandler = (id, index, name, value) => {
+export const itemAttributeChangeHandler = (id, index, name, value) => {
     return{
         type: ADMIN_ITEM_ATTRIBUTE_CHANGE,
         payload: {id, index, name, value}
     }
 }
 
-export const adminItemAddAttribute = (id) => {
+export const itemAddAttribute = (id) => {
     return{
         type: ADMIN_ITEM_ADD_ATTRIBUTE,
         payload: {id}
     }
 }
 
-export const adminItemRemoveAttribute = (id, index) => {
+export const itemRemoveAttribute = (id, index) => {
     return{
         type: ADMIN_ITEM_REMOVE_ATTRIBUTE,
         payload: {id, index}
     }
 }
 
-export const adminItemEditCancelHandler = previousProps => {
+export const itemEditCancelHandler = previousProps => {
     return{
         type: ADMIN_ITEM_EDIT_CANCEL,
         payload: {item: previousProps}

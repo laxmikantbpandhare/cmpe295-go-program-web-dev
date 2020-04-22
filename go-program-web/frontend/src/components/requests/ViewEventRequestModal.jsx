@@ -3,6 +3,27 @@ import '../../Common.css';
 import './Requests.css'
 
 const ViewEventRequestModal = (props) => {
+
+    var updatedDate = null;
+    var updatedBy = null;
+    if(props.event.updatedBy){
+        updatedDate = (
+            <div class="row">
+                <label className="col-3"><strong>Last Updated By</strong></label>
+                <div className="col-9">
+                    <p className="text-pre-wrap">{props.event.updatedBy}</p>
+                </div>
+            </div>
+        );
+        updatedBy = (
+            <div class="row">
+                <label className="col-3"><strong>Updated</strong></label>
+                <div className="col-9">
+                    <p className="text-pre-wrap">{new Date(props.event.updatedDate).toLocaleString()}</p>
+                </div>
+            </div>
+        );
+    }
     
     const hideModal = e => {
         props.hideViewEventRequestModal();
@@ -87,18 +108,19 @@ const ViewEventRequestModal = (props) => {
                                         <p className="text-pre-wrap">{new Date(props.event.createdDate).toLocaleString()}</p>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <label className="col-3"><strong>Updated</strong></label>
-                                    <div className="col-9">
-                                        <p className="text-pre-wrap">{new Date(props.event.updatedDate).toLocaleString()}</p>
+                                {updatedBy}
+                                {updatedDate}
+                                {/* {
+                                    props.event.updatedBy 
+                                    ? <div class="row">
+                                        <label className="col-3"><strong>Updated</strong></label>
+                                        <div className="col-9">
+                                            <p className="text-pre-wrap">{new Date(props.event.updatedDate).toLocaleString()}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                {/* <div className="form-group row">
-                                    <label className="col-3">Created Date</label>
-                                    <div className="col-9">
-                                        <p>{new Date(this.props.event.createdDate).toLocaleString()}</p>                                       
-                                    </div>
-                                </div> */}
+
+                                } */}
+                                
                         </div>
                         <div className="modal-footer">
                                 <button onClick = {hideModal} className="btn btn-primary btn-style" 

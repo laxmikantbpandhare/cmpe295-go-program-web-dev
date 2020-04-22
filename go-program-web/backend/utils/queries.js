@@ -226,4 +226,86 @@ queries.getStudentsAllEvents = (successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
+queries.updateStudentEventStatus = (event, successcb, failurecb) => {
+    StudentEvent.findById(event.id)
+    .then(eventToUpdate => {
+        eventToUpdate["status"] = event.status;
+        eventToUpdate["updatedBy"] = `Admin(${event.updatedBy})`;
+        eventToUpdate.save()
+        .then(updatedEvent => {
+            if(event.status === "Approved"){
+                Student.findById(event.student.id)
+                .then(StudentToUpdate => {
+                    const newPoints = StudentToUpdate["pointsAccumulated"] + event.event.points;
+                    StudentToUpdate["pointsAccumulated"] = newPoints;
+                    StudentToUpdate.save()
+                    .then(updatedStudent => {
+                        updatedEvent.
+                        populate('event').
+                        populate('student').
+                        execPopulate().
+                        then(populatedEvent => {
+                            successcb(populatedEvent)
+                        })
+                    })
+                    .catch(err => {
+                        let message = `Unable to update Student in the db. ${err.message}`;
+                        failurecb(message);
+                    })
+                })
+                .catch(err => {
+                    let message = `Unable to get Student details from the db. ${err.message}`;
+                    failurecb(message);
+                })
+            } else {
+                updatedEvent.
+                populate('event').
+                populate('student').
+                execPopulate().
+                then(updatedEvent => {
+                    successcb(updatedEvent)
+                })
+            }
+        })
+        .catch(err => {
+            let message = `Unable to update StudentEvent in the db. ${err.message}`;
+            failurecb(message);
+        })
+    })
+    .catch(err => {
+        let message = `Failed to get StudentEvent details from the db. ${err.message}`;
+        failurecb(message);
+    })
+}
+
+queries.updateStudentEvent = (event, successcb, failurecb) => {
+    StudentEvent.findById(event.id)
+    .then(eventToUpdate => {
+        console.log(event.images);
+        eventToUpdate["description"] = event.description;
+        eventToUpdate["updatedBy"] = `Student(${event.updatedBy})`;
+        const newImages = [...event.images, ...eventToUpdate["images"]];
+        eventToUpdate["images"] = newImages;
+        eventToUpdate["status"] = "Pending Approval";
+        eventToUpdate.save()
+        .then(updatedEvent => {
+            updatedEvent.
+                populate('event').
+                populate('student').
+                execPopulate().
+                then(populatedEvent => {
+                    successcb(populatedEvent)
+                })
+        })
+        .catch(err => {
+            let message = `Unable to update StudentEvent in the db. ${err.message}`;
+            failurecb(message);
+        })
+    })
+    .catch(err => {
+        let message = `Failed to get StudentEvent details from the db. ${err.message}`;
+        failurecb(message);
+    })
+}
+
 module.exports = queries;

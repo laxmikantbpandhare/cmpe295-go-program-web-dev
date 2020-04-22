@@ -34,10 +34,13 @@ const studentEventSchema = mongoose.Schema({
         required: true,
         default: ()=> new Date()
     },
+    updatedBy: {
+        type: String,
+    },
     updatedDate: {
         type: Date
     },
-    notes: [
+    comments: [
         {   
             senderName: {
                 type: String,
