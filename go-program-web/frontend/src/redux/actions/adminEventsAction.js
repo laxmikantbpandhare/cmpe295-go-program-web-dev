@@ -130,21 +130,21 @@ export const resetCreateResponseMessageProps = () => {
     }
 }
 
-export const adminEventInputChangeHandler = (id, name, value) => {
+export const eventInputChangeHandler = (id, name, value) => {
     return{
         type: ADMIN_EVENT_INPUT_CHANGE,
         payload: {id, name, value}
     }
 }
 
-export const adminEventDateChangeHandler = (id, date) => {
+export const eventDateChangeHandler = (id, date) => {
     return{
         type: ADMIN_EVENT_DATE_CHANGE,
         payload: {id, date}
     }
 }
 
-export const adminEventEditCancelHandler = previousProps => {
+export const eventEditCancelHandler = previousProps => {
     return{
         type: ADMIN_EVENT_EDIT_CANCEL,
         payload: {event: previousProps}

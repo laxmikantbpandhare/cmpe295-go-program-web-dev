@@ -1,7 +1,8 @@
-import { ADMIN_GET_ALL_EVENTS_REQUESTS_SUCCESS, ADMIN_GET_ALL_EVENTS_REQUESTS_FAILED} from './types';
+import { REQUESTS_GET_ALL_EVENTS_SUCCESS, REQUESTS_GET_ALL_EVENTS_FAILED,
+    REQUESTS_EVENT_SELECT_CHANGE, REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_EVENT_STATUS_FAILED} from './types';
 import {backendUrl} from '../../config';
 
-export const getAllEventsRequests = () => dispatch => {
+export const getAllEvents = () => dispatch => {
     const token = localStorage.getItem('token');
     fetch(`${backendUrl}/student/allEvents`,{
         headers: {
@@ -15,14 +16,14 @@ export const getAllEventsRequests = () => dispatch => {
         if(res.status === 200){
             res.json().then(data => {
                 dispatch({
-                    type: ADMIN_GET_ALL_EVENTS_REQUESTS_SUCCESS,
+                    type: REQUESTS_GET_ALL_EVENTS_SUCCESS,
                     payload: data
                 })
             });
         }else{
             res.json().then(data => {
                 dispatch({
-                    type: ADMIN_GET_ALL_EVENTS_REQUESTS_FAILED,
+                    type: REQUESTS_GET_ALL_EVENTS_FAILED,
                     payload: data
                 })
             })
@@ -30,10 +31,65 @@ export const getAllEventsRequests = () => dispatch => {
     })
     .catch(err => {
         dispatch({
-            type: ADMIN_GET_ALL_EVENTS_REQUESTS_FAILED,
+            type: REQUESTS_GET_ALL_EVENTS_FAILED,
             payload: {
                 message: `Internal error -- ${err}`
             }
         })
     });  
 };
+
+export const eventSelectChangeHandler = (id, value) => {
+    return{
+        type: REQUESTS_EVENT_SELECT_CHANGE,
+        payload: {id, value}
+    }
+}
+
+export const updateEventStatus = data =>  dispatch =>  
+    new Promise(function(resolve, reject) {
+    const token = localStorage.getItem('token');
+    return fetch(`${backendUrl}/student/updateEventStatus`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+            },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: REQUESTS_UPDATE_EVENT_STATUS_SUCCESS,
+                    payload: resData
+                });
+                resolve();
+            });
+        }else{
+            res.json().then(resData => {
+                dispatch({
+                    type: REQUESTS_UPDATE_EVENT_STATUS_FAILED,
+                    payload: {
+                        id: data.id,
+                        message: resData.message
+                    }
+                });
+                reject();
+            }) 
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: REQUESTS_UPDATE_EVENT_STATUS_FAILED,
+            payload: {
+                id: data.id,
+                message: `Internal Error -- ${err}`
+            }
+        });
+        console.log("Rejecting catch update item");
+        return reject();
+    });
+});

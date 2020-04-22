@@ -4,8 +4,8 @@ import './Events.css'
 import {connect} from 'react-redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {adminEventInputChangeHandler, adminEventEditCancelHandler, updateEvent,
-    adminEventDateChangeHandler} from '../../redux/actions/adminEventsAction';
+import {eventInputChangeHandler, eventEditCancelHandler, updateEvent,
+    eventDateChangeHandler} from '../../redux/actions/adminEventsAction';
 
 class AdminViewEventModal extends Component{
     constructor(props){
@@ -59,6 +59,7 @@ class AdminViewEventModal extends Component{
         }
 
         this.props.updateEvent(this.props.event).then(() => {
+            this.initialProp = this.props.event;
             this.setState({
                 isEdited: false
             });
@@ -229,9 +230,9 @@ class AdminViewEventModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleInputChange: (id, name, value) => {dispatch(adminEventInputChangeHandler(id, name, value))},
-        handleDateChange: (id, date) => {dispatch(adminEventDateChangeHandler(id, date))},
-        handleEditCancel : event => {dispatch(adminEventEditCancelHandler(event))},
+        handleInputChange: (id, name, value) => {dispatch(eventInputChangeHandler(id, name, value))},
+        handleDateChange: (id, date) => {dispatch(eventDateChangeHandler(id, date))},
+        handleEditCancel : event => {dispatch(eventEditCancelHandler(event))},
         updateEvent: event => dispatch(updateEvent(event))
     };
 };
