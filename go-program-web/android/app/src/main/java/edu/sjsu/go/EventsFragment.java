@@ -1,5 +1,6 @@
 package edu.sjsu.go;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class EventsFragment extends Fragment {
+public class EventsFragment extends Fragment implements EventsAdapter.OnItemClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -37,5 +38,10 @@ public class EventsFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        // Go to event detail fragment
     }
 }

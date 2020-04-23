@@ -122,17 +122,23 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("LoginActivity", "Result " + result);
                             if (e == null) {
                                 JSONObject o = new JSONObject();
+                                JSONObject u = new JSONObject();
                                 try {
                                     o = new JSONObject(result);
+                                    u = o.getJSONObject("user");
                                 } catch (JSONException ex) {
                                     e.printStackTrace();
                                 }
                                 String error = o.optString("error");
                                 String token = o.optString("token");
+
                                 Log.d("LoginActivity", error);
                                 if (TextUtils.isEmpty(error)) {
                                     Log.d("LoginActivity", token);
+                                    Log.d("LoginActivity", u.toString());
                                     PreferencesUtils.saveAuthToken(token, LoginActivity.this);
+                                    PreferencesUtils.saveUserData(u, LoginActivity.this);
+
                                     Intent i = new Intent(LoginActivity.this, WebActivity.class);
                                     startActivity(i);
                                 } else {
@@ -155,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isIDValid(String id) {
-        return id.length() == 8;
+        return id.length() == 9;
     }
 
     private boolean isPasswordValid(String password) {
