@@ -1,0 +1,17 @@
+.comment-info{
+    margin-bottom: 0;
+    font-style: italic
+  }
+
+  .comment-text{
+    white-space: pre-wrap;
+    border-radius: 3px;
+    padding-left: 10px;
+    background-color: #f8b21a
+  }
+
+  .comment-textarea{
+    width: 100%;
+    position: sticky;
+    bottom: -1em
+  }

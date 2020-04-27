@@ -42,16 +42,16 @@ const studentEventSchema = mongoose.Schema({
     },
     comments: [
         {   
-            senderName: {
+            commenter: {
                 type: String,
                 required: true
             },
-            text: {
+            comment: {
                 type: String,
                 required: true
             },
-            sentDate: {
-                type: Date,
+            commentDate: {
+                type: String,
                 required: true
             }
         }

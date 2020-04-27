@@ -3,15 +3,42 @@ import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Dashboard.css';
+import {backendUrl} from '../../config';
 
 class StudentDashboard extends Component{
     constructor(props){
         super(props);
         this.state = {
-            id: "",
-            password: "",
-            message: ""
+            points: 0
         }
+    }
+
+    componentDidMount(){
+        const token = localStorage.getItem('token');
+        fetch(`${backendUrl}/student/points/?id=${localStorage.getItem('id')}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include'
+        })
+        .then(res => {
+            if(res.status === 200){
+                res.json().then(data => {
+                    this.setState({
+                        points: data.points
+                    })
+                });
+            }else{
+                res.json().then(data => {
+                    console.log(data);
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });  
     }
     
     render() {
@@ -34,7 +61,7 @@ class StudentDashboard extends Component{
                             </div>
                             <div className="points-card-body p-4">
                                 <i className="fas fa-coins fa-7x"></i>
-                                <h2 className="float-right font-weight-bold points-card-text">1000<span className="d-block">Points</span></h2>
+                                <h2 className="float-right font-weight-bold points-card-text">{this.state.points}<span className="d-block">Points</span></h2>
                             </div>
                             <div className="card-footer">
                                 <h6 className="text-center"><a href=""> View Details<i className="fas fa-arrow-alt-circle-right"></i></a></h6>

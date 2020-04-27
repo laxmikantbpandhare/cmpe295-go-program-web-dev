@@ -140,9 +140,13 @@ queries.deleteEvent = (id, successcb, failurecb) => {
 }
 
 queries.getStudentOwnEvents = (id, successcb, failurecb) => {
+    console.log("Inside student own event");
     Student.findOne({sjsuId: id})
     .select('_id')
     .then(student => {
+        // if(student !== null){
+
+        // }
         StudentEvent.find({student: student._id})
         .populate('student')
         .populate('event')
@@ -152,7 +156,10 @@ queries.getStudentOwnEvents = (id, successcb, failurecb) => {
             successcb(events)})
         .catch(err => failurecb(err,"Student Events"))
     })
-    .catch(err => failurecb(err,"Student"))
+    .catch(err => {
+        
+        failurecb(err,"Student")
+    })
 }
 
 queries.createStudentEvent = (event, successcb, failurecb) => {
@@ -236,7 +243,7 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
             if(event.status === "Approved"){
                 Student.findById(event.student.id)
                 .then(StudentToUpdate => {
-                    const newPoints = StudentToUpdate["pointsAccumulated"] + event.event.points;
+                    const newPoints = StudentToUpdate["pointsAccumulated"] + Number(event.event.points);
                     StudentToUpdate["pointsAccumulated"] = newPoints;
                     StudentToUpdate.save()
                     .then(updatedStudent => {
@@ -289,13 +296,13 @@ queries.updateStudentEvent = (event, successcb, failurecb) => {
         eventToUpdate["status"] = "Pending Approval";
         eventToUpdate.save()
         .then(updatedEvent => {
-            updatedEvent.
-                populate('event').
-                populate('student').
-                execPopulate().
-                then(populatedEvent => {
-                    successcb(populatedEvent)
-                })
+            updatedEvent
+            .populate('event')
+            .populate('student')
+            .execPopulate()
+            .then(populatedEvent => {
+                successcb(populatedEvent)
+            })
         })
         .catch(err => {
             let message = `Unable to update StudentEvent in the db. ${err.message}`;
@@ -306,6 +313,38 @@ queries.updateStudentEvent = (event, successcb, failurecb) => {
         let message = `Failed to get StudentEvent details from the db. ${err.message}`;
         failurecb(message);
     })
+}
+
+queries.getStudentPoints = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('pointsAccumulated')
+    .then(student => {
+        let points = 0;
+        if(student !== null){
+            points = student.pointsAccumulated;
+        }
+        successcb(points);
+    })
+    .catch(err => failurecb(err))
+}
+
+queries.addStudentEventComment = (eventId, comment, successcb, failurecb) => {
+    StudentEvent.findById({_id: eventId})
+    .then(event => {
+        event.comments.push(comment);
+        event.save()
+        .then(updatedEvent => {
+            updatedEvent
+            .populate('event')
+            .populate('student')
+            .execPopulate()
+            .then(populatedEvent => {
+                successcb(populatedEvent)
+            })
+        })
+        .catch(err => failurecb(err))
+    })
+    .catch(err => failurecb(err))
 }
 
 module.exports = queries;

@@ -1,12 +1,14 @@
 import { STUDENT_CREATE_EVENT_SUCCESS, STUDENT_CREATE_EVENT_FAILED, STUDENT_GET_EVENTS_SUCCESS,
-    STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_EVENT_INPUT_CHANGE, STUDENT_EVENT_EDIT_CANCEL, STUDENT_UPDATE_EVENT_SUCCESS, STUDENT_UPDATE_EVENT_FAILED} from '../actions/types';
+    STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_EVENT_INPUT_CHANGE, STUDENT_EVENT_EDIT_CANCEL, STUDENT_UPDATE_EVENT_SUCCESS, STUDENT_UPDATE_EVENT_FAILED, STUDENT_EVENT_ADD_COMMENT_SUCCESS, STUDENT_EVENT_ADD_COMMENT_FAILED} from '../actions/types';
 
 const initialState = {
     events: [],
     createResponseMessage: "",
     getResponseMessage: "",
     updateResponseMessage: "",
-    deleteResponseMessage: ""
+    deleteResponseMessage: "",
+    addCommentResponseMessage: "",
+    updatedEvent: ""
 };
 
 const studentEventsReducer = (state = initialState, action) => {
@@ -87,6 +89,24 @@ const studentEventsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 updateResponseMessage: action.payload.message
+            }
+        case STUDENT_EVENT_ADD_COMMENT_SUCCESS:
+            var events = state.events.map(event => {
+                if(event._id == action.payload.event._id){
+                    return action.payload.event;
+                }
+                // Leave every other item unchanged
+                return event;
+            });
+            return {
+                ...state,
+                events,
+                addCommentResponseMessage: action.payload.message,
+            }
+        case STUDENT_EVENT_ADD_COMMENT_FAILED:
+            return {
+                ...state,
+                addCommentResponseMessage: action.payload.message
             }
         default:
             return state;

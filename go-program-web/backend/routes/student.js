@@ -66,5 +66,27 @@ router.post('/updateEvent', passport.authenticate("jwt", { session: false }), fu
     });
 });
 
+router.get('/points',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Points Get Request");
+    
+    queries.getStudentPoints(req.query.id, points => {
+        res.status(200).json({success: true, points: points});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting students events from the database. ${err.message}`});
+    });
+});
+
+router.post('/addEventComment',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Add Event Comment Post Request");
+    console.log("Req Body : ",req.body);
+    const comment = req.body.comment;
+    const eventId = req.body.id;
+
+    queries.addStudentEventComment(eventId, comment, result => {
+        res.status(200).json({message:'Comment added successfully', event: result});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when adding comments in the student events in the database. ${err.message}`});
+    });
+});
 
 module.exports = router;

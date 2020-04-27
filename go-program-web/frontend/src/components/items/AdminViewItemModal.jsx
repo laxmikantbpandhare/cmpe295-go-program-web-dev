@@ -92,7 +92,8 @@ class AdminViewItemModal extends Component{
             this.setState({
                 isEdited: false
             });
-        }).catch(() => {
+        })
+        .catch(() => {
             
         });
         

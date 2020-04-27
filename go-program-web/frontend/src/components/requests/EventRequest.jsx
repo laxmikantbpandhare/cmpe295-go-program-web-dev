@@ -5,6 +5,8 @@ import ViewEventRequestModal from './ViewEventRequestModal';
 import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';
 import {eventSelectChangeHandler, updateEventStatus} from '../../redux/actions/eventsRequestsAction';
+import CommentsModal from '../comments/CommentsModal';
+
 
 class EventRequest extends Component{
     constructor(props){
@@ -12,6 +14,7 @@ class EventRequest extends Component{
         this.initialStatus = props.event.status;
         this.state = {
             showViewEventRequestModal: false,
+            showCommentsModal: false,
             photoIndex: 0,
             isOpen: false,
             initialStatus: this.initialStatus
@@ -25,6 +28,14 @@ class EventRequest extends Component{
     
     hideViewEventRequestModal = e => {
         this.setState({showViewEventRequestModal: false});
+    }
+
+    showCommentsModal = e => {
+        this.setState({showCommentsModal: true});
+    }
+    
+    hideCommentsModal = e => {
+        this.setState({showCommentsModal: false});
     }
     
     options = ['Pending Approval', 'Approved', 'Rejected', 'Action Required'];
@@ -71,9 +82,6 @@ class EventRequest extends Component{
         // trimmedDescription = trimmedDescription.length > 25 
         //                             ? trimmedDescription.substring(0,25)
         //                             : trimmedDescription;
-        console.log("this.props.event._id ----- ",this.props.event._id);
-        console.log("this.props.updatedEvent ----- ",this.props.updatedEvent);
-        console.log("this.props.responseMessage ----- ",this.props.responseMessage);
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
@@ -163,15 +171,15 @@ class EventRequest extends Component{
                                     <i class="fas fa-search-plus"/> View Images
                                 </button>
                                 <button type="button" className="btn btn-link view-details-color"
-                                onClick = {this.showViewEventRequestModal}
-                                >
+                                onClick = {this.showViewEventRequestModal}>
                                     <i className="fas fa-eye"/> View Details
                                 </button>
                                 {/* <button type="button" className="btn btn-link delete-color"
                                 onClick = {this.handleDelete}>
                                     <i className="fas fa-trash-alt"/> Delete
                                 </button> */}
-                                <button type="button" className="btn btn-link view-details-color">
+                                <button type="button" className="btn btn-link view-details-color"
+                                onClick = {this.showCommentsModal}>
                                     <i className="fas fa-comment"/> Comments
                                 </button>
                             </div>
@@ -199,6 +207,11 @@ class EventRequest extends Component{
                 {this.state.showViewEventRequestModal ? 
                 <ViewEventRequestModal hideViewEventRequestModal={this.hideViewEventRequestModal}
                 event={this.props.event}/> : null}
+                
+                {this.state.showCommentsModal ? 
+                <CommentsModal hideCommentsModal={this.hideCommentsModal}
+                id={this.props.event._id} comments={this.props.event.comments}
+                commenter="Admin" type="Event"/> : null}
             </div>
         )
     }

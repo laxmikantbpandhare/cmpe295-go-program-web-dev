@@ -1,5 +1,6 @@
 import { REQUESTS_GET_ALL_EVENTS_SUCCESS, REQUESTS_GET_ALL_EVENTS_FAILED,
-    REQUESTS_EVENT_SELECT_CHANGE, REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_EVENT_STATUS_FAILED} from './types';
+    REQUESTS_EVENT_SELECT_CHANGE, REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_EVENT_STATUS_FAILED, 
+    REQUESTS_EVENT_ADD_COMMENT_SUCCESS, REQUESTS_EVENT_ADD_COMMENT_FAILED} from './types';
 import {backendUrl} from '../../config';
 
 export const getAllEvents = () => dispatch => {
@@ -89,7 +90,51 @@ export const updateEventStatus = data =>  dispatch =>
                 message: `Internal Error -- ${err}`
             }
         });
-        console.log("Rejecting catch update item");
-        return reject();
+        reject();
+    });
+});
+
+export const eventAddAdminComment = data =>  dispatch =>  
+    new Promise(function(resolve, reject) {
+    const token = localStorage.getItem('token');
+    return fetch(`${backendUrl}/student/addEventComment`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+            },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: REQUESTS_EVENT_ADD_COMMENT_SUCCESS,
+                    payload: resData
+                });
+                resolve();
+            });
+        }else{
+            res.json().then(resData => {
+                dispatch({
+                    type: REQUESTS_EVENT_ADD_COMMENT_FAILED,
+                    payload: {
+                        message: resData.message
+                    }
+                });
+                reject();
+            }) 
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: REQUESTS_EVENT_ADD_COMMENT_FAILED,
+            payload: {
+                message: `Internal Error -- ${err}`
+            }
+        });
+        reject();
     });
 });

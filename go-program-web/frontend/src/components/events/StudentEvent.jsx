@@ -3,6 +3,7 @@ import '../../Common.css';
 import './Events.css'
 import StudentViewEventModal from './StudentViewEventModal';
 import Lightbox from 'react-image-lightbox';
+import CommentsModal from '../comments/CommentsModal';
 // import {connect} from 'react-redux';
 // import {deleteEvent} from '../../redux/actions/adminEventsAction';
 
@@ -11,6 +12,7 @@ class StudentEvent extends Component{
         super(props);
         this.state = {
             showStudentViewEventModal: false,
+            showCommentsModal: false,
             photoIndex: 0,
             isOpen: false,
             isMore: false
@@ -23,6 +25,14 @@ class StudentEvent extends Component{
     
     hideStudentViewEventModal = e => {
         this.setState({showStudentViewEventModal: false});
+    }
+
+    showCommentsModal = e => {
+        this.setState({showCommentsModal: true});
+    }
+    
+    hideCommentsModal = e => {
+        this.setState({showCommentsModal: false});
     }
 
     // handleDelete = () => {
@@ -105,7 +115,7 @@ class StudentEvent extends Component{
                                     <i className="fas fa-trash-alt"/> Delete
                                 </button> */}
                                 <button type="button" className="btn btn-link view-details-color"
-                                onClick = {this.handleDelete}>
+                                onClick = {this.showCommentsModal}>
                                     <i className="fas fa-comment"/> Comments
                                 </button>
                             </div>
@@ -133,6 +143,11 @@ class StudentEvent extends Component{
                 {this.state.showStudentViewEventModal ? 
                 <StudentViewEventModal hideStudentViewEventModal={this.hideStudentViewEventModal}
                 event={this.props.event}/> : null}
+
+                {this.state.showCommentsModal ? 
+                <CommentsModal hideCommentsModal={this.hideCommentsModal}
+                id={this.props.event._id} comments={this.props.event.comments}
+                commenter="Student" type="Event"/> : null}
             </div>
         )
     }

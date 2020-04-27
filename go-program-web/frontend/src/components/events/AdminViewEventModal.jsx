@@ -30,6 +30,7 @@ class AdminViewEventModal extends Component{
 
     handleDateChange = date => {
         // var formattedDate = date === null ? "" : date.toLocaleDateString();
+        console.log("date====", date);
         this.props.handleDateChange(this.props.event._id, date);
     }
 
