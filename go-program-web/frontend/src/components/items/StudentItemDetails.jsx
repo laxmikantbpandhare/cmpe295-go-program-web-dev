@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 // import {Link} from 'react-router-dom';
 // import {Redirect} from 'react-router';
-import collegeLogo from '../../images/coe_logo.png';
+// import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Items.css';
 import queryString from 'query-string';
@@ -11,7 +11,9 @@ class StudentItemDetails extends Component{
     constructor(props){
         super(props);
         this.state = {
-            itemdetails :""
+            images: [],
+            points: "",
+            description: ""
         }
     }
 
@@ -32,16 +34,14 @@ class StudentItemDetails extends Component{
         })
         .then(res => {
             if(res.status === 200){
-                console.log("lux",res.body);
                 res.json().then(data => {
-                    console.log("lux",data.event[0]);
-                    // this.state.itemdetails = data.event[0];
+                    console.log("date",data)
                     this.setState({
-                        itemdetails : data.event[0]
-                    });
-                    console.log("lux",this.state.itemdetails.images[0]);
+                        images: this.state.images.concat(data.item[0].images),
+                        points: data.item[0].points,
+                        description: data.item[0].description 
+                    });  
                 });
-                console.log("lu",this.state.itemdetails)
             }else{
                     
             }
@@ -53,10 +53,12 @@ class StudentItemDetails extends Component{
     }
     
     render() {
-        let redirectVar = null;
+        console.log("lu",this.state);
+        // let redirectVar = null;
         if(localStorage.getItem('token')){
 
         }
+
         return(
         <div className="top-align">
             <div className="heading py-1">
@@ -66,13 +68,19 @@ class StudentItemDetails extends Component{
                     <div className="items-search-section">  {/*This class will support the sticky subheading */}
                         <h4 className="text-center text-white all-items-heading p-1">Item Details</h4>
                     </div>
-                    <h3>SONORO KATE Bed Sheets Set Sheets Microfiber Super Soft 1800 Thread Count Luxury Egyptian Sheets 16-Inch Deep Pocket Wrinkle Fade and Hypoallergenic - 4 Piece (Twin, Grey)</h3>
+                    <h3>{`Description: ${this.state.description}`}</h3>
                     <div className="row">
                         <div className="col-sm-4 d-flex align-items-center justify-content-center">
-                            <img src={collegeLogo} alt="" className="item-details-image img-fluid"/>
+                        {
+                            this.state.images.length > 0
+                            ? <img src={this.state.images[0]} alt="" className="item-details-image img-fluid"/> 
+                            : null
+                        }
+                        
+                            
                         </div>
                         <div className="col-sm-6 my-auto">
-                            <p className="h6">Points: 600</p>
+                            <p className="h6">{`Points: ${this.state.points}`}</p>
                             <p className="h6">Select a Size:</p>
                             <div className="row" style={{margin:'0'}}><button type="button" class="btn btn-outline-dark mr-1">XS</button>
                             {/* {

@@ -51,7 +51,7 @@ const adminInventoryReducer = (state = initialState, action) => {
         case ADMIN_ITEM_INPUT_CHANGE:
             var items = state.items.map(item => {
                 // Find a item with the matching id
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     //Return a new object
                     return{
                         ...item, //copy the existing item
@@ -67,7 +67,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_ATTRIBUTE_CHANGE:
             var items = state.items.map(item => {
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     let itemToUpdate = {...item};
                     const attributes = itemToUpdate.attributes.map((attribute, curr_index)=> {
                         if(curr_index === action.payload.index){
@@ -90,7 +90,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_ADD_ATTRIBUTE:
             var items = state.items.map(item => {
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     let itemToUpdate = {...item};
                     itemToUpdate.attributes = [...itemToUpdate.attributes, { size: "", quantity: "" }];
                     return itemToUpdate;
@@ -104,7 +104,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_REMOVE_ATTRIBUTE:
             var items = state.items.map(item => {
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     let itemToUpdate = {...item};
                     itemToUpdate.attributes = itemToUpdate.attributes.filter((attribute, curr_index) => {
                         return curr_index !==  action.payload.index;
@@ -120,7 +120,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_EDIT_CANCEL:
             var items = state.items.map(item => {
-                if(item._id == action.payload.item._id){
+                if(item._id === action.payload.item._id){
                     return action.payload.item;
                 }
                 // Leave every other item unchanged
@@ -132,7 +132,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_UPDATE_ITEM_SUCCESS:
             var items = state.items.map(item => {
-                if(item._id == action.payload.item._id){
+                if(item._id === action.payload.item._id){
                     return action.payload.item;
                 }
                 // Leave every other item unchanged

@@ -25,7 +25,7 @@ const eventsRequestsReducer = (state = initialState, action) => {
         case REQUESTS_EVENT_SELECT_CHANGE:
             var events = state.events.map(event => {
                 // Find a item with the matching id
-                if(event._id == action.payload.id){
+                if(event._id === action.payload.id){
                     //Return a new object
                     return{
                         ...event, //copy the existing item
@@ -41,7 +41,7 @@ const eventsRequestsReducer = (state = initialState, action) => {
             }
         case REQUESTS_UPDATE_EVENT_STATUS_SUCCESS:
             var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
+                if(event._id === action.payload.event._id){
                     return action.payload.event;
                 }
                 // Leave every other item unchanged

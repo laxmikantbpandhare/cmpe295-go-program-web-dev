@@ -107,7 +107,7 @@ class Login extends Component{
         let redirectVar = null;
         if(localStorage.getItem('token')){
             // var userType = localStorage.getItem('userType');
-            if(localStorage.getItem('userType')=="student")
+            if(localStorage.getItem('userType')==="student")
                 redirectVar = <Redirect to= "/student/dashboard"/>;
             else
                 redirectVar = <Redirect to= "/admin/dashboard"/>;
@@ -119,7 +119,7 @@ class Login extends Component{
                 <div className="col-sm-10 col-md-8 col-lg-6">
                     <form className="form-container">
                         <div className="d-flex align-items-center justify-content-center">
-                            <img src={collegeLogo} className="img-fluid coe-logo text-center"/>
+                            <img src={collegeLogo} alt="College logo" className="img-fluid coe-logo text-center"/>
                         </div>
                         <h4 className="text-center font-weight-bold">Log in</h4>
                         <h6 className="mb-4" style={{color:"red"}}>{this.state.message}</h6>
@@ -130,7 +130,7 @@ class Login extends Component{
                         </div>
                         <div className="form-group input-wrapper mb-4">
                             <input type="password" name = "password" placeholder = "Enter Password" onChange={this.handleChange}
-                            className={`form-control form-input ${this.state.password!=""?'input-valid':'input-invalid'}`}/>
+                            className={`form-control form-input ${this.state.password!==""?'input-valid':'input-invalid'}`}/>
                             <label className="form-label">Password</label>
                         </div>
                         <div className="form-group form-check mb-4">

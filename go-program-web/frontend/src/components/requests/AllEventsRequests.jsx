@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import collegeLogo from '../../images/coe_logo.png';
+// import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Requests.css';
 import {connect} from 'react-redux';

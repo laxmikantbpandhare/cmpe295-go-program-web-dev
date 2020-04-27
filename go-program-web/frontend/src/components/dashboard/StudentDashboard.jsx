@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
+// import {Link} from 'react-router-dom';
+// import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Dashboard.css';
 
@@ -15,7 +15,7 @@ class StudentDashboard extends Component{
     }
     
     render() {
-        let redirectVar = null;
+        // let redirectVar = null;
         if(localStorage.getItem('token')){
 
         }

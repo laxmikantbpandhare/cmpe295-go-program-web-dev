@@ -213,7 +213,7 @@ class StudentViewEventModal extends Component{
                                             name="description" value = {this.props.event.description}/>
                                             : <p>{this.props.event.description}</p>
                                         } */}
-                                        <textarea className={`form-control ${this.props.event.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        <textarea className={`form-control ${this.props.event.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                             name="description" value = {this.props.event.description}/>
                                     </div>
@@ -294,10 +294,10 @@ class StudentViewEventModal extends Component{
                                     <div className="row">
                                     {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
                                         (<div className="col-5 modal-image m-1" key ={index}>
-                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" alt="remove images" 
                                             src={closeIcon}/>
                                             <img className="rounded img-thumbnail" src= {imageUrl} 
-                                            alt="Responsive image"/>
+                                            alt="Responsive images"/>
                                         </div>
                                         )) :null
                                     }

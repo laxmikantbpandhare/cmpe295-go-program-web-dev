@@ -61,6 +61,7 @@ router.get('/allEvents',passport.authenticate("jwt", { session: false }),functio
     console.log("Inside Student Requests All Events Get Request");
     
     queries.getStudentsAllEvents(events => {
+        console.log(events)
         res.status(200).json({success: true, events: events});
     }, err=> {
         res.status(500).send({ message: `Something failed when getting students events from the database. ${err.message}`});
@@ -68,11 +69,10 @@ router.get('/allEvents',passport.authenticate("jwt", { session: false }),functio
 });
 
 router.get('/item/:id',passport.authenticate("jwt", { session: false }),function(req,res){
-    console.log("Inside Student All id Events Get Request",req.params.id);
+    console.log("Inside Student Get Event details from Eventid Request",req.params.id);
     
-    queries.getItem(req.params.id,event => {
-        console.log(event)
-        res.status(200).json({success: true, event: event});
+    queries.getItem(req.params.id,item => {
+        res.status(200).json({success: true, item: item});
     }, err=> {
         res.status(500).send({ message: `Something failed when getting students events from the database. ${err.message}`});
     });

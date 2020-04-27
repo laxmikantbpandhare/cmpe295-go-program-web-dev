@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
+// import {Link} from 'react-router-dom';
+// import {Redirect} from 'react-router';
 // import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Items.css'
 import {connect} from 'react-redux';
 import {getItems} from '../../redux/actions/adminInventoryAction';
-import { confirmAlert } from 'react-confirm-alert';
+// import { confirmAlert } from 'react-confirm-alert';
 // import AdminItem from '../items/AdminItem';
 
 class StudentAllItems extends Component{
@@ -51,13 +51,13 @@ class StudentAllItems extends Component{
 
     render() {
 
-        let redirectVar = null;
-        if(localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
+        // let redirectVar = null;
+        // if(localStorage.getItem('token')){
+        //     redirectVar = <Redirect to= "/login"/>
+        // }
 
-        this.state.divide = Math.floor(this.props.items.length/2);
-        let sortedItems = [...this.props.items];
+        // this.state.divide = Math.floor(this.props.items.length/2);
+        // let sortedItems = [...this.props.items];
 
         let view = null;
 
@@ -79,14 +79,14 @@ class StudentAllItems extends Component{
             )
         })
 
-        let noItemText = this.state.search !== "" || this.state.filter !== "" 
-        ? "No Item  Matching the Search or Filter Criteria"
-        : "No Item in the Inventory";
+        // let noItemText = this.state.search !== "" || this.state.filter !== "" 
+        // ? "No Item  Matching the Search or Filter Criteria"
+        // : "No Item in the Inventory";
 
-        let filteredItems = sortedItems.filter(item => {
-            return (item.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 &&
-            item.category.indexOf(this.state.filter)!==-1)
-        });
+        // let filteredItems = sortedItems.filter(item => {
+        //     return (item.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 &&
+        //     item.category.indexOf(this.state.filter)!==-1)
+        // });
 
         return(
         <div className="top-align">
@@ -114,9 +114,8 @@ class StudentAllItems extends Component{
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
                                 <option selected>Filter by Tier</option>
-                                <option>Tier 1(400-500 Points)</option>
-                                <option>Tier 2(200-399 Points)</option>
-                                <option>Tier 3(100-199 Points)</option>
+                                <option>Ascending</option>
+                                <option>Descending</option>
                             </select>
                         </div>
 
@@ -137,37 +136,6 @@ class StudentAllItems extends Component{
                                 <span className="d-none d-sm-inline"> Reset</span>
                             </button>
                         </div>
-                        {/* <div className="col-10 col-sm-6">
-                        <input class="form-control py-2" name="search" placeholder="Search by Item Name"
-                            onChange={this.handleChange} value={this.state.search}></input>
-                        </div>
-                        <div  class="col-2 col-sm-2">
-                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
-                                onClick={this.resetSearchSection}>
-                                <i className="fas fa-sync"></i>
-                                <span className="d-none d-sm-inline"> Reset</span>
-                            </button>
-                        </div>
-  
-                        <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
-                        <div className="col-6 col-sm-2">
-                            <select className="form-control" name="some">
-                                <option selected>Filter by Tier</option>
-                                <option>Tier 1(400-500 Points)</option>
-                                <option>Tier 2(200-399 Points)</option>
-                                <option>Tier 3(100-199 Points)</option>
-                            </select>
-                        </div>
-                        <div className="col-6 col-sm-2">
-                            <select className="form-control" name="some1">
-                                <option selected>Filter by Category</option>
-                                {
-                                    this.props.categories.length!==0
-                                    ? this.props.categories.map(category => <option>{category}</option>)
-                                    : null
-                                }
-                            </select>
-                        </div> */}
                     </div>
                     <hr/>
                 </div>

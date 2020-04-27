@@ -125,7 +125,7 @@ class AdminNewItemModal extends Component{
 
     addAttribute = () => {
         let totalAttributes = this.state.attributes.length;
-        if(this.state.attributes[totalAttributes-1].size!="" && this.state.attributes[totalAttributes-1].quantity!=""){
+        if(this.state.attributes[totalAttributes-1].size!=="" && this.state.attributes[totalAttributes-1].quantity!==""){
             this.setState(prevState => ({ 
                 attributes: [...prevState.attributes, { size: "", quantity: "" }]
             }))
@@ -208,13 +208,13 @@ class AdminNewItemModal extends Component{
                                 <label className="col-4">Name</label>
                                 <div className="col-8">
                                     <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                    className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                    className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
                             <div className="form-group row">
                                 <label className="col-4">Description</label>
                                 <div className="col-8">
-                                    <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                     name="description"/>
                                 </div>
@@ -222,7 +222,7 @@ class AdminNewItemModal extends Component{
                             <div className="form-group row">
                                 <label className="col-4">Category</label>
                                 <div className="col-8">
-                                    <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <select className={`form-control ${this.state.category!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     name="category" onChange={this.handleInputChange}>
                                         <option selected value="">Select a Category</option>
                                         {itemCategories.map(category => <option>{category}</option>)}
@@ -233,7 +233,7 @@ class AdminNewItemModal extends Component{
                                 <label className="col-4">Points</label>
                                 <div className="col-8">
                                     <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                    className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                    className={`form-control ${this.state.points!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -244,18 +244,18 @@ class AdminNewItemModal extends Component{
                                             <div className="row mb-1" key={index}>
                                                 <div className = "col-5">
                                                     <input type="text" name="size" placeholder="Size"
-                                                    className={`form-control ${this.state.attributes[index].size!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                    className={`form-control ${this.state.attributes[index].size!==""?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                     value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                 </div>
                                                 <div className = "col-5">
                                                     <input type="number" min="1"  name="quantity" placeholder="Quantity"
-                                                    className={`form-control ${this.state.attributes[index].quantity!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                    className={`form-control ${this.state.attributes[index].quantity!==""?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                     value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                 </div>
                                                 {
                                                     index!==0 ? 
                                                     <div className = "col-1">
-                                                        <img onClick={e => this.removeAttribute(index)} className= "delete-icon" 
+                                                        <img onClick={e => this.removeAttribute(index)} className= "delete-icon" alt="remove images"
                                                         src={deleteIcon}/>
                                                     </div> 
                                                     : null
@@ -265,7 +265,7 @@ class AdminNewItemModal extends Component{
                                         ))
                                     }
                                     <span>Add a Row &nbsp;</span>
-                                    <img onClick={this.addAttribute} className= "add-icon" 
+                                    <img onClick={this.addAttribute} className= "add-icon" alt="remove images"
                                     src={addIcon}/>
                                 </div>
                             </div>
@@ -285,10 +285,10 @@ class AdminNewItemModal extends Component{
                                 <div className="row">
                                 {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
                                     (<div className="col-5 modal-image m-1" key ={index}>
-                                        <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                        <img onClick={e => this.removeImage(index)} className= "delete-icon" alt="remove images"
                                         src={closeIcon}/>
                                         <img className="rounded img-thumbnail" src= {imageUrl} 
-                                        alt="Responsive image"/>
+                                        alt="Responsive images"/>
                                     </div>
                                     )) :null
                                 }

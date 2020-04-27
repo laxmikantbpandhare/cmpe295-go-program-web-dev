@@ -40,7 +40,7 @@ class AdminViewItemModal extends Component{
 
     addAttribute = () => {
         let totalAttributes = this.props.item.attributes.length;
-        if(this.props.item.attributes[totalAttributes-1].size!="" && this.props.item.attributes[totalAttributes-1].quantity!=""){
+        if(this.props.item.attributes[totalAttributes-1].size!=="" && this.props.item.attributes[totalAttributes-1].quantity!==""){
             this.props.addAttribute(this.props.item._id);
         } else {
             alert("Please fill out previous attribute");
@@ -153,7 +153,7 @@ class AdminViewItemModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                            className={`form-control ${this.props.item.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.props.item.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value = {this.props.item.name}/>
                                             : <p>{this.props.item.name}</p>
                                         }
@@ -165,7 +165,7 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <textarea className={`form-control ${this.props.item.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            ? <textarea className={`form-control ${this.props.item.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                             name="description" value = {this.props.item.description}/>
                                             : <p className="text-pre-wrap">{this.props.item.description}</p>
@@ -177,7 +177,7 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <select className={`form-control ${this.props.item.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            ? <select className={`form-control ${this.props.item.category!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             name="category" onChange={this.handleInputChange} value={this.props.item.category}>
                                                 <option selected value="">Select a Category</option>
                                                 {itemCategories.map(category => <option>{category}</option>)}
@@ -192,7 +192,7 @@ class AdminViewItemModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                            className={`form-control ${this.props.item.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.props.item.points!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.item.points}/>
                                             : <p>{this.props.item.points}</p>
                                         }  
@@ -208,18 +208,18 @@ class AdminViewItemModal extends Component{
                                                     <div className="row mb-1" key={index}>
                                                         <div className = "col-5">
                                                             <input type="text" name="size" placeholder="Size"
-                                                            className={`form-control ${this.props.item.attributes[index].size!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                            className={`form-control ${this.props.item.attributes[index].size!==""?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                             value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                         </div>
                                                         <div className = "col-5">
                                                             <input type="number" min="1"  name="quantity" placeholder="Quantity"
-                                                            className={`form-control ${this.props.item.attributes[index].quantity!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                            className={`form-control ${this.props.item.attributes[index].quantity!==""?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                             value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                         </div>
                                                         {
                                                             index!==0 ? 
                                                             <div className = "col-1">
-                                                                <img onClick={e => this.removeAttribute(index)} className= "delete-icon" 
+                                                                <img onClick={e => this.removeAttribute(index)} className= "delete-icon" alt="remove images"
                                                                 src={deleteIcon}/>
                                                             </div> 
                                                             : null
@@ -228,7 +228,7 @@ class AdminViewItemModal extends Component{
                                                 ))
                                             }
                                             <span>Add a Row &nbsp;</span>
-                                            <img onClick={this.addAttribute} className= "add-icon" 
+                                            <img onClick={this.addAttribute} className= "add-icon" alt="add images"
                                             src={addIcon}/>
                                     </div> 
                                     : <div className="col-8">
@@ -276,7 +276,7 @@ class AdminViewItemModal extends Component{
                                             { this.props.item.images.map((image,index) => 
                                             (<div className="col-6 modal-image mb-1" key ={index}>
                                                 <img className="rounded img-thumbnail" src= {image} 
-                                                alt="Responsive image"/>
+                                                alt="Responsive images"/>
                                             </div>
                                             ))
                                         }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
+// import {Link} from 'react-router-dom';
+// import {Redirect} from 'react-router';
 import closeIcon from '../../images/close_icon.png';
 import '../../Common.css';
 import './Events.css'
@@ -193,7 +193,7 @@ class StudentNewEventModal extends Component{
                             <div className="form-group row">
                                 <label className="col-3">Description</label>
                                 <div className="col-9">
-                                    <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                     name="description"/>
                                 </div>
@@ -235,10 +235,10 @@ class StudentNewEventModal extends Component{
                                     <div className="row">
                                     {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
                                         (<div className="col-5 modal-image m-1" key ={index}>
-                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                            <img onClick={e => this.removeImage(index)} alt="remove images" className= "delete-icon" 
                                             src={closeIcon}/>
                                             <img className="rounded img-thumbnail" src= {imageUrl} 
-                                            alt="Responsive image"/>
+                                            alt="Responsive images"/>
                                         </div>
                                         )) :null
                                     }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
+// import {Link} from 'react-router-dom';
+// import {Redirect} from 'react-router';
 import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Orders.css'
@@ -18,7 +18,7 @@ class StudentOrders extends Component{
     
 
     render() {
-        let redirectVar = null;
+        // let redirectVar = null;
         if(localStorage.getItem('token')){
        
         }

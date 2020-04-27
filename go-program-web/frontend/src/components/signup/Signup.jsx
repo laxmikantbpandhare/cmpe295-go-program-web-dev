@@ -118,7 +118,7 @@ class Signup extends Component{
                     <div className="col-sm-10 col-md-8 col-lg-6">
                         <form className="form-container">
                             <div className="d-flex align-items-center justify-content-center">
-                                <img src={collegeLogo} className="img-fluid coe-logo text-center"/>
+                                <img src={collegeLogo} alt="College logo"  className="img-fluid coe-logo text-center"/>
                             </div>
                             <h4 className="text-center font-weight-bold">Sign Up</h4>
                             <h6 className="mb-4" style={{color:"red"}}>{this.state.message}</h6>

@@ -16,14 +16,14 @@ function Landing() {
     <div className="container-fluid p-0">
       <div className="row landing-height">
        <div className="col-sm-6">
-         <img src={mainImage} className="img-fluid landing-image" alt="Landing page image"/>
+         <img src={mainImage} className="img-fluid landing-image" alt="Landing page"/>
          </div>
          <div className="col-sm-6 d-flex align-items-center flex-column justify-content-center">
-         <img src={collegeLogo} className="img-fluid coe-logo"/>
+         <img src={collegeLogo} alt="College logo" className="img-fluid coe-logo"/>
          <br/>
          <div className="landing-left">
            <span className="msg-go-program-landing">Want to know more about GO Program?
-             <a href="https://engineering.sjsu.edu/go" target="_blank"> Click Here!</a>
+             <a href="https://engineering.sjsu.edu/go" target="_blank" rel="noopener noreferrer"> Click Here!</a>
            </span>
            <br/>
            <br/>
