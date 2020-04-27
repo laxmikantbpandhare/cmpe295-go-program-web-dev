@@ -10,14 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.webkit.WebView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
@@ -127,17 +122,23 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("LoginActivity", "Result " + result);
                             if (e == null) {
                                 JSONObject o = new JSONObject();
+                                JSONObject u = new JSONObject();
                                 try {
                                     o = new JSONObject(result);
+                                    u = o.getJSONObject("user");
                                 } catch (JSONException ex) {
                                     e.printStackTrace();
                                 }
                                 String error = o.optString("error");
                                 String token = o.optString("token");
+
                                 Log.d("LoginActivity", error);
                                 if (TextUtils.isEmpty(error)) {
                                     Log.d("LoginActivity", token);
-                                    Preferences.saveAuthToken(token, LoginActivity.this);
+                                    Log.d("LoginActivity", u.toString());
+                                    PreferencesUtils.saveAuthToken(token, LoginActivity.this);
+                                    PreferencesUtils.saveUserData(u, LoginActivity.this);
+
                                     Intent i = new Intent(LoginActivity.this, WebActivity.class);
                                     startActivity(i);
                                 } else {
@@ -160,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isIDValid(String id) {
-        return id.length() == 8;
+        return id.length() == 9;
     }
 
     private boolean isPasswordValid(String password) {

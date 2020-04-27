@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
@@ -34,6 +36,8 @@ public class SignupActivity extends AppCompatActivity {
     private View mProgressView;
     private View mSignupFormView;
     private Button mSignUpButton;
+    private Spinner mMajorSpinner;
+    private Spinner mYearSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,9 @@ public class SignupActivity extends AppCompatActivity {
         mPasswordView = findViewById(R.id.password);
         mMajorView = findViewById(R.id.major);
         mYearView = findViewById(R.id.year);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.majors, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mSignUpButton = (Button)
                 findViewById(R.id.sign_up_button);
@@ -153,7 +160,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean isIDValid(String id) {
-        return id.length() == 8;
+        return id.length() == 9;
     }
 
     private boolean isPasswordValid(String password) {

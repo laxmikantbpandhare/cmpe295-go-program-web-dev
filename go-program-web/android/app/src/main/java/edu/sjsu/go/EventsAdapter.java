@@ -13,6 +13,15 @@ import java.util.ArrayList;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHolder> {
     private ArrayList<EventsItem> mEventsList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     public EventsAdapter(ArrayList<EventsItem> eveentsList) {
         mEventsList = eveentsList;
@@ -40,7 +49,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHold
         return mEventsList.size();
     }
 
-    public static class EventsHolder extends RecyclerView.ViewHolder {
+    public class EventsHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView mEventTitle;
         public TextView mEventDate;
@@ -50,6 +59,18 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHold
             mImageView = itemView.findViewById(R.id.event_image);
             mEventTitle = itemView.findViewById(R.id.event_title);
             mEventDate = itemView.findViewById(R.id.event_date);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
