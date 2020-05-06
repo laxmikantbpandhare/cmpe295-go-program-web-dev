@@ -43,6 +43,7 @@ class StudentOrder extends Component{
                             <p className="font-smaller"><strong>Created Date: </strong>
                                 {new Date(this.props.order.createdDate).toLocaleString()}
                             </p>
+                            <p className="font-smaller"><strong>Status: </strong>{this.props.order.status}</p>
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color btn-padding"
                                 onClick = {this.showCommentsModal}>

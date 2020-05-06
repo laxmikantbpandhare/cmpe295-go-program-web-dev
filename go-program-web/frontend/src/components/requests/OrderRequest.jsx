@@ -88,7 +88,7 @@ class OrderRequest extends Component{
                                 {new Date(this.props.order.createdDate).toLocaleString()}
                             </p>
                             {
-                                this.state.initialStatus === "Delivered" 
+                                this.state.initialStatus === "Delivered" || this.state.initialStatus === "Cancelled"
                                 ? <p><strong>Status: </strong>{this.props.order.status}</p>
                                 : <div class="row">
                                 <div className="col-sm-3 col-6">

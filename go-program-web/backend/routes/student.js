@@ -48,7 +48,7 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
 
     queries.updateStudentEventStatus(event, result => {
         console.log("Event updated: " + result);
-        res.status(200).send({message:'Student event updated successfully', event: result});
+        res.status(200).send({message:'Student event status updated successfully', event: result});
     }, message =>{
         res.status(500).send({ message });
     });
@@ -60,7 +60,7 @@ router.post('/updateEvent', passport.authenticate("jwt", { session: false }), fu
     const event = req.body;
 
     queries.updateStudentEvent(event, result => {
-        res.status(200).send({message:'Student event updated successfully', event: result});
+        res.status(200).send({message:'Event updated successfully', event: result});
     }, message =>{
         res.status(500).send({ message });
     });
@@ -131,6 +131,19 @@ router.get('/allOrders',passport.authenticate("jwt", { session: false }),functio
         res.status(200).json({success: true, orders: orders});
     }, err=> {
         res.status(500).send({ message: `Something failed when getting students orders from the database. ${err.message}`});
+    });
+});
+
+router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Update Order Status Post Request");
+    console.log("Req Body : ",req.body);
+    const order = req.body;
+
+    queries.updateStudentOrderStatus(order, result => {
+        console.log("Order updated: " + result);
+        res.status(200).send({message:'Student order status updated successfully', order: result});
+    }, message =>{
+        res.status(500).send({ message });
     });
 });
 

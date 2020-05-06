@@ -244,10 +244,10 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
         .then(updatedEvent => {
             if(event.status === "Approved"){
                 Student.findById(event.student.id)
-                .then(StudentToUpdate => {
-                    const newPoints = StudentToUpdate["pointsAccumulated"] + Number(event.event.points);
-                    StudentToUpdate["pointsAccumulated"] = newPoints;
-                    StudentToUpdate.save()
+                .then(studentToUpdate => {
+                    const newPoints = studentToUpdate["pointsAccumulated"] + Number(event.event.points);
+                    studentToUpdate["pointsAccumulated"] = newPoints;
+                    studentToUpdate.save()
                     .then(updatedStudent => {
                         updatedEvent.
                         populate('event').
@@ -466,6 +466,62 @@ queries.getStudentsAllOrders = (successcb, failurecb) => {
     .then(orders => {
         successcb(orders)})
     .catch(err => failurecb(err))
+}
+
+queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
+    Order.findById(order.id)
+    .then(orderToUpdate => {
+        let previousStatus = orderToUpdate["status"];
+        orderToUpdate["status"] = order.status;
+        orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
+        orderToUpdate.save()
+        .then(updatedOrder => {
+            if(order.status === "Cancelled" || previousStatus === "Cancelled"){
+                Student.findById(order.student.id)
+                .then(studentToUpdate => {
+                    if(order.status === "Cancelled"){
+                        studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] + Number(order.order.points);
+                    } else if(previousStatus === "Cancelled"){
+                        studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] - Number(order.order.points);
+                    }
+                    studentToUpdate.save()
+                    .then(updatedStudent => {
+                        updatedOrder.
+                        populate('student').
+                        populate('items.item').
+                        execPopulate().
+                        then(populatedOrder => {
+                            successcb(populatedOrder)
+                        })
+                    })
+                    .catch(err => {
+                        let message = `Unable to update Student points in the db. ${err.message}`;
+                        failurecb(message);
+                    })
+                })
+                .catch(err => {
+                    let message = `Unable to get Student details from the db. ${err.message}`;
+                    failurecb(message);
+                })
+            } else {
+                updatedOrder.
+                populate('student').
+                populate('items.item').
+                execPopulate().
+                then(updatedOrder => {
+                    successcb(updatedOrder)
+                })
+            }
+        })
+        .catch(err => {
+            let message = `Unable to update Order in the db. ${err.message}`;
+            failurecb(message);
+        })
+    })
+    .catch(err => {
+        let message = `Failed to get Order details from the db. ${err.message}`;
+        failurecb(message);
+    })
 }
 
 module.exports = queries;
