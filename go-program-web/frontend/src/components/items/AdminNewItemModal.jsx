@@ -17,8 +17,8 @@ class AdminNewItemModal extends Component{
             name:"",
             description:"",
             category:"",
-            points:"",
-            attributes: [{size:"",quantity:""}],
+            points:0,
+            attributes: [{size:"",quantity:0}],
             message: ""
         }
         
@@ -125,9 +125,9 @@ class AdminNewItemModal extends Component{
 
     addAttribute = () => {
         let totalAttributes = this.state.attributes.length;
-        if(this.state.attributes[totalAttributes-1].size!="" && this.state.attributes[totalAttributes-1].quantity!=""){
+        if(this.state.attributes[totalAttributes-1].size!="" && this.state.attributes[totalAttributes-1].quantity>0){
             this.setState(prevState => ({ 
-                attributes: [...prevState.attributes, { size: "", quantity: "" }]
+                attributes: [...prevState.attributes, { size: "", quantity: 0 }]
             }))
         } else {
             alert("Please fill out previous attribute");
@@ -142,7 +142,7 @@ class AdminNewItemModal extends Component{
 
      isAttributeFieldEmpty = () => {
         let totalAttributes = this.state.attributes.length;
-        if(this.state.attributes[totalAttributes-1].size==="" || this.state.attributes[totalAttributes-1].quantity===""){
+        if(this.state.attributes[totalAttributes-1].size==="" || this.state.attributes[totalAttributes-1].quantity < 1){
             return true;
         } else {
             return false;
@@ -150,7 +150,7 @@ class AdminNewItemModal extends Component{
      }
 
     isFieldEmpty = () => {
-        if(this.state.name === "" || this.state.description === "" || this.state.points === "" ||
+        if(this.state.name === "" || this.state.description === "" || this.state.points < 1 ||
         this.state.images.length === 0 || this.state.category ==="" || this.isAttributeFieldEmpty()){
             return true;
         } else {
@@ -162,7 +162,7 @@ class AdminNewItemModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory with at least 1 pic" });
+            this.setState({ message: "All fields are mandatory with at least 1 pic. Points and Quantity cannot be less than 1" });
             return;
         } else {
             this.setState({ message: "" });
@@ -233,7 +233,7 @@ class AdminNewItemModal extends Component{
                                 <label className="col-4">Points</label>
                                 <div className="col-8">
                                     <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                    className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                    className={`form-control ${this.state.points>0?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -249,7 +249,7 @@ class AdminNewItemModal extends Component{
                                                 </div>
                                                 <div className = "col-5">
                                                     <input type="number" min="1"  name="quantity" placeholder="Quantity"
-                                                    className={`form-control ${this.state.attributes[index].quantity!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                    className={`form-control ${this.state.attributes[index].quantity > 0?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                     value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                 </div>
                                                 {

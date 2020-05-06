@@ -40,7 +40,7 @@ class AdminViewItemModal extends Component{
 
     addAttribute = () => {
         let totalAttributes = this.props.item.attributes.length;
-        if(this.props.item.attributes[totalAttributes-1].size!="" && this.props.item.attributes[totalAttributes-1].quantity!=""){
+        if(this.props.item.attributes[totalAttributes-1].size!="" && this.props.item.attributes[totalAttributes-1].quantity>0){
             this.props.addAttribute(this.props.item._id);
         } else {
             alert("Please fill out previous attribute");
@@ -53,7 +53,7 @@ class AdminViewItemModal extends Component{
 
      isAttributeFieldEmpty = () => {
         let totalAttributes = this.props.item.attributes.length;
-        if(this.props.item.attributes[totalAttributes-1].size==="" || this.props.item.attributes[totalAttributes-1].quantity===""){
+        if(this.props.item.attributes[totalAttributes-1].size==="" || this.props.item.attributes[totalAttributes-1].quantity<1){
             return true;
         } else {
             return false;
@@ -61,7 +61,7 @@ class AdminViewItemModal extends Component{
      }
 
      isFieldEmpty = () => {
-        if(this.props.item.name === "" || this.props.item.description === "" || this.props.item.points === "" ||
+        if(this.props.item.name === "" || this.props.item.description === "" || this.props.item.points < 1 ||
         this.props.item.category ==="" || this.isAttributeFieldEmpty()){
             return true;
         } else {
@@ -193,7 +193,7 @@ class AdminViewItemModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                            className={`form-control ${this.props.item.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.props.item.points > 0?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.item.points}/>
                                             : <p>{this.props.item.points}</p>
                                         }  
@@ -214,7 +214,7 @@ class AdminViewItemModal extends Component{
                                                         </div>
                                                         <div className = "col-5">
                                                             <input type="number" min="1"  name="quantity" placeholder="Quantity"
-                                                            className={`form-control ${this.props.item.attributes[index].quantity!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                            className={`form-control ${this.props.item.attributes[index].quantity>0?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                             value={attribute.quantity ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                         </div>
                                                         {

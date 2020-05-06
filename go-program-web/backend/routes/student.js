@@ -89,4 +89,18 @@ router.post('/addEventComment',passport.authenticate("jwt", { session: false }),
     });
 });
 
+router.post('/createOrder', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Create Order Post Request");
+    console.log("Req Body : ",req.body);
+    const order = req.body;
+
+    queries.createOrder(order, result => {
+        console.log("Order created: " + result);
+        console.log('%j', result);
+        res.status(200).send({message:'Student order created successfully'});
+    }, message =>{
+        res.status(500).send({ message });
+    });
+});
+
 module.exports = router;

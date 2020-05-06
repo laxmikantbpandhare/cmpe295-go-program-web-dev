@@ -1,14 +1,36 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
-import './Items.css'
+import './Items.css';
+import {connect} from 'react-redux';
+import {getItems} from '../../redux/actions/adminInventoryAction';
+import StudentItem from './StudentItem';
+import {backendUrl} from '../../config';
 
 class StudentAllItems extends Component{
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = {
+            pointsAccumulated: 0,
+            pointsUsed: 0,
+            search: "",
+            filter: ""
+        }
+    }
+
+    componentDidMount(){
+        this.props.getItems();
+        if(localStorage.getItem('pointsUsed')){
+            this.setState({
+                pointsUsed: localStorage.getItem('pointsUsed'),
+                pointsAccumulated: localStorage.getItem('pointsAccumulated')
+            })
+        } else {
+            this.setState({
+                pointsAccumulated: localStorage.getItem('pointsAccumulated')
+            })
+        }
     }
     
     render() {
@@ -16,6 +38,10 @@ class StudentAllItems extends Component{
         if(localStorage.getItem('token')){
 
         }
+        let noItemText = this.state.search !== "" || this.state.filter !== "" 
+        ? "No Item Matching the Search or Filter Criteria"
+        : "No Item in the Inventory";
+        let pointsBalance = this.state.pointsAccumulated - this.state.pointsUsed;
         return(
         <div className="top-align">
             <div className="heading py-1">
@@ -51,51 +77,15 @@ class StudentAllItems extends Component{
                     </div>
                     <hr/>
                 </div>
+                <h6 style= {{color:"red"}}>{this.props.itemsResponseMessage}</h6>
                 <div className="row mt-2">
-                    <div className="col-sm-6 my-1">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h6 className="card-title font-weight-bold">Shirt</h6>
-                                <h6 className="card-text">Tier 2</h6>
-                                <h6 className="card-text">299 Points</h6>
-                                <button type="button" className="btn btn-primary btn-style">Select</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 my-1">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h6 className="card-title font-weight-bold">Shirt</h6>
-                                <h6 className="card-text">Tier 2</h6>
-                                <h6 className="card-text">299 Points</h6>
-                                <button type="button" className="btn btn-primary btn-style">Select</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 my-1">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h6 className="card-title font-weight-bold">Shirt</h6>
-                                <h6 className="card-text">Tier 2</h6>
-                                <h6 className="card-text">299 Points</h6>
-                                <button type="button" className="btn btn-primary btn-style">Select</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 my-1">
-                        <div className="card d-flex flex-row">
-                            <img src={collegeLogo} className="img-fluid items-card-image align-self-center" alt="..."/>
-                            <div className="card-body">
-                                <h6 className="card-title font-weight-bold">Shirt</h6>
-                                <h6 className="card-text">Tier 2</h6>
-                                <h6 className="card-text">299 Points</h6>
-                                <button type="button" className="btn btn-primary btn-style">Select</button>
-                            </div>
-                        </div>
-                    </div>
+                {
+                    this.props.items.length!==0 ? this.props.items.map((item,index)=>
+                    <StudentItem item={item} key={index} pointsBalance = {pointsBalance}/>
+                    )
+                    :
+                    <h2>{noItemText}</h2>
+                }
                 </div>
             </div>
         </div>
@@ -103,4 +93,18 @@ class StudentAllItems extends Component{
     }
 }
 
-export default StudentAllItems;
+const mapDispatchToProps = dispatch => {
+    return {
+        getItems: () => {dispatch(getItems())}
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        itemsResponseMessage: state.inventory.getResponseMessage,
+        items: state.inventory.items,
+        categories: state.inventory.categories
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentAllItems);

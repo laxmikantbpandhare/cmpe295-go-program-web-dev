@@ -92,7 +92,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             var items = state.items.map(item => {
                 if(item._id == action.payload.id){
                     let itemToUpdate = {...item};
-                    itemToUpdate.attributes = [...itemToUpdate.attributes, { size: "", quantity: "" }];
+                    itemToUpdate.attributes = [...itemToUpdate.attributes, { size: "", quantity: 0 }];
                     return itemToUpdate;
                 }
                 // Leave every other item unchanged

@@ -22,5 +22,14 @@
 .items-search-section .input-group-text {
     color: #0056a3;
     background-color: #f8b21a;
-    border: 1px solid #f8b21a
+    border: 1px solid #fdf4df
+}
+
+.item-selected {
+    background-color: black;
+    color: white
+}
+
+.item-details-image {
+    width: 20rem
 }

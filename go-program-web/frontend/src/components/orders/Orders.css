@@ -13,3 +13,8 @@
 .your-orders-heading{
     background-color: #0056a3
 }
+
+.cart-item-image {
+    width: 8rem;
+    height: 8rem;
+}

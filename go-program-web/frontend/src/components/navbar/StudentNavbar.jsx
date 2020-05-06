@@ -31,6 +31,9 @@ function StudentNavbar() {
                 </ul>
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <Link to="/student/cart" className="nav-link"><i className="fas fa-shopping-cart"></i>Cart</Link>
+                    </li> 
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <div className="dropdown">
                             <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-id-badge"></i> UserName</a>
                             <div className="dropdown-menu">

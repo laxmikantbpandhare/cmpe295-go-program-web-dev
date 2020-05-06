@@ -123,4 +123,14 @@ router.post('/deleteEvent',passport.authenticate("jwt", { session: false }), fun
     });
 });
 
+router.get('/item',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Admin Item Get Request");
+    
+    queries.getItem(req.query.id, item => {
+        res.status(200).send({success: true, item: item});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting the item from the collection. ${err.message}`});
+    });
+});
+
 module.exports = router;

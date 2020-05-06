@@ -3,6 +3,7 @@ const Item = require('../models/item');
 const Event = require('../models/event');
 const Student = require('../models/student');
 const StudentEvent = require('../models/studentEvent');
+const Order = require('../models/order');
 
 var queries = {};
 
@@ -256,7 +257,7 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
                         })
                     })
                     .catch(err => {
-                        let message = `Unable to update Student in the db. ${err.message}`;
+                        let message = `Unable to update Student points in the db. ${err.message}`;
                         failurecb(message);
                     })
                 })
@@ -329,7 +330,7 @@ queries.getStudentPoints = (id, successcb, failurecb) => {
 }
 
 queries.addStudentEventComment = (eventId, comment, successcb, failurecb) => {
-    StudentEvent.findById({_id: eventId})
+    StudentEvent.findById(eventId)
     .then(event => {
         event.comments.push(comment);
         event.save()
@@ -345,6 +346,90 @@ queries.addStudentEventComment = (eventId, comment, successcb, failurecb) => {
         .catch(err => failurecb(err))
     })
     .catch(err => failurecb(err))
+}
+
+queries.getItem = (itemId,successcb, failurecb) => {
+    Item.findById(itemId)
+    .then(item => successcb(item))
+    .catch(err => failurecb(err))
+}
+
+// queries.createOrder = (order, successcb, failurecb) => {
+//     Student.findOne({sjsuId: order.student.id})
+//     .select('_id pointsAccumulated')
+//     .then(student => {
+//         const newOrder = new Order({
+//             student: student._id,
+//             items: order.items,
+//             points: order.points,
+//             status: "Pending Delivery"
+//         });
+//         newOrder.save()
+//         .then(savedOrder => {
+//             const newPoints = student["pointsAccumulated"] - Number(order.points);
+//             student["pointsAccumulated"] = newPoints;
+//             student.save()
+//             .then(updatedStudent => {
+//                 savedOrder
+//                 .populate('items.item')
+//                 .execPopulate()
+//                 .then(populatedOrder => {
+//                     successcb(populatedOrder)
+//                 })
+//             })
+//             .catch(err => {
+//                 let message = `Unable to update Student points in the db. ${err.message}`;
+//                 failurecb(message);
+//             })
+//         })
+//         .catch(err => {
+//             let message = `Failed to add Order details in the db. ${err.message}`;
+//         failurecb(message);
+//         })
+//     })
+//     .catch(err => {
+//         let message = `Failed to get Student details from the db. ${err.message}`;
+//         failurecb(message);
+//     })
+// }
+
+queries.createOrder = (order, successcb, failurecb) => {
+    Student.findOne({sjsuId: order.student.id})
+    .select('_id pointsAccumulated')
+    .then(student => {
+        const newOrder = new Order({
+            student: student._id,
+            items: order.items,
+            points: order.points,
+            status: "Pending Delivery"
+        });
+        const newPoints = student["pointsAccumulated"] - Number(order.points);
+        student["pointsAccumulated"] = newPoints;
+        student.save()
+        .then(updatedStudent => {
+            newOrder.save()
+            .then(savedOrder => {
+                savedOrder
+                .populate('items.item')
+                .execPopulate()
+                .then(populatedOrder => {
+                    successcb(populatedOrder)
+                })
+            })
+            .catch(err => {
+                let message = `Failed to add Order details in the db. ${err.message}`;
+            failurecb(message);
+            })
+        })
+        .catch(err => {
+            let message = `Unable to update Student points in the db. ${err.message}`;
+            failurecb(message);
+        })
+    })
+    .catch(err => {
+        let message = `Failed to get Student details from the db. ${err.message}`;
+        failurecb(message);
+    })
 }
 
 module.exports = queries;
