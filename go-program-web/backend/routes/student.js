@@ -85,7 +85,7 @@ router.post('/addEventComment',passport.authenticate("jwt", { session: false }),
     queries.addStudentEventComment(eventId, comment, result => {
         res.status(200).json({message:'Comment added successfully', event: result});
     }, err=> {
-        res.status(500).send({ message: `Something failed when adding comments in the student events in the database. ${err.message}`});
+        res.status(500).send({ message: `Something failed when adding comments in the student event in the database. ${err.message}`});
     });
 });
 
@@ -108,6 +108,29 @@ router.get('/ownOrders',passport.authenticate("jwt", { session: false }),functio
         res.status(200).json({success: true, orders: orders});
     }, (err,tag)=> {
         res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
+router.post('/addOrderComment',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Add Order Comment Post Request");
+    console.log("Req Body : ",req.body);
+    const comment = req.body.comment;
+    const orderId = req.body.id;
+
+    queries.addStudentOrderComment(orderId, comment, result => {
+        res.status(200).json({message:'Comment added successfully', order: result});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when adding comments in the order collection in the database. ${err.message}`});
+    });
+});
+
+router.get('/allOrders',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Requests All Orders Get Request");
+    
+    queries.getStudentsAllOrders(orders => {
+        res.status(200).json({success: true, orders: orders});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting students orders from the database. ${err.message}`});
     });
 });
 

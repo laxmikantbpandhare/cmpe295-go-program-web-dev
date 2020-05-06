@@ -438,4 +438,34 @@ queries.getStudentOwnOrders = (id, successcb, failurecb) => {
     })
 }
 
+queries.addStudentOrderComment = (orderId, comment, successcb, failurecb) => {
+    Order.findById(orderId)
+    .then(order => {
+        order.comments.push(comment);
+        order.save()
+        .then(updatedOrder => {
+            updatedOrder
+            .populate('student')
+            .populate('items.item')
+            .execPopulate()
+            .then(populatedOrder => {
+                successcb(populatedOrder)
+            })
+        })
+        .catch(err => failurecb(err))
+    })
+    .catch(err => failurecb(err))
+}
+
+queries.getStudentsAllOrders = (successcb, failurecb) => {
+    Order.find()
+    .populate('student')
+    .populate('items.item')
+    .sort({updatedDate:-1})
+    .exec()
+    .then(orders => {
+        successcb(orders)})
+    .catch(err => failurecb(err))
+}
+
 module.exports = queries;

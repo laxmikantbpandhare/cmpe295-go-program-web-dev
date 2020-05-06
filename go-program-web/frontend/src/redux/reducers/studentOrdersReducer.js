@@ -1,4 +1,5 @@
-import { STUDENT_GET_ORDERS_SUCCESS, STUDENT_GET_ORDERS_FAILED, STUDENT_ORDER_ADD_COMMENT_SUCCESS, STUDENT_ORDER_ADD_COMMENT_FAILED, } from '../actions/types';
+import { STUDENT_GET_ORDERS_SUCCESS, STUDENT_GET_ORDERS_FAILED, STUDENT_ORDER_ADD_COMMENT_SUCCESS, 
+    STUDENT_ORDER_ADD_COMMENT_FAILED, } from '../actions/types';
 
 const initialState = {
     orders: [],
@@ -7,12 +8,12 @@ const initialState = {
     updatedOrder: ""
 };
 
-const studentEventsReducer = (state = initialState, action) => {
+const studentOrdersReducer = (state = initialState, action) => {
     switch(action.type){
         case STUDENT_GET_ORDERS_SUCCESS:
             return {
                 ...state,
-                events: initialState.events.concat(action.payload.events),
+                orders: initialState.orders.concat(action.payload.orders),
                 getResponseMessage: ""
             }
         case STUDENT_GET_ORDERS_FAILED:
@@ -21,16 +22,16 @@ const studentEventsReducer = (state = initialState, action) => {
                 getResponseMessage: action.payload.message
             }
         case STUDENT_ORDER_ADD_COMMENT_SUCCESS:
-            var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
-                    return action.payload.event;
+            var orders = state.orders.map(order => {
+                if(order._id == action.payload.order._id){
+                    return action.payload.order;
                 }
                 // Leave every other item unchanged
-                return event;
+                return order;
             });
             return {
                 ...state,
-                events,
+                orders,
                 addCommentResponseMessage: action.payload.message,
             }
         case STUDENT_ORDER_ADD_COMMENT_FAILED:
@@ -43,4 +44,4 @@ const studentEventsReducer = (state = initialState, action) => {
     }
 }
 
-export default studentEventsReducer;
+export default studentOrdersReducer;
