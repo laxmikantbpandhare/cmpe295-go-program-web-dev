@@ -95,11 +95,19 @@ router.post('/createOrder', passport.authenticate("jwt", { session: false }), fu
     const order = req.body;
 
     queries.createOrder(order, result => {
-        console.log("Order created: " + result);
-        console.log('%j', result);
-        res.status(200).send({message:'Student order created successfully'});
+        res.status(200).send({message:`Student order created successfully. Order Id# ${result.id}`});
     }, message =>{
         res.status(500).send({ message });
+    });
+});
+
+router.get('/ownOrders',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Own Orders Get Request");
+    
+    queries.getStudentOwnOrders(req.query.id,orders => {
+        res.status(200).json({success: true, orders: orders});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
     });
 });
 

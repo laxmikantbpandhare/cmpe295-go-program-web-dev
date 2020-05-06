@@ -25,16 +25,17 @@ class StudentCartItem extends Component{
                     <div className="card d-flex flex-row">
                         <img src={this.props.item.images[0]} className="img-fluid cart-item-image m-1" alt="..."/>
                         <div className="card-body card-body-lesspad">
-                            <h5 className="card-title font-weight-bold">{this.props.item.name}</h5>
-                            <p className="card-text"><strong>Points: </strong>{this.props.item.points}</p>
-                            <p className="card-text"><strong>Size: </strong>{this.props.item.size}</p>
-                            <p className="card-text"><strong>Quantity: </strong>{this.props.item.quantity}</p>
+                            <h5 style={{fontSize: '1rem'}} className="font-weight-bold">{this.props.item.name}</h5>
+                            <p className="font-smaller"><strong>Points: </strong>{this.props.item.points}</p>
+                            <p className="font-smaller"><strong>Size: </strong>{this.props.item.size}</p>
+                            <p className="font-smaller"><strong>Quantity: </strong>{this.props.item.quantity}</p>
+                            <p className="font-smaller"><strong>Total Points: </strong>{this.props.item.quantity * this.props.item.points}</p>
                             <div className="d-flex flex-row">
-                                <button type="button" className="btn btn-link view-details-color"
+                                <button className="btn btn-link view-details-color btn-padding"
                                 onClick={() => this.setState({ isOpen: true })}>
                                     <i class="fas fa-search-plus"/> Images
                                 </button>
-                                <button type="button" className="btn btn-link delete-color"
+                                <button className="btn btn-link delete-color btn-padding"
                                 onClick = {this.removeItem}>
                                     <i className="fas fa-trash-alt"/> Remove from Cart
                                 </button>

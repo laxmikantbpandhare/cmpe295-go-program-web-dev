@@ -4,6 +4,7 @@ const Event = require('../models/event');
 const Student = require('../models/student');
 const StudentEvent = require('../models/studentEvent');
 const Order = require('../models/order');
+const Counter = require('../models/counter');
 
 var queries = {};
 
@@ -141,7 +142,6 @@ queries.deleteEvent = (id, successcb, failurecb) => {
 }
 
 queries.getStudentOwnEvents = (id, successcb, failurecb) => {
-    console.log("Inside student own event");
     Student.findOne({sjsuId: id})
     .select('_id')
     .then(student => {
@@ -289,7 +289,6 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
 queries.updateStudentEvent = (event, successcb, failurecb) => {
     StudentEvent.findById(event.id)
     .then(eventToUpdate => {
-        console.log(event.images);
         eventToUpdate["description"] = event.description;
         eventToUpdate["updatedBy"] = `Student(${event.updatedBy})`;
         const newImages = [...event.images, ...eventToUpdate["images"]];
@@ -354,71 +353,36 @@ queries.getItem = (itemId,successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
-// queries.createOrder = (order, successcb, failurecb) => {
-//     Student.findOne({sjsuId: order.student.id})
-//     .select('_id pointsAccumulated')
-//     .then(student => {
-//         const newOrder = new Order({
-//             student: student._id,
-//             items: order.items,
-//             points: order.points,
-//             status: "Pending Delivery"
-//         });
-//         newOrder.save()
-//         .then(savedOrder => {
-//             const newPoints = student["pointsAccumulated"] - Number(order.points);
-//             student["pointsAccumulated"] = newPoints;
-//             student.save()
-//             .then(updatedStudent => {
-//                 savedOrder
-//                 .populate('items.item')
-//                 .execPopulate()
-//                 .then(populatedOrder => {
-//                     successcb(populatedOrder)
-//                 })
-//             })
-//             .catch(err => {
-//                 let message = `Unable to update Student points in the db. ${err.message}`;
-//                 failurecb(message);
-//             })
-//         })
-//         .catch(err => {
-//             let message = `Failed to add Order details in the db. ${err.message}`;
-//         failurecb(message);
-//         })
-//     })
-//     .catch(err => {
-//         let message = `Failed to get Student details from the db. ${err.message}`;
-//         failurecb(message);
-//     })
-// }
-
 queries.createOrder = (order, successcb, failurecb) => {
     Student.findOne({sjsuId: order.student.id})
     .select('_id pointsAccumulated')
     .then(student => {
-        const newOrder = new Order({
-            student: student._id,
-            items: order.items,
-            points: order.points,
-            status: "Pending Delivery"
-        });
         const newPoints = student["pointsAccumulated"] - Number(order.points);
         student["pointsAccumulated"] = newPoints;
         student.save()
         .then(updatedStudent => {
-            newOrder.save()
-            .then(savedOrder => {
-                savedOrder
-                .populate('items.item')
-                .execPopulate()
-                .then(populatedOrder => {
-                    successcb(populatedOrder)
+            Counter.findByIdAndUpdate( "orderId" , { $inc: { seq: 1 }}, {new: true, upsert: true }).
+            select('seq')
+            .then(counter => {
+                const newOrder = new Order({
+                    id: counter.seq,
+                    student: student._id,
+                    items: order.items,
+                    points: order.points,
+                    status: "Submitted"
+                });
+                newOrder.save()
+                .then(savedOrder => {
+                    successcb(savedOrder)
+                })
+                .catch(err => {
+                    let message = `Failed to add Order details in the db. ${err.message}`;
+                    failurecb(message);
                 })
             })
             .catch(err => {
-                let message = `Failed to add Order details in the db. ${err.message}`;
-            failurecb(message);
+                let message = `Unable to generate new order id in the db. ${err.message}`;
+                failurecb(message);
             })
         })
         .catch(err => {
@@ -429,6 +393,27 @@ queries.createOrder = (order, successcb, failurecb) => {
     .catch(err => {
         let message = `Failed to get Student details from the db. ${err.message}`;
         failurecb(message);
+    })
+}
+
+queries.getStudentOwnOrders = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        // if(student !== null){
+
+        // }
+        Order.find({student: student._id})
+        .populate('student')
+        .populate('items.item')
+        .sort({updatedDate:-1})
+        .exec()
+        .then(events => {
+            successcb(events)})
+        .catch(err => failurecb(err,"Student Orders"))
+    })
+    .catch(err => {
+        failurecb(err,"Student")
     })
 }
 

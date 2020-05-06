@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
+    id: {
+        type: Number,
+        required: true
+    },
     student: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Students',
