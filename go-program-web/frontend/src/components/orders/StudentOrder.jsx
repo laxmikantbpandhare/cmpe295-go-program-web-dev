@@ -180,4 +180,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(StudentOrder)

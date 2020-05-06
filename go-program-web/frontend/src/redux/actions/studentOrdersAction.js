@@ -2,9 +2,9 @@ import { STUDENT_GET_ORDERS_SUCCESS, STUDENT_GET_ORDERS_FAILED, STUDENT_ORDER_AD
     STUDENT_ORDER_ADD_COMMENT_FAILED} from './types';
 import {backendUrl} from '../../config';
 
-export const getEvents = () => dispatch => {
+export const getOrders = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/ownEvents/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/ownOrders/?id=${localStorage.getItem('id')}`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',

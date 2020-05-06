@@ -5,6 +5,7 @@ const Student = require('../models/student');
 const StudentEvent = require('../models/studentEvent');
 const Order = require('../models/order');
 const Counter = require('../models/counter');
+const mongoose = require('mongoose');
 
 var queries = {};
 
@@ -367,13 +368,33 @@ queries.createOrder = (order, successcb, failurecb) => {
                 const newOrder = new Order({
                     id: counter.seq,
                     student: student._id,
-                    items: order.items,
+                    items: order.orderItems,
                     points: order.points,
                     status: "Submitted"
                 });
                 newOrder.save()
                 .then(savedOrder => {
-                    successcb(savedOrder)
+                    Item.bulkWrite(
+                        order.inventoryItems.map(item => ({
+                            updateOne: {
+                                filter: {_id: item.itemId},
+                                update: {$set: { "attributes.$[attribute].quantity": item.newQuantity} },
+                                arrayFilters: [
+                                    {
+                                        "attribute._id": mongoose.Types.ObjectId(item.attributeId)
+                                    }
+                                ]
+                            }
+                        })
+                        )
+                    )
+                    .then(result => {
+                        successcb(savedOrder)
+                    })
+                    .catch(err => {
+                        let message = `Failed to update quantity of items in the db. ${err.message}`;
+                        failurecb(message);
+                    })
                 })
                 .catch(err => {
                     let message = `Failed to add Order details in the db. ${err.message}`;

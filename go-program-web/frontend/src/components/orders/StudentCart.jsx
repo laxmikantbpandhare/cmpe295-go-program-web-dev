@@ -79,16 +79,24 @@ class StudentCart extends Component{
                 quantity: cartItem.quantity
             }
         });
-        successcb(orderItems);
+        const inventoryItems = this.state.cart.map(cartItem => {
+            return {
+                itemId: cartItem._id, 
+                attributeId: cartItem.attributeId, 
+                newQuantity: cartItem.originalQuantity - cartItem.quantity
+            }
+        });
+        successcb(orderItems, inventoryItems);
     }
 
     confirmOrder = () => {
-        this.prepareOrderItems(items => {
+        this.prepareOrderItems((orderItems, inventoryItems) => {
             const data = {
                 student: {
                     id: localStorage.getItem('id')
                 },
-                items,
+                orderItems,
+                inventoryItems,
                 points: this.state.pointsUsed
             }
             const token = localStorage.getItem('token');

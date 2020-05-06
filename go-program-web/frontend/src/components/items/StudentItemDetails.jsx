@@ -24,11 +24,12 @@ class StudentItemDetails extends Component{
                 name: "",
                 category: ""
             },
-            sizeIndex: 0,
             photoIndex: 0,
             isOpen: false,
             pointsAccumulated: 0,
-            insufficientPointsInfo: ""
+            insufficientPointsInfo: "",
+            originalQuantity: 0,
+            attributeId: ""
         }
         this.handleSizeSelection = this.handleSizeSelection.bind(this);
     }
@@ -78,10 +79,11 @@ class StudentItemDetails extends Component{
         }
     }
 
-    handleSizeSelection = (e, index) => {
+    handleSizeSelection = (e, originalQuantity, attributeId) => {
         this.setState({
             size: e.target.value,
-            sizeIndex: index
+            originalQuantity,
+            attributeId
         });
     }
 
@@ -93,7 +95,8 @@ class StudentItemDetails extends Component{
         if(itemExists !== -1){
             pointsBalance += this.cart[itemExists].quantity * this.cart[itemExists].points
         }
-        let availableQuantity = parseInt(this.state.item.attributes[this.state.sizeIndex].quantity);
+        // let availableQuantity = parseInt(this.state.item.attributes[this.state.sizeIndex].quantity);
+        let availableQuantity = parseInt(this.state.originalQuantity);
         if(pointsRequired > pointsBalance || this.state.quantity > availableQuantity) {
             return false;
         } else {
@@ -108,7 +111,9 @@ class StudentItemDetails extends Component{
             points: this.state.item.points,
             size: this.state.size,
             quantity: this.state.quantity,
-            images: this.state.item.images
+            images: this.state.item.images,
+            attributeId: this.state.attributeId,
+            originalQuantity: this.state.originalQuantity
         }
         if(this.cart.length !== 0){
             let pointsAdjusted = 0;
@@ -148,6 +153,7 @@ class StudentItemDetails extends Component{
     }
     
     render() {
+        console.log(this.state);
         let redirectVar = null;
         if(localStorage.getItem('token')){
 
@@ -191,7 +197,8 @@ class StudentItemDetails extends Component{
                             {
                                 this.state.item.attributes.filter(attribute=> attribute.quantity > 0)
                                 .map((attribute, index) => (
-                                    <button key = {index} type="button"onClick={e => this.handleSizeSelection(e,index)} value={attribute.size}
+                                    <button key = {index} onClick={e => this.handleSizeSelection(e, attribute.quantity, attribute._id)}
+                                        value={attribute.size}
                                         className={`btn btn-outline-dark mr-1 ${this.state.size===attribute.size?'item-selected':''}`}>
                                         {attribute.size}
                                     </button>
@@ -204,7 +211,7 @@ class StudentItemDetails extends Component{
                             ? (
                                 <div>
                                     <p className="h6"><strong>Available quantity: </strong>
-                                        {this.state.item.attributes[this.state.sizeIndex].quantity}
+                                        {this.state.originalQuantity}
                                     </p>
                                 </div>
                             )
