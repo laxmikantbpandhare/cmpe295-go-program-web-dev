@@ -4,6 +4,8 @@ import '../../Common.css';
 import './Comments.css';
 import {eventAddAdminComment} from '../../redux/actions/eventsRequestsAction';
 import {eventAddStudentComment} from '../../redux/actions/studentEventsAction';
+import {orderAddStudentComment} from '../../redux/actions/studentOrdersAction';
+import {orderAddAdminComment} from '../../redux/actions/ordersRequestsAction';
 
 class CommentsModal extends Component {
      //call the constructor method
@@ -76,6 +78,26 @@ class CommentsModal extends Component {
             .catch(() => {
             
             })
+        } else if(this.props.commenter === "Student" && this.props.type === "Order"){
+            this.props.orderAddStudentComment(data)
+            .then(() => {
+                this.setState({
+                    comment: ""
+                });
+            })
+            .catch(() => {
+            
+            })
+        } else if(this.props.commenter === "Admin" && this.props.type === "Order"){
+            this.props.orderAddAdminComment(data)
+            .then(() => {
+                this.setState({
+                    comment: ""
+                });
+            })
+            .catch(() => {
+            
+            })
         }
     }
     
@@ -126,7 +148,9 @@ class CommentsModal extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         eventAddAdminComment: data => dispatch(eventAddAdminComment(data)),
-        eventAddStudentComment: data => dispatch(eventAddStudentComment(data))
+        eventAddStudentComment: data => dispatch(eventAddStudentComment(data)),
+        orderAddStudentComment: data => dispatch(orderAddStudentComment(data)),
+        orderAddAdminComment: data => dispatch(orderAddAdminComment(data))
     }
 }
 

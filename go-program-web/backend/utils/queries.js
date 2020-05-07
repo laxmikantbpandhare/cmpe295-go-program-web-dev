@@ -3,6 +3,9 @@ const Item = require('../models/item');
 const Event = require('../models/event');
 const Student = require('../models/student');
 const StudentEvent = require('../models/studentEvent');
+const Order = require('../models/order');
+const Counter = require('../models/counter');
+const mongoose = require('mongoose');
 
 var queries = {};
 
@@ -140,7 +143,6 @@ queries.deleteEvent = (id, successcb, failurecb) => {
 }
 
 queries.getStudentOwnEvents = (id, successcb, failurecb) => {
-    console.log("Inside student own event");
     Student.findOne({sjsuId: id})
     .select('_id')
     .then(student => {
@@ -242,10 +244,10 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
         .then(updatedEvent => {
             if(event.status === "Approved"){
                 Student.findById(event.student.id)
-                .then(StudentToUpdate => {
-                    const newPoints = StudentToUpdate["pointsAccumulated"] + Number(event.event.points);
-                    StudentToUpdate["pointsAccumulated"] = newPoints;
-                    StudentToUpdate.save()
+                .then(studentToUpdate => {
+                    const newPoints = studentToUpdate["pointsAccumulated"] + Number(event.event.points);
+                    studentToUpdate["pointsAccumulated"] = newPoints;
+                    studentToUpdate.save()
                     .then(updatedStudent => {
                         updatedEvent.
                         populate('event').
@@ -256,7 +258,7 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
                         })
                     })
                     .catch(err => {
-                        let message = `Unable to update Student in the db. ${err.message}`;
+                        let message = `Unable to update Student points in the db. ${err.message}`;
                         failurecb(message);
                     })
                 })
@@ -288,7 +290,6 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
 queries.updateStudentEvent = (event, successcb, failurecb) => {
     StudentEvent.findById(event.id)
     .then(eventToUpdate => {
-        console.log(event.images);
         eventToUpdate["description"] = event.description;
         eventToUpdate["updatedBy"] = `Student(${event.updatedBy})`;
         const newImages = [...event.images, ...eventToUpdate["images"]];
@@ -329,7 +330,7 @@ queries.getStudentPoints = (id, successcb, failurecb) => {
 }
 
 queries.addStudentEventComment = (eventId, comment, successcb, failurecb) => {
-    StudentEvent.findById({_id: eventId})
+    StudentEvent.findById(eventId)
     .then(event => {
         event.comments.push(comment);
         event.save()
@@ -345,6 +346,182 @@ queries.addStudentEventComment = (eventId, comment, successcb, failurecb) => {
         .catch(err => failurecb(err))
     })
     .catch(err => failurecb(err))
+}
+
+queries.getItem = (itemId,successcb, failurecb) => {
+    Item.findById(itemId)
+    .then(item => successcb(item))
+    .catch(err => failurecb(err))
+}
+
+queries.createOrder = (order, successcb, failurecb) => {
+    Student.findOne({sjsuId: order.student.id})
+    .select('_id pointsAccumulated')
+    .then(student => {
+        const newPoints = student["pointsAccumulated"] - Number(order.points);
+        student["pointsAccumulated"] = newPoints;
+        student.save()
+        .then(updatedStudent => {
+            Counter.findByIdAndUpdate( "orderId" , { $inc: { seq: 1 }}, {new: true, upsert: true }).
+            select('seq')
+            .then(counter => {
+                const newOrder = new Order({
+                    id: counter.seq,
+                    student: student._id,
+                    items: order.orderItems,
+                    points: order.points,
+                    status: "Submitted"
+                });
+                newOrder.save()
+                .then(savedOrder => {
+                    Item.bulkWrite(
+                        order.inventoryItems.map(item => ({
+                            updateOne: {
+                                filter: {_id: item.itemId},
+                                update: {$set: { "attributes.$[attribute].quantity": item.newQuantity} },
+                                arrayFilters: [
+                                    {
+                                        "attribute._id": mongoose.Types.ObjectId(item.attributeId)
+                                    }
+                                ]
+                            }
+                        })
+                        )
+                    )
+                    .then(result => {
+                        successcb(savedOrder)
+                    })
+                    .catch(err => {
+                        let message = `Failed to update quantity of items in the db. ${err.message}`;
+                        failurecb(message);
+                    })
+                })
+                .catch(err => {
+                    let message = `Failed to add Order details in the db. ${err.message}`;
+                    failurecb(message);
+                })
+            })
+            .catch(err => {
+                let message = `Unable to generate new order id in the db. ${err.message}`;
+                failurecb(message);
+            })
+        })
+        .catch(err => {
+            let message = `Unable to update Student points in the db. ${err.message}`;
+            failurecb(message);
+        })
+    })
+    .catch(err => {
+        let message = `Failed to get Student details from the db. ${err.message}`;
+        failurecb(message);
+    })
+}
+
+queries.getStudentOwnOrders = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        // if(student !== null){
+
+        // }
+        Order.find({student: student._id})
+        .populate('student')
+        .populate('items.item')
+        .sort({updatedDate:-1})
+        .exec()
+        .then(events => {
+            successcb(events)})
+        .catch(err => failurecb(err,"Student Orders"))
+    })
+    .catch(err => {
+        failurecb(err,"Student")
+    })
+}
+
+queries.addStudentOrderComment = (orderId, comment, successcb, failurecb) => {
+    Order.findById(orderId)
+    .then(order => {
+        order.comments.push(comment);
+        order.save()
+        .then(updatedOrder => {
+            updatedOrder
+            .populate('student')
+            .populate('items.item')
+            .execPopulate()
+            .then(populatedOrder => {
+                successcb(populatedOrder)
+            })
+        })
+        .catch(err => failurecb(err))
+    })
+    .catch(err => failurecb(err))
+}
+
+queries.getStudentsAllOrders = (successcb, failurecb) => {
+    Order.find()
+    .populate('student')
+    .populate('items.item')
+    .sort({updatedDate:-1})
+    .exec()
+    .then(orders => {
+        successcb(orders)})
+    .catch(err => failurecb(err))
+}
+
+queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
+    Order.findById(order.id)
+    .then(orderToUpdate => {
+        let previousStatus = orderToUpdate["status"];
+        orderToUpdate["status"] = order.status;
+        orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
+        orderToUpdate.save()
+        .then(updatedOrder => {
+            if(order.status === "Cancelled" || previousStatus === "Cancelled"){
+                Student.findById(order.student.id)
+                .then(studentToUpdate => {
+                    if(order.status === "Cancelled"){
+                        studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] + Number(order.order.points);
+                    } else if(previousStatus === "Cancelled"){
+                        studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] - Number(order.order.points);
+                    }
+                    studentToUpdate.save()
+                    .then(updatedStudent => {
+                        updatedOrder.
+                        populate('student').
+                        populate('items.item').
+                        execPopulate().
+                        then(populatedOrder => {
+                            successcb(populatedOrder)
+                        })
+                    })
+                    .catch(err => {
+                        let message = `Unable to update Student points in the db. ${err.message}`;
+                        failurecb(message);
+                    })
+                })
+                .catch(err => {
+                    let message = `Unable to get Student details from the db. ${err.message}`;
+                    failurecb(message);
+                })
+            } else {
+                updatedOrder.
+                populate('student').
+                populate('items.item').
+                execPopulate().
+                then(updatedOrder => {
+                    successcb(updatedOrder)
+                })
+            }
+        })
+        .catch(err => {
+            let message = `Unable to update Order in the db. ${err.message}`;
+            failurecb(message);
+        })
+    })
+    .catch(err => {
+        let message = `Failed to get Order details from the db. ${err.message}`;
+        failurecb(message);
+    })
 }
 
 module.exports = queries;

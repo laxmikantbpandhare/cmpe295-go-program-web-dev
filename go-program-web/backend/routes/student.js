@@ -48,7 +48,7 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
 
     queries.updateStudentEventStatus(event, result => {
         console.log("Event updated: " + result);
-        res.status(200).send({message:'Student event updated successfully', event: result});
+        res.status(200).send({message:'Student event status updated successfully', event: result});
     }, message =>{
         res.status(500).send({ message });
     });
@@ -60,7 +60,7 @@ router.post('/updateEvent', passport.authenticate("jwt", { session: false }), fu
     const event = req.body;
 
     queries.updateStudentEvent(event, result => {
-        res.status(200).send({message:'Student event updated successfully', event: result});
+        res.status(200).send({message:'Event updated successfully', event: result});
     }, message =>{
         res.status(500).send({ message });
     });
@@ -85,7 +85,65 @@ router.post('/addEventComment',passport.authenticate("jwt", { session: false }),
     queries.addStudentEventComment(eventId, comment, result => {
         res.status(200).json({message:'Comment added successfully', event: result});
     }, err=> {
-        res.status(500).send({ message: `Something failed when adding comments in the student events in the database. ${err.message}`});
+        res.status(500).send({ message: `Something failed when adding comments in the student event in the database. ${err.message}`});
+    });
+});
+
+router.post('/createOrder', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Create Order Post Request");
+    console.log("Req Body : ",req.body);
+    const order = req.body;
+
+    queries.createOrder(order, result => {
+        res.status(200).send({message:`Student order created successfully. Order Id# ${result.id}`});
+    }, message =>{
+        res.status(500).send({ message });
+    });
+});
+
+router.get('/ownOrders',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Own Orders Get Request");
+    
+    queries.getStudentOwnOrders(req.query.id,orders => {
+        res.status(200).json({success: true, orders: orders});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
+router.post('/addOrderComment',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Add Order Comment Post Request");
+    console.log("Req Body : ",req.body);
+    const comment = req.body.comment;
+    const orderId = req.body.id;
+
+    queries.addStudentOrderComment(orderId, comment, result => {
+        res.status(200).json({message:'Comment added successfully', order: result});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when adding comments in the order collection in the database. ${err.message}`});
+    });
+});
+
+router.get('/allOrders',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Requests All Orders Get Request");
+    
+    queries.getStudentsAllOrders(orders => {
+        res.status(200).json({success: true, orders: orders});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting students orders from the database. ${err.message}`});
+    });
+});
+
+router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Update Order Status Post Request");
+    console.log("Req Body : ",req.body);
+    const order = req.body;
+
+    queries.updateStudentOrderStatus(order, result => {
+        console.log("Order updated: " + result);
+        res.status(200).send({message:'Student order status updated successfully', order: result});
+    }, message =>{
+        res.status(500).send({ message });
     });
 });
 

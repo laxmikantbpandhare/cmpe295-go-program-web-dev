@@ -35,7 +35,7 @@ class AdminViewEventModal extends Component{
     }
 
      isFieldEmpty = () => {
-        if(this.props.event.name === "" || this.props.event.description === "" || this.props.event.points === ""){
+        if(this.props.event.name === "" || this.props.event.description === "" || this.props.event.points < 1){
             return true;
         } else {
             return false;
@@ -148,7 +148,7 @@ class AdminViewEventModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.state.points>0?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.event.points}/>
                                             : <p>{this.props.event.points}</p>
                                         }  

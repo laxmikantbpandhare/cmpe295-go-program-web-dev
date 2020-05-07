@@ -12,7 +12,7 @@ class AdminNewEventModal extends Component{
         this.state = {
             name:"",
             description:"",
-            points:"",
+            points:0,
             expiry:null,
             message: ""
         }
@@ -38,7 +38,7 @@ class AdminNewEventModal extends Component{
     }
 
     isFieldEmpty = () => {
-        if(this.state.name === "" || this.state.description === "" || this.state.points === ""){
+        if(this.state.name === "" || this.state.description === "" || this.state.points < 1){
             return true;
         } else {
             return false;
@@ -49,7 +49,7 @@ class AdminNewEventModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "Fields marked in red are mandatory." });
+            this.setState({ message: "Fields marked in red are mandatory. Points cannot be less than 1." });
             return;
         } else {
             this.setState({ message: "" });
@@ -105,7 +105,7 @@ class AdminNewEventModal extends Component{
                                     <label className="col-3">Points</label>
                                     <div className="col-9">
                                         <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                        className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                        className={`form-control ${this.state.points>0?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">

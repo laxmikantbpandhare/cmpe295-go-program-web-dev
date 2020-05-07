@@ -9,7 +9,8 @@ class StudentDashboard extends Component{
     constructor(props){
         super(props);
         this.state = {
-            points: 0
+            points: 0,
+            responseMessage: ""
         }
     }
 
@@ -26,18 +27,23 @@ class StudentDashboard extends Component{
         .then(res => {
             if(res.status === 200){
                 res.json().then(data => {
+                    localStorage.setItem('pointsAccumulated', data.points);
                     this.setState({
                         points: data.points
                     })
                 });
             }else{
                 res.json().then(data => {
-                    console.log(data);
+                    this.setState({
+                        responseMessage: data.message
+                    })
                 })
             }
         })
         .catch(err => {
-            console.log(err);
+            this.setState({
+                responseMessage: err.message
+            })
         });  
     }
     

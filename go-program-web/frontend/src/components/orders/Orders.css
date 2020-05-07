@@ -13,3 +13,17 @@
 .your-orders-heading{
     background-color: #0056a3
 }
+
+.cart-item-image {
+    width: 8rem;
+    height: 8rem;
+}
+
+/* .student-order-item {
+    background-color: #f8b21a;
+} */
+
+.student-order-item hr{
+    margin-top: 0;
+    margin-bottom: 0;
+}

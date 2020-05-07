@@ -28,7 +28,7 @@ class AllEventsRequests extends Component{
         
         let noEventText = this.state.search !== ""
         ? "No Event Matching the Search or Filter Criteria"
-        : "No Event is submitted yet by you.";
+        : "No Event is submitted yet by any student.";
         return(
         <div className="top-align">
             {redirectVar}
@@ -38,7 +38,7 @@ class AllEventsRequests extends Component{
             
             <div className="container-fluid requests-below-heading">
                 <div className="requests-search-section">
-                    <h4 className="text-center text-white all-requests-heading p-1 mt-2">All Requested Events</h4>
+                    <h4 className="text-center text-white all-requests-heading p-1 mt-2">All Submitted Events</h4>
                     <div className="row">
                         <div class="col-10 col-sm-6">
                             <input type="search" class="form-control" placeholder="Search by Event Title" />

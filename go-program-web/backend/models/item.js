@@ -15,7 +15,7 @@ const itemSchema = mongoose.Schema({
         required: true
     },
     points: {
-        type: String,
+        type: Number,
         required: true
     },
     attributes : [
@@ -25,7 +25,7 @@ const itemSchema = mongoose.Schema({
                 required: true
             },
             quantity: {
-                type: String,
+                type: Number,
                 require: true
             }
         }

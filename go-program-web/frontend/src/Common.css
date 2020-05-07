@@ -154,19 +154,28 @@
     padding: 0.5rem
 }
 
-.card-body-lesspad p{
+.card-body-lesspad p {
     padding: 0;
     margin-block-end: 0
 }
 
-.card-body-lesspad h5{
+.card-body-lesspad h5 {
     margin-bottom: 0 !important
 }
 
-.card-body-lesspad h6{
+.card-body-lesspad h6 {
     padding-top: 0.5rem
 }
 
-.text-pre-wrap{
+.text-pre-wrap {
     white-space: pre-wrap
+}
+
+.btn-padding {
+    padding: 0;
+    padding-right: 1rem
+}
+
+.font-smaller {
+    font-size: smaller
 }
