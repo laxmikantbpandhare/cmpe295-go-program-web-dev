@@ -23,7 +23,7 @@ function StudentNavbar() {
                         <a className="nav-link" href="#/student/events"><i className="fas fa-calendar-check"></i> Events</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/claim-points"><i className="fas fa-award"></i> Claim Points</a>
+                        <a className="nav-link" href="#/student/redeem"><i className="fas fa-award"></i> Redeem</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <a className="nav-link" href="#/student/orders"><i className="fas fa-receipt"></i> Orders</a>

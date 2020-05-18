@@ -471,19 +471,21 @@ queries.getStudentsAllOrders = (successcb, failurecb) => {
 queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
     Order.findById(order.id)
     .then(orderToUpdate => {
-        let previousStatus = orderToUpdate["status"];
+        // let previousStatus = orderToUpdate["status"];
         orderToUpdate["status"] = order.status;
         orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
         orderToUpdate.save()
         .then(updatedOrder => {
-            if(order.status === "Cancelled" || previousStatus === "Cancelled"){
+            // if(order.status === "Cancelled" || previousStatus === "Cancelled"){
+            if(order.status === "Cancelled"){
                 Student.findById(order.student.id)
                 .then(studentToUpdate => {
-                    if(order.status === "Cancelled"){
-                        studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] + Number(order.order.points);
-                    } else if(previousStatus === "Cancelled"){
-                        studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] - Number(order.order.points);
-                    }
+                    // if(order.status === "Cancelled"){
+                    //     studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] + Number(order.order.points);
+                    // } else if(previousStatus === "Cancelled"){
+                    //     studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] - Number(order.order.points);
+                    // }
+                    studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] + Number(order.order.points);
                     studentToUpdate.save()
                     .then(updatedStudent => {
                         updatedOrder.
@@ -518,6 +520,40 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
             failurecb(message);
         })
     })
+    .catch(err => {
+        let message = `Failed to get Order details from the db. ${err.message}`;
+        failurecb(message);
+    })
+}
+
+queries.getOrderDetailsStudent = (orderId, studentId, successcb, failurecb) => {
+    Student.findOne({sjsuId: studentId})
+    .select('_id')
+    .then(student => {
+        Order.findOne({_id:orderId,student: student._id})
+        .populate('student')
+        .populate('items.item')
+        .exec()
+        .then(order => {
+            successcb(order)})
+        .catch(err => {
+            let message = `Failed to get Order details from the db. ${err.message}`;
+            failurecb(message);
+        })
+    })
+    .catch(err => {
+        let message = `Failed to get Student details from the db. ${err.message}`;
+        failurecb(message);
+    })
+}
+
+queries.getOrderDetailsAdmin = (orderId, successcb, failurecb) => {
+    Order.findOne({_id:orderId})
+    .populate('student')
+    .populate('items.item')
+    .exec()
+    .then(order => {
+        successcb(order)})
     .catch(err => {
         let message = `Failed to get Order details from the db. ${err.message}`;
         failurecb(message);

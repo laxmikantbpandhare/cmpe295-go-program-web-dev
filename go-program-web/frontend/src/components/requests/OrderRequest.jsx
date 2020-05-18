@@ -4,7 +4,7 @@ import './Requests.css'
 import {connect} from 'react-redux';
 import {orderSelectChangeHandler, updateOrderStatus} from '../../redux/actions/ordersRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
-
+import {Link} from 'react-router-dom';
 
 class OrderRequest extends Component{
     constructor(props){
@@ -67,22 +67,8 @@ class OrderRequest extends Component{
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
                             <h5 className="font-weight-bold"><strong>Order Id# </strong>{this.props.order.id}</h5>
-                            <p><strong>SJSU ID: </strong>{this.props.order.student.sjsuId}</p>
-                            <h5 style = {{textDecoration:'underline', fontSize: '1rem'}}
-                                className="font-weight-bold">Items Details:</h5>
-                            {
-                                this.props.order.items.map((item, index) => 
-                                    (<div key={index} className="student-order-item">
-                                        <p className="font-smaller">{item.item.name}</p>
-                                        <div className="d-flex flex-row" key={index}>
-                                            <p className="font-smaller"><strong>Size: </strong>{item.size}</p>
-                                            <p className="font-smaller"><strong>,&nbsp;Quantity: </strong>{item.quantity}</p>
-                                            <p className="font-smaller"><strong>,&nbsp;Points: </strong>{item.item.points}</p>
-                                        </div>
-                                        <hr/>
-                                    </div>)
-                                )
-                            }
+                            <p><strong>Student SJSU Id: </strong>{this.props.order.student.sjsuId}</p>
+                            <p><strong>Student Name: </strong>{`${this.props.order.student.fname} ${this.props.order.student.lname}`}</p>
                             <p><strong>Total Points: </strong>{this.props.order.points}</p>
                             <p><strong>Created Date: </strong>
                                 {new Date(this.props.order.createdDate).toLocaleString()}
@@ -113,10 +99,12 @@ class OrderRequest extends Component{
                             </div>
                             }
                             <div className="d-flex flex-row">
-                                <button type="button" className="btn btn-link view-details-color">
-                                    <i className="fas fa-eye"/> View Details
-                                </button>
-                                <button type="button" className="btn btn-link view-details-color"
+                                <Link to = {`/admin/order-details/${this.props.order._id}`}>
+                                    <button type="button" className="btn btn-link view-details-color btn-padding">
+                                        <i className="fas fa-eye"/> Order Details
+                                    </button>
+                                </Link>
+                                <button type="button" className="btn btn-link view-details-color btn-padding"
                                 onClick = {this.showCommentsModal}>
                                     <i className="fas fa-comment"/> Comments
                                 </button>

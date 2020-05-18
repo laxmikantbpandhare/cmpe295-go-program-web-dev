@@ -165,7 +165,7 @@ class StudentCart extends Component{
                                         Empty Cart
                                     </button>
                                     <button className="btn btn-primary btn-sm btn-style mr-2"
-                                        onClick={() => this.props.history.push("/student/claim-points")}>
+                                        onClick={() => this.props.history.push("/student/redeem")}>
                                             Add More Item
                                     </button>
                                     <button className="btn btn-primary btn-sm btn-style"
@@ -185,7 +185,7 @@ class StudentCart extends Component{
                     </div>
                 : <div>
                     <h2>Cart is Empty</h2>
-                    <Link to = "/student/claim-points">
+                    <Link to = "/student/redeem">
                         <button type="button" className="btn btn-primary btn-style mt-2">
                             Add Item
                         </button>

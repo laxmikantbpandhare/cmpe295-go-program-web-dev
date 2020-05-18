@@ -147,4 +147,14 @@ router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false 
     });
 });
 
+router.get('/specificOrder',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Specific Order Get Request");
+    
+    queries.getOrderDetailsStudent(req.query.orderId, req.query.studentId, order => {
+        res.status(200).send({success: true, order: order});
+    }, message=> {
+        res.status(500).send({ message: message});
+    });
+});
+
 module.exports = router;

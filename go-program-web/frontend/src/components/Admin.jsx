@@ -6,6 +6,7 @@ import AdminInventory from './items/AdminInventory';
 import AdminAllEvents from './events/AdminAllEvents';
 import AllEventsRequests from './requests/AllEventsRequests';
 import AllOrdersRequests from './requests/AllOrdersRequests';
+import OrderRequestDetails from './requests/OrderRequestDetails';
 
 function Admin() {
     return (
@@ -17,6 +18,7 @@ function Admin() {
             <Route path="/admin/events" component={AdminAllEvents}/>
             <Route path="/admin/events-requests" component={AllEventsRequests}/>
             <Route path="/admin/orders-requests" component={AllOrdersRequests}/>
+            <Route path="/admin/order-details/:orderId" component={OrderRequestDetails}/>
           </Switch>
       </div>
     );

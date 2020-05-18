@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../../Common.css';
 import './Orders.css'
 import CommentsModal from '../comments/CommentsModal';
+import {Link} from 'react-router-dom';
 
 class StudentOrder extends Component{
     constructor(props){
@@ -25,26 +26,18 @@ class StudentOrder extends Component{
                 <div className="col-sm-8">
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
-                            <h5 style={{fontSize: '1rem', textDecoration:'underline'}} className="font-weight-bold"><strong>Order Id# </strong>{this.props.order.id}</h5>
-                            {
-                                this.props.order.items.map((item, index) => 
-                                    (<div key={index} className="student-order-item">
-                                        <p className="font-smaller">{item.item.name}</p>
-                                        <div className="d-flex flex-row" key={index}>
-                                            <p className="font-smaller"><strong>Size: </strong>{item.size}</p>
-                                            <p className="font-smaller"><strong>,&nbsp;Quantity: </strong>{item.quantity}</p>
-                                            <p className="font-smaller"><strong>,&nbsp;Points: </strong>{item.item.points}</p>
-                                        </div>
-                                        <hr/>
-                                    </div>)
-                                )
-                            }
+                            <h5 style={{fontSize: '1rem'}} className="font-weight-bold"><strong>Order Id# </strong>{this.props.order.id}</h5>
                             <p className="font-smaller"><strong>Total Points: </strong>{this.props.order.points}</p>
                             <p className="font-smaller"><strong>Created Date: </strong>
                                 {new Date(this.props.order.createdDate).toLocaleString()}
                             </p>
                             <p className="font-smaller"><strong>Status: </strong>{this.props.order.status}</p>
                             <div className="d-flex flex-row">
+                                <Link to = {`/student/order-details/${this.props.order._id}`}>
+                                    <button type="button" className="btn btn-link view-details-color btn-padding">
+                                        <i className="fas fa-eye"/> Order Details
+                                    </button>
+                                </Link>
                                 <button type="button" className="btn btn-link view-details-color btn-padding"
                                 onClick = {this.showCommentsModal}>
                                     <i className="fas fa-comment"/> Comments

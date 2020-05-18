@@ -164,7 +164,7 @@ class StudentItemDetails extends Component{
         return(
         <div className="top-align">
             <div className="heading py-1">
-                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Claim Points</h4>
+                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Redeem</h4>
             </div>
             <div className="container-fluid items-below-heading">
                 <div className="items-search-section">  {/*This class will support the sticky subheading */}
@@ -232,7 +232,7 @@ class StudentItemDetails extends Component{
                             <button type="button" className="btn btn-primary btn-style m-1"
                                 onClick={this.addToCart} disabled = {this.state.quantity < 1}>
                                     Add to cart</button>
-                            <Link to = "/student/claim-points">
+                            <Link to = "/student/redeem">
                                 <button type="button" className="btn btn-primary btn-style m-1">All Items</button>
                             </Link>
                         </div>

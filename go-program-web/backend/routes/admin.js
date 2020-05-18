@@ -133,4 +133,14 @@ router.get('/item',passport.authenticate("jwt", { session: false }),function(req
     });
 });
 
+router.get('/specificOrder',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Admin Specific Order Get Request");
+    
+    queries.getOrderDetailsAdmin(req.query.orderId, order => {
+        res.status(200).send({success: true, order: order});
+    }, message=> {
+        res.status(500).send({ message: message});
+    });
+});
+
 module.exports = router;

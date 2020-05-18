@@ -45,7 +45,7 @@ class StudentAllItems extends Component{
         return(
         <div className="top-align">
             <div className="heading py-1">
-                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Claim Points</h4>
+                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Redeem</h4>
             </div>
             <div className="container-fluid items-below-heading">
                 <div className="items-search-section">
