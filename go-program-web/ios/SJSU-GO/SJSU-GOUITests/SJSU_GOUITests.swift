@@ -1,8 +1,8 @@
 //
 //  SJSU_GOUITests.swift
-//  SJSU GOUITests
+//  SJSU-GOUITests
 //
-//  Created by prkarve on 5/5/20.
+//  Created by prkarve on 5/6/20.
 //  Copyright © 2020 SJSU. All rights reserved.
 //
 
