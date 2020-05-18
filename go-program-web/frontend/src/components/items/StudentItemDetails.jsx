@@ -26,7 +26,7 @@ class StudentItemDetails extends Component{
             },
             photoIndex: 0,
             isOpen: false,
-            pointsAccumulated: 0,
+            pointsAvailable: 0,
             insufficientPointsInfo: "",
             originalQuantity: 0,
             attributeId: ""
@@ -56,7 +56,7 @@ class StudentItemDetails extends Component{
                     this.setState({
                         ...this.state,
                         item: data.item,
-                        pointsAccumulated: localStorage.getItem('pointsAccumulated')
+                        pointsAvailable: localStorage.getItem('pointsAccumulated') - localStorage.getItem('pointsSpent')
                     });  
                 });
             }else{
@@ -89,7 +89,7 @@ class StudentItemDetails extends Component{
 
     checkSufficientQuantityAndPoints = () => {
         let pointsRequired = this.state.item.points * this.state.quantity;
-        let pointsBalance = this.state.pointsAccumulated - this.pointsUsed;
+        let pointsBalance = this.state.pointsAvailable - this.pointsUsed;
         var itemExists = this.cart.findIndex(cartItem => 
             cartItem._id === this.state.item._id && cartItem.size === this.state.size);
         if(itemExists !== -1){

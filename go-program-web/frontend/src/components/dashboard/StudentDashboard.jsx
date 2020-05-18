@@ -9,7 +9,8 @@ class StudentDashboard extends Component{
     constructor(props){
         super(props);
         this.state = {
-            points: 0,
+            pointsAccumulated: 0,
+            pointsSpent: 0,
             responseMessage: ""
         }
     }
@@ -27,9 +28,11 @@ class StudentDashboard extends Component{
         .then(res => {
             if(res.status === 200){
                 res.json().then(data => {
-                    localStorage.setItem('pointsAccumulated', data.points);
+                    localStorage.setItem('pointsAccumulated', data.pointsAccumulated);
+                    localStorage.setItem('pointsSpent', data.pointsSpent);
                     this.setState({
-                        points: data.points
+                        pointsAccumulated: data.pointsAccumulated,
+                        pointsSpent: data.pointsSpent
                     })
                 });
             }else{
@@ -67,7 +70,7 @@ class StudentDashboard extends Component{
                             </div>
                             <div className="points-card-body p-4">
                                 <i className="fas fa-coins fa-7x"></i>
-                                <h2 className="float-right font-weight-bold points-card-text">{this.state.points}<span className="d-block">Points</span></h2>
+                                <h2 className="float-right font-weight-bold points-card-text">{this.state.pointsAccumulated - this.state.pointsSpent}<span className="d-block">Points</span></h2>
                             </div>
                             <div className="card-footer">
                                 <h6 className="text-center"><a href=""> View Details<i className="fas fa-arrow-alt-circle-right"></i></a></h6>

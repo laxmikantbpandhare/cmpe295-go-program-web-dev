@@ -10,7 +10,7 @@ class StudentCart extends Component{
     constructor(props){
         super(props);
         this.state = {
-            pointsAccumulated: 0,
+            pointsAvailable: 0,
             pointsUsed: 0,
             cart: [],
             responseMessage: ""
@@ -23,14 +23,14 @@ class StudentCart extends Component{
             this.setState({
                 cart: this.state.cart.concat(cart),
                 pointsUsed: parseInt(localStorage.getItem('pointsUsed')),
-                pointsAccumulated: parseInt(localStorage.getItem('pointsAccumulated'))
+                pointsAvailable: parseInt(localStorage.getItem('pointsAccumulated')) - parseInt(localStorage.getItem('pointsSpent'))
             })
         }
     }
 
     emptyCart = () => {
         this.setState({
-            pointsAccumulated: 0,
+            pointsAvailable: 0,
             pointsUsed: 0,
             cart: [],
             responseMessage: ""
@@ -53,7 +53,7 @@ class StudentCart extends Component{
     removeItem = itemIndex => {
         if(this.state.cart.length === 1){
             this.setState({
-                pointsAccumulated: 0,
+                pointsAvailable: 0,
                 pointsUsed: 0,
                 cart: [],
                 responseMessage: ""
@@ -114,7 +114,7 @@ class StudentCart extends Component{
                 if(res.status === 200){
                     res.json().then(resData => {
                         this.setState({
-                            pointsAccumulated: 0,
+                            pointsAvailable: 0,
                             pointsUsed: 0,
                             cart: [],
                             responseMessage: resData.message

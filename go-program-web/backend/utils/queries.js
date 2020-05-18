@@ -146,20 +146,21 @@ queries.getStudentOwnEvents = (id, successcb, failurecb) => {
     Student.findOne({sjsuId: id})
     .select('_id')
     .then(student => {
-        // if(student !== null){
-
-        // }
-        StudentEvent.find({student: student._id})
-        .populate('student')
-        .populate('event')
-        .sort({updatedDate:-1})
-        .exec()
-        .then(events => {
-            successcb(events)})
-        .catch(err => failurecb(err,"Student Events"))
+        if(student !== null){
+            StudentEvent.find({student: student._id})
+            .populate('student')
+            .populate('event')
+            .sort({updatedDate:-1})
+            .exec()
+            .then(events => {
+                successcb(events);
+            })
+            .catch(err => failurecb(err,"Student Events"))
+        } else {
+            successcb([])
+        }
     })
     .catch(err => {
-        
         failurecb(err,"Student")
     })
 }
@@ -318,13 +319,15 @@ queries.updateStudentEvent = (event, successcb, failurecb) => {
 
 queries.getStudentPoints = (id, successcb, failurecb) => {
     Student.findOne({sjsuId: id})
-    .select('pointsAccumulated')
+    .select('pointsAccumulated pointsSpent')
     .then(student => {
-        let points = 0;
+        let pointsAccumulated = 0;
+        let pointsSpent = 0;
         if(student !== null){
-            points = student.pointsAccumulated;
+            pointsAccumulated = student.pointsAccumulated;
+            pointsSpent = student.pointsSpent;
         }
-        successcb(points);
+        successcb(pointsAccumulated, pointsSpent);
     })
     .catch(err => failurecb(err))
 }
@@ -356,10 +359,10 @@ queries.getItem = (itemId,successcb, failurecb) => {
 
 queries.createOrder = (order, successcb, failurecb) => {
     Student.findOne({sjsuId: order.student.id})
-    .select('_id pointsAccumulated')
+    .select('_id pointsSpent')
     .then(student => {
-        const newPoints = student["pointsAccumulated"] - Number(order.points);
-        student["pointsAccumulated"] = newPoints;
+        const newPoints = student["pointsSpent"] + Number(order.points);
+        student["pointsSpent"] = newPoints;
         student.save()
         .then(updatedStudent => {
             Counter.findByIdAndUpdate( "orderId" , { $inc: { seq: 1 }}, {new: true, upsert: true }).
@@ -421,17 +424,18 @@ queries.getStudentOwnOrders = (id, successcb, failurecb) => {
     Student.findOne({sjsuId: id})
     .select('_id')
     .then(student => {
-        // if(student !== null){
-
-        // }
-        Order.find({student: student._id})
-        .populate('student')
-        .populate('items.item')
-        .sort({updatedDate:-1})
-        .exec()
-        .then(events => {
-            successcb(events)})
-        .catch(err => failurecb(err,"Student Orders"))
+        if(student !== null){
+            Order.find({student: student._id})
+            .populate('student')
+            .populate('items.item')
+            .sort({updatedDate:-1})
+            .exec()
+            .then(events => {
+                successcb(events)})
+            .catch(err => failurecb(err,"Student Orders"))
+        } else {
+            successcb([])
+        }
     })
     .catch(err => {
         failurecb(err,"Student")
@@ -471,21 +475,14 @@ queries.getStudentsAllOrders = (successcb, failurecb) => {
 queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
     Order.findById(order.id)
     .then(orderToUpdate => {
-        // let previousStatus = orderToUpdate["status"];
         orderToUpdate["status"] = order.status;
         orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
         orderToUpdate.save()
         .then(updatedOrder => {
-            // if(order.status === "Cancelled" || previousStatus === "Cancelled"){
             if(order.status === "Cancelled"){
                 Student.findById(order.student.id)
                 .then(studentToUpdate => {
-                    // if(order.status === "Cancelled"){
-                    //     studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] + Number(order.order.points);
-                    // } else if(previousStatus === "Cancelled"){
-                    //     studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] - Number(order.order.points);
-                    // }
-                    studentToUpdate["pointsAccumulated"] = studentToUpdate["pointsAccumulated"] + Number(order.order.points);
+                    studentToUpdate["pointsSpent"] = studentToUpdate["pointsSpent"] - Number(order.order.points);
                     studentToUpdate.save()
                     .then(updatedStudent => {
                         updatedOrder.

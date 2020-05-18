@@ -12,7 +12,7 @@ class StudentAllItems extends Component{
     constructor(props){
         super(props);
         this.state = {
-            pointsAccumulated: 0,
+            pointsAvailable: 0,
             pointsUsed: 0,
             search: "",
             filter: ""
@@ -21,14 +21,15 @@ class StudentAllItems extends Component{
 
     componentDidMount(){
         this.props.getItems();
+        let pointsAvailable = localStorage.getItem('pointsAccumulated') - localStorage.getItem('pointsSpent');
         if(localStorage.getItem('pointsUsed')){
             this.setState({
                 pointsUsed: localStorage.getItem('pointsUsed'),
-                pointsAccumulated: localStorage.getItem('pointsAccumulated')
+                pointsAvailable
             })
         } else {
             this.setState({
-                pointsAccumulated: localStorage.getItem('pointsAccumulated')
+                pointsAvailable
             })
         }
     }
@@ -41,7 +42,7 @@ class StudentAllItems extends Component{
         let noItemText = this.state.search !== "" || this.state.filter !== "" 
         ? "No Item Matching the Search or Filter Criteria"
         : "No Item in the Inventory";
-        let pointsBalance = this.state.pointsAccumulated - this.state.pointsUsed;
+        let pointsBalance = this.state.pointsAvailable - this.state.pointsUsed;
         return(
         <div className="top-align">
             <div className="heading py-1">

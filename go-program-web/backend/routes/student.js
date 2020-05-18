@@ -69,8 +69,8 @@ router.post('/updateEvent', passport.authenticate("jwt", { session: false }), fu
 router.get('/points',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Points Get Request");
     
-    queries.getStudentPoints(req.query.id, points => {
-        res.status(200).json({success: true, points: points});
+    queries.getStudentPoints(req.query.id, (pointsAccumulated, pointsSpent) => {
+        res.status(200).json({success: true, pointsAccumulated, pointsSpent});
     }, err=> {
         res.status(500).send({ message: `Something failed when getting students events from the database. ${err.message}`});
     });
