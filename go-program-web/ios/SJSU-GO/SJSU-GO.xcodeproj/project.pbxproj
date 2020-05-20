@@ -18,6 +18,13 @@
 		3F46569D24637A490042AF94 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F46569C24637A490042AF94 /* LoginViewController.swift */; };
 		3F46569F24637E0C0042AF94 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F46569E24637E0C0042AF94 /* SignupViewController.swift */; };
 		3F4656A1246384710042AF94 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4656A0246384710042AF94 /* MainViewController.swift */; };
+		3FA339DC2473A80100D61806 /* EventsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339DB2473A80000D61806 /* EventsController.swift */; };
+		3FA339DE2473A81000D61806 /* RedeemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339DD2473A81000D61806 /* RedeemController.swift */; };
+		3FA339E02473AADD00D61806 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339DF2473AADD00D61806 /* DashboardController.swift */; };
+		3FA339E22473B5BE00D61806 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339E12473B5BE00D61806 /* MenuController.swift */; };
+		3FA339E42473B62F00D61806 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339E32473B62F00D61806 /* Protocols.swift */; };
+		3FA339E82473BC3600D61806 /* MenuOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339E72473BC3600D61806 /* MenuOptionCell.swift */; };
+		3FA339EA24749C2200D61806 /* MenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339E924749C2200D61806 /* MenuOption.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +62,13 @@
 		3F46569C24637A490042AF94 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3F46569E24637E0C0042AF94 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		3F4656A0246384710042AF94 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		3FA339DB2473A80000D61806 /* EventsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsController.swift; sourceTree = "<group>"; };
+		3FA339DD2473A81000D61806 /* RedeemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemController.swift; sourceTree = "<group>"; };
+		3FA339DF2473AADD00D61806 /* DashboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardController.swift; sourceTree = "<group>"; };
+		3FA339E12473B5BE00D61806 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		3FA339E32473B62F00D61806 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		3FA339E72473BC3600D61806 /* MenuOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOptionCell.swift; sourceTree = "<group>"; };
+		3FA339E924749C2200D61806 /* MenuOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +121,10 @@
 			children = (
 				3F46566C2463655A0042AF94 /* AppDelegate.swift */,
 				3F46566E2463655A0042AF94 /* SceneDelegate.swift */,
+				3FA339E32473B62F00D61806 /* Protocols.swift */,
 				3F4656702463655A0042AF94 /* ViewController.swift */,
+				3FA339E72473BC3600D61806 /* MenuOptionCell.swift */,
+				3FA339E924749C2200D61806 /* MenuOption.swift */,
 				3F46569C24637A490042AF94 /* LoginViewController.swift */,
 				3F4656A0246384710042AF94 /* MainViewController.swift */,
 				3F46569E24637E0C0042AF94 /* SignupViewController.swift */,
@@ -115,6 +132,10 @@
 				3F4656752463655C0042AF94 /* Assets.xcassets */,
 				3F4656772463655C0042AF94 /* LaunchScreen.storyboard */,
 				3F46567A2463655C0042AF94 /* Info.plist */,
+				3FA339DB2473A80000D61806 /* EventsController.swift */,
+				3FA339DD2473A81000D61806 /* RedeemController.swift */,
+				3FA339E12473B5BE00D61806 /* MenuController.swift */,
+				3FA339DF2473AADD00D61806 /* DashboardController.swift */,
 			);
 			path = "SJSU-GO";
 			sourceTree = "<group>";
@@ -268,11 +289,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FA339EA24749C2200D61806 /* MenuOption.swift in Sources */,
+				3FA339E22473B5BE00D61806 /* MenuController.swift in Sources */,
+				3FA339E82473BC3600D61806 /* MenuOptionCell.swift in Sources */,
 				3F46569D24637A490042AF94 /* LoginViewController.swift in Sources */,
 				3F4656712463655A0042AF94 /* ViewController.swift in Sources */,
+				3FA339E42473B62F00D61806 /* Protocols.swift in Sources */,
 				3F46569F24637E0C0042AF94 /* SignupViewController.swift in Sources */,
+				3FA339DC2473A80100D61806 /* EventsController.swift in Sources */,
+				3FA339E02473AADD00D61806 /* DashboardController.swift in Sources */,
 				3F4656A1246384710042AF94 /* MainViewController.swift in Sources */,
 				3F46566D2463655A0042AF94 /* AppDelegate.swift in Sources */,
+				3FA339DE2473A81000D61806 /* RedeemController.swift in Sources */,
 				3F46566F2463655A0042AF94 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

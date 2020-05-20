@@ -19,7 +19,21 @@ class LoginViewController: UIViewController {
     @IBAction func attemptLogin(_ sender: Any) {
         // Make HTTP call to login
         // If sucessful, redirect to main page
+        //let success = restLogin()
         performSegue(withIdentifier: "loggedin", sender: self)
+    }
+    
+    func restLogin() {
+        let urlString = "http://10.0.0.89:3001/user/login"
+        
+        if let url = URL.init(string: urlString) {
+            let task = URLSession.shared.dataTask(with: url,
+                completionHandler: { (data, response, error) in
+                    print(String.init(data: data!, encoding: .ascii) ??
+                    "no data")
+            })
+            task.resume()
+        }
     }
     
     /*

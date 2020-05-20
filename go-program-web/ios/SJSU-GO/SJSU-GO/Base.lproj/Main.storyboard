@@ -51,6 +51,11 @@
                                 <state key="normal" title="LOG IN">
                                     <color key="titleColor" red="0.98209856250160643" green="0.98657392187620485" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="loggingIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AjK-CT-OeV"/>
                                 </connections>
@@ -71,6 +76,11 @@
                                 <state key="normal" title="SIGN UP">
                                     <color key="titleColor" red="0.98209856250160643" green="0.98657392187620485" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="signingUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WJb-X8-kwY"/>
                                 </connections>
@@ -130,11 +140,11 @@
             <objects>
                 <viewController id="gv5-kd-DpI" customClass="LoginViewController" customModule="SJSU_GO" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oxA-Zh-3Qu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="SJSU ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FLU-yF-ezh">
-                                <rect key="frame" x="82" y="599" width="250" height="34"/>
+                                <rect key="frame" x="82" y="545" width="250" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="P3x-GR-6Pa"/>
                                 </constraints>
@@ -142,7 +152,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pgi-ZA-kF5">
-                                <rect key="frame" x="82" y="683" width="250" height="34"/>
+                                <rect key="frame" x="82" y="629" width="250" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="UxQ-Po-Lgg"/>
                                 </constraints>
@@ -150,7 +160,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coe_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Rii-3b-2eh">
-                                <rect key="frame" x="100" y="54" width="214" height="214"/>
+                                <rect key="frame" x="100" y="10" width="214" height="214"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Rii-3b-2eh" secondAttribute="height" multiplier="1:1" id="SbH-Bx-qXZ"/>
                                     <constraint firstAttribute="width" secondItem="Rii-3b-2eh" secondAttribute="height" multiplier="2:2" id="day-E6-1US"/>
@@ -165,7 +175,7 @@
                                 </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="poZ-TO-xeO">
-                                <rect key="frame" x="87" y="767" width="240" height="45"/>
+                                <rect key="frame" x="87" y="713" width="240" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.27324905659999998" blue="0.56705391839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="5NI-Mx-VcS"/>
@@ -174,6 +184,11 @@
                                 <state key="normal" title="LOG IN">
                                     <color key="titleColor" red="0.98209856250000005" green="0.98657392190000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="attemptLogin:" destination="gv5-kd-DpI" eventType="touchUpInside" id="IMV-oj-37g"/>
                                 </connections>
@@ -203,29 +218,14 @@
             </objects>
             <point key="canvasLocation" x="1244.9275362318842" y="71.651785714285708"/>
         </scene>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="jGe-Ni-kvS">
             <objects>
-                <viewController id="xmA-Mg-K5I" sceneMemberID="viewController">
+                <viewController id="xmA-Mg-K5I" customClass="MainViewController" customModule="SJSU_GO" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uox-co-VG0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DASHBOARD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmy-xk-TJ4">
-                                <rect key="frame" x="0.0" y="64" width="414" height="32.333333333333343"/>
-                                <color key="backgroundColor" red="1" green="0.75584075601968148" blue="0.11418906617274416" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <color key="textColor" red="0.0" green="0.27324905659999998" blue="0.56705391839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="highlightedColor" red="0.0" green="0.27324905659999998" blue="0.56705391839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="shadowColor" red="1" green="0.75584075601968148" blue="0.11418906617274416" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="cmy-xk-TJ4" firstAttribute="leading" secondItem="tHm-KI-ov4" secondAttribute="leading" id="CPz-kS-5GW"/>
-                            <constraint firstItem="cmy-xk-TJ4" firstAttribute="top" secondItem="tHm-KI-ov4" secondAttribute="top" constant="20" id="TDt-q1-kbz"/>
-                            <constraint firstItem="tHm-KI-ov4" firstAttribute="trailing" secondItem="cmy-xk-TJ4" secondAttribute="trailing" id="uX9-mW-ASM"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="tHm-KI-ov4"/>
                     </view>
                     <navigationItem key="navigationItem" id="APd-n6-ekY"/>
@@ -252,6 +252,11 @@
                                 <state key="normal" title="SIGN UP">
                                     <color key="titleColor" red="0.98209856250000005" green="0.98657392190000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="attemptSignup:" destination="urt-Z4-IGs" eventType="touchUpInside" id="P8Z-rM-w6g"/>
                                     <action selector="signingUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rcl-Ua-xnI"/>
@@ -347,7 +352,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Yti-3K-qgs"/>
+        <segue reference="n6n-Au-LmO"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="banner" width="1320" height="440"/>
