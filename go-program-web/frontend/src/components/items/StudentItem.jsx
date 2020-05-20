@@ -15,6 +15,7 @@ const StudentItem = (props) => {
                 <div className="card-body card-body-lesspad">
                     <h5 className="card-title font-weight-bold">{props.item.name}</h5>
                     <p className="card-text"><strong>Points: </strong>{props.item.points}</p>
+                    <p className="card-text"><strong>Category: </strong>{props.item.category}</p>
                     <p className="card-text"><strong>Available Sizes/Quantity: </strong>
                         {
                             props.item.attributes.map((attribute,index) => {

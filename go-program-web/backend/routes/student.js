@@ -157,4 +157,44 @@ router.get('/specificOrder',passport.authenticate("jwt", { session: false }),fun
     });
 });
 
+router.get('/dashboardEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Dashboard Events Get Request");
+    
+    queries.getStudentDashboardEvents(req.query.id,events => {
+        res.status(200).json({success: true, events: events});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
+router.get('/dashboardApprovedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Dashboard Approved Events Get Request");
+    
+    queries.getStudentDashboardApprovedEvents(req.query.id,events => {
+        res.status(200).json({success: true, events: events});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
+router.get('/dashboardOrders',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Dashboard Orders Get Request");
+    
+    queries.getStudentDashboardOrders(req.query.id,orders => {
+        res.status(200).json({success: true, orders: orders});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
+router.get('/dashboardDeliveredOrders',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Dashboard Delivered Orders Get Request");
+    
+    queries.getStudentDashboardDeliveredOrders(req.query.id,orders => {
+        res.status(200).json({success: true, orders: orders});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
 module.exports = router;

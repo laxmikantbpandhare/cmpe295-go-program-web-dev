@@ -11,13 +11,33 @@ class StudentOrders extends Component{
     constructor(props){
         super(props);
         this.state = {
-            search: ""
+            search: "",
+            filter: "",
+            sort: ""
         };
     }
 
     componentDidMount(){
         this.props.getStudentOrders();
     }
+
+    handleChange = e => {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
+    }
+
+    resetSearchSection = e => {
+        this.setState(
+            {
+                search: "",
+                filter: "",
+                sort: ""
+            }
+        );   
+    }
+
+    statusOptions = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
     
     render() {
         let redirectVar = null;
@@ -25,7 +45,22 @@ class StudentOrders extends Component{
             redirectVar = <Redirect to= "/login"/>
         }
         
-        let noOrderText = this.state.search !== ""
+        let sortedOrders = [...this.props.studentOrders];
+        if(this.state.sort !== ""){
+            this.state.sort === "Ascending" 
+            ? sortedOrders.sort((order1, order2) => new Date(order1.createdDate) - new Date(order2.createdDate))
+            : sortedOrders.sort((order1, order2) => new Date(order2.createdDate) - new Date(order1.createdDate));
+        }
+
+        let filteredOrders = this.state.filter !== ""
+        ? sortedOrders.filter(order => order.status.indexOf(this.state.filter)!==-1)
+        : [...sortedOrders];
+
+        let searchedOrders = this.state.search !== ""
+        ? filteredOrders.filter(order => order.id === parseInt(this.state.search))
+        : [...filteredOrders];
+        
+        let noOrderText = this.state.search !== "" || this.state.filter !== "" 
         ? "No Order Matching the Search or Filter Criteria"
         : "No Order is submitted yet by you.";
         return(
@@ -39,32 +74,48 @@ class StudentOrders extends Component{
                 <div className="orders-search-section">
                     <h4 className="text-center text-white your-orders-heading p-1 mt-2">Your Orders</h4>
                     <div className="row">
-                        <div class="col-10 col-sm-6">
-                            <input type="search" class="form-control" placeholder="Search by Order Number" />
+                        <div  class="col-6 col-sm-2 order-sm-2">
+                            <select className="form-control" name="filter" onChange={this.handleChange}
+                             value={this.state.filter}>
+                                <option selected value="">Filter by Status</option>
+                                {
+                                    this.statusOptions.map(option => <option>{option}</option>)
+                                }
+                            </select>
                         </div>
-                        <div  class="col-2 col-sm-2">
-                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}>
-                                <i className="fas fa-search"></i>
-                                <span className="d-none d-sm-inline"> Search</span>
-                            </button>
+
+                        <div  class="col-6 col-sm-3 order-sm-3">
+                            <select className="form-control" name="sort" onChange={this.handleChange}
+                             value={this.state.sort}>
+                                <option selected value="">Sort by Submitted Date</option>
+                                <option>Ascending</option>
+                                <option>Descending</option>
+                            </select>
                         </div>
+
                         <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
-                        <div  class="col-6 col-sm-2">
-                            <select className="form-control" name="some">
-                                <option selected>Filter</option>
-                            </select>
+                        
+                        <div className="input-group col-10 col-sm-5 order-sm-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            </div>
+                            <input class="form-control py-2" name="search" placeholder="Search by Order Id"
+                            type = "number" onChange={this.handleChange} value={this.state.search}></input>
                         </div>
-                        <div  class="col-6 col-sm-2">
-                            <select className="form-control" name="some1">
-                                <option selected>Sort</option>
-                            </select>
+
+                        <div  class="col-2 col-sm-2 order-sm-4">
+                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
+                                onClick={this.resetSearchSection}>
+                                <i className="fas fa-sync"></i>
+                                <span className="d-none d-sm-inline"> Reset</span>
+                            </button>
                         </div>
                     </div>
                     <hr/>
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.studentResponseMessage}</h6>
                 {
-                    this.props.studentOrders.length!==0 ? this.props.studentOrders.map((order,index)=>
+                    searchedOrders.length!==0 ? searchedOrders.map((order,index)=>
                     <StudentOrder order={order} key={index}/>
                     )
                     :

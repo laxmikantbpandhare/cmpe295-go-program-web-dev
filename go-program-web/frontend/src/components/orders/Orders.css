@@ -10,6 +10,12 @@
     background: white;
 }
 
+.orders-search-section .input-group-text {
+    color: #0056a3;
+    background-color: #f8b21a;
+    border: 1px solid #fdf4df
+}
+
 .your-orders-heading{
     background-color: #0056a3
 }

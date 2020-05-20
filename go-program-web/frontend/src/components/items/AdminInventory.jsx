@@ -88,8 +88,6 @@ class AdminInventory extends Component{
                 <div className="items-search-section">
                     <h4 className="text-center text-white all-items-heading p-1 mt-2">All Items</h4>
                     <div className="row">
-                       
-
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="filter" onChange={this.handleChange}
                              value={this.state.filter}>

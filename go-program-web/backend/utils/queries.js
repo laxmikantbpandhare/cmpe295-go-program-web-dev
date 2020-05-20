@@ -157,7 +157,7 @@ queries.getStudentOwnEvents = (id, successcb, failurecb) => {
             })
             .catch(err => failurecb(err,"Student Events"))
         } else {
-            successcb([])
+            successcb([]);
         }
     })
     .catch(err => {
@@ -430,8 +430,8 @@ queries.getStudentOwnOrders = (id, successcb, failurecb) => {
             .populate('items.item')
             .sort({updatedDate:-1})
             .exec()
-            .then(events => {
-                successcb(events)})
+            .then(orders => {
+                successcb(orders)})
             .catch(err => failurecb(err,"Student Orders"))
         } else {
             successcb([])
@@ -554,6 +554,96 @@ queries.getOrderDetailsAdmin = (orderId, successcb, failurecb) => {
     .catch(err => {
         let message = `Failed to get Order details from the db. ${err.message}`;
         failurecb(message);
+    })
+}
+
+queries.getStudentDashboardEvents = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        if(student !== null){
+            StudentEvent.find({student: student._id})
+            // .populate('student')
+            .populate('event')
+            .sort({createdDate:-1})
+            .limit(5)
+            .exec()
+            .then(events => {
+                successcb(events);
+            })
+            .catch(err => failurecb(err,"Student Events"))
+        } else {
+            successcb([]);
+        }
+    })
+    .catch(err => {
+        failurecb(err,"Student")
+    })
+}
+
+queries.getStudentDashboardApprovedEvents = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        if(student !== null){
+            StudentEvent.find({student: student._id, status: "Approved"})
+            // .populate('student')
+            .populate('event')
+            .sort({updatedDate:-1})
+            .limit(5)
+            .exec()
+            .then(events => {
+                successcb(events);
+            })
+            .catch(err => failurecb(err,"Student Events"))
+        } else {
+            successcb([]);
+        }
+    })
+    .catch(err => {
+        failurecb(err,"Student")
+    })
+}
+
+queries.getStudentDashboardOrders = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        if(student !== null){
+            Order.find({student: student._id})
+            .sort({createdDate:-1})
+            .limit(5)
+            .exec()
+            .then(orders => {
+                successcb(orders)})
+            .catch(err => failurecb(err,"Student Orders"))
+        } else {
+            successcb([])
+        }
+    })
+    .catch(err => {
+        failurecb(err,"Student")
+    })
+}
+
+queries.getStudentDashboardDeliveredOrders = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        if(student !== null){
+            Order.find({student: student._id, status: "Delivered"})
+            .sort({updatedDate:-1})
+            .limit(5)
+            .exec()
+            .then(orders => {
+                successcb(orders)})
+            .catch(err => failurecb(err,"Student Orders"))
+        } else {
+            successcb([])
+        }
+    })
+    .catch(err => {
+        failurecb(err,"Student")
     })
 }
 

@@ -174,7 +174,7 @@ export const updateEvent = data =>  dispatch => new Promise(function(resolve, re
                     dispatch({
                         type: STUDENT_UPDATE_EVENT_SUCCESS,
                         payload: resData
-                    })
+                    });
                     resolve();
                 });
             }else{
