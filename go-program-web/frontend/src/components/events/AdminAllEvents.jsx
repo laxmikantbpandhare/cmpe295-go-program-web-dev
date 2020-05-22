@@ -98,7 +98,7 @@ class AdminAllEvents extends Component{
                             </div>
                         </div> */}
 
-                        <div className="col-6 col-sm-2 order-sm-3">
+                        <div className="col-sm-2 order-sm-3">
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
                                 <option selected value="">Sort by</option>

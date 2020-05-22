@@ -60,18 +60,21 @@ class AdminItem extends Component{
                             <p className="card-text">{trimmedDescription}</p>
                             <p className="card-text"><strong>Points: </strong>{this.props.item.points}</p>
                             <p className="card-text"><strong>Category: </strong>{this.props.item.category}</p>
-                            <div className="d-flex flex-row">
+                            <div className="d-flex flex-row justify-content-around justify-content-sm-start">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
-                                    <i class="fas fa-search-plus"/> Images
+                                    <i class="fas fa-search-plus"/> 
+                                    <span className="d-none d-sm-inline"> Images</span>
                                 </button>
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showAdminViewItemModal}>
-                                    <i className="fas fa-eye"/> Details
+                                    <i className="fas fa-eye"/>
+                                    <span className="d-none d-sm-inline"> Details</span>
                                 </button>
                                 <button type="button" className="btn btn-link delete-color"
                                 onClick = {this.handleDelete}>
-                                    <i className="fas fa-trash-alt"/> Delete
+                                    <i className="fas fa-trash-alt"/>
+                                    <span className="d-none d-sm-inline"> Delete</span>
                                 </button>
                             </div>
                         </div>

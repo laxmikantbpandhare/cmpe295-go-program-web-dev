@@ -110,10 +110,6 @@ class AdminViewEventModal extends Component{
                                 : `View Event Details`
                             }
                             </h5>
-                            {/* <button type="button" className="close" data-dismiss="modal"
-                                onClick = {this.hideModal} aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
                         </div>
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
@@ -148,7 +144,7 @@ class AdminViewEventModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.points>0?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.props.event.points>0?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.event.points}/>
                                             : <p>{this.props.event.points}</p>
                                         }  

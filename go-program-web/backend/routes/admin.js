@@ -143,4 +143,24 @@ router.get('/specificOrder',passport.authenticate("jwt", { session: false }),fun
     });
 });
 
+router.get('/dashboardPendingApprovalEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Admin Dashboard Pending Approval Events Get Request");
+    
+    queries.getAdminDashboardPendingApprovalEvents(events => {
+        res.status(200).json({success: true, events: events});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting Students Events from the database. ${err.message}`});
+    });
+});
+
+router.get('/dashboardSubmittedOrders',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Admin Dashboard Submitted Orders Get Request");
+    
+    queries.getAdminDashboardSubmittedOrders(orders => {
+        res.status(200).json({success: true, orders: orders});
+    }, err => {
+        res.status(500).send({ message: `Something failed when getting Students Orders from the database. ${err.message}`});
+    });
+});
+
 module.exports = router;
