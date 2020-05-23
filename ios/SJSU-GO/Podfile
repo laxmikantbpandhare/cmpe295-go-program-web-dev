@@ -1,0 +1,20 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'SJSU-GO' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for SJSU-GO
+pod 'Alamofire'
+
+  target 'SJSU-GOTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'SJSU-GOUITests' do
+    # Pods for testing
+  end
+
+end
