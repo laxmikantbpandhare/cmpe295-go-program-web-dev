@@ -647,4 +647,28 @@ queries.getStudentDashboardDeliveredOrders = (id, successcb, failurecb) => {
     })
 }
 
+queries.getAdminDashboardPendingApprovalEvents = (successcb, failurecb) => {
+    StudentEvent.find({status: "Pending Approval"})
+    .populate('student')
+    .populate('event')
+    .sort({updatedDate:-1})
+    .limit(5)
+    .exec()
+    .then(events => {
+        successcb(events)})
+    .catch(err => failurecb(err))
+}
+
+queries.getAdminDashboardSubmittedOrders = (successcb, failurecb) => {
+    Order.find({status: "Submitted"})
+    .populate('student')
+    // .populate('items.item')
+    .sort({updatedDate:-1})
+    .limit(5)
+    .exec()
+    .then(orders => {
+        successcb(orders)})
+    .catch(err => failurecb(err))
+}
+
 module.exports = queries;

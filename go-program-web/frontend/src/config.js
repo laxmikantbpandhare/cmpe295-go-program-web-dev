@@ -1,6 +1,6 @@
 module.exports = {
     backendUrl: 'http://localhost:3001',
-    // backendUrl: 'http://1a42935b.ngrok.io',
+    // backendUrl: 'http://225a010d.ngrok.io',
     major:["Aerospace Engineering", "Aviation", "Biomedical Engineering", "Chemical Engineering",
     "Civil and Environmental Engineering", "Computer Engineering", "Electrical Engineering",
     "General Engineering", "Industrial and Systems Engineering", "Industrial Technology",
