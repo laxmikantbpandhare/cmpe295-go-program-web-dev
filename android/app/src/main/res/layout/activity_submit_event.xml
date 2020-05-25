@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SubmitEventActivity">
+
+    <ProgressBar
+        android:id="@+id/signup_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submit_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/evTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit your event"
+            android:gravity="center_horizontal"
+            android:textSize="40sp"
+            android:textColor="@color/sjsuBlue"
+            android:background="@color/sjsuYellow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.00999999" />
+
+        <Spinner
+            android:id="@+id/eventType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/eventDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/evTitle" />
+
+        <EditText
+            android:id="@+id/eventDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:ems="10"
+            android:hint="Event Description"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:gravity="top"
+            app:layout_constraintBottom_toTopOf="@+id/eventDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/eventType" />
+
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="215dp"
+            android:layout_height="43dp"
+            android:ems="10"
+            android:text="@string/pick_completed_date"
+            android:onClick="pickDate"
+            android:background="@color/sjsuBlue"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@id/attachButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+
+        <Button
+            android:id="@+id/attachButton"
+            android:layout_width="215dp"
+            android:layout_height="43dp"
+            android:text="@string/attach_images"
+            android:background="@color/sjsuBlue"
+            android:layout_margin="10dp"
+            android:textColor="@android:color/white"
+            android:onClick="attachImage"
+            app:layout_constraintBottom_toTopOf="@id/submit_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventDate" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="215dp"
+            android:layout_height="43dp"
+            android:text="@string/submit_event"
+            android:background="@color/sjsuBlue"
+            android:layout_margin="10dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attachButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
