@@ -91,13 +91,6 @@ class AdminAllEvents extends Component{
                 <div className="events-search-section">
                     <h4 className="text-center text-white all-events-heading p-1 mt-2">All Events</h4>
                     <div className="row">
-                       {/* <div className="col-6 col-sm-2 order-sm-2">
-                            <label className="points-filter col-9">Points Filter</label>
-                            <div className="col-4">
-
-                            </div>
-                        </div> */}
-
                         <div className="col-sm-2 order-sm-3">
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>

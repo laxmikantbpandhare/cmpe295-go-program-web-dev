@@ -197,4 +197,62 @@ router.get('/dashboardDeliveredOrders',passport.authenticate("jwt", { session: f
     });
 });
 
+router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Create Suggested Event Post Request");
+    console.log("Req Body : ",req.body);
+    const event = req.body;
+
+    queries.createSuggestedEvent(event, result => {
+            res.status(200).send({message:'Suggested event created successfully', event: result});
+        }, (err, tag)=>{
+            res.status(500).send({ message: `Something failed when adding ${tag} in the database. ${err.message}`});
+    });
+});
+
+router.get('/ownSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Own Suggested Events Get Request");
+    
+    queries.getStudentOwnSuggestedEvents(req.query.id,events => {
+        res.status(200).json({success: true, events: events});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
+router.post('/addSuggestedEventComment',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Add Suggested Event Comment Post Request");
+    console.log("Req Body : ",req.body);
+    const comment = req.body.comment;
+    const eventId = req.body.id;
+
+    queries.addStudentSuggestedEventComment(eventId, comment, result => {
+        res.status(200).json({message:'Comment added successfully', event: result});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when adding comments in the suggested event in the database. ${err.message}`});
+    });
+});
+
+router.get('/allSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Requests All Suggested Events Get Request");
+    
+    queries.getStudentsAllSuggestedEvents(events => {
+        res.status(200).json({success: true, events: events});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting suggested events from the database. ${err.message}`});
+    });
+});
+
+router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Update Suggested Event Status Post Request");
+    console.log("Req Body : ",req.body);
+    const event = req.body;
+
+    queries.updateStudentSuggestedEventStatus(event, result => {
+        console.log("Event updated: " + result);
+        res.status(200).send({message:'Student suggested event status updated successfully', event: result});
+    }, message =>{
+        res.status(500).send({ message });
+    });
+});
+
 module.exports = router;

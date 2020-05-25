@@ -1,19 +1,28 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import './Requests.css'
+import ViewSuggestedEventRequestModal from './ViewSuggestedEventRequestModal';
 import {connect} from 'react-redux';
-import {orderSelectChangeHandler, updateOrderStatus} from '../../redux/actions/ordersRequestsAction';
+import {eventSelectChangeHandler, updateEventStatus} from '../../redux/actions/suggestedEventsRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
-import {Link} from 'react-router-dom';
 
-class OrderRequest extends Component{
+class SuggestedEventRequest extends Component{
     constructor(props){
         super(props);
-        this.initialStatus = props.order.status;
+        this.initialStatus = props.event.status;
         this.state = {
+            showViewSuggestedEventRequestModal: false,
             showCommentsModal: false,
             initialStatus: this.initialStatus
         };
+    }
+
+    showViewSuggestedEventRequestModal = e => {
+        this.setState({showViewSuggestedEventRequestModal: true});
+    }
+    
+    hideViewSuggestedEventRequestModal = e => {
+        this.setState({showViewSuggestedEventRequestModal: false});
     }
 
     showCommentsModal = e => {
@@ -24,29 +33,24 @@ class OrderRequest extends Component{
         this.setState({showCommentsModal: false});
     }
     
-    options = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
+    options = ['Pending Approval', 'Approved', 'Rejected'];
 
     handleSelectChange = e => {
         const {value} = e.target;
-        this.props.handleSelectChange(this.props.order._id, value);
+        this.props.handleSelectChange(this.props.event._id, value);
     }
 
     handleUpdate = e => {
         e.preventDefault();
         const data = {
-            status: this.props.order.status,
-            id: this.props.order._id,
+            status: this.props.event.status,
+            id: this.props.event._id,
             updatedBy: localStorage.getItem('id'),
-            student: {
-                id: this.props.order.student._id
-            },
-            points: this.props.order.points,
-            items: this.props.order.items
         }
         this.props.handleUpdate(data)
         .then(() => {
             this.setState({
-                initialStatus: this.props.order.status
+                initialStatus: this.props.event.status
             });
         }).catch(() => {
             
@@ -54,34 +58,34 @@ class OrderRequest extends Component{
     }
     
     render() {
-        const updateEnabled = this.state.initialStatus === this.props.order.status ? false : true;
+        const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
+        
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
                 {
-                    this.props.order._id === this.props.updatedOrder
+                    this.props.event._id === this.props.updatedEvent
                     ? <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                     : null
                 }
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
-                            <h5 className="font-weight-bold"><strong>Order Id# </strong>{this.props.order.id}</h5>
-                            <p><strong>Student SJSU Id: </strong>{this.props.order.student.sjsuId}</p>
-                            <p><strong>Student Name: </strong>{`${this.props.order.student.fname} ${this.props.order.student.lname}`}</p>
-                            <p><strong>Total Points: </strong>{this.props.order.points}</p>
-                            <p><strong>Created Date: </strong>
-                                {new Date(this.props.order.createdDate).toLocaleString()}
+                            <h5 className="card-title font-weight-bold">{`${this.props.event.student.fname} ${this.props.event.student.lname}`}</h5>
+                            <p className="card-text"><strong>SJSU ID: </strong>{this.props.event.student.sjsuId}</p>
+                            <p className="card-text"><strong>Event: </strong>{this.props.event.name}</p>
+                            <p className="card-text"><strong>Submitted Date: </strong>
+                                {new Date(this.props.event.createdDate).toLocaleString()}
                             </p>
                             {
-                                this.state.initialStatus === "Delivered" || this.state.initialStatus === "Cancelled"
-                                ? <p><strong>Status: </strong>{this.props.order.status}</p>
+                                this.state.initialStatus === "Approved" 
+                                ? <p className="card-text"><strong>Status: </strong>{this.props.event.status}</p>
                                 : <div class="row">
                                 <div className="col-sm-3 col-6">
                                     <select className="form-control-sm"
                                     name="status" onChange={this.handleSelectChange}>
                                         {
                                             this.options.map( option => {
-                                                if(option === this.props.order.status){
+                                                if(option === this.props.event.status){
                                                     return <option selected>{option}</option> ;
                                                 } else {
                                                     return <option>{option}</option> ;
@@ -98,23 +102,26 @@ class OrderRequest extends Component{
                             </div>
                             }
                             <div className="d-flex flex-row">
-                                <Link to = {`/admin/order-details/${this.props.order._id}`}>
-                                    <button type="button" className="btn btn-link view-details-color btn-padding">
-                                        <i className="fas fa-eye"/> Order Details
-                                    </button>
-                                </Link>
-                                <button type="button" className="btn btn-link view-details-color btn-padding"
+                                <button type="button" className="btn btn-link view-details-color"
+                                onClick = {this.showViewSuggestedEventRequestModal}>
+                                    <i className="fas fa-eye"/> View Details
+                                </button>
+                                <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showCommentsModal}>
                                     <i className="fas fa-comment"/> Comments
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
+                {this.state.showViewSuggestedEventRequestModal ? 
+                <ViewSuggestedEventRequestModal hideViewSuggestedEventRequestModal={this.hideViewSuggestedEventRequestModal}
+                event={this.props.event}/> : null}
+                
                 {this.state.showCommentsModal ? 
                 <CommentsModal hideCommentsModal={this.hideCommentsModal}
-                id={this.props.order._id} comments={this.props.order.comments}
-                commenter="Admin" type="Order"/> : null}
+                id={this.props.event._id} comments={this.props.event.comments}
+                commenter="Admin" type="SuggestedEvent"/> : null}
             </div>
         )
     }
@@ -122,16 +129,16 @@ class OrderRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleSelectChange: (id, value) => {dispatch(orderSelectChangeHandler(id, value))},
-        handleUpdate: data => dispatch(updateOrderStatus(data))
+        handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
+        handleUpdate: data => dispatch(updateEventStatus(data))
     }
 }
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.ordersRequests.updateResponseMessage,
-        updatedOrder: state.ordersRequests.updatedOrder
+        responseMessage: state.suggestedEventsRequests.updateResponseMessage,
+        updatedEvent: state.suggestedEventsRequests.updatedEvent
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderRequest);
+export default connect(mapStateToProps, mapDispatchToProps)(SuggestedEventRequest);

@@ -31,6 +31,7 @@ function AdminNavbar() {
                             <div className="dropdown-menu">
                                 <a href="#/admin/events-requests" className="dropdown-item"><i className="fas fa-calendar-check"></i> Students Events</a>
                                 <a href="#/admin/orders-requests" className="dropdown-item"><i className="fas fa-receipt"></i> Students Orders</a>
+                                <a href="#/admin/suggested-events-requests" className="dropdown-item"><i className="fas fa-lightbulb"></i> Students Suggested Events</a>
                             </div>
                         </div>
                     </li>

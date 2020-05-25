@@ -28,6 +28,9 @@ function StudentNavbar() {
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <a className="nav-link" href="#/student/orders"><i className="fas fa-receipt"></i> Orders</a>
                     </li>
+                    <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                        <a className="nav-link" href="#/student/suggestions"><i className="fas fa-lightbulb"></i> Suggestions</a>
+                    </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">

@@ -1,17 +1,12 @@
-.events-card-image {
-    width: 8rem;
-    height: 8rem;
-}
-
-.all-events-heading{
+.all-suggestions-heading{
     background-color: #0056a3
 }
 
-.events-below-heading{
+.suggestions-below-heading{
     padding-top: 3rem;
 }
 
-.events-search-section{
+.suggestions-search-section{
     position: sticky;
     top: 6.4rem;
     position: -webkit-sticky;

@@ -8,6 +8,7 @@ import StudentItemDetails from './items/StudentItemDetails';
 import StudentOrders from './orders/StudentOrders';
 import StudentCart from './orders/StudentCart';
 import StudentOrderDetails from './orders/StudentOrderDetails';
+import StudentAllSuggestions from './suggestions/StudentAllSuggestions';
 
 function Student() {
     return (
@@ -19,6 +20,7 @@ function Student() {
             <Route path="/student/redeem" component={StudentAllItems}/>
             <Route path="/student/item-details/:itemId" component={StudentItemDetails}/>
             <Route path="/student/orders" component={StudentOrders}/>
+            <Route path="/student/suggestions" component={StudentAllSuggestions}/>
             <Route path="/student/cart" component={StudentCart}/>
             <Route path="/student/order-details/:orderId" component={StudentOrderDetails}/>
           </Switch>

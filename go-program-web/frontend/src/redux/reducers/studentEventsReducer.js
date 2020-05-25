@@ -6,7 +6,6 @@ const initialState = {
     createResponseMessage: "",
     getResponseMessage: "",
     updateResponseMessage: "",
-    deleteResponseMessage: "",
     addCommentResponseMessage: "",
     updatedEvent: ""
 };

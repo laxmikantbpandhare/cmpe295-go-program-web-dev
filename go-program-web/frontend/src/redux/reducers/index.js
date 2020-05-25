@@ -7,6 +7,8 @@ import studentOrdersReducer from './studentOrdersReducer';
 import ordersRequestsReducer from './ordersRequestsReducer';
 import studentDashboardReducer from './studentDashboardReducer';
 import adminDashboardReducer from './adminDashboardReducer';
+import suggestedEventsReducer from './suggestedEventsReducer';
+import suggestedEventsRequestsReducer from './suggestedEventsRequestsReducer';
 
 export default combineReducers({
     inventory: adminInventoryReducer,
@@ -17,4 +19,6 @@ export default combineReducers({
     ordersRequests: ordersRequestsReducer,
     studentDashboard: studentDashboardReducer,
     adminDashboard: adminDashboardReducer,
+    suggestedEvents: suggestedEventsReducer,
+    suggestedEventsRequests: suggestedEventsRequestsReducer
 });

@@ -6,6 +6,8 @@ import {eventAddAdminComment} from '../../redux/actions/eventsRequestsAction';
 import {eventAddStudentComment} from '../../redux/actions/studentEventsAction';
 import {orderAddStudentComment} from '../../redux/actions/studentOrdersAction';
 import {orderAddAdminComment} from '../../redux/actions/ordersRequestsAction';
+import {suggestedEventAddStudentComment} from '../../redux/actions/suggestedEventsAction';
+import {suggestedEventAddAdminComment} from '../../redux/actions/suggestedEventsRequestsAction';
 
 class CommentsModal extends Component {
      //call the constructor method
@@ -98,6 +100,26 @@ class CommentsModal extends Component {
             .catch(() => {
             
             })
+        } else if(this.props.commenter === "Student" && this.props.type === "SuggestedEvent"){
+            this.props.suggestedEventAddStudentComment(data)
+            .then(() => {
+                this.setState({
+                    comment: ""
+                });
+            })
+            .catch(() => {
+            
+            })
+        } else if(this.props.commenter === "Admin" && this.props.type === "SuggestedEvent"){
+            this.props.suggestedEventAddAdminComment(data)
+            .then(() => {
+                this.setState({
+                    comment: ""
+                });
+            })
+            .catch(() => {
+            
+            })
         }
     }
     
@@ -150,7 +172,9 @@ const mapDispatchToProps = dispatch => {
         eventAddAdminComment: data => dispatch(eventAddAdminComment(data)),
         eventAddStudentComment: data => dispatch(eventAddStudentComment(data)),
         orderAddStudentComment: data => dispatch(orderAddStudentComment(data)),
-        orderAddAdminComment: data => dispatch(orderAddAdminComment(data))
+        orderAddAdminComment: data => dispatch(orderAddAdminComment(data)),
+        suggestedEventAddStudentComment: data => dispatch(suggestedEventAddStudentComment(data)),
+        suggestedEventAddAdminComment: data => dispatch(suggestedEventAddAdminComment(data))
     }
 }
 
