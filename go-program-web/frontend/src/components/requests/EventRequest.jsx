@@ -98,9 +98,9 @@ class EventRequest extends Component{
                                         {
                                             this.options.map( option => {
                                                 if(option === this.props.event.status){
-                                                    return <option selected>{option}</option> ;
+                                                    return <option selected key={option}>{option}</option> ;
                                                 } else {
-                                                    return <option>{option}</option> ;
+                                                    return <option key={option}>{option}</option> ;
                                                 }
                                             }
                                             )}

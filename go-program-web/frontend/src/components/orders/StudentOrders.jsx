@@ -72,7 +72,7 @@ class StudentOrders extends Component{
             
             <div className="container-fluid orders-below-heading">
                 <div className="orders-search-section">
-                    <h4 className="text-center text-white your-orders-heading p-1 mt-2">Your Orders</h4>
+                    <h4 className="text-center text-white all-orders-heading p-1 mt-2">Your Orders</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="filter" onChange={this.handleChange}

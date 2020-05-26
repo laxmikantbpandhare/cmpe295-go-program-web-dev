@@ -537,34 +537,35 @@ queries.getStudentsAllOrders = (successcb, failurecb) => {
 }
 
 queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
-    console.log("order---", order);
-    Order.findById(order.id)
-    .then(orderToUpdate => {
-        orderToUpdate["status"] = order.status;
-        orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
-        orderToUpdate.save()
-        .then(updatedOrder => {
-            if(order.status === "Cancelled"){
-                Student.findById(order.student.id)
-                .then(studentToUpdate => {
-                    studentToUpdate["pointsSpent"] = studentToUpdate["pointsSpent"] - Number(order.order.points);
-                    studentToUpdate.save()
-                    .then(updatedStudent => {
-                        Item.bulkWrite(
-                            order.items.map(item => ({
-                                updateOne: {
-                                    filter: {_id: item.item},
-                                    update: {$set: { "attributes.$[attribute].quantity": attributes.$[attribute].quantity - item.quantity} },
-                                    arrayFilters: [
-                                        {
-                                            "attribute.size": item.size
-                                        }
-                                    ]
+    console.log("order---%j", order);
+
+    if(order.status === "Cancelled"){
+        Student.findById(order.student.id)
+        .then(studentToUpdate => {
+            studentToUpdate["pointsSpent"] = studentToUpdate["pointsSpent"] - Number(order.points);
+            studentToUpdate.save()
+            .then(updatedStudent => {
+                Item.bulkWrite(
+                    order.items.map(item => ({
+                        updateOne: {
+                            filter: {_id: item.item},
+                            update: {$inc: { "attributes.$[attribute].quantity": item.quantity } },
+                            arrayFilters: [
+                                {
+                                    "attribute.size": item.size
                                 }
-                            })
-                            )
-                        )
-                        .then(result => {
+                            ]
+                        }
+                    })
+                    )
+                )
+                .then(result => {
+                    Order.findById(order.id)
+                    .then(orderToUpdate => {
+                        orderToUpdate["status"] = order.status;
+                        orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
+                        orderToUpdate.save()
+                        .then(updatedOrder => {
                             updatedOrder.
                             populate('student').
                             populate('items.item').
@@ -574,128 +575,55 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                             })
                         })
                         .catch(err => {
-                            let message = `Failed to update quantity of items in the db. ${err.message}`;
+                            let message = `Failed to get Order details from the db. ${err.message}`;
                             failurecb(message);
                         })
                     })
                     .catch(err => {
-                        let message = `Unable to update Student points in the db. ${err.message}`;
+                        let message = `Unable to update Order in the db. ${err.message}`;
                         failurecb(message);
                     })
                 })
                 .catch(err => {
-                    let message = `Unable to get Student details from the db. ${err.message}`;
+                    let message = `Failed to update quantity of items in the db. ${err.message}`;
                     failurecb(message);
                 })
-            } else {
+            })
+            .catch(err => {
+                let message = `Unable to update Student points in the db. ${err.message}`;
+                failurecb(message);
+            })
+        })
+        .catch(err => {
+            let message = `Unable to get Student details from the db. ${err.message}`;
+            failurecb(message);
+        })
+    } else {
+        Order.findById(order.id)
+        .then(orderToUpdate => {
+            orderToUpdate["status"] = order.status;
+            orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
+            orderToUpdate.save()
+            .then(updatedOrder => {
                 updatedOrder.
                 populate('student').
                 populate('items.item').
                 execPopulate().
-                then(updatedOrder => {
-                    successcb(updatedOrder)
+                then(populatedOrder => {
+                    successcb(populatedOrder)
                 })
-            }
+            })
+            .catch(err => {
+                let message = `Failed to get Order details from the db. ${err.message}`;
+                failurecb(message);
+            })
         })
         .catch(err => {
             let message = `Unable to update Order in the db. ${err.message}`;
             failurecb(message);
         })
-    })
-    .catch(err => {
-        let message = `Failed to get Order details from the db. ${err.message}`;
-        failurecb(message);
-    })
+    }
 }
-
-// queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
-//     console.log("order---%j", order);
-
-//     if(order.status === "Cancelled"){
-//         Student.findById(order.student.id)
-//         .then(studentToUpdate => {
-//             studentToUpdate["pointsSpent"] = studentToUpdate["pointsSpent"] - Number(order.points);
-//             studentToUpdate.save()
-//             .then(updatedStudent => {
-//                 Item.bulkWrite(
-//                     order.items.map(item => ({
-//                         updateOne: {
-//                             filter: {_id: item.item},
-//                             update: {$set: { "attributes.$[attribute].quantity": attributes.$[attribute].quantity + item.quantity} },
-//                             arrayFilters: [
-//                                 {
-//                                     "attribute.size": item.size
-//                                 }
-//                             ]
-//                         }
-//                     })
-//                     )
-//                 )
-//                 .then(result => {
-//                     Order.findById(order.id)
-//                     .then(orderToUpdate => {
-//                         orderToUpdate["status"] = order.status;
-//                         orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
-//                         orderToUpdate.save()
-//                         .then(updatedOrder => {
-//                             updatedOrder.
-//                             populate('student').
-//                             populate('items.item').
-//                             execPopulate().
-//                             then(populatedOrder => {
-//                                 successcb(populatedOrder)
-//                             })
-//                         })
-//                         .catch(err => {
-//                             let message = `Failed to get Order details from the db. ${err.message}`;
-//                             failurecb(message);
-//                         })
-//                     })
-//                     .catch(err => {
-//                         let message = `Unable to update Order in the db. ${err.message}`;
-//                         failurecb(message);
-//                     })
-//                 })
-//                 .catch(err => {
-//                     let message = `Failed to update quantity of items in the db. ${err.message}`;
-//                     failurecb(message);
-//                 })
-//             })
-//             .catch(err => {
-//                 let message = `Unable to update Student points in the db. ${err.message}`;
-//                 failurecb(message);
-//             })
-//         })
-//         .catch(err => {
-//             let message = `Unable to get Student details from the db. ${err.message}`;
-//             failurecb(message);
-//         })
-//     } else {
-//         Order.findById(order.id)
-//         .then(orderToUpdate => {
-//             orderToUpdate["status"] = order.status;
-//             orderToUpdate["updatedBy"] = `Admin(${order.updatedBy})`;
-//             orderToUpdate.save()
-//             .then(updatedOrder => {
-//                 updatedOrder.
-//                 populate('student').
-//                 populate('items.item').
-//                 execPopulate().
-//                 then(populatedOrder => {
-//                     successcb(populatedOrder)
-//                 })
-//             })
-//             .catch(err => {
-//                 let message = `Failed to get Order details from the db. ${err.message}`;
-//                 failurecb(message);
-//             })
-//         })
-//         .catch(err => {
-//             let message = `Unable to update Order in the db. ${err.message}`;
-//             failurecb(message);
-//         })
-//     }
-// }
 
 queries.getOrderDetailsStudent = (orderId, studentId, successcb, failurecb) => {
     Student.findOne({sjsuId: studentId})

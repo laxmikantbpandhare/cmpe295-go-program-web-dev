@@ -42,7 +42,7 @@ router.post('/login',function(req,res){
                         id: id,
                     }
                     var token = jwt.sign(user, secret, {
-                        expiresIn: 10080 // in seconds
+                        expiresIn: 1008000 // in seconds
                     });
                     res.status(200).json({success: true, message: "Login successful", user: row, token: token});
                 }else{

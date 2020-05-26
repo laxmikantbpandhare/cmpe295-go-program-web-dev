@@ -11,19 +11,59 @@ class AllOrdersRequests extends Component{
     constructor(props){
         super(props);
         this.state = {
-            search: ""
+            searchOrderId: "",
+            searchStudentId: "",
+            filter: "",
+            sort: ""
         };
     }
 
     componentDidMount(){
         this.props.getAllOrders();
     }
+
+    handleChange = e => {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
+    }
+
+    resetSearchSection = e => {
+        this.setState(
+            {
+                searchOrderId: "",
+                searchStudentId: "",
+                filter: "",
+                sort: ""
+            }
+        );   
+    }
+
+    statusOptions = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
     
     render() {
         let redirectVar = null;
         if(!localStorage.getItem('token')){
             redirectVar = <Redirect to= "/login"/>
         }
+
+        let sortedOrders = [...this.props.orders];
+        if(this.state.sort !== ""){
+            if(this.state.sort === "Created Date Ascending"){
+                sortedOrders.sort((order1, order2) => new Date(order1.createdDate) - new Date(order2.createdDate));
+            } else {
+                sortedOrders.sort((order1, order2) => new Date(order2.createdDate) - new Date(order1.createdDate));
+            }
+        }
+
+        let searchedOrdersById = this.state.searchOrderId !== ""
+        ? sortedOrders.filter(order => order.id === parseInt(this.state.searchOrderId))
+        : [...sortedOrders];
+
+        let filteredOrders = searchedOrdersById.filter(order => {
+            return (order.student.sjsuId.toLowerCase().indexOf(this.state.searchStudentId.toLowerCase()) !== -1 &&
+            order.status.indexOf(this.state.filter)!==-1)
+        });
         
         let noOrderText = this.state.search !== ""
         ? "No Order Matching the Search or Filter Criteria"
@@ -37,35 +77,61 @@ class AllOrdersRequests extends Component{
             
             <div className="container-fluid requests-below-heading">
                 <div className="requests-search-section">
-                    <h4 className="text-center text-white all-requests-heading p-1 mt-2">All Submitted Orders</h4>
+                    <h4 className="text-center text-white all-orders-heading p-1 mt-2">All Submitted Events</h4>
                     <div className="row">
-                        <div class="col-10 col-sm-6">
-                            <input type="search" class="form-control" placeholder="Search by Event Title" />
+                        <div  class="col-6 col-sm-2 order-sm-3">
+                            <select className="form-control" name="filter" onChange={this.handleChange}
+                             value={this.state.filter}>
+                                <option selected value="">Filter by Status</option>
+                                {
+                                    this.statusOptions.map(option => <option>{option}</option>)
+                                }
+                            </select>
                         </div>
-                        <div  class="col-2 col-sm-2">
-                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}>
-                                <i className="fas fa-search"></i>
-                                <span className="d-none d-sm-inline"> Search</span>
-                            </button>
+
+                        <div  class="col-6 col-sm-2 order-sm-4">
+                            <select className="form-control" name="sort" onChange={this.handleChange}
+                             value={this.state.sort}>
+                                <option selected value="">Sort by</option>
+                                <option>Created Date Ascending</option>
+                                <option>Created Date Descending</option>
+                            </select>
                         </div>
+
                         <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
-                        <div  class="col-6 col-sm-2">
-                            <select className="form-control" name="some">
-                                <option selected>Filter</option>
-                            </select>
+
+                        <div className="input-group col-12 col-sm-3 order-sm-2">
+                            <div class="input-group-prepend">
+                                <div className="input-group-text"><i className="fas fa-search"></i></div>
+                            </div>
+                            <input type = "number"  className="form-control py-2" name="searchStudentId" placeholder="Search by Student Id"
+                            onChange={this.handleChange} value={this.state.search}></input>
                         </div>
-                        <div  class="col-6 col-sm-2">
-                            <select className="form-control" name="some1">
-                                <option selected>Sort</option>
-                            </select>
+
+                        <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
+
+                        <div className="input-group col-10 col-sm-3 order-sm-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            </div>
+                            <input type = "number" className="form-control py-2" name="searchOrderId" placeholder="Search by Order Id"
+                            onChange={this.handleChange} value={this.state.search}></input>
+                        </div> 
+
+                        <div  class="col-2 col-sm-2 order-sm-4">
+                            <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
+                                onClick={this.resetSearchSection}>
+                                <i className="fas fa-sync"></i>
+                                <span className="d-none d-sm-inline"> Reset</span>
+                            </button>
                         </div>
                     </div>
                     <hr/>
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                 {
-                    this.props.orders.length!==0 ? this.props.orders.map((order,index)=>
-                    <OrderRequest order={order} key={index}/>
+                    filteredOrders.length!==0 ? filteredOrders.map(order=>
+                    <OrderRequest order={order} key={order.id}/>
                     )
                     :
                     <h2>{noOrderText}</h2>

@@ -158,15 +158,25 @@ class AdminNewItemModal extends Component{
         }
     }
 
+    isDuplicateAttribute = () => {
+        let allSizes = this.state.attributes.map(attribute => attribute.size);
+
+        return allSizes.length !== new Set(allSizes).size;
+    }
+
      handleSubmit = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
             this.setState({ message: "All fields are mandatory with at least 1 pic. Points and Quantity cannot be less than 1" });
             return;
+        } else if(this.isDuplicateAttribute()){
+            this.setState({ message: "Attribute size cannot be duplicate." });
+            return;
         } else {
             this.setState({ message: "" });
         }
+        
 
         const data = {
             name: this.state.name,

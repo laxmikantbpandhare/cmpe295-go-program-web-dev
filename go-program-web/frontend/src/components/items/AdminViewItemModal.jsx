@@ -60,6 +60,12 @@ class AdminViewItemModal extends Component{
         }
      }
 
+     isDuplicateAttribute = () => {
+        let allSizes = this.props.item.attributes.map(attribute => attribute.size);
+
+        return allSizes.length !== new Set(allSizes).size;
+    }
+
      isFieldEmpty = () => {
         if(this.props.item.name === "" || this.props.item.description === "" || this.props.item.points < 1 ||
         this.props.item.category ==="" || this.isAttributeFieldEmpty()){
@@ -81,6 +87,9 @@ class AdminViewItemModal extends Component{
 
         if(this.isFieldEmpty()){
             this.setState({ message: "All fields are mandatory." });
+            return;
+        } else if(this.isDuplicateAttribute()){
+            this.setState({ message: "Attribute size cannot be duplicate." });
             return;
         } else {
             this.setState({ message: "" });
