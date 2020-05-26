@@ -9,6 +9,6 @@ module.exports = {
     "Senior (4th+ year)", "Graduate"],
     idPattern: /^\d{9}$/,
     emailPattern: /@sjsu\.edu$/,
-    itemCategories: ["Clothing", "Books", "Electronics", "Beauty Products", "Gift Cards & Coupons", "Home & Kitchen",
+    itemCategories: ["Clothing", "Books", "Electronics", "Gift Cards & Coupons", 
     "Stationaries", "Sports", "Foods"]
 }
