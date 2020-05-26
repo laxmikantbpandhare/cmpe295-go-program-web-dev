@@ -71,11 +71,11 @@ class AdminItem extends Component{
                                     <i className="fas fa-eye"/>
                                     <span className="d-none d-sm-inline"> Details</span>
                                 </button>
-                                <button type="button" className="btn btn-link delete-color"
+                                {/* <button type="button" className="btn btn-link delete-color"
                                 onClick = {this.handleDelete}>
                                     <i className="fas fa-trash-alt"/>
                                     <span className="d-none d-sm-inline"> Delete</span>
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </div>
