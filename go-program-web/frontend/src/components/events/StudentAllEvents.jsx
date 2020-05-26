@@ -143,8 +143,8 @@ class StudentAllEvents extends Component{
                 <h6 style= {{color:"red"}}>{this.props.adminResponseMessage}</h6>
                 <h6 style= {{color:"red"}}>{this.props.studentResponseMessage}</h6>
                 {
-                    filteredEvents.length!==0 ? filteredEvents.map((event,index)=>
-                    <StudentEvent event={event} key={index}/>
+                    filteredEvents.length!==0 ? filteredEvents.map(event=>
+                    <StudentEvent event={event} key={event._id}/>
                     )
                     :
                     <h2>{noEventText}</h2>

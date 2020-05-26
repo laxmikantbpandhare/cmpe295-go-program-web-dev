@@ -5,7 +5,7 @@ import '../../Common.css';
 import './Dashboard.css';
 import {connect} from 'react-redux';
 import {getPoints, getEvents, getApprovedEvents, getOrders,
-    getDeliveredOrders} from '../../redux/actions/studentDashboardAction';
+    getDeliveredOrders, getSuggestedEvents, getApprovedSuggestedEvents} from '../../redux/actions/studentDashboardAction';
 
 class StudentDashboard extends Component{
     constructor(props){
@@ -25,6 +25,9 @@ class StudentDashboard extends Component{
 
         this.props.getOrders();
         this.props.getDeliveredOrders();
+
+        this.props.getSuggestedEvents();
+        this.props.getApprovedSuggestedEvents();
     }
     
     render() {
@@ -198,6 +201,62 @@ class StudentDashboard extends Component{
                         </div>
                     </div>
                 </div>
+                <div className="row mt-4">
+                    <div className="col-sm-6">
+                        <h2 className="text-white text-center p-1 events-table-heading">Last 5 Approved Suggested Events</h2>
+                        <div className="container">
+                            <table className="table">
+                                <thead className="events-table-attributes">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date Suggested</th>
+                                    </tr>
+                                </thead>
+                                <h6 style= {{color:"red"}}>{this.props.getApprovedSuggestedEventsResponseMessage}</h6>
+                                <tbody>
+                                    {
+                                        this.props.approvedSuggestedEvents.length !==0 
+                                        ? this.props.approvedSuggestedEvents.map(event => (
+                                            <tr>
+                                                <td>{event.name}</td>
+                                                <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
+                                            </tr>
+                                        ))
+                                        : <h6>No Approved Suggested Event.</h6>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="col-sm-6">
+                        <h2 className="text-white text-center p-1 events-table-heading">Last 5 Suggested Events</h2>
+                        <div className="container">
+                            <table className="table">
+                                <thead className="events-table-attributes">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date Submitted</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <h6 style= {{color:"red"}}>{this.props.getSuggestedEventsResponseMessage}</h6>
+                                <tbody>
+                                    {
+                                        this.props.suggestedEvents.length !==0 
+                                        ? this.props.suggestedEvents.map(event => (
+                                            <tr>
+                                                <td>{event.name}</td>
+                                                <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
+                                                <td>{event.status}</td>
+                                            </tr>
+                                        ))
+                                        : <h6>No Event is Suggested by you.</h6>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         )
@@ -210,7 +269,9 @@ const mapDispatchToProps = dispatch => {
         getEvents: () => {dispatch(getEvents())},
         getApprovedEvents: () => {dispatch(getApprovedEvents())},
         getOrders: () => {dispatch(getOrders())},
-        getDeliveredOrders: () => {dispatch(getDeliveredOrders())}
+        getDeliveredOrders: () => {dispatch(getDeliveredOrders())},
+        getSuggestedEvents: () => {dispatch(getSuggestedEvents())},
+        getApprovedSuggestedEvents: () => {dispatch(getApprovedSuggestedEvents())}
     }
 }
 
@@ -226,7 +287,11 @@ const mapStateToProps = state => {
         getOrdersResponseMessage: state.studentDashboard.getOrdersResponseMessage,
         orders: state.studentDashboard.orders,
         getDeliveredOrdersResponseMessage: state.studentDashboard.getDeliveredOrdersResponseMessage,
-        deliveredOrders: state.studentDashboard.deliveredOrders
+        deliveredOrders: state.studentDashboard.deliveredOrders,
+        getSuggestedEventsResponseMessage: state.studentDashboard.getSuggestedEventsResponseMessage,
+        suggestedEvents: state.studentDashboard.suggestedEvents,
+        getApprovedSuggestedEventsResponseMessage: state.studentDashboard.getApprovedSuggestedEventsResponseMessage,
+        approvedSuggestedEvents: state.studentDashboard.approvedSuggestedEvents
     }
 }
 

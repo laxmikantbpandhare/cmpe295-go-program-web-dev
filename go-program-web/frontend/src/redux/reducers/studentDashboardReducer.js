@@ -2,7 +2,10 @@ import { STUDENT_DASHBOARD_GET_POINTS_SUCCESS, STUDENT_DASHBOARD_GET_POINTS_FAIL
     STUDENT_DASHBOARD_GET_EVENTS_SUCCESS, STUDENT_DASHBOARD_GET_EVENTS_FAILED,
     STUDENT_DASHBOARD_GET_APPROVED_EVENTS_SUCCESS, STUDENT_DASHBOARD_GET_APPROVED_EVENTS_FAILED, 
     STUDENT_DASHBOARD_GET_ORDERS_SUCCESS, STUDENT_DASHBOARD_GET_ORDERS_FAILED, 
-    STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_SUCCESS, STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_FAILED } from '../actions/types';
+    STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_SUCCESS, STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_FAILED, 
+    STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_SUCCESS, STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_FAILED, 
+    STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_SUCCESS, 
+    STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_FAILED } from '../actions/types';
 
 const initialState = {
     pointsAccumulated: 0,
@@ -15,7 +18,11 @@ const initialState = {
     orders: [],
     getOrdersResponseMessage: "",
     deliveredOrders: [],
-    getDeliveredOrdersResponseMessage: ""
+    getDeliveredOrdersResponseMessage: "",
+    suggestedEvents: [],
+    getSuggestedEventsResponseMessage: "",
+    approvedSuggestedEvents: [],
+    getApprovedSuggestedEventsResponseMessage: "",
 };
 
 const studentDashboardReducer = (state = initialState, action) => {
@@ -75,6 +82,28 @@ const studentDashboardReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getDeliveredOrdersResponseMessage: action.payload.message
+            }
+        case STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_SUCCESS:
+            return {
+                ...state,
+                suggestedEvents: initialState.suggestedEvents.concat(action.payload.events),
+                getSuggestedEventsResponseMessage: ""
+            }
+        case STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_SUCCESS:
+            return {
+                ...state,
+                getSuggestedEventsResponseMessage: action.payload.message
+            }
+        case STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_SUCCESS:
+            return {
+                ...state,
+                approvedSuggestedEvents: initialState.approvedSuggestedEvents.concat(action.payload.events),
+                getApprovedSuggestedEventsResponseMessage: ""
+            }
+        case STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_FAILED:
+            return {
+                ...state,
+                getApprovedSuggestedEventsResponseMessage: action.payload.message
             }
         default:
             return state;

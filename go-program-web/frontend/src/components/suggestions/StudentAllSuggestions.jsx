@@ -141,8 +141,8 @@ class StudentAllSuggestions extends Component{
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                 {
-                    filteredEvents.length!==0 ? filteredEvents.map((event,index)=>
-                    <StudentSuggestion event={event} key={index}/>
+                    filteredEvents.length!==0 ? filteredEvents.map(event=>
+                    <StudentSuggestion event={event} key={event._id}/>
                     )
                     :
                     <h2>{noEventText}</h2>

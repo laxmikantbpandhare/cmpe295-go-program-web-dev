@@ -115,8 +115,8 @@ class StudentOrders extends Component{
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.studentResponseMessage}</h6>
                 {
-                    searchedOrders.length!==0 ? searchedOrders.map((order,index)=>
-                    <StudentOrder order={order} key={index}/>
+                    searchedOrders.length!==0 ? searchedOrders.map(order=>
+                    <StudentOrder order={order} key={order.id}/>
                     )
                     :
                     <h2>{noOrderText}</h2>

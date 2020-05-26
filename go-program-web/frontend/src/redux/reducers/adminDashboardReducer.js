@@ -1,11 +1,15 @@
 import { ADMIN_DASHBOARD_GET_PENDING_APPROVAL_EVENTS_SUCCESS, ADMIN_DASHBOARD_GET_PENDING_APPROVAL_EVENTS_FAILED, 
-    ADMIN_DASHBOARD_GET_SUBMITTED_ORDERS_SUCCESS, ADMIN_DASHBOARD_GET_SUBMITTED_ORDERS_FAILED } from '../actions/types';
+    ADMIN_DASHBOARD_GET_SUBMITTED_ORDERS_SUCCESS, ADMIN_DASHBOARD_GET_SUBMITTED_ORDERS_FAILED, 
+    ADMIN_DASHBOARD_GET_PENDING_APPROVAL_SUGGESTED_EVENTS_SUCCESS, 
+    ADMIN_DASHBOARD_GET_PENDING_APPROVAL_SUGGESTED_EVENTS_FAILED } from '../actions/types';
 
 const initialState = {
     pendingApprovalEvents: [],
     getPendingApprovalEventsResponseMessage: "",
     submittedOrders: [],
-    getSubmittedOrdersResponseMessage: ""
+    getSubmittedOrdersResponseMessage: "",
+    pendingApprovalSuggestedEvents: [],
+    getPendingApprovalSuggestedEventsResponseMessage: ""
 };
 
 const adminDashboardReducer = (state = initialState, action) => {
@@ -31,6 +35,17 @@ const adminDashboardReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getSubmittedOrdersResponseMessage: action.payload.message
+            }
+        case ADMIN_DASHBOARD_GET_PENDING_APPROVAL_SUGGESTED_EVENTS_SUCCESS:
+            return {
+                ...state,
+                pendingApprovalSuggestedEvents: initialState.pendingApprovalSuggestedEvents.concat(action.payload.events),
+                getPendingApprovalSuggestedEventsResponseMessage: ""
+            }
+        case ADMIN_DASHBOARD_GET_PENDING_APPROVAL_SUGGESTED_EVENTS_FAILED:
+            return {
+                ...state,
+                getPendingApprovalSuggestedEventsResponseMessage: action.payload.message
             }
         default:
             return state;

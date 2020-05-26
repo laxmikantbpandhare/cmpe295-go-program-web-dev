@@ -163,4 +163,14 @@ router.get('/dashboardSubmittedOrders',passport.authenticate("jwt", { session: f
     });
 });
 
+router.get('/dashboardPendingApprovalSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Admin Dashboard Pending Approval Suggested Events Get Request");
+    
+    queries.getAdminDashboardPendingApprovalSuggestedEvents(events => {
+        res.status(200).json({success: true, events: events});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting Students Events from the database. ${err.message}`});
+    });
+});
+
 module.exports = router;

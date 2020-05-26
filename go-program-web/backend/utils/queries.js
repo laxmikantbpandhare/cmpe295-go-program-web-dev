@@ -358,69 +358,6 @@ queries.getItem = (itemId,successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
-// queries.createOrder = (order, successcb, failurecb) => {
-//     Student.findOne({sjsuId: order.student.id})
-//     .select('_id pointsSpent')
-//     .then(student => {
-//         const newPoints = student["pointsSpent"] + Number(order.points);
-//         student["pointsSpent"] = newPoints;
-//         student.save()
-//         .then(updatedStudent => {
-//             Counter.findByIdAndUpdate( "orderId" , { $inc: { seq: 1 }}, {new: true, upsert: true }).
-//             select('seq')
-//             .then(counter => {
-//                 const newOrder = new Order({
-//                     id: counter.seq,
-//                     student: student._id,
-//                     items: order.orderItems,
-//                     points: order.points,
-//                     status: "Submitted"
-//                 });
-//                 newOrder.save()
-//                 .then(savedOrder => {
-//                     Item.bulkWrite(
-//                         order.inventoryItems.map(item => ({
-//                             updateOne: {
-//                                 filter: {_id: item.itemId},
-//                                 update: {$set: { "attributes.$[attribute].quantity": item.newQuantity} },
-//                                 arrayFilters: [
-//                                     {
-//                                         "attribute._id": mongoose.Types.ObjectId(item.attributeId)
-//                                     }
-//                                 ]
-//                             }
-//                         })
-//                         )
-//                     )
-//                     .then(result => {
-//                         successcb(savedOrder)
-//                     })
-//                     .catch(err => {
-//                         let message = `Failed to update quantity of items in the db. ${err.message}`;
-//                         failurecb(message);
-//                     })
-//                 })
-//                 .catch(err => {
-//                     let message = `Failed to add Order details in the db. ${err.message}`;
-//                     failurecb(message);
-//                 })
-//             })
-//             .catch(err => {
-//                 let message = `Unable to generate new order id in the db. ${err.message}`;
-//                 failurecb(message);
-//             })
-//         })
-//         .catch(err => {
-//             let message = `Unable to update Student points in the db. ${err.message}`;
-//             failurecb(message);
-//         })
-//     })
-//     .catch(err => {
-//         let message = `Failed to get Student details from the db. ${err.message}`;
-//         failurecb(message);
-//     })
-// }
-
 queries.createOrder = (order, successcb, failurecb) => {
     Student.findOne({sjsuId: order.student.id})
     .select('_id pointsSpent')
@@ -902,6 +839,61 @@ queries.updateStudentSuggestedEventStatus = (event, successcb, failurecb) => {
         let message = `Failed to get Suggested Event details from the db. ${err.message}`;
         failurecb(message);
     })
+}
+
+queries.getStudentDashboardSuggestedEvents = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        if(student !== null){
+            SuggestedEvent.find({student: student._id})
+            .sort({createdDate:-1})
+            .limit(5)
+            .exec()
+            .then(events => {
+                successcb(events);
+            })
+            .catch(err => failurecb(err,"Suggested Events"))
+        } else {
+            successcb([]);
+        }
+    })
+    .catch(err => {
+        failurecb(err,"Student")
+    })
+}
+
+queries.getStudentDashboardApprovedSuggestedEvents = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .select('_id')
+    .then(student => {
+        if(student !== null){
+            SuggestedEvent.find({student: student._id, status: "Approved"})
+            .sort({updatedDate:-1})
+            .limit(5)
+            .exec()
+            .then(events => {
+                successcb(events);
+            })
+            .catch(err => failurecb(err,"Suggested Events"))
+        } else {
+            successcb([]);
+        }
+    })
+    .catch(err => {
+        failurecb(err,"Student")
+    })
+}
+
+queries.getAdminDashboardPendingApprovalSuggestedEvents = (successcb, failurecb) => {
+    SuggestedEvent.find({status: "Pending Approval"})
+    .populate('student')
+    .sort({updatedDate:-1})
+    .limit(5)
+    .exec()
+    .then(events => {
+        successcb(events)})
+    .catch(err => failurecb(err))
 }
 
 module.exports = queries;

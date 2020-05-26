@@ -2,7 +2,10 @@ import { STUDENT_DASHBOARD_GET_POINTS_SUCCESS, STUDENT_DASHBOARD_GET_POINTS_FAIL
     STUDENT_DASHBOARD_GET_EVENTS_SUCCESS, STUDENT_DASHBOARD_GET_EVENTS_FAILED,
     STUDENT_DASHBOARD_GET_APPROVED_EVENTS_SUCCESS, STUDENT_DASHBOARD_GET_APPROVED_EVENTS_FAILED, 
     STUDENT_DASHBOARD_GET_ORDERS_SUCCESS, STUDENT_DASHBOARD_GET_ORDERS_FAILED, 
-    STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_SUCCESS, STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_FAILED } from './types';
+    STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_SUCCESS, STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_FAILED, 
+    STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_SUCCESS, STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_FAILED, 
+    STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_SUCCESS, 
+    STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_FAILED } from './types';
 import {backendUrl} from '../../config';
 
 export const getPoints = () => dispatch => new Promise(function(resolve, reject) {
@@ -186,6 +189,80 @@ export const getDeliveredOrders = () => dispatch => {
     .catch(err => {
         dispatch({
             type: STUDENT_DASHBOARD_GET_DELIVERED_ORDERS_FAILED,
+            payload: {
+                message: `Internal error -- ${err}`
+            }
+        });
+    });  
+};
+
+export const getSuggestedEvents = () => dispatch => {
+    const token = localStorage.getItem('token');
+    fetch(`${backendUrl}/student/dashboardSuggestedEvents/?id=${localStorage.getItem('id')}`,{
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include'
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(data => {
+                dispatch({
+                    type: STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_SUCCESS,
+                    payload: data
+                });
+            });
+        }else{
+            res.json().then(data => {
+                dispatch({
+                    type: STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_FAILED,
+                    payload: data
+                });
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: STUDENT_DASHBOARD_GET_SUGGESTED_EVENTS_FAILED,
+            payload: {
+                message: `Internal error -- ${err}`
+            }
+        });
+    });  
+};
+
+export const getApprovedSuggestedEvents = () => dispatch => {
+    const token = localStorage.getItem('token');
+    fetch(`${backendUrl}/student/dashboardApprovedSuggestedEvents/?id=${localStorage.getItem('id')}`,{
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include'
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(data => {
+                dispatch({
+                    type: STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_SUCCESS,
+                    payload: data
+                });
+            });
+        }else{
+            res.json().then(data => {
+                dispatch({
+                    type: STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_FAILED,
+                    payload: data
+                });
+            })
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: STUDENT_DASHBOARD_GET_APPROVED_SUGGESTED_EVENTS_FAILED,
             payload: {
                 message: `Internal error -- ${err}`
             }

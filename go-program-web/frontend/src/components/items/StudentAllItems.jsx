@@ -165,8 +165,8 @@ class StudentAllItems extends Component{
                 <h6 style= {{color:"red"}}>{this.props.itemsResponseMessage}</h6>
                 <div className="row mt-2">
                 {
-                    filteredItems.length!==0 ? filteredItems.map((item,index)=>
-                    <StudentItem item={item} key={index} pointsBalance = {pointsBalance}/>
+                    filteredItems.length!==0 ? filteredItems.map(item=>
+                    <StudentItem item={item} key={item._id} pointsBalance = {pointsBalance}/>
                     )
                     :
                     <h2>{noItemText}</h2>

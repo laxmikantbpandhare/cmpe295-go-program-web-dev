@@ -131,8 +131,8 @@ class AdminInventory extends Component{
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                 {
-                    filteredItems.length!==0 ? filteredItems.map((item,index)=>
-                    <AdminItem item={item} key={index}/>
+                    filteredItems.length!==0 ? filteredItems.map(item=>
+                    <AdminItem item={item} key={item._id}/>
                     )
                     :
                     <h2>{noItemText}</h2>

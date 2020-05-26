@@ -255,4 +255,24 @@ router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { sessio
     });
 });
 
+router.get('/dashboardSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Dashboard Suggested Events Get Request");
+    
+    queries.getStudentDashboardSuggestedEvents(req.query.id,events => {
+        res.status(200).json({success: true, events: events});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
+router.get('/dashboardApprovedSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside Student Dashboard Approved Suggested Events Get Request");
+    
+    queries.getStudentDashboardApprovedSuggestedEvents(req.query.id,events => {
+        res.status(200).json({success: true, events: events});
+    }, (err,tag)=> {
+        res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+    });
+});
+
 module.exports = router;

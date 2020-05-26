@@ -4,7 +4,8 @@ import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Dashboard.css';
 import {connect} from 'react-redux';
-import {getPendingApprovalEvents, getSubmittedOrders} from '../../redux/actions/adminDashboardAction';
+import {getPendingApprovalEvents, getSubmittedOrders,
+    getPendingApprovalSuggestedEvents} from '../../redux/actions/adminDashboardAction';
 
 class AdminDashboard extends Component{
     constructor(props){
@@ -13,8 +14,8 @@ class AdminDashboard extends Component{
 
     componentDidMount(){
         this.props.getPendingApprovalEvents();
-
         this.props.getSubmittedOrders();
+        this.props.getPendingApprovalSuggestedEvents();
     }
     
     render() {
@@ -92,6 +93,36 @@ class AdminDashboard extends Component{
                         </div>
                     </div>
                 </div>
+                <div className="row mt-4">
+                    <div className="col-sm-8">
+                        <h2 className="text-white text-center p-1 events-table-heading">Last 5 Pending Approval Suggested Events Requests</h2>
+                        <div className="container">
+                            <table className="table">
+                                <thead className="events-table-attributes">
+                                    <tr>
+                                        <th>Student Id</th>
+                                        <th>Event</th>
+                                        <th>Date Submitted</th>
+                                    </tr>
+                                </thead>
+                                <h6 style= {{color:"red"}}>{this.props.getPendingApprovalSuggestedEventsResponseMessage}</h6>
+                                <tbody>
+                                    {
+                                        this.props.pendingApprovalSuggestedEvents.length !==0 
+                                        ? this.props.pendingApprovalSuggestedEvents.map(event => (
+                                            <tr>
+                                                <td>{event.student.sjsuId}</td>
+                                                <td>{event.name}</td>
+                                                <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
+                                            </tr>
+                                        ))
+                                        : <h6>No Suggested Event requires Approval.</h6>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         )
@@ -101,7 +132,8 @@ class AdminDashboard extends Component{
 const mapDispatchToProps = dispatch => {
     return {
         getPendingApprovalEvents: () => {dispatch(getPendingApprovalEvents())},
-        getSubmittedOrders: () => {dispatch(getSubmittedOrders())}
+        getSubmittedOrders: () => {dispatch(getSubmittedOrders())},
+        getPendingApprovalSuggestedEvents: () => {dispatch(getPendingApprovalSuggestedEvents())}
     }
 }
 
@@ -110,7 +142,9 @@ const mapStateToProps = state => {
         getPendingApprovalEventsResponseMessage: state.adminDashboard.getPendingApprovalEventsResponseMessage,
         pendingApprovalEvents: state.adminDashboard.pendingApprovalEvents,
         getSubmittedOrdersResponseMessage: state.adminDashboard.getSubmittedOrdersResponseMessage,
-        submittedOrders: state.adminDashboard.submittedOrders
+        submittedOrders: state.adminDashboard.submittedOrders,
+        getPendingApprovalSuggestedEventsResponseMessage: state.adminDashboard.getPendingApprovalSuggestedEventsResponseMessage,
+        pendingApprovalSuggestedEvents: state.adminDashboard.pendingApprovalSuggestedEvents
     }
 }
 

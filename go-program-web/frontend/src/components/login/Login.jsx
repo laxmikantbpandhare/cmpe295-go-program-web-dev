@@ -124,7 +124,7 @@ class Login extends Component{
                         <h4 className="text-center font-weight-bold">Log in</h4>
                         <h6 className="mb-4" style={{color:"red"}}>{this.state.message}</h6>
                         <div className="form-group input-wrapper">
-                            <input type = "text" name="id" placeholder = "Enter SJSU ID" onChange={this.handleChange}
+                            <input type = "number" name="id" placeholder = "Enter SJSU ID" onChange={this.handleChange}
                             className={`form-control form-input ${this.state.id.match(idPattern)?'input-valid':'input-invalid'}`} />
                             <label className="form-label">SJSU Id</label>
                         </div>
