@@ -1,2 +1,3 @@
 .DS_Store
 go-program-web/.vscode/
+.env
