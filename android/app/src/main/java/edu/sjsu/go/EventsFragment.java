@@ -91,6 +91,7 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        int appEventsCount = 0;
                         Log.d(TAG_ACTIVITY, response.toString());
                         try {
                             JSONArray jsonArray = response.getJSONArray("events");
@@ -102,12 +103,25 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
                                 String eventDesc   = item.getString("description");
                                 String eventStatus = item.getString("status");
 
+                                if (eventStatus.equals("Approved")) {
+                                    appEventsCount += 1;
+                                }
+
                                 JSONObject event   = item.getJSONObject("event");
                                 String eventID     = event.getString("_id");
                                 String eventName   = event.getString("name");
                                 String eventPts    = event.getString("points");
                                 String eventCrDate = event.getString("createdDate");
                                 String eventUpDate = event.getString("updatedDate");
+
+                                if (i == 0) {
+                                    JSONObject stu = item.getJSONObject("student");
+                                    int pointsEarned = stu.getInt("pointsAccumulated");
+                                    int pointsSpent = stu.getInt("pointsSpent");
+
+                                    PreferencesUtils.savePointsEarned(pointsEarned, getActivity());
+                                    PreferencesUtils.savePointsSpent(pointsSpent, getActivity());
+                                }
 
                                 SimpleDateFormat dateFormat = null;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -123,6 +137,9 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
                                 eventsList.add(new EventsItem(imageURL, eventName, eventDesc,
                                         eventPts, eventCrDate, eventUpDate, eventStatus));
                             }
+
+                            PreferencesUtils.saveEventsSubCount(jsonArray.length(), getActivity());
+                            PreferencesUtils.saveEventsAppCount(appEventsCount, getActivity());
 
                         } catch (JSONException | ParseException e) {
                             e.printStackTrace();

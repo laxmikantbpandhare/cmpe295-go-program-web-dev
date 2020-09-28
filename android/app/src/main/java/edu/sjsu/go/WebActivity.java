@@ -90,6 +90,10 @@ public class WebActivity extends AppCompatActivity implements NavigationView.OnN
                         new RedeemFragment()).commit();
                 break;
 
+            case R.id.nav_orders:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,
+                        new OrdersFragment()).commit();
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);

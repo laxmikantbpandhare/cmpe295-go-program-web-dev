@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/sjsuBlue">
 
     <TextView
-        android:id="@+id/evTitle"
+        android:id="@+id/dbTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dashboard"
@@ -21,5 +21,134 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.00999999" />
+
+    <TextView
+        android:id="@+id/greet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dbTitle"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/db_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Here's a summary of your achievements"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/greet"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:id="@+id/db_pts_earn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Points earned"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/db_msg"
+        android:layout_marginTop="30dp"
+        />
+
+    <TextView
+        android:id="@+id/db_pts_spent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Points spent"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/db_pts_earn"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/db_pts_bal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Balance points"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/db_pts_spent"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/db_ev_sub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Events submitted"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/db_pts_bal"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/db_ev_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Events approved"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/db_ev_sub"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/db_prizes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prizes redeemed"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/db_ev_app"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rank: Coming soon"
+        android:gravity="center_horizontal"
+        android:textSize="25sp"
+        android:textColor="@color/sjsuBlue"
+        android:background="@android:drawable/toast_frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/db_prizes"
+        android:layout_marginTop="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,17 +26,69 @@ public class PreferencesUtils {
         return prefs.getString(ConstantUtils.KEY_AUTH_TOKEN, null);
     }
 
-    public static boolean savePoints(int points, Context context) {
+    public static boolean savePointsEarned(int points, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putInt(ConstantUtils.KEY_USER_POINTS, points);
+        prefsEditor.putInt(ConstantUtils.KEY_USER_POINTS_EARNED, points);
         prefsEditor.apply();
         return true;
     }
 
-    public static int getPoints(Context context) {
+    public static int getPointsEarned(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getInt(ConstantUtils.KEY_USER_POINTS, 0);
+        return prefs.getInt(ConstantUtils.KEY_USER_POINTS_EARNED, 0);
+    }
+
+    public static boolean savePointsSpent(int points, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putInt(ConstantUtils.KEY_USER_POINTS_SPENT, points);
+        prefsEditor.apply();
+        return true;
+    }
+
+    public static int getPointsSpent(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getInt(ConstantUtils.KEY_USER_POINTS_SPENT, 0);
+    }
+
+    public static boolean saveEventsSubCount(int points, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putInt(ConstantUtils.KEY_USER_EV_SUB_COUNT, points);
+        prefsEditor.apply();
+        return true;
+    }
+
+    public static int getEventsSubCount(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getInt(ConstantUtils.KEY_USER_EV_SUB_COUNT, 0);
+    }
+
+    public static boolean saveEventsAppCount(int points, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putInt(ConstantUtils.KEY_USER_EV_APP_COUNT, points);
+        prefsEditor.apply();
+        return true;
+    }
+
+    public static int getEventsAppCount(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getInt(ConstantUtils.KEY_USER_EV_APP_COUNT, 0);
+    }
+
+    public static boolean savePrizesCount(int points, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putInt(ConstantUtils.KEY_USER_PRIZES_COUNT, points);
+        prefsEditor.apply();
+        return true;
+    }
+
+    public static int getPrizesCount(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getInt(ConstantUtils.KEY_USER_PRIZES_COUNT, 0);
     }
 
     public static boolean saveUserData(JSONObject userData, Context context) {
