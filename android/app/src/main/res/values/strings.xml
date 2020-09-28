@@ -4,7 +4,6 @@
     <string name="dashboard">Dashboard</string>
     <string name="events">Events</string>
     <string name="redeem">Redeem</string>
-    <string name="orders">Orders</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -28,6 +27,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="redeem_points">Redeem Points</string>
     <string name="order_now">Order Now</string>
+    <string name="orders">Orders</string>
 
     <string-array name="majors">
         <item>Aerospace Engineering</item>

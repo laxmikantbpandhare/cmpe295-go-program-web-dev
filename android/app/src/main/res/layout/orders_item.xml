@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/order_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/order_no"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="60dp"
+            android:text="Event 1"
+            android:textColor="@color/sjsuBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/order_image"
+            app:layout_constraintTop_toTopOf="@+id/order_image"
+            android:layout_marginRight="5dp" />
+
+        <TextView
+            android:id="@+id/order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textColor="@color/sjsuBlue"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/order_no"
+            app:layout_constraintStart_toStartOf="@+id/order_no"
+            app:layout_constraintTop_toBottomOf="@+id/order_no" />
+
+        <TextView
+            android:id="@+id/order_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points"
+            android:textColor="@color/sjsuBlue"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/order_no"
+            app:layout_constraintStart_toStartOf="@+id/order_no"
+            app:layout_constraintTop_toBottomOf="@+id/order_date" />
+
+        <TextView
+            android:id="@+id/order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textColor="@color/sjsuBlue"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/order_no"
+            app:layout_constraintStart_toStartOf="@+id/order_no"
+            app:layout_constraintTop_toBottomOf="@+id/order_points" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
