@@ -1,25 +1,50 @@
 package edu.sjsu.go;
 
 public class EventsItem {
-    private int mImageResource;
-    private String mEventTitle;
-    private String mEventDate;
+    private String mImageResource;
+    private String mEventName;
+    private String mEventDesc;
+    private String mEventPts;
+    private String mEventCrDate;
+    private String mEventUpDate;
+    private String mEventStatus;
 
-    public EventsItem(int imageResource, String title, String date) {
+    public EventsItem(String imageResource, String name, String desc, String pts,
+                      String crDate, String upDate, String status) {
         mImageResource = imageResource;
-        mEventTitle    = title;
-        mEventDate     = date;
+        mEventName     = name;
+        mEventDesc     = desc;
+        mEventPts      = pts;
+        mEventCrDate   = crDate;
+        mEventUpDate   = upDate;
+        mEventStatus   = status;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return mImageResource;
     }
 
-    public String getEventTitle() {
-        return mEventTitle;
+    public String getEventName() {
+        return mEventName;
     }
 
-    public String getEventDate() {
-        return mEventDate;
+    public String getEventDesc() {
+        return mEventDesc;
+    }
+
+    public String getEventPts() {
+        return mEventPts;
+    }
+
+    public String getEventCrDate() {
+        return mEventCrDate;
+    }
+
+    public String getEventUpDate() {
+        return mEventUpDate;
+    }
+
+    public String getEventStatus() {
+        return mEventStatus;
     }
 }

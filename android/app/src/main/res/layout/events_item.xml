@@ -15,7 +15,7 @@
             android:id="@+id/event_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:padding="2dp"
+            android:padding="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.08"
@@ -24,29 +24,53 @@
 
         <TextView
             android:id="@+id/event_title"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="60dp"
             android:text="Event 1"
             android:textColor="@color/sjsuBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.379"
-            app:layout_constraintStart_toStartOf="@+id/event_image"
-            app:layout_constraintTop_toTopOf="@+id/event_image" />
+            app:layout_constraintStart_toEndOf="@+id/event_image"
+            app:layout_constraintTop_toTopOf="@+id/event_image"
+            android:layout_marginRight="5dp" />
 
         <TextView
-            android:id="@+id/event_date"
+            android:id="@+id/event_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date"
             android:textColor="@color/sjsuBlue"
-            android:textSize="10sp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/event_title"
+            app:layout_constraintStart_toStartOf="@+id/event_title"
+            app:layout_constraintTop_toBottomOf="@+id/event_title" />
+
+        <TextView
+            android:id="@+id/event_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points"
+            android:textColor="@color/sjsuBlue"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/event_title"
+            app:layout_constraintStart_toStartOf="@+id/event_title"
+            app:layout_constraintTop_toBottomOf="@+id/event_desc" />
+
+        <TextView
+            android:id="@+id/event_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textColor="@color/sjsuBlue"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/event_title"
             app:layout_constraintStart_toStartOf="@+id/event_title"
-            app:layout_constraintTop_toBottomOf="@+id/event_title"
-            app:layout_constraintVertical_bias="0.01999998" />
+            app:layout_constraintTop_toBottomOf="@+id/event_points" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

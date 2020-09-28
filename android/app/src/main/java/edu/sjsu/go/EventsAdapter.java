@@ -1,5 +1,6 @@
 package edu.sjsu.go;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHolder> {
+    private Context mContext;
     private ArrayList<EventsItem> mEventsList;
     private OnItemClickListener mListener;
 
@@ -23,8 +27,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHold
         mListener = listener;
     }
 
-    public EventsAdapter(ArrayList<EventsItem> eveentsList) {
-        mEventsList = eveentsList;
+    public EventsAdapter(Context context, ArrayList<EventsItem> eventsList) {
+        mContext = context;
+        mEventsList = eventsList;
     }
 
     @NonNull
@@ -39,9 +44,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHold
     public void onBindViewHolder(@NonNull EventsHolder holder, int position) {
         EventsItem currentItem = mEventsList.get(position);
 
-        holder.mImageView.setImageResource(currentItem.getImageResource());
-        holder.mEventTitle.setText(currentItem.getEventTitle());
-        holder.mEventDate.setText(currentItem.getEventDate());
+        Picasso.with(mContext).load(currentItem.getImageResource()).fit().centerInside().
+                into(holder.mImageView);
+        holder.mEventTitle.setText(currentItem.getEventName());
+        holder.mEventDate.setText("Created on : " + currentItem.getEventCrDate());
+        holder.mEventPts.setText("Points : " + currentItem.getEventPts());
+        holder.mEventStatus.setText("Status : " + currentItem.getEventStatus());
     }
 
     @Override
@@ -53,12 +61,16 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHold
         public ImageView mImageView;
         public TextView mEventTitle;
         public TextView mEventDate;
+        public TextView mEventPts;
+        public TextView mEventStatus;
 
         public EventsHolder(@NonNull View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.event_image);
             mEventTitle = itemView.findViewById(R.id.event_title);
-            mEventDate = itemView.findViewById(R.id.event_date);
+            mEventDate = itemView.findViewById(R.id.event_desc);
+            mEventPts = itemView.findViewById(R.id.event_points);
+            mEventStatus = itemView.findViewById(R.id.event_status);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
