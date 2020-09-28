@@ -63,7 +63,7 @@ public class RedeemFragment extends Fragment implements ItemsAdapter.OnItemClick
     }
 
     private void parseJSON() {
-        Log.d(TAG_ACTIVITY, "Maling network call");
+        Log.d(TAG_ACTIVITY, "Making network call");
 
         String url = ConstantUtils.DOMAIN_URL + "admin/items";
 
@@ -142,7 +142,7 @@ public class RedeemFragment extends Fragment implements ItemsAdapter.OnItemClick
     @Override
     public void onItemClick(int position) {
         ItemsItem clickedItem = itemsList.get(position);
-        Log.d(TAG_ACTIVITY, "Cliked " + clickedItem.getItemTitle());
+        Log.d(TAG_ACTIVITY, "Clicked " + clickedItem.getItemTitle());
 
         Intent orderIntent = new Intent(getActivity(), SubmitOrderActivity.class);
         orderIntent.putExtra(EXTRA_URL, clickedItem.getImageResource());

@@ -128,6 +128,8 @@ public class LoginActivity extends AppCompatActivity {
                                 try {
                                     o = new JSONObject(result);
                                     u = o.getJSONObject("user");
+                                    // Get points here
+                                    // p = o.getJSONObject("points");
                                 } catch (JSONException ex) {
                                     e.printStackTrace();
                                 }
@@ -140,6 +142,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d(TAG_ACTIVITY, u.toString());
                                     PreferencesUtils.saveAuthToken(token, LoginActivity.this);
                                     PreferencesUtils.saveUserData(u, LoginActivity.this);
+                                    // Save points to shared preferences here
+                                    // PreferencesUtils.saveUserData(p, LoginActivity.this);
 
                                     Intent i = new Intent(LoginActivity.this, WebActivity.class);
                                     startActivity(i);

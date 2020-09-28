@@ -141,17 +141,17 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
     public void attachImage(View v) {
 
         // Create a new Intent to open the picture selector:
-       // Intent loadPicture = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent loadPicture = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         // To start it, run the startActivityForResult() method:
-       // startActivityForResult(loadPicture, CAMERA_REQUEST);
+        startActivityForResult(loadPicture, CAMERA_REQUEST);
         imageURL = "https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1590134760619.png";
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG_ACTIVITY, "onActivityResult " + resultCode);
 
-        Uri selectedImageUri = data.getData();
+        /*Uri selectedImageUri = data.getData();
         String s = getRealPathFromURI(selectedImageUri);
         Log.d(TAG_ACTIVITY, s);
 
@@ -183,7 +183,7 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
                         }
                         showProgress(false);
                     }
-                });
+                });*/
     }
 
     public String getRealPathFromURI(Uri uri) {

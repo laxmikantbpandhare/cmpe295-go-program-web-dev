@@ -26,6 +26,19 @@ public class PreferencesUtils {
         return prefs.getString(ConstantUtils.KEY_AUTH_TOKEN, null);
     }
 
+    public static boolean savePoints(int points, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putInt(ConstantUtils.KEY_USER_POINTS, points);
+        prefsEditor.apply();
+        return true;
+    }
+
+    public static int getPoints(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getInt(ConstantUtils.KEY_USER_POINTS, 0);
+    }
+
     public static boolean saveUserData(JSONObject userData, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = prefs.edit();

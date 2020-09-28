@@ -133,7 +133,7 @@ public class SubmitOrderActivity extends AppCompatActivity {
         JsonObject orderObj = new JsonObject();
         orderObj.addProperty("item", itemID);
         orderObj.addProperty("size", itemSizes[0]);
-        orderObj.addProperty("quantity", 1);
+        orderObj.addProperty("quantity", "1");
 
         // inventoryItems array with itemID, attributeID? and quantity - 1
         JsonObject inventoryObj = new JsonObject();
@@ -144,8 +144,20 @@ public class SubmitOrderActivity extends AppCompatActivity {
         JsonObject jsonReq = new JsonObject();
 
         jsonReq.add("student", stuGsonObject);
-        jsonReq.add("orderItems", orderObj);
-        jsonReq.add("inventoryItems", inventoryObj);
+
+        // Add order and inventory as an array and not as an object
+        // Mobile app will not have the concept of a cart
+        // Only one order at a time
+
+        JsonArray orderArr = new JsonArray();
+        orderArr.add(orderObj);
+        jsonReq.add("orderItems", orderArr);
+
+        JsonArray invArr = new JsonArray();
+        invArr.add(inventoryObj);
+        jsonReq.add("inventoryItems", invArr);
+
+        jsonReq.addProperty("points", Integer.parseInt(itemPoints));
 
         Ion.with(this)
                 .load("POST", ConstantUtils.DOMAIN_URL + "student/createOrder")
