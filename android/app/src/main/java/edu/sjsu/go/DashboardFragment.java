@@ -40,6 +40,16 @@ public class DashboardFragment extends Fragment {
 
         int pE = PreferencesUtils.getPointsEarned(getActivity());
         int pS = PreferencesUtils.getPointsSpent(getActivity());
+        String name = "";
+
+        try {
+            name = PreferencesUtils.getUserData(getActivity()).getString("fname");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        tv = (TextView) rootView.findViewById(R.id.greet);
+        tv.setText("Welcome " + name);
 
         tv = (TextView) rootView.findViewById(R.id.db_pts_earn);
         tv.setText("Points earned: " + pE);
