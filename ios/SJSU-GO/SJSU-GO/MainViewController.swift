@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     
     //  MARK: - Properties
     
-    var menuController: MenuController!
+    var menuController: NavMenuController!
     var centralController: UIViewController!
     var isExpanded = false
     var lResp: LoginResponse!
@@ -82,112 +82,12 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
-    }
-    
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return .slide
     }
     
     override var prefersStatusBarHidden: Bool {
         return isExpanded
-    }
-    
-    // MARK: - Handlers
-    
-    func configureDashbaordController() {
-        
-        let dashboardController = DashboardController()
-        dashboardController.delegate = self
-        dashboardController.lResp = self.lResp
-        centralController = UINavigationController(rootViewController: dashboardController)
-        
-        view.addSubview(centralController.view)
-        addChild(centralController)
-        centralController.didMove(toParent: self)
-    }
-    
-    func configureEventsController() {
-        
-        let eventsController = EventsController()
-        let controller       = UINavigationController(rootViewController: eventsController)
-        
-        view.addSubview(controller.view)
-        addChild(controller)
-        controller.didMove(toParent: self)
-    }
-    
-    func configureRedeemController() {
-        
-        let redeemController = ReedeemController()
-        let controller       = UINavigationController(rootViewController: redeemController)
-        
-        view.addSubview(controller.view)
-        addChild(controller)
-        controller.didMove(toParent: self)
-    }
-    
-    func configureMenuController() {
-        if menuController == nil {
-            // Add menu controller here
-            menuController = MenuController()
-            menuController.delegate = self
-            view.insertSubview(menuController.view, at: 0)
-            addChild(menuController)
-            menuController.didMove(toParent: self)
-            print("Did add menu controller")
-        }
-    }
-    
-    func animatePanel(shouldExpand: Bool, menuOption: MenuOption?) {
-        
-        if shouldExpand {
-            
-            // Show menu
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0,
-                           options: .curveEaseOut, animations: {
-                self.centralController.view.frame.origin.x = self.centralController.view.frame.width - 80
-            }, completion: nil)
-            
-        } else {
-            
-            // Hide menu
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0,
-                           options: .curveEaseOut, animations: {
-                self.centralController.view.frame.origin.x = 0
-            }) { (_) in
-                // Completion handler
-                guard let menuOption = menuOption else { return }
-                self.didSelectMenuOption(menuOption: menuOption)
-            }
-        }
-        
-        animateStatusBar()
-    }
-    
-    func didSelectMenuOption(menuOption: MenuOption) {
-        switch menuOption {
-        case .Dashboard:
-            print("Show dashboard")
-        case .Events:
-            let controller = EventsController()
-            // Can pass variables from here to controller using controller.variable
-            present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
-        case .Redeem:
-            print("Show Redeem")
-        case .Orders:
-            print("Show Orders")
-        case .Logout:
-            print("Show Logout")
-        }
-    }
-    
-    func animateStatusBar() {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0,
-                       options: .curveEaseOut, animations: {
-            self.setNeedsStatusBarAppearanceUpdate()
-        }, completion: nil)
     }
     
     // MARK: - Dropdown View
@@ -308,7 +208,7 @@ class MainViewController: UIViewController {
         
         let eReq = EventReq(description: descTxtFld.text, completedDate: dateString, student: lResp.user, event: eObj, images: ["https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1589776627423.png"])
         
-        let urlString = "http://10.0.0.92:3001/student/createEvent"
+        let urlString = "http://10.0.0.207:3001/student/createEvent"
         
             if let url = URL.init(string: urlString) {
                 var req = URLRequest.init(url: url)
@@ -387,14 +287,27 @@ class MainViewController: UIViewController {
     
 }
 
-extension MainViewController: HomeContollerDelegate {
-    func handleMenuToggle(forMenuOption menuOption: MenuOption?) {
-        if !isExpanded {
-            configureMenuController()
+// MARK: - Extensions
+
+// Image picker required to get submit image for events form
+extension MainViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return self.imagePickerControllerDidCancel(picker)
         }
         
-        isExpanded = !isExpanded
-        animatePanel(shouldExpand: isExpanded, menuOption: menuOption)
+        self.selectedImage = image
+        picker.dismiss(animated: true, completion: {
+            picker.delegate = nil
+            self.imagePickController = nil
+        })
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: {
+            picker.delegate = nil
+            self.imagePickController = nil
+        })
     }
 }
 
@@ -417,26 +330,5 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         selectedBtn.setTitle(self.datasource[indexPath.row], for: .normal)
         self.selectedRow = indexPath.row
         removeTransparentView()
-    }
-}
-
-extension MainViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
-            return self.imagePickerControllerDidCancel(picker)
-        }
-        
-        self.selectedImage = image
-        picker.dismiss(animated: true, completion: {
-            picker.delegate = nil
-            self.imagePickController = nil
-        })
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: {
-            picker.delegate = nil
-            self.imagePickController = nil
-        })
     }
 }

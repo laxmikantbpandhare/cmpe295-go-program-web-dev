@@ -10,7 +10,7 @@ import UIKit
 
 class NavContainerViewController: UIViewController {
     
-    var menuController: MenuController!
+    var menuController: NavMenuController!
     var centralController: UIViewController!
     var isExpanded = false
     var lResp: LoginResponse!
@@ -46,27 +46,27 @@ class NavContainerViewController: UIViewController {
     func configureEventsController() {
         
         let eventsController = EventsController()
-        let controller       = UINavigationController(rootViewController: eventsController)
+        centralController    = UINavigationController(rootViewController: eventsController)
         
-        view.addSubview(controller.view)
-        addChild(controller)
-        controller.didMove(toParent: self)
+        view.addSubview(centralController.view)
+        addChild(centralController)
+        centralController.didMove(toParent: self)
     }
     
     func configureRedeemController() {
         
         let redeemController = ReedeemController()
-        let controller       = UINavigationController(rootViewController: redeemController)
+        centralController    = UINavigationController(rootViewController: redeemController)
         
-        view.addSubview(controller.view)
-        addChild(controller)
-        controller.didMove(toParent: self)
+        view.addSubview(centralController.view)
+        addChild(centralController)
+        centralController.didMove(toParent: self)
     }
     
     func configureMenuController() {
         if menuController == nil {
             // Add menu controller here
-            menuController = MenuController()
+            menuController = NavMenuController()
             //menuController.delegate = self
             view.insertSubview(menuController.view, at: 0)
             addChild(menuController)
@@ -105,14 +105,18 @@ class NavContainerViewController: UIViewController {
         switch menuOption {
         case .Dashboard:
             print("Show dashboard")
+            break
         case .Events:
             let controller = EventsController()
             // Can pass variables from here to controller using controller.variable
             present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+            break
         case .Redeem:
             print("Show Redeem")
+            break
         case .Orders:
             print("Show Orders")
+            break
         case .Logout:
             print("Show Logout")
         }

@@ -66,9 +66,10 @@ class LoginViewController: UIViewController {
         restLogin(cred: cred)
     }
     
+    // REST request for logging in
     func restLogin(cred: Cred) {
         print("Signing in with " + cred.id! + " and " + cred.password!)
-        let urlString = "http://10.0.0.92:3001/user/login"
+        let urlString = "http://10.0.0.207:3001/user/login"
     
         if let url = URL.init(string: urlString) {
             var req = URLRequest.init(url: url)
@@ -91,6 +92,8 @@ class LoginViewController: UIViewController {
                     print(String.init(data: data!, encoding: .ascii) ??
                     "no data")
                     let lResp = try? JSONDecoder().decode(LoginResponse.self, from: data!)
+                    // If lResp is null, login failed.
+                    // Don't crash, show error to the user
                     self.logResp = lResp!
                     self.getActiveEvents()
             })
@@ -98,8 +101,9 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // REST request to get active events to be passed to next view controller
     func getActiveEvents() {
-        let urlString = "http://10.0.0.92:3001/admin/ActiveEvents"
+        let urlString = "http://10.0.0.207:3001/admin/ActiveEvents"
         
         if let url = URL.init(string: urlString) {
         var req = URLRequest.init(url: url)
@@ -122,24 +126,23 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func loadNextScreen() {
-        self.performSegue(withIdentifier: "loggedin", sender: LoginViewController.self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let mainVC = segue.destination as! MainViewController
-        mainVC.lResp = self.logResp
-        mainVC.evList = self.evResp
-    }
-    
-    /*
     // MARK: - Navigation
+    
+    func loadNextScreen() {
+        //self.performSegue(withIdentifier: "loggedin", sender: LoginViewController.self)
+        self.performSegue(withIdentifier: "container", sender: LoginViewController.self)
+
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        //let mainVC = segue.destination as! MainViewController
+        //let mainVC = segue.destination as! ContainerViewController
+
+        //mainVC.lResp = self.logResp
+        //mainVC.evList = self.evResp
     }
-    */
 
 }

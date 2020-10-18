@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "MenuOptionCell"
 
-class MenuController: UIViewController {
+class NavMenuController: UIViewController {
     
     //  MARK: - Properties
     
@@ -21,6 +21,7 @@ class MenuController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        conofigureTableView()
         
         // Do any additional setup after loading the view.
     }
@@ -46,7 +47,7 @@ class MenuController: UIViewController {
     }
 }
 
-extension MenuController: UITableViewDelegate, UITableViewDataSource {
+extension NavMenuController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }

@@ -38,7 +38,7 @@ class EventsController: UIViewController {
         navigationController?.navigationBar.barTintColor = .darkGray
         navigationController?.navigationBar.barStyle     = .black
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Events"
+        navigationItem.title = "Events1"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: cancelImage.withRenderingMode(.alwaysOriginal),
                                                     style: .plain, target: self, action: #selector(handleDismiss))

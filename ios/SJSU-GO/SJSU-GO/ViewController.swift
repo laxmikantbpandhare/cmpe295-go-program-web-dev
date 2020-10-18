@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Splash screen from where the user gets the option to either login or signup
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
