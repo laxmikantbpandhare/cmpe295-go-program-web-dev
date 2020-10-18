@@ -58,6 +58,7 @@ public class OrdersFragment extends Fragment implements OrdersAdapter.OnItemClic
 
         mRequestQueue = Volley.newRequestQueue(getActivity());
 
+        Log.d(TAG_ACTIVITY, "Parsing JSON for " + studentId);
         parseJSON();
 
         return rootView;

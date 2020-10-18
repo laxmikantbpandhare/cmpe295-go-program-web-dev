@@ -37,7 +37,7 @@
         android:layout_marginTop="20dp"
         />
 
-    <TextView
+<!--    <TextView
         android:id="@+id/db_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/greet"
         android:layout_marginTop="15dp"
-        />
+        />-->
 
     <TextView
         android:id="@+id/db_pts_earn"
@@ -63,7 +63,7 @@
         android:background="@android:drawable/toast_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/db_msg"
+        app:layout_constraintTop_toBottomOf="@id/greet"
         android:layout_marginTop="30dp"
         />
 

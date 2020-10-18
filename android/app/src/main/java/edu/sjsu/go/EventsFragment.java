@@ -102,6 +102,8 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
                                 String itemID      = item.getString("_id");
                                 String eventDesc   = item.getString("description");
                                 String eventStatus = item.getString("status");
+                                String eventCrDate = item.getString("createdDate");
+                                String eventCoDate = item.getString("completedDate");
 
                                 if (eventStatus.equals("Approved")) {
                                     appEventsCount += 1;
@@ -111,8 +113,6 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
                                 String eventID     = event.getString("_id");
                                 String eventName   = event.getString("name");
                                 String eventPts    = event.getString("points");
-                                String eventCrDate = event.getString("createdDate");
-                                String eventUpDate = event.getString("updatedDate");
 
                                 if (i == 0) {
                                     JSONObject stu = item.getJSONObject("student");
@@ -125,6 +125,7 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
 
                                 SimpleDateFormat dateFormat = null;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                                    Log.d(TAG_ACTIVITY, "Converting " + eventCrDate);
                                     dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                                     Date date = dateFormat.parse(eventCrDate.substring(0, eventCrDate.indexOf('T')));
                                     dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -132,14 +133,20 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
                                 }
 
                                 Log.d(TAG_ACTIVITY,
-                                        eventName + eventPts + imageURL + eventStatus);
+                                        eventName + " " + eventCrDate + " " + imageURL + " " + eventStatus);
 
                                 eventsList.add(new EventsItem(imageURL, eventName, eventDesc,
-                                        eventPts, eventCrDate, eventUpDate, eventStatus));
+                                        eventPts, eventCrDate, eventCoDate, eventStatus));
                             }
 
                             PreferencesUtils.saveEventsSubCount(jsonArray.length(), getActivity());
                             PreferencesUtils.saveEventsAppCount(appEventsCount, getActivity());
+
+                            if (jsonArray.length() == 0) {
+
+                                PreferencesUtils.savePointsEarned(0, getActivity());
+                                PreferencesUtils.savePointsSpent(0, getActivity());
+                            }
 
                         } catch (JSONException | ParseException e) {
                             e.printStackTrace();

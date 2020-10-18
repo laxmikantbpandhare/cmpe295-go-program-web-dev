@@ -47,7 +47,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsHold
         Picasso.with(mContext).load(currentItem.getImageResource()).fit().centerInside().
                 into(holder.mImageView);
         holder.mEventTitle.setText(currentItem.getEventName());
-        holder.mEventDate.setText("Created on : " + currentItem.getEventCrDate());
+        holder.mEventDate.setText("Submitted on : " + currentItem.getEventCrDate());
         holder.mEventPts.setText("Points : " + currentItem.getEventPts());
         holder.mEventStatus.setText("Status : " + currentItem.getEventStatus());
     }
