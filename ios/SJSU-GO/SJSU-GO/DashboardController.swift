@@ -23,7 +23,7 @@ class DashboardController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        view.backgroundColor = .brown
+        view.backgroundColor = .purple
         //print("Token is " + lResp.token + " for student " + lResp.user.fname)
         
         // Do any additional setup after loading the view.

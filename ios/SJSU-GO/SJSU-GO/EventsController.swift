@@ -31,8 +31,9 @@ class EventsController: UIViewController {
         eventsArray.append(GOEventTemp(title: "Event 5"))*/
         
         title = "Events"
+        // Can't see background if tableView fills entire screen
         view.backgroundColor = .blue
-        configureUI()
+        //configureUI()
         configureTableView()
 
         // Do any additional setup after loading the view.
@@ -53,7 +54,7 @@ class EventsController: UIViewController {
     
     func configureUI() {
         
-        /*let cancelImage = UIImage(named: "icon_cancel")!
+        let cancelImage = UIImage(named: "icon_cancel")!
                 
         navigationController?.navigationBar.barTintColor = .darkGray
         navigationController?.navigationBar.barStyle     = .black
@@ -61,7 +62,7 @@ class EventsController: UIViewController {
         navigationItem.title = "Events"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: cancelImage.withRenderingMode(.alwaysOriginal),
-                                                    style: .plain, target: self, action: #selector(handleDismiss))*/
+                                                    style: .plain, target: self, action: #selector(handleDismiss))
 
     }
     

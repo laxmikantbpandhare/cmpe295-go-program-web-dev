@@ -11,7 +11,6 @@ import UIKit
 struct myEventsResp : Codable {
     let success: Bool
     let events: [myEvent]
-    
 }
 
 struct myEvent : Codable {
@@ -23,6 +22,29 @@ struct myEvent : Codable {
     let createdDate: String
 }
 
+struct myOrdersResp : Codable {
+    let success: Bool
+    let orders: [myOrder]
+}
+
+struct myOrder : Codable {
+    let items: [ItemData]
+    // Add student struct here to get points update
+    let status: String
+    let points: Int
+    let createdDate: String
+}
+
+struct ItemData : Codable {
+    let size: String
+    let item: Item
+}
+
+struct Item : Codable {
+    let images: [String]
+    let name: String
+}
+
 class NavContainerViewController: UIViewController {
     
     var menuController: NavMenuController!
@@ -30,8 +52,12 @@ class NavContainerViewController: UIViewController {
     var isExpanded = false
     var lResp: LoginResponse!
     var studentId = ""
+    
     var evResp: myEventsResp!
     var eventsArray = [GOEvent]()
+    
+    var orResp: myOrdersResp!
+    var ordersArray = [GOOrder]()
     
     // MARK: - Properties
     
@@ -139,9 +165,7 @@ class NavContainerViewController: UIViewController {
             present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
         case .Orders:
             print("Show Orders")
-            let controller = OrdersController()
-            // Can pass variables from here to controller using controller.variable
-            present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+            getMyOrders()
         case .Logout:
             print("Show Logout")
         }
@@ -156,7 +180,7 @@ class NavContainerViewController: UIViewController {
     
     // MARK: - REST calls
     
-    // REST request to get active events to be passed to next view controller
+    // REST request to get events to be passed to next view controller
     func getMyEvents() {
         let urlString = "http://10.0.0.207:3001/student/ownEvents?id=" + studentId
         
@@ -192,6 +216,50 @@ class NavContainerViewController: UIViewController {
                         let controller = EventsController()
                         // Can pass variables from here to controller using controller.variable
                         controller.eventsArray = self.eventsArray
+                        self.present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+                    }
+            })
+            task.resume()
+        }
+    }
+    
+    // REST request to get orders to be passed to next view controller
+    func getMyOrders() {
+        let urlString = "http://10.0.0.207:3001/student/ownOrders?id=" + studentId
+        
+        if let url = URL.init(string: urlString) {
+        var req = URLRequest.init(url: url)
+            req.httpMethod = "GET"
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            req.setValue("application/json", forHTTPHeaderField: "Accept")
+            req.setValue("Bearer " + lResp.token, forHTTPHeaderField: "Authorization")
+            
+            let task = URLSession.shared.dataTask(with: req,
+                completionHandler: { (data, response, error) in
+                    print(String.init(data: data!, encoding: .ascii) ??
+                    "no data")
+                    let oResp = try? JSONDecoder().decode(myOrdersResp.self, from: data!)
+                    self.orResp = oResp!
+                    self.ordersArray.removeAll()
+                    
+                    // Loop through list of events and create array of GOEvent objects
+                    for order in self.orResp.orders {
+                        // Will only pick the first item in the order for now
+                        let tempOrder = GOOrder(image: order.items[0].item.images[0],
+                                                name: order.items[0].item.name,
+                                                points: order.points,
+                                                size: order.items[0].size,
+                                                status: order.status,
+                                                date: order.createdDate)
+                        self.ordersArray.append(tempOrder)
+                        print("Filling events array with ", tempOrder.name)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        print("Presenting controller with events ", self.ordersArray.count)
+                        let controller = OrdersController()
+                        // Can pass variables from here to controller using controller.variable
+                        controller.ordersArray = self.ordersArray
                         self.present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
                     }
             })
