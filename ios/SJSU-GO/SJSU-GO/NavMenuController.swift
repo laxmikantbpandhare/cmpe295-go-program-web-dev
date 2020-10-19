@@ -48,6 +48,7 @@ class NavMenuController: UIViewController {
 }
 
 extension NavMenuController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
@@ -63,7 +64,9 @@ extension NavMenuController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Selected option at row ", indexPath.row)
         let menuOption = MenuOption(rawValue: indexPath.row)
+        print("Selected option for ", menuOption.debugDescription)
         delegate?.handleMenuToggle(forMenuOption: menuOption)
     }
 }

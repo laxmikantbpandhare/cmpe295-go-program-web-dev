@@ -139,9 +139,9 @@ class LoginViewController: UIViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         //let mainVC = segue.destination as! MainViewController
-        //let mainVC = segue.destination as! ContainerViewController
+        let mainVC = segue.destination as! NavContainerViewController
 
-        //mainVC.lResp = self.logResp
+        mainVC.lResp = self.logResp
         //mainVC.evList = self.evResp
     }
 
