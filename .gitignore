@@ -2,3 +2,4 @@
 android/.idea
 go-program-web/.vscode/
 .env
+go-program-web/backend/uploads/

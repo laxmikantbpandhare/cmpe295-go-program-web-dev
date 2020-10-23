@@ -8,7 +8,7 @@ function StudentNavbar() {
     return (
     <div>
         <nav className="navbar navbar-dark navbar-custom navbar-expand-sm fixed-top">
-            <a class="navbar-brand" href="#/student/dashboard">
+            <a class="navbar-brand" href="/student/dashboard">
                 <img src={collegeLogo} className="navbar-logo" alt="Logo"/>
             </a>
             <button className="navbar-toggler" data-toggle="collapse" data-target="#menu">
@@ -17,19 +17,19 @@ function StudentNavbar() {
             <div className="collapse navbar-collapse" id="menu">
                 <ul className="navbar-nav">
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/dashboard"><i className="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <a className="nav-link" href="/student/dashboard"><i className="fas fa-tachometer-alt"></i> Dashboard</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/events"><i className="fas fa-calendar-check"></i> Events</a>
+                        <a className="nav-link" href="/student/events"><i className="fas fa-calendar-check"></i> Events</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/redeem"><i className="fas fa-award"></i> Redeem</a>
+                        <a className="nav-link" href="/student/redeem"><i className="fas fa-award"></i> Redeem</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/orders"><i className="fas fa-receipt"></i> Orders</a>
+                        <a className="nav-link" href="/student/orders"><i className="fas fa-receipt"></i> Orders</a>
                     </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <a className="nav-link" href="#/student/suggestions"><i className="fas fa-lightbulb"></i> Suggestions</a>
+                        <a className="nav-link" href="/student/suggestions"><i className="fas fa-lightbulb"></i> Suggestions</a>
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">

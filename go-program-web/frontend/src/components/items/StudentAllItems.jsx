@@ -54,6 +54,7 @@ class StudentAllItems extends Component{
     }
     
     render() {
+        const disabledSelectText = "Please note: Select button is disabled if you have insufficient points or if an item is not available.";
         let redirectVar = null;
         if(!localStorage.getItem('token')){
             redirectVar = <Redirect to= "/login"/>
@@ -163,6 +164,8 @@ class StudentAllItems extends Component{
                     <hr/>
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.itemsResponseMessage}</h6>
+                <h6 style= {{fontStyle:"Italic"}}>{disabledSelectText}</h6>
+                
                 <div className="row mt-2">
                 {
                     filteredItems.length!==0 ? filteredItems.map(item=>

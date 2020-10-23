@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.650.0",
     "bcrypt": "^3.0.6",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -17,7 +16,6 @@
     "express": "^4.17.1",
     "mongoose": "^5.9.6",
     "multer": "^1.4.2",
-    "multer-s3": "^2.9.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
   }

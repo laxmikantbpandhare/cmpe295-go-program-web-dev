@@ -57,7 +57,7 @@ const saveEventImages = (images,successcb, failurecb) => {
         .then(res => {
             if(res.status === 200){
                 res.json().then(resData => {
-                    successcb(resData.imagesUrl);
+                    successcb(resData.imagesName);
                 });
             }else{
                 res.json().then(resData => {
@@ -74,8 +74,8 @@ const saveEventImages = (images,successcb, failurecb) => {
 }
 
 export const createEvent = data =>  dispatch => new Promise(function(resolve, reject) {
-    saveEventImages(data.images, imagesUrl => {
-        data.images = imagesUrl;
+    saveEventImages(data.images, imagesName => {
+        data.images = imagesName;
         const token = localStorage.getItem('token');
         // return new Promise(function(resolve, reject) {
             return fetch(`${backendUrl}/student/createEvent`, {
@@ -154,8 +154,8 @@ export const eventEditCancelHandler = (id, previousDesc) => {
 }
 
 export const updateEvent = data =>  dispatch => new Promise(function(resolve, reject) {
-    saveEventImages(data.images, imagesUrl => {
-        data.images = imagesUrl;
+    saveEventImages(data.images, imagesName => {
+        data.images = imagesName;
         const token = localStorage.getItem('token');
         // return new Promise(function(resolve, reject) {
             return fetch(`${backendUrl}/student/updateEvent`, {

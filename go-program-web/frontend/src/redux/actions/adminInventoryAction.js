@@ -59,7 +59,7 @@ const saveItemImages = (images,successcb, failurecb) => {
     .then(res => {
         if(res.status === 200){
             res.json().then(resData => {
-                successcb(resData.imagesUrl);
+                successcb(resData.imagesName);
             });
         }else{
             res.json().then(resData => {
@@ -73,8 +73,8 @@ const saveItemImages = (images,successcb, failurecb) => {
 }
 
 export const createItem = data =>  dispatch => {
-    saveItemImages(data.images, imagesUrl => {
-        data.images = imagesUrl;
+    saveItemImages(data.images, imagesName => {
+        data.images = imagesName;
         const token = localStorage.getItem('token');
         fetch(`${backendUrl}/admin/createItem`, {
             method: 'POST',

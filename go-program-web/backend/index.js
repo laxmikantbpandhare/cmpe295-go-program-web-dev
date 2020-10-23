@@ -11,6 +11,7 @@ var user = require('./routes/user');
 var admin = require('./routes/admin');
 var student = require('./routes/student');
 var upload = require('./routes/upload');
+var download = require('./routes/download');
 
 //use cors to allow cross origin resource sharing
 app.use(cors({ origin: `${frontendURL}`, credentials: true }));
@@ -48,6 +49,7 @@ app.use('/user', user);
 app.use('/admin', admin);
 app.use('/student', student);
 app.use('/upload', upload);
+app.use('/download', download);
 
 app.use(passport.initialize());
 require("./config/passport")(passport);

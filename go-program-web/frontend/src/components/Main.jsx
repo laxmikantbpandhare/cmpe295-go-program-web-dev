@@ -9,15 +9,13 @@ import Admin from './Admin';
 //Create a Main Functional Component
 function Main() {
   return (
-    <div>
-        <Switch>
-          <Route path="/" exact component={Landing}/>
-          <Route path="/login" component={Login}/>
-          <Route path="/signup" component={Signup}/>
-          <Route path="/student/:id" component={Student}/>
-          <Route path="/admin/:id" component={Admin}/>
-        </Switch>
-    </div>
+    <Switch>
+      <Route path="/" exact component={Landing}/>
+      <Route path="/login" component={Login}/>
+      <Route path="/signup" component={Signup}/>
+      <Route path="/student/:id" component={Student}/>
+      <Route path="/admin/:id" component={Admin}/>
+    </Switch>
   );
 }
 

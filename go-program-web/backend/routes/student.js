@@ -22,7 +22,6 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
             console.log("Event created: " + result);
             res.status(200).send({message:'Student event created successfully', event: result});
         }, (err, tag)=>{
-            console.log("Errored out---",err.message)
             if(err.code === 11000){
                 res.status(401).send({ message: "You have already submitted this event. Please contact admin." });
             }else{

@@ -29,7 +29,8 @@ class StudentItemDetails extends Component{
             pointsAvailable: 0,
             insufficientPointsInfo: "",
             originalQuantity: 0,
-            attributeId: ""
+            attributeId: "",
+            getImagesResponsemessage: ""
         }
         this.handleSizeSelection = this.handleSizeSelection.bind(this);
     }
@@ -53,11 +54,34 @@ class StudentItemDetails extends Component{
         .then(res => {
             if(res.status === 200){
                 res.json().then(data => {
-                    this.setState({
-                        ...this.state,
-                        item: data.item,
-                        pointsAvailable: localStorage.getItem('pointsAccumulated') - localStorage.getItem('pointsSpent')
-                    });  
+                    const imagePromises = data.item.images.map(imageName => 
+                        fetch(`${backendUrl}/download/image/?name=${imageName}`,{
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            credentials: 'include'
+                        })
+                        .then(res => {
+                            return res.blob()})
+                        .catch(err => {
+                            this.setState({
+                                getImagesResponsemessage: `Internal error when fetching item images - ${err}`
+                            });
+                        })
+                    );
+            
+                    Promise.all(imagePromises)
+                    .then(blobs => {
+                        var images = blobs.map(blob => URL.createObjectURL(blob));
+                        data.item.images = images;
+                        this.setState({
+                            ...this.state,
+                            item: data.item,
+                            pointsAvailable: localStorage.getItem('pointsAccumulated') - localStorage.getItem('pointsSpent')
+                        });
+                    }) 
                 });
             }else{
                 res.json().then(data => {
@@ -95,7 +119,7 @@ class StudentItemDetails extends Component{
         if(itemExists !== -1){
             pointsBalance += this.cart[itemExists].quantity * this.cart[itemExists].points
         }
-        // let availableQuantity = parseInt(this.state.item.attributes[this.state.sizeIndex].quantity);
+
         let availableQuantity = parseInt(this.state.originalQuantity);
         if(pointsRequired > pointsBalance || this.state.quantity > availableQuantity) {
             return false;
@@ -159,7 +183,6 @@ class StudentItemDetails extends Component{
 
         }
 
-        let quantityTooltip = "Enter a quantity that is EITHER less than or equal to the available quantity\nOR equivalent to your accumulated points";
         const { photoIndex, isOpen } = this.state;
         return(
         <div className="top-align">
@@ -217,13 +240,6 @@ class StudentItemDetails extends Component{
                             )
                             : null
                         }
-                        {/* <p className="h6">
-                            <strong>
-                                Enter a quantity: 
-                                <i className="fas fa-info-circle" data-tip = "wwww"></i>
-                                <ReactTooltip />
-                            </strong>{this.state.item.points}
-                        </p> */}
                         <p className="h6"><strong>Enter Quantity:</strong></p>
                         <input disabled = {this.state.size === ""} type="number" name="quantity" onChange={this.handleInputChange}
                             style={{width: '10rem'}} placeholder="Quantity"

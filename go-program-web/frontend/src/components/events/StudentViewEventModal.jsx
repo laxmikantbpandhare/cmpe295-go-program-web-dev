@@ -58,7 +58,7 @@ class StudentViewEventModal extends Component{
         //define message container
         let err = ''
         // list allow mime type
-        const types = ['image/png', 'image/jpeg']
+        const types = ['image/png', 'image/jpeg', 'image/jpg']
         // loop access array
         for(var x = 0; x<files.length; x++) { 
             // compare file type find doesn't matach 
@@ -75,6 +75,21 @@ class StudentViewEventModal extends Component{
             return false; 
         }return true;
     }
+
+    checkFileSize= (event) =>{
+        //getting file object
+        let files = event.target.files 
+        
+        // loop access array
+        for(var x = 0; x<files.length; x++) { 
+            // compare file type find doesn't matach 
+            if(files[x].size > (1024*500)){
+                event.target.value = null ;
+                return false; 
+            }
+        }
+        return true;
+    }
     
     handleFileUpload = (e) => {
         if(!this.checkMimeType(e)){
@@ -83,7 +98,10 @@ class StudentViewEventModal extends Component{
         if(!this.maxSelectFile(e)){
             alert("Total 4 images are allowed");
         }
-        if(this.maxSelectFile(e) && this.checkMimeType(e)){
+        if(!this.checkFileSize(e)){
+            alert("A file size should not exceed 500 KB");
+        }
+        if(this.maxSelectFile(e) && this.checkMimeType(e) && this.checkFileSize(e)){
             // if return true allow to setState
             var tempUrl =[];
             for(var x = 0; x<e.target.files.length; x++) {
@@ -283,7 +301,7 @@ class StudentViewEventModal extends Component{
                                 <div className="col-9">
                                     <div className="image-upload">
                                         <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
-                                        <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png"
+                                        <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png, image/jpg"
                                             onChange= {this.handleFileUpload}/>
                                     </div>
                                 </div>

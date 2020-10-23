@@ -6,7 +6,7 @@ import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';
 import {eventSelectChangeHandler, updateEventStatus} from '../../redux/actions/eventsRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
-
+import {backendUrl} from '../../config';
 
 class EventRequest extends Component{
     constructor(props){
@@ -17,8 +17,38 @@ class EventRequest extends Component{
             showCommentsModal: false,
             photoIndex: 0,
             isOpen: false,
-            initialStatus: this.initialStatus
+            initialStatus: this.initialStatus,
+            message: "",
+            images: []
         };
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+
+        const imagePromises = this.props.event.images.map(imageName => 
+            fetch(`${backendUrl}/download/image/?name=${imageName}`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include'
+            })
+            .then(res => {
+                return res.blob()})
+            .catch(err => {
+                this.setState({
+                    message: `Internal error when fetching item images - ${err}`
+                });
+            })
+        );
+
+        Promise.all(imagePromises)
+        .then(blobs => {
+            var images = blobs.map(blob => URL.createObjectURL(blob));
+            this.setState({images})
+        })
     }
 
     showViewEventRequestModal = e => {
@@ -74,11 +104,12 @@ class EventRequest extends Component{
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
-                {
-                    this.props.event._id === this.props.updatedEvent
-                    ? <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
-                    : null
-                }
+                    {
+                        this.props.event._id === this.props.updatedEvent
+                        ? <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                        : null
+                    }
+                    <h6 style= {{color:"red"}}>{this.state.message}</h6>
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold">{`${this.props.event.student.fname} ${this.props.event.student.lname}`}</h5>
@@ -132,18 +163,18 @@ class EventRequest extends Component{
                 </div>
                 {isOpen && (
                 <Lightbox
-                    mainSrc={this.props.event.images[photoIndex]}
-                    nextSrc={this.props.event.images[(photoIndex + 1) % this.props.event.images.length]}
-                    prevSrc={this.props.event.images[(photoIndex + this.props.event.images.length - 1) % this.props.event.images]}
+                    mainSrc={this.state.images[photoIndex]}
+                    nextSrc={this.state.images[(photoIndex + 1) % this.state.images.length]}
+                    prevSrc={this.state.images[(photoIndex + this.state.images.length - 1) % this.state.images]}
                     onCloseRequest={() => this.setState({ isOpen: false })}
                     onMovePrevRequest={() =>
                     this.setState({
-                        photoIndex: (photoIndex + this.props.event.images.length - 1) % this.props.event.images.length,
+                        photoIndex: (photoIndex + this.state.images.length - 1) % this.state.images.length,
                     })
                     }
                     onMoveNextRequest={() =>
                     this.setState({
-                        photoIndex: (photoIndex + 1) % this.props.event.images.length,
+                        photoIndex: (photoIndex + 1) % this.state.images.length,
                     })
                     }
                 />

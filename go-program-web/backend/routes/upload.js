@@ -1,32 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-const multerS3 = require("multer-s3");
-const aws = require("aws-sdk");
 var path = require('path');
 var passport = require("passport");
-var {AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_S3_BUCKET_NAME, AWS_S3_BUCKET_REGION} = require('../config/config');
-var config = require('../config/config');
 
 
-aws.config.update({
-    secretAccessKey: AWS_SECRET_KEY,
-    accessKeyId: AWS_ACCESS_KEY,
-    region: AWS_S3_BUCKET_REGION
-});
-
-const s3 = new aws.S3();
-
-var storage = multerS3({
-    s3: s3,
-    bucket: AWS_S3_BUCKET_NAME,
-    metadata: function(req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
     },
-    key: function(req, file, cb) {
-      cb(null, "sjsu_go:" + Date.now() + path.extname(file.originalname));
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
     }
-});
+  })
 
 var uploadSingle = multer({ storage: storage }).single('image');
 
@@ -40,9 +26,10 @@ router.post('/images', passport.authenticate("jwt", { session: false }),(req, re
             res.status(500).json({message: `Image upload failed due to internal issue. ${err}`});
             return;
         }
-        var imagesUrl = req.files.map(file => file.location)
-        res.status(200).json({imagesUrl: imagesUrl}); 
+        var imagesName = req.files.map(file => file.filename)
+        res.status(200).json({imagesName: imagesName}); 
     });
 });
+
 
 module.exports = router;

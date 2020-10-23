@@ -80,8 +80,8 @@ class OrderRequestDetails extends Component{
                                 <p className="font-smaller"><strong>Major: </strong>{this.state.order.student.major}</p>
                                 <p className="font-smaller"><strong>Year: </strong>{this.state.order.student.year}</p>
                                 <button className="btn btn-primary btn-sm btn-style mr-2"
-                                onClick={() => this.props.history.push("/student/orders")}>
-                                    Go to Orders Page
+                                onClick={() => this.props.history.push("/admin/orders-requests")}>
+                                    Go to Orders Requests Page
                                 </button>
                             </div>
                         </div>
