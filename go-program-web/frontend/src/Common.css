@@ -123,6 +123,24 @@
     margin: 5px;
 }
 
+.image-icon-pointer{
+    cursor: pointer;
+}
+
+.signup-image-upload > input{
+    display: none;
+}
+
+.signup-image-upload img{
+    width: 25px;
+    cursor: pointer
+}
+
+.signup-image {
+    width: 15rem;
+    height: 8rem;
+}
+
 .modal-image{
     position: relative;
 }

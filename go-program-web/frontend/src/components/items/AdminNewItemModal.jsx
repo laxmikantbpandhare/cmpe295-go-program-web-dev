@@ -84,7 +84,7 @@ class AdminNewItemModal extends Component{
     
     handleFileUpload = (e) => {
         if(!this.checkMimeType(e)){
-            alert("Please upload png/jpeg file only");
+            alert("Please upload png/jpeg/jpg file only");
         }
 
         if(!this.maxSelectFile(e)){
@@ -304,7 +304,7 @@ class AdminNewItemModal extends Component{
                             <label className="col-4">Attach Pic<strong className="font-italic">(Min 1, Max 4)</strong></label>
                             <div className="col-8">
                                 <div className="image-upload">
-                                    <label htmlFor="upload"><i className="fas fa-paperclip"></i></label>
+                                    <label htmlFor="upload"><i className="fas fa-paperclip image-icon-pointer"></i></label>
                                     <input multiple type="file" id="upload" value="" accept="image/jpeg, image/png, image/jpg"
                                         onChange= {this.handleFileUpload}/>
                                 </div>

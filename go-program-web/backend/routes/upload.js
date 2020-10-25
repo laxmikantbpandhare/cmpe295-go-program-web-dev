@@ -31,5 +31,17 @@ router.post('/images', passport.authenticate("jwt", { session: false }),(req, re
     });
 });
 
+router.post('/sjsuIdImage',(req, res) => {
+  console.log("Inside upload image post Request");
+
+  uploadSingle(req, res, function(err){
+      if(err){
+          res.status(500).json({message: `Image upload failed due to internal issue. ${err}`});
+          return;
+      }
+      res.status(200).json({imageName: req.file.filename}); 
+  });
+});
+
 
 module.exports = router;

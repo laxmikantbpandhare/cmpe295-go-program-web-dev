@@ -32,7 +32,7 @@ function Landing() {
              <button type="button" className="btn btn-primary btn-block login-btn-landing">Log in</button>
            </Link>
            <Link to="/signup">
-            <button type="button" className="btn btn-primary btn-block signup-btn-landing">Sign up</button>
+            <button type="button" className="btn btn-primary btn-block signup-btn-landing">Student Sign up</button>
            </Link>
          </div>
        </div>

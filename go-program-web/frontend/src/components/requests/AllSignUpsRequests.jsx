@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
+import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Requests.css';
 import {connect} from 'react-redux';
-import {getAllEvents} from '../../redux/actions/suggestedEventsRequestsAction';
-import SuggestedEventRequest from './SuggestedEventRequest';
+import {getAllEvents} from '../../redux/actions/eventsRequestsAction';
+import EventRequest from './EventRequest';
 
-class AllSuggestedEventsRequests extends Component{
+class AllSignUpsRequests extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -37,9 +39,9 @@ class AllSuggestedEventsRequests extends Component{
             }
         );   
     }
-
-    statusOptions = ['Pending Approval', 'Approved', 'Rejected'];
     
+    statusOptions = ['Pending Approval', 'Approved', 'Rejected', 'Action Required'];
+
     render() {
         let redirectVar = null;
         if(!localStorage.getItem('token')){
@@ -56,19 +58,19 @@ class AllSuggestedEventsRequests extends Component{
         }
 
         let filteredEvents = sortedEvents.filter(event => {
-            return (event.name.toLowerCase().indexOf(this.state.searchEventName.toLowerCase()) !== -1 &&
+            return (event.event.name.toLowerCase().indexOf(this.state.searchEventName.toLowerCase()) !== -1 &&
             event.student.sjsuId.toLowerCase().indexOf(this.state.searchStudentId.toLowerCase()) !== -1 && 
             event.status.indexOf(this.state.filter)!==-1)
         });
         
         let noEventText = this.state.searchEventName !== "" || this.state.searchStudentId !== "" || this.state.filter !== ""
         ? "No Event Matching the Search or Filter Criteria"
-        : "No Event is suggested yet by any student.";
+        : "No Event is submitted yet by any student.";
         return(
         <div className="top-align">
             {redirectVar}
             <div className="heading py-1">
-                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-lightbulb"></i> Students Suggested Events</h4>
+                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Students Events</h4>
             </div>
             
             <div className="container-fluid requests-below-heading">
@@ -126,12 +128,11 @@ class AllSuggestedEventsRequests extends Component{
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                 {
-                    filteredEvents.length!==0 ? filteredEvents.map(event=>
-                    <SuggestedEventRequest event={event} key={event._id}/>
+                    filteredEvents.length!==0 ? filteredEvents.map(event =>
+                    <EventRequest event={event} key={event._id}/>
                     )
                     :
-                    <h2>{noEventText}</h2>
-                    
+                    <h2>{noEventText}</h2>   
                 }
             </div>
         </div>)
@@ -146,9 +147,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.suggestedEventsRequests.getResponseMessage,
-        events: state.suggestedEventsRequests.events
+        responseMessage: state.eventsRequests.getResponseMessage,
+        events: state.eventsRequests.events
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllSuggestedEventsRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(AllSignUpsRequests);

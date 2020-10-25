@@ -10,20 +10,49 @@ const mongoose = require('mongoose');
 
 var queries = {};
 
-queries.createUser = (user, hash, successcb, failurecb) => {
-    const doc = new User({
-        fname: user.fname,
-        lname: user.lname,
-        email: user.email,
+// queries.createUser = (user, hash, successcb, failurecb) => {
+//     const doc = new User({
+//         fname: user.fname,
+//         lname: user.lname,
+//         email: user.email,
+//         id: user.id,
+//         major: user.major,
+//         year: user.year,
+//         password: hash,
+//         userType: "student"
+//     });
+//     doc.save()
+//     .then(result => successcb(result))
+//     .catch(err => failurecb(err))
+// }
+
+queries.createStudent = (user, hash, successcb, failurecb) => {
+    const Userdoc = new User({
         id: user.id,
-        major: user.major,
-        year: user.year,
         password: hash,
-        userType: "student"
+        fname: user.fname,
+        email: user.email,
+        userType: "student",
+        status: "Inactive"
     });
-    doc.save()
-    .then(result => successcb(result))
-    .catch(err => failurecb(err))
+    Userdoc.save()
+    .then(result => {
+        const studentDoc = new Student({
+            sjsuId: user.id,
+            fname: user.fname,
+            lname: user.lname,
+            email: user.email,
+            major: user.major,
+            year: user.year,
+            studentIdCard: user.imageName
+        });
+        studentDoc.save()
+        .then(student => {
+            successcb(result);
+        })
+        .catch(err => failurecb(err, "Student"))
+    })
+    .catch(err => failurecb(err, "User"))
 }
 
 queries.getUserPasswordById = (id, successcb, failurecb) => {

@@ -65,7 +65,7 @@ class AllOrdersRequests extends Component{
             order.status.indexOf(this.state.filter)!==-1)
         });
         
-        let noOrderText = this.state.search !== ""
+        let noOrderText = this.state.searchOrderId !== "" || this.state.searchStudentId !== "" || this.state.filter !== ""
         ? "No Order Matching the Search or Filter Criteria"
         : "No Order is submitted yet by any student.";
         return(

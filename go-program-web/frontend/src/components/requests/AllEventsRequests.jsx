@@ -63,7 +63,7 @@ class AllEventsRequests extends Component{
             event.status.indexOf(this.state.filter)!==-1)
         });
         
-        let noEventText = this.state.search !== ""
+        let noEventText = this.state.searchEventName !== "" || this.state.searchStudentId !== "" || this.state.filter !== ""
         ? "No Event Matching the Search or Filter Criteria"
         : "No Event is submitted yet by any student.";
         return(

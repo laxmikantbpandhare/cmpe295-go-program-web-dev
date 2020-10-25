@@ -11,18 +11,18 @@ router.post('/signup',function(req,res){
     const user = req.body;
 
     encrypt.generateHash(user.password, hash => {
-        queries.createUser(user,hash, result => {
+        queries.createStudent(user, hash, result => {
             console.log("User created with id: " + result._id);
-            res.status(200).send({success: true, message:'User created'});
-        }, err => {
+            res.status(200).json({message:'User created'});
+        }, (err, tag) => {
             if(err.code === 11000){
-                res.status(401).send({ success: false, message: 'User with same SJSU Id/Email Id already exists.' });
+                res.status(401).json({message: 'User with same SJSU Id/Email Id already exists.' });
             }else{
-                res.status(500).send({ success: false, message: `Something failed when inserting record in the database. ${err}`});
+                res.status(500).json({message: `Something failed when inserting user in the ${tag} collection in the DB. ${err}`});
             }
         });
     }, err => {
-        res.status(500).send({ success: false, error: 'Something failed when generating hash' });
+        res.status(500).json({error: `Something failed when generating hash. ${err}` });
     });
 });
 
@@ -44,18 +44,22 @@ router.post('/login',function(req,res){
                     var token = jwt.sign(user, secret, {
                         expiresIn: 1008000 // in seconds
                     });
-                    res.status(200).json({success: true, message: "Login successful", user: row, token: token});
+                    if(row.status === "Active"){
+                        res.status(200).json({success: true, message: "Login successful", user: row, token: token});
+                    } else {
+                        res.status(401).json({success: false, message: "The user is Inactive. Please wait for the Admin to verify your Identity. If you feel it is taking too long, please contact the administration."});
+                    }
                 }else{
                     res.status(401).json({success: false, message: "Incorrect Password"});
                 }
             }, err => {
-                res.status(500).json({success: false, message: "Something wrong with bcrypt"});
+                res.status(500).json({success: false, message: `Something wrong with bcrypt. ${err}`});
             });
         }else{
             res.status(401).json({success: false, message: "User does not exists. Please try again"});
         }
     }, err => {
-        res.status(500).json({success: false, message: "Something wrong when reading the record from the database"});
+        res.status(500).json({success: false, message: `Something wrong when reading the record from the database. ${err}`});
     });
 });
 

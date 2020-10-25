@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const studentSchema = mongoose.Schema({
     fname: {
@@ -34,6 +34,15 @@ const studentSchema = mongoose.Schema({
     pointsSpent: {
         type: Number,
         default: 0
+    },
+    studentIdCard: {
+        type: String,
+        required: true
+    },
+    createdDate: {
+        type: Date,
+        required: true,
+        default: ()=> new Date()
     }
 });
 

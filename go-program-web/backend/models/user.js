@@ -1,15 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-    fname: {
-        type: String,
-        required: true
-    },
-    lname: {
-        type: String,
-        required: true
-    },
-    email: {
+    id : {
         type: String,
         required: true,
         unique: true
@@ -18,22 +10,39 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    id : {
+    email : {
         type: String,
         required: true,
         unique: true
     },
-    major : {
-        type: String,
-        required: true
-    },
-    year : {
-        type: String,
-        required: true
-    },
     userType : {
-        type: String
-    }
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        required: true
+    },
+    fname: {
+        type: String,
+        required: true
+    },
+    createdDate: {
+        type: Date,
+        required: true,
+        default: ()=> new Date()
+    },
+    updatedBy: {
+        type: String,
+    },
+    updatedDate: {
+        type: Date
+    },
+});
+
+userSchema.pre('save', function(next){
+    this.updatedDate = new Date();
+    next();
 });
 
 module.exports = mongoose.model('Users', userSchema);
