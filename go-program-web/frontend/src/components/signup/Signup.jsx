@@ -75,9 +75,11 @@ class Signup extends Component{
         this.el.scrollIntoView({ behavior: 'smooth' });
     }
 
-    uploadIdImage = (image, successcb, failurecb) => {
+    uploadIdImage = (image, id, successcb, failurecb) => {
+        console.log("ID -- ", id);
         const formData = new FormData();
-        formData.append('image', image)
+        formData.append('id', id);
+        formData.append('image', image);
         fetch(`${backendUrl}/upload/sjsuIdImage/`, {
             method: "POST",
             credentials: 'include',
@@ -121,7 +123,7 @@ class Signup extends Component{
 
         const {message, success, confirmPassword, imageUrl, image, ...data} = this.state;
         
-        this.uploadIdImage(image, imageName => {
+        this.uploadIdImage(image, data.id, imageName => {
             data.imageName = imageName;
             fetch(`${backendUrl}/user/signup`, {
                 method: "POST",

@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {getAllOrders} from '../../redux/actions/ordersRequestsAction';
 import OrderRequest from './OrderRequest';
 
-class AllOrdersRequests extends Component{
+class AllOrderRequests extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -155,4 +155,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllOrdersRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(AllOrderRequests);

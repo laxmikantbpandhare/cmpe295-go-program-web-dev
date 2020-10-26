@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
@@ -8,11 +9,10 @@ import {connect} from 'react-redux';
 import {getAllEvents} from '../../redux/actions/eventsRequestsAction';
 import EventRequest from './EventRequest';
 
-class AllSignUpsRequests extends Component{
+class AllSignUpRequests extends Component{
     constructor(props){
         super(props);
         this.state = {
-            searchEventName: "",
             searchStudentId: "",
             filter: "",
             sort: ""
@@ -152,4 +152,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllSignUpsRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(AllSignUpRequests);

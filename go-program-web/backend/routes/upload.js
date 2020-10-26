@@ -3,14 +3,23 @@ var router = express.Router();
 var multer = require('multer');
 var path = require('path');
 var passport = require("passport");
-
+var jwt = require("jsonwebtoken");
+const {secret} = require('../config/config');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+      let id;
+      if(req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, secret);
+        id = decoded.id;
+      } else {
+        id = req.body.id;
+      }
+      cb(null, id + '_' + Date.now() + path.extname(file.originalname)) //Appending extension
     }
   })
 

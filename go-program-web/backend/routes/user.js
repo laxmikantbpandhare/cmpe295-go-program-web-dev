@@ -4,6 +4,7 @@ const queries = require('../utils/queries');
 const encrypt = require('../utils/encrypt');
 var jwt = require("jsonwebtoken");
 const {secret} = require('../config/config');
+var passport = require("passport");
 
 router.post('/signup',function(req,res){
     console.log("Inside User signup Post Request");
@@ -23,6 +24,16 @@ router.post('/signup',function(req,res){
         });
     }, err => {
         res.status(500).json({error: `Something failed when generating hash. ${err}` });
+    });
+});
+
+router.get('/allStudents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside User Requests All Students Get Request");
+    
+    queries.getAllStudents(students => {
+        res.status(200).json({success: true, students});
+    }, err=> {
+        res.status(500).send({ message: `Something failed when getting students from the database. ${err.message}`});
     });
 });
 

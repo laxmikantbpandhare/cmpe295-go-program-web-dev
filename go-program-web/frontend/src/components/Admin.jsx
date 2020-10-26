@@ -4,10 +4,10 @@ import AdminDashboard from './dashboard/AdminDashboard';
 import AdminNavbar from './navbar/AdminNavbar';
 import AdminInventory from './items/AdminInventory';
 import AdminAllEvents from './events/AdminAllEvents';
-import AllEventsRequests from './requests/AllEventsRequests';
-import AllOrdersRequests from './requests/AllOrdersRequests';
+import AllEventRequests from './requests/AllEventRequests';
+import AllOrderRequests from './requests/AllOrderRequests';
 import OrderRequestDetails from './requests/OrderRequestDetails';
-import AllSuggestedEventsRequests from './requests/AllSuggestedEventsRequests';
+import AllSuggestedEventRequests from './requests/AllSuggestedEventRequests';
 
 function Admin() {
     return (
@@ -17,9 +17,9 @@ function Admin() {
             <Route path="/admin/dashboard" component={AdminDashboard}/>
             <Route path="/admin/inventory" component={AdminInventory}/>
             <Route path="/admin/events" component={AdminAllEvents}/>
-            <Route path="/admin/events-requests" component={AllEventsRequests}/>
-            <Route path="/admin/orders-requests" component={AllOrdersRequests}/>
-            <Route path="/admin/suggested-events-requests" component={AllSuggestedEventsRequests}/>
+            <Route path="/admin/events-requests" component={AllEventRequests}/>
+            <Route path="/admin/orders-requests" component={AllOrderRequests}/>
+            <Route path="/admin/suggested-events-requests" component={AllSuggestedEventRequests}/>
             <Route path="/admin/order-details/:orderId" component={OrderRequestDetails}/>
           </Switch>
       </div>
