@@ -6,6 +6,7 @@ import Lightbox from 'react-image-lightbox';
 import CommentsModal from '../comments/CommentsModal';
 // import {connect} from 'react-redux';
 // import {deleteEvent} from '../../redux/actions/adminEventsAction';
+import {backendUrl} from '../../config';
 
 class StudentEvent extends Component{
     constructor(props){
