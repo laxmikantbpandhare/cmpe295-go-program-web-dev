@@ -10,27 +10,12 @@ const mongoose = require('mongoose');
 
 var queries = {};
 
-// queries.createUser = (user, hash, successcb, failurecb) => {
-//     const doc = new User({
-//         fname: user.fname,
-//         lname: user.lname,
-//         email: user.email,
-//         id: user.id,
-//         major: user.major,
-//         year: user.year,
-//         password: hash,
-//         userType: "student"
-//     });
-//     doc.save()
-//     .then(result => successcb(result))
-//     .catch(err => failurecb(err))
-// }
-
 queries.createStudent = (user, hash, successcb, failurecb) => {
     const Userdoc = new User({
         id: user.id,
         password: hash,
         fname: user.fname,
+        lname: user.lname,
         email: user.email,
         userType: "student",
         status: "Inactive"
@@ -38,16 +23,16 @@ queries.createStudent = (user, hash, successcb, failurecb) => {
     Userdoc.save()
     .then(result => {
         const studentDoc = new Student({
+            user: result._id,
             sjsuId: user.id,
-            fname: user.fname,
-            lname: user.lname,
-            email: user.email,
             major: user.major,
             year: user.year,
             studentIdCard: user.imageName
         });
         studentDoc.save()
         .then(student => {
+            // student.populate('user').execPopulate()
+            // .then(student => {successcb(result)});
             successcb(result);
         })
         .catch(err => failurecb(err, "Student"))
@@ -60,6 +45,21 @@ queries.getUserPasswordById = (id, successcb, failurecb) => {
     .then(user => successcb(user))
     .catch(err => failurecb(err))
 }
+
+// queries.getUserPasswordById = (id, successcb, failurecb) => {
+//     User.findOne({id})
+//     .select('_id')
+//     .then(user => {
+//         Student.find({user: user._id})
+//         .populate('user', 'id fname lname email status')
+//         .exec()
+//         .then(student => {
+//             console.log("student -- ++ ", student);
+//             successcb(user);
+//         })
+//     })
+//     .catch(err => failurecb(err))
+// }
 
 queries.getItems = (successcb, failurecb) => {
     Item.find().sort({ updatedDate: -1 })
@@ -178,7 +178,7 @@ queries.getStudentOwnEvents = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             StudentEvent.find({student: student._id})
-            .populate('student')
+            // .populate('student')
             .populate('event')
             .sort({updatedDate:-1})
             .exec()
@@ -199,65 +199,40 @@ queries.createStudentEvent = (event, successcb, failurecb) => {
     Student.findOne({sjsuId: event.student.id})
     .select('_id')
     .then(student => {
-        if(student === null){
-            const doc = new Student({
-                sjsuId:event.student.id,
-                fname: event.student.fname,
-                lname: event.student.lname,
-                email: event.student.email,
-                major: event.student.major,
-                year: event.student.year
-            });
-            doc.save()
-            .then(result => {
-                const eventDoc = new StudentEvent({
-                    event:event.event.id,
-                    student: result._id,
-                    description: event.description,
-                    completedDate: event.completedDate,
-                    images: event.images,
-                    status: "Pending Approval"
-                });
-                eventDoc.save()
-                .then(studentEvent => {
-                    studentEvent.populate('event').populate('student').execPopulate()
-                    .then(studentEvent=> {successcb(studentEvent);})
-                })
-                .catch(err => {
-                    failurecb(err, "StudentEvent");
-                })
-            })
-            .catch(err => {
-                failurecb(err, "Student");
-            })
-        } else {
-            const eventDoc = new StudentEvent({
-                event: event.event.id,
-                student: student._id,
-                description: event.description,
-                completedDate: event.completedDate,
-                images: event.images,
-                status: "Pending Approval"
-            });
-            eventDoc.save()
-            .then(studentEvent => {
-                studentEvent.
-                populate('event').
-                populate('student').
-                execPopulate().
-                then(studentEvent => {successcb(studentEvent)})
-            })
-            .catch(err => {
-                failurecb(err, "StudentEvent");
-            })
-        }
+        const eventDoc = new StudentEvent({
+            event: event.event.id,
+            student: student._id,
+            description: event.description,
+            completedDate: event.completedDate,
+            images: event.images,
+            status: "Pending Approval"
+        });
+        eventDoc.save()
+        .then(studentEvent => {
+            // studentEvent.
+            // populate('event').
+            // populate('student').
+            // execPopulate().
+            // then(studentEvent => {successcb(studentEvent)})
+            successcb(studentEvent);
+        })
+        .catch(err => {
+            failurecb(err, "StudentEvent");
+        })
     })
     .catch(err => failurecb(err,"Student"))
 }
 
 queries.getStudentsAllEvents = (successcb, failurecb) => {
     StudentEvent.find()
-    .populate('student')
+    .populate({
+        path : 'student',
+        select: 'sjsuId user major year',
+        populate : {
+          path : 'user',
+          select: 'fname lname email'
+        }
+    })
     .populate('event')
     .sort({updatedDate:-1})
     .exec()
@@ -281,10 +256,17 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
                     studentToUpdate.save()
                     .then(updatedStudent => {
                         updatedEvent.
-                        populate('event').
-                        populate('student').
-                        execPopulate().
-                        then(populatedEvent => {
+                        populate('event')
+                        .populate({
+                            path : 'student',
+                            select: 'sjsuId user major year',
+                            populate : {
+                              path : 'user',
+                              select: 'fname lname email'
+                            }
+                        })
+                        .execPopulate()
+                        .then(populatedEvent => {
                             successcb(populatedEvent)
                         })
                     })
@@ -300,7 +282,14 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
             } else {
                 updatedEvent.
                 populate('event').
-                populate('student').
+                populate({
+                    path : 'student',
+                    select: 'sjsuId user major year',
+                    populate : {
+                      path : 'user',
+                      select: 'fname lname email'
+                    }
+                }).
                 execPopulate().
                 then(updatedEvent => {
                     successcb(updatedEvent)
@@ -330,7 +319,14 @@ queries.updateStudentEvent = (event, successcb, failurecb) => {
         .then(updatedEvent => {
             updatedEvent
             .populate('event')
-            .populate('student')
+            .populate({
+                path : 'student',
+                select: 'sjsuId user major year',
+                populate : {
+                  path : 'user',
+                  select: 'fname lname email'
+                }
+            })
             .execPopulate()
             .then(populatedEvent => {
                 successcb(populatedEvent)
@@ -370,7 +366,14 @@ queries.addStudentEventComment = (eventId, comment, successcb, failurecb) => {
         .then(updatedEvent => {
             updatedEvent
             .populate('event')
-            .populate('student')
+            .populate({
+                path : 'student',
+                select: 'sjsuId user major year',
+                populate : {
+                  path : 'user',
+                  select: 'fname lname email'
+                }
+            })
             .execPopulate()
             .then(populatedEvent => {
                 successcb(populatedEvent)
@@ -456,10 +459,10 @@ queries.getStudentOwnOrders = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             Order.find({student: student._id})
-            .populate('student')
-            .populate('items.item')
-            .sort({updatedDate:-1})
-            .exec()
+            // .populate('student')
+            // .populate('items.item')
+            // .sort({updatedDate:-1})
+            // .exec()
             .then(orders => {
                 successcb(orders)})
             .catch(err => failurecb(err,"Student Orders"))
@@ -479,7 +482,14 @@ queries.addStudentOrderComment = (orderId, comment, successcb, failurecb) => {
         order.save()
         .then(updatedOrder => {
             updatedOrder
-            .populate('student')
+            .populate({
+                path : 'student',
+                select: 'sjsuId user',
+                populate : {
+                  path : 'user',
+                  select: 'fname lname'
+                }
+            })
             .populate('items.item')
             .execPopulate()
             .then(populatedOrder => {
@@ -493,7 +503,14 @@ queries.addStudentOrderComment = (orderId, comment, successcb, failurecb) => {
 
 queries.getStudentsAllOrders = (successcb, failurecb) => {
     Order.find()
-    .populate('student')
+    .populate({
+        path : 'student',
+        select: 'sjsuId user',
+        populate : {
+          path : 'user',
+          select: 'fname lname'
+        }
+    })
     .populate('items.item')
     .sort({updatedDate:-1})
     .exec()
@@ -503,8 +520,6 @@ queries.getStudentsAllOrders = (successcb, failurecb) => {
 }
 
 queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
-    console.log("order---%j", order);
-
     if(order.status === "Cancelled"){
         Student.findById(order.student.id)
         .then(studentToUpdate => {
@@ -533,7 +548,14 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                         orderToUpdate.save()
                         .then(updatedOrder => {
                             updatedOrder.
-                            populate('student').
+                            populate({
+                                path : 'student',
+                                select: 'sjsuId user',
+                                populate : {
+                                  path : 'user',
+                                  select: 'fname lname'
+                                }
+                            }).
                             populate('items.item').
                             execPopulate().
                             then(populatedOrder => {
@@ -572,7 +594,14 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
             orderToUpdate.save()
             .then(updatedOrder => {
                 updatedOrder.
-                populate('student').
+                populate({
+                    path : 'student',
+                    select: 'sjsuId user',
+                    populate : {
+                      path : 'user',
+                      select: 'fname lname'
+                    }
+                }).
                 populate('items.item').
                 execPopulate().
                 then(populatedOrder => {
@@ -596,7 +625,7 @@ queries.getOrderDetailsStudent = (orderId, studentId, successcb, failurecb) => {
     .select('_id')
     .then(student => {
         Order.findOne({_id:orderId,student: student._id})
-        .populate('student')
+        // .populate('student')
         .populate('items.item')
         .exec()
         .then(order => {
@@ -614,7 +643,14 @@ queries.getOrderDetailsStudent = (orderId, studentId, successcb, failurecb) => {
 
 queries.getOrderDetailsAdmin = (orderId, successcb, failurecb) => {
     Order.findOne({_id:orderId})
-    .populate('student')
+    .populate({
+        path : 'student',
+        select: 'sjsuId user major year',
+        populate : {
+          path : 'user',
+          select: 'fname lname email'
+        }
+    })
     .populate('items.item')
     .exec()
     .then(order => {
@@ -632,7 +668,7 @@ queries.getStudentDashboardEvents = (id, successcb, failurecb) => {
         if(student !== null){
             StudentEvent.find({student: student._id})
             // .populate('student')
-            .populate('event')
+            .populate('event', 'name points')
             .sort({createdDate:-1})
             .limit(5)
             .exec()
@@ -656,7 +692,7 @@ queries.getStudentDashboardApprovedEvents = (id, successcb, failurecb) => {
         if(student !== null){
             StudentEvent.find({student: student._id, status: "Approved"})
             // .populate('student')
-            .populate('event')
+            .populate('event', 'name points')
             .sort({updatedDate:-1})
             .limit(5)
             .exec()
@@ -717,8 +753,8 @@ queries.getStudentDashboardDeliveredOrders = (id, successcb, failurecb) => {
 
 queries.getAdminDashboardPendingApprovalEvents = (successcb, failurecb) => {
     StudentEvent.find({status: "Pending Approval"})
-    .populate('student')
-    .populate('event')
+    .populate('student', 'sjsuId')
+    .populate('event', 'name points')
     .sort({updatedDate:-1})
     .limit(5)
     .exec()
@@ -729,7 +765,7 @@ queries.getAdminDashboardPendingApprovalEvents = (successcb, failurecb) => {
 
 queries.getAdminDashboardSubmittedOrders = (successcb, failurecb) => {
     Order.find({status: "Submitted"})
-    .populate('student')
+    .populate('student', 'sjsuId')
     // .populate('items.item')
     .sort({updatedDate:-1})
     .limit(5)
@@ -743,53 +779,23 @@ queries.createSuggestedEvent = (event, successcb, failurecb) => {
     Student.findOne({sjsuId: event.student.id})
     .select('_id')
     .then(student => {
-        if(student === null){
-            const doc = new Student({
-                sjsuId:event.student.id,
-                fname: event.student.fname,
-                lname: event.student.lname,
-                email: event.student.email,
-                major: event.student.major,
-                year: event.student.year
-            });
-            doc.save()
-            .then(result => {
-                const eventDoc = new SuggestedEvent({
-                    student: result._id,
-                    name: event.name,
-                    description: event.description,
-                    status: "Pending Approval"
-                });
-                eventDoc.save()
-                .then(suggestedEvent => {
-                    suggestedEvent.populate('student').execPopulate()
-                    .then(suggestedEvent=> {successcb(suggestedEvent);})
-                })
-                .catch(err => {
-                    failurecb(err, "Suggested Event");
-                })
-            })
-            .catch(err => {
-                failurecb(err, "Student");
-            })
-        } else {
-            const eventDoc = new SuggestedEvent({
-                student: student._id,
-                name: event.name,
-                description: event.description,
-                status: "Pending Approval"
-            });
-            eventDoc.save()
-            .then(suggestedEvent => {
-                suggestedEvent.
-                populate('student').
-                execPopulate().
-                then(suggestedEvent => {successcb(suggestedEvent)})
-            })
-            .catch(err => {
-                failurecb(err, "Suggested Event");
-            })
-        }
+        const eventDoc = new SuggestedEvent({
+            student: student._id,
+            name: event.name,
+            description: event.description,
+            status: "Pending Approval"
+        });
+        eventDoc.save()
+        .then(suggestedEvent => {
+            // suggestedEvent.
+            // populate('student').
+            // execPopulate().
+            // then(suggestedEvent => {successcb(suggestedEvent)})
+            successcb(suggestedEvent);
+        })
+        .catch(err => {
+            failurecb(err, "Suggested Event");
+        })
     })
     .catch(err => failurecb(err,"Student"))
 }
@@ -800,7 +806,7 @@ queries.getStudentOwnSuggestedEvents = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             SuggestedEvent.find({student: student._id})
-            .populate('student')
+            // .populate('student')
             .sort({updatedDate:-1})
             .exec()
             .then(events => {
@@ -823,7 +829,14 @@ queries.addStudentSuggestedEventComment = (eventId, comment, successcb, failurec
         event.save()
         .then(updatedEvent => {
             updatedEvent
-            .populate('student')
+            .populate({
+                path : 'student',
+                select: 'sjsuId user major year',
+                populate : {
+                  path : 'user',
+                  select: 'fname lname email'
+                }
+            })
             .execPopulate()
             .then(populatedEvent => {
                 successcb(populatedEvent)
@@ -836,7 +849,14 @@ queries.addStudentSuggestedEventComment = (eventId, comment, successcb, failurec
 
 queries.getStudentsAllSuggestedEvents = (successcb, failurecb) => {
     SuggestedEvent.find()
-    .populate('student')
+    .populate({
+        path : 'student',
+        select: 'sjsuId user major year',
+        populate : {
+          path : 'user',
+          select: 'fname lname email'
+        }
+    })
     .sort({updatedDate:-1})
     .exec()
     .then(events => {
@@ -852,7 +872,14 @@ queries.updateStudentSuggestedEventStatus = (event, successcb, failurecb) => {
         eventToUpdate.save()
         .then(updatedEvent => {
             updatedEvent.
-            populate('student').
+            populate({
+                path : 'student',
+                select: 'sjsuId user major year',
+                populate : {
+                  path : 'user',
+                  select: 'fname lname email'
+                }
+            }).
             execPopulate().
             then(updatedEvent => {
                 successcb(updatedEvent)
@@ -916,7 +943,7 @@ queries.getStudentDashboardApprovedSuggestedEvents = (id, successcb, failurecb) 
 
 queries.getAdminDashboardPendingApprovalSuggestedEvents = (successcb, failurecb) => {
     SuggestedEvent.find({status: "Pending Approval"})
-    .populate('student')
+    .populate('student', 'sjsuId')
     .sort({updatedDate:-1})
     .limit(5)
     .exec()

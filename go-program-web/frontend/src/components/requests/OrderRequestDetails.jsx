@@ -76,7 +76,8 @@ class OrderRequestDetails extends Component{
                                 <h5 style = {{textDecoration:'underline', fontSize: '1rem'}}
                                 className="font-weight-bold">Student Details:</h5>
                                 <p className="font-smaller"><strong>SJSU Id: </strong>{this.state.order.student.sjsuId}</p>
-                                <p className="font-smaller"><strong>Name: </strong>{`${this.state.order.student.fname} ${this.state.order.student.lname}`}</p>
+                                <p className="font-smaller"><strong>Name: </strong>{`${this.state.order.student.user.fname} ${this.state.order.student.user.lname}`}</p>
+                                <p className="font-smaller"><strong>Email: </strong>{this.state.order.student.user.email}</p>
                                 <p className="font-smaller"><strong>Major: </strong>{this.state.order.student.major}</p>
                                 <p className="font-smaller"><strong>Year: </strong>{this.state.order.student.year}</p>
                                 <button className="btn btn-primary btn-sm btn-style mr-2"

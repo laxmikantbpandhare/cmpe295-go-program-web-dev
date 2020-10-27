@@ -67,7 +67,7 @@ class OrderRequest extends Component{
                         <div className="card-body card-body-lesspad">
                             <h5 className="font-weight-bold"><strong>Order Id# </strong>{this.props.order.id}</h5>
                             <p><strong>Student SJSU Id: </strong>{this.props.order.student.sjsuId}</p>
-                            <p><strong>Student Name: </strong>{`${this.props.order.student.fname} ${this.props.order.student.lname}`}</p>
+                            <p><strong>Student Name: </strong>{`${this.props.order.student.user.fname} ${this.props.order.student.user.lname}`}</p>
                             <p><strong>Total Points: </strong>{this.props.order.points}</p>
                             <p><strong>Created Date: </strong>
                                 {new Date(this.props.order.createdDate).toLocaleString()}

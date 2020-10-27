@@ -70,7 +70,7 @@ class SuggestedEventRequest extends Component{
                 }
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
-                            <h5 className="card-title font-weight-bold">{`${this.props.event.student.fname} ${this.props.event.student.lname}`}</h5>
+                            <h5 className="card-title font-weight-bold">{`${this.props.event.student.user.fname} ${this.props.event.student.user.lname}`}</h5>
                             <p className="card-text"><strong>SJSU ID: </strong>{this.props.event.student.sjsuId}</p>
                             <p className="card-text"><strong>Event: </strong>{this.props.event.name}</p>
                             <p className="card-text"><strong>Submitted Date: </strong>

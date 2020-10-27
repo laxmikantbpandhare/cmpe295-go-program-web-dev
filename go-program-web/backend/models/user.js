@@ -15,15 +15,19 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    fname: {
+        type: String,
+        required: true
+    },
+    lname: {
+        type: String,
+        required: true
+    },
     userType : {
         type: String,
         required: true
     },
     status: {
-        type: String,
-        required: true
-    },
-    fname: {
         type: String,
         required: true
     },

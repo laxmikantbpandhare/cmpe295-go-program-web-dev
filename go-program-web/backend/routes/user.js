@@ -56,7 +56,7 @@ router.post('/login',function(req,res){
                         expiresIn: 1008000 // in seconds
                     });
                     if(row.status === "Active"){
-                        res.status(200).json({success: true, message: "Login successful", user: row, token: token});
+                        res.status(200).json({success: true, message: "Login successful", user: {userType: row.userType, fname: row.fname}, token: token});
                     } else {
                         res.status(401).json({success: false, message: "The user is Inactive. Please wait for the Admin to verify your Identity. If you feel it is taking too long, please contact the administration."});
                     }

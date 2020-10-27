@@ -1,16 +1,9 @@
 const mongoose = require('mongoose');
 
 const studentSchema = mongoose.Schema({
-    fname: {
-        type: String,
-        required: true
-    },
-    lname: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
         required: true,
         unique: true
     },

@@ -58,11 +58,7 @@ class StudentAllSuggestions extends Component{
 
         let sortedEvents = [...this.props.events];
         if(this.state.sort !== ""){
-            if(this.state.sort === "Points Ascending"){
-                sortedEvents.sort((event1, event2) => event1.event.points - event2.event.points);
-            } else if(this.state.sort === "Points Descending"){
-                sortedEvents.sort((event1, event2) => event2.event.points - event1.event.points);
-            } else if(this.state.sort === "Submitted Date Ascending"){
+            if(this.state.sort === "Submitted Date Ascending"){
                 sortedEvents.sort((event1, event2) => new Date(event1.createdDate) - new Date(event2.createdDate));
             } else {
                 sortedEvents.sort((event1, event2) => new Date(event2.createdDate) - new Date(event1.createdDate));
@@ -87,7 +83,7 @@ class StudentAllSuggestions extends Component{
             <div className="container-fluid events-below-heading">
                 <div className="row">
                     <div style={{fontSize:"1.2em"}} className="offset-sm-3 mt-2 font-weight-bold">
-                        Can't find an event to submit? Send an event to admin for approval.
+                        Can't find an event to submit? Suggest and send an event to admin for approval.
                     </div>
                     <div className="col-sm-4 offset-4 offset-sm-5 mt-2">
                         <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showStudentNewSuggestionModal}>
@@ -112,8 +108,6 @@ class StudentAllSuggestions extends Component{
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
                                 <option selected value="">Sort by</option>
-                                <option>Points Ascending</option>
-                                <option>Points Descending</option>
                                 <option>Submitted Date Ascending</option>
                                 <option>Submitted Date Descending</option>
                             </select>

@@ -6,7 +6,7 @@ import './Items.css'
 import {connect} from 'react-redux';
 import {itemInputChangeHandler, itemAttributeChangeHandler, itemAddAttribute, 
     itemRemoveAttribute, itemEditCancelHandler, updateItem} from '../../redux/actions/adminInventoryAction';
-import {itemCategories} from '../../config';
+import {itemCategories, backendUrl} from '../../config';
 
 
 class AdminViewItemModal extends Component{
@@ -15,13 +15,43 @@ class AdminViewItemModal extends Component{
         this.initialProp = props.item;
         this.state = {
             message: "",
-            isEdited: false
+            isEdited: false,
+            getImagesMessage: "",
+            images: []
         }
         
         this.hideModal = this.hideModal.bind(this);
         this.handleAttributeChange = this.handleAttributeChange.bind(this);
         this.addAttribute = this.addAttribute.bind(this);
         this.removeAttribute = this.removeAttribute.bind(this);
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+
+        const imagePromises = this.props.item.images.map(imageName => 
+            fetch(`${backendUrl}/download/image/?name=${imageName}`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include'
+            })
+            .then(res => {
+                return res.blob()})
+            .catch(err => {
+                this.setState({
+                    message: `Internal error when fetching item images - ${err}`
+                });
+            })
+        );
+
+        Promise.all(imagePromises)
+        .then(blobs => {
+            var images = blobs.map(blob => URL.createObjectURL(blob));
+            this.setState({images})
+        })
     }
     
     hideModal = e => {
@@ -277,13 +307,14 @@ class AdminViewItemModal extends Component{
                                 </div>
                                 {updatedBy}
                                 {updatedDate}
+                                <h6 style= {{color:"red"}}>{this.state.getImagesMessage}</h6>
                             {
                                 !this.state.isEdited
                                 ? <div className="form-group row">
                                     <label className="col-4">Images</label>
                                     <div className="col-8">
                                         <div className="row" >
-                                            { this.props.item.images.map((image,index) => 
+                                            { this.state.images.map((image,index) => 
                                             (<div className="col-6 modal-image mb-1" key ={index}>
                                                 <img className="rounded img-thumbnail" src= {image} 
                                                 alt="Responsive image"/>

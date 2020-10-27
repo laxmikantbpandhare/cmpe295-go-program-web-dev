@@ -44,7 +44,7 @@ const ViewEventRequestModal = (props) => {
                                 <div class="row">
                                     <label className="col-3"><strong>Name</strong></label>
                                     <div className="col-9">
-                                        <p>{`${props.event.student.fname} ${props.event.student.lname}`}</p>
+                                        <p>{`${props.event.student.user.fname} ${props.event.student.user.lname}`}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -56,7 +56,7 @@ const ViewEventRequestModal = (props) => {
                                 <div class="row">
                                     <label className="col-3"><strong>Email ID</strong></label>
                                     <div className="col-9">
-                                        <p>{props.event.student.email}</p>
+                                        <p>{props.event.student.user.email}</p>
                                     </div>
                                 </div>
                                 <div class="row">
