@@ -209,12 +209,12 @@ queries.createStudentEvent = (event, successcb, failurecb) => {
         });
         eventDoc.save()
         .then(studentEvent => {
-            // studentEvent.
-            // populate('event').
+            studentEvent.
+            populate('event').
             // populate('student').
-            // execPopulate().
-            // then(studentEvent => {successcb(studentEvent)})
-            successcb(studentEvent);
+            execPopulate().
+            then(studentEvent => {successcb(studentEvent)})
+            // successcb(studentEvent);
         })
         .catch(err => {
             failurecb(err, "StudentEvent");
