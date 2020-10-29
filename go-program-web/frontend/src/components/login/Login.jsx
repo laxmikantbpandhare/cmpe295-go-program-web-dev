@@ -80,12 +80,6 @@ class Login extends Component{
                     localStorage.setItem('token', resData.token);
                     localStorage.setItem('userType', resData.user.userType);
                     localStorage.setItem('fname', resData.user.fname);
-                    // if(resData.user.userType === "student") {
-                    //     localStorage.setItem('lname', resData.user.lname);
-                    //     localStorage.setItem('email', resData.user.email);
-                    //     localStorage.setItem('major', resData.user.major);
-                    //     localStorage.setItem('year', resData.user.year);
-                    // }
                     this.setState({
                         authFlag : true
                     });
@@ -106,7 +100,6 @@ class Login extends Component{
     render() {
         let redirectVar = null;
         if(localStorage.getItem('token')){
-            // var userType = localStorage.getItem('userType');
             if(localStorage.getItem('userType')=="student")
                 redirectVar = <Redirect to= "/student/dashboard"/>;
             else

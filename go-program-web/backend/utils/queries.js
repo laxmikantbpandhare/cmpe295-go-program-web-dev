@@ -46,20 +46,34 @@ queries.getUserPasswordById = (id, successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
-// queries.getUserPasswordById = (id, successcb, failurecb) => {
-//     User.findOne({id})
-//     .select('_id')
-//     .then(user => {
-//         Student.find({user: user._id})
-//         .populate('user', 'id fname lname email status')
-//         .exec()
-//         .then(student => {
-//             console.log("student -- ++ ", student);
-//             successcb(user);
-//         })
-//     })
-//     .catch(err => failurecb(err))
-// }
+queries.getAllStudents = (successcb, failurecb) => {
+    Student.find()
+    .populate('user', '-password')
+    .sort({ createdDate: -1 })
+    .exec()
+    .then(students => {
+        successcb(students);
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
+
+queries.updateUserStatus = (user, successcb, failurecb) => {
+    User.findOne({id: user.id})
+    .then(userToUpdate => {
+        userToUpdate["status"] = user.status;
+        userToUpdate["updatedBy"] = `Admin(${user.updatedBy})`
+        userToUpdate.save()
+        .then(user => {
+            successcb(user);
+        })
+        .catch(err => failurecb(err))
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
 
 queries.getItems = (successcb, failurecb) => {
     Item.find().sort({ updatedDate: -1 })
@@ -217,7 +231,7 @@ queries.createStudentEvent = (event, successcb, failurecb) => {
             // successcb(studentEvent);
         })
         .catch(err => {
-            failurecb(err, "StudentEvent");
+            failurecb(err, "Student Event");
         })
     })
     .catch(err => failurecb(err,"Student"))

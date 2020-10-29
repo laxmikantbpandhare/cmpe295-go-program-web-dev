@@ -31,9 +31,9 @@ router.get('/allStudents',passport.authenticate("jwt", { session: false }),funct
     console.log("Inside User Requests All Students Get Request");
     
     queries.getAllStudents(students => {
-        res.status(200).json({success: true, students});
+        res.status(200).json({students});
     }, err=> {
-        res.status(500).send({ message: `Something failed when getting students from the database. ${err.message}`});
+        res.status(500).json({ message: `Something failed when getting students from the database. ${err.message}`});
     });
 });
 
@@ -71,6 +71,19 @@ router.post('/login',function(req,res){
         }
     }, err => {
         res.status(500).json({success: false, message: `Something wrong when reading the record from the database. ${err}`});
+    });
+});
+
+router.post('/updateStatus', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside User Update  Status Post Request");
+    console.log("Req Body : ",req.body);
+    const user = req.body;
+
+    queries.updateUserStatus(user, result => {
+        console.log("User updated: " + result);
+        res.status(200).send({message:`Student's status updated successfully`, user: result});
+    }, message =>{
+        res.status(500).send({ message });
     });
 });
 

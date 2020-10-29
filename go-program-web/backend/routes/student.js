@@ -19,13 +19,17 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
     const event = req.body;
 
     queries.createStudentEvent(event, result => {
-            console.log("Event created: " + result);
-            res.status(200).send({message:'Student event created successfully', event: result});
-        }, (err, tag)=>{
-            if(err.code === 11000){
-                res.status(401).send({ message: "You have already submitted this event. Please contact admin." });
-            }else{
+        console.log("Event created: " + result);
+        res.status(200).send({message:'Student event created successfully', event: result});
+    }, (err, tag)=>{
+        if(err.code === 11000){
+            res.status(401).send({ message: "You have already submitted this event. Please wait till it is approved or contact admin." });
+        }else{
+            if(tag === "Student"){
+                res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+            } else {
                 res.status(500).send({ message: `Something failed when adding ${tag} in the database. ${err.message}`});
+            }
         }
     });
 });
@@ -202,9 +206,17 @@ router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: fal
     const event = req.body;
 
     queries.createSuggestedEvent(event, result => {
-            res.status(200).send({message:'Suggested event created successfully', event: result});
-        }, (err, tag)=>{
-            res.status(500).send({ message: `Something failed when adding ${tag} in the database. ${err.message}`});
+        res.status(200).send({message:'Suggested event created successfully', event: result});
+    }, (err, tag)=>{
+        if(err.code === 11000){
+            res.status(401).send({ message: "This event is already suggested. Please wait till it is approved or contact admin." });
+        }else{
+            if(tag === "Student"){
+                res.status(500).send({ message: `Something failed when getting ${tag} from the database. ${err.message}`});
+            } else {
+                res.status(500).send({ message: `Something failed when adding ${tag} in the database. ${err.message}`});
+            }
+        }
     });
 });
 

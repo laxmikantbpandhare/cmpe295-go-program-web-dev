@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
@@ -6,21 +5,22 @@ import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
 import './Requests.css';
 import {connect} from 'react-redux';
-import {getAllEvents} from '../../redux/actions/eventsRequestsAction';
-import EventRequest from './EventRequest';
+import {getAllStudents} from '../../redux/actions/usersRequestsAction';
+import UserRequest from './UserRequest';
 
-class AllSignUpRequests extends Component{
+class AllUserRequests extends Component{
     constructor(props){
         super(props);
         this.state = {
             searchStudentId: "",
+            searchStudentName: "",
             filter: "",
             sort: ""
         };
     }
 
     componentDidMount(){
-        this.props.getAllEvents();
+        this.props.getAllStudents();
     }
 
     handleChange = e => {
@@ -32,15 +32,13 @@ class AllSignUpRequests extends Component{
     resetSearchSection = e => {
         this.setState(
             {
-                searchEventName: "",
                 searchStudentId: "",
+                searchStudentName: "",
                 filter: "",
                 sort: ""
             }
         );   
     }
-    
-    statusOptions = ['Pending Approval', 'Approved', 'Rejected', 'Action Required'];
 
     render() {
         let redirectVar = null;
@@ -48,42 +46,45 @@ class AllSignUpRequests extends Component{
             redirectVar = <Redirect to= "/login"/>
         }
 
-        let sortedEvents = [...this.props.events];
+        let sortedStudents = [...this.props.students];
         if(this.state.sort !== ""){
-            if(this.state.sort === "Submitted Date Ascending"){
-                sortedEvents.sort((event1, event2) => new Date(event1.createdDate) - new Date(event2.createdDate));
+            if(this.state.sort === "Created Date Ascending"){
+                sortedStudents.sort((student1, student2) => new Date(student1.user.createdDate) - new Date(student2.user.createdDate));
+            } else if(this.state.sort === "Created Date Descending"){
+                sortedStudents.sort((student1, student2) => new Date(student2.user.createdDate) - new Date(student1.user.createdDate));
+            } else if(this.state.sort === "Update Date Ascending"){
+                sortedStudents.sort((student2, student1) => new Date(student1.user.updatedDate) - new Date(student2.user.updatedDate));
             } else {
-                sortedEvents.sort((event1, event2) => new Date(event2.createdDate) - new Date(event1.createdDate));
+                sortedStudents.sort((student1, student2) => new Date(student2.user.updatedDate) - new Date(student1.user.updatedDate));
             }
         }
-
-        let filteredEvents = sortedEvents.filter(event => {
-            return (event.event.name.toLowerCase().indexOf(this.state.searchEventName.toLowerCase()) !== -1 &&
-            event.student.sjsuId.toLowerCase().indexOf(this.state.searchStudentId.toLowerCase()) !== -1 && 
-            event.status.indexOf(this.state.filter)!==-1)
+        let filteredStudents = sortedStudents.filter(student => {
+            var fullName = student.user.fname + " " + student.user.lname;
+            return ( fullName.toLowerCase().indexOf(this.state.searchStudentName.toLowerCase()) !== -1 &&
+                student.sjsuId.toLowerCase().indexOf(this.state.searchStudentId.toLowerCase()) !== -1 &&
+                student.user.status.indexOf(this.state.filter)!==-1)
         });
         
-        let noEventText = this.state.searchEventName !== "" || this.state.searchStudentId !== "" || this.state.filter !== ""
-        ? "No Event Matching the Search or Filter Criteria"
-        : "No Event is submitted yet by any student.";
+        let noUserText = this.state.searchStudentId !== "" || this.state.searchStudentName !== "" || this.state.filter !== ""
+        ? "No Student Matching the Search or Filter Criteria."
+        : "No Student has signed up yet.";
         return(
         <div className="top-align">
             {redirectVar}
             <div className="heading py-1">
-                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Students Events</h4>
+                <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-user"></i> Users</h4>
             </div>
             
             <div className="container-fluid requests-below-heading">
                 <div className="requests-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Submitted Events</h4>
+                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Students</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}
                              value={this.state.filter}>
                                 <option selected value="">Filter by Status</option>
-                                {
-                                    this.statusOptions.map(option => <option>{option}</option>)
-                                }
+                                <option>Active</option>
+                                <option>Inactive</option>
                             </select>
                         </div>
 
@@ -91,8 +92,10 @@ class AllSignUpRequests extends Component{
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
                                 <option selected value="">Sort by</option>
-                                <option>Submitted Date Ascending</option>
-                                <option>Submitted Date Descending</option>
+                                <option>Created Date Ascending</option>
+                                <option>Created Date Descending</option>
+                                <option>Updated Date Ascending</option>
+                                <option>Updated Date Descending</option>
                             </select>
                         </div>
 
@@ -102,8 +105,8 @@ class AllSignUpRequests extends Component{
                             <div class="input-group-prepend">
                                 <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
-                            <input className="form-control py-2" name="searchEventName" placeholder="Search by Event Name"
-                            onChange={this.handleChange} value={this.state.search}></input>
+                            <input className="form-control py-2" name="searchStudentName" placeholder="Search by Student Name"
+                            onChange={this.handleChange} value={this.state.searchStudentName}></input>
                         </div>
 
                         <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
@@ -128,11 +131,11 @@ class AllSignUpRequests extends Component{
                 </div>
                 <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
                 {
-                    filteredEvents.length!==0 ? filteredEvents.map(event =>
-                    <EventRequest event={event} key={event._id}/>
+                    filteredStudents.length!==0 ? filteredStudents.map(student =>
+                    <UserRequest student={student} key={student._id}/>
                     )
                     :
-                    <h2>{noEventText}</h2>   
+                    <h2>{noUserText}</h2>   
                 }
             </div>
         </div>)
@@ -141,15 +144,15 @@ class AllSignUpRequests extends Component{
         
 const mapDispatchToProps = dispatch => {
     return {
-        getAllEvents: () => {dispatch(getAllEvents())}
+        getAllStudents: () => {dispatch(getAllStudents())}
     }
 }
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.eventsRequests.getResponseMessage,
-        events: state.eventsRequests.events
+        responseMessage: state.usersRequests.getResponseMessage,
+        students: state.usersRequests.students
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllSignUpRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(AllUserRequests);

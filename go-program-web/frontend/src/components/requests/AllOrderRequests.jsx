@@ -105,7 +105,7 @@ class AllOrderRequests extends Component{
                                 <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
                             <input type = "number"  className="form-control py-2" name="searchStudentId" placeholder="Search by Student Id"
-                            onChange={this.handleChange} value={this.state.search}></input>
+                            onChange={this.handleChange} value={this.state.searchStudentId}></input>
                         </div>
 
                         <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
@@ -115,7 +115,7 @@ class AllOrderRequests extends Component{
                                 <div class="input-group-text"><i class="fas fa-search"></i></div>
                             </div>
                             <input type = "number" className="form-control py-2" name="searchOrderId" placeholder="Search by Order Id"
-                            onChange={this.handleChange} value={this.state.search}></input>
+                            onChange={this.handleChange} value={this.state.searchStudentId}></input>
                         </div> 
 
                         <div  class="col-2 col-sm-2 order-sm-4">
