@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Suggestions.css'
 import CommentsModal from '../comments/CommentsModal';
 
 class StudentSuggestion extends Component{

@@ -40,6 +40,45 @@ queries.createStudent = (user, hash, successcb, failurecb) => {
     .catch(err => failurecb(err, "User"))
 }
 
+queries.createAdmin = (user, hash, successcb, failurecb) => {
+    const Userdoc = new User({
+        id: user.id,
+        password: hash,
+        fname: user.fname,
+        lname: user.lname,
+        email: user.email,
+        userType: "admin",
+        status: "Active"
+    });
+    Userdoc.save()
+    .then(admin => {
+        successcb(admin);
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
+
+queries.updateAdmin = (user, successcb, failurecb) => {
+    User.findOne({_id:user._id})
+    .then(adminToUpdate => {
+        adminToUpdate["id"] = user.id;
+        adminToUpdate["fname"] = user.fname;
+        adminToUpdate["lname"] = user.lname;
+        adminToUpdate["email"] = user.email;
+        adminToUpdate["status"] = user.status;
+        adminToUpdate["updatedBy"] = user.updatedBy;
+        adminToUpdate.save()
+        .then(admin => {
+            successcb(admin);
+        })
+        .catch(err => {
+            failurecb(err);
+        })
+    })
+    .catch(err => failurecb(err))
+}
+
 queries.getUserPasswordById = (id, successcb, failurecb) => {
     User.findOne({id})
     .then(user => successcb(user))
@@ -63,12 +102,39 @@ queries.updateUserStatus = (user, successcb, failurecb) => {
     User.findOne({id: user.id})
     .then(userToUpdate => {
         userToUpdate["status"] = user.status;
-        userToUpdate["updatedBy"] = `Admin(${user.updatedBy})`
+        userToUpdate["updatedBy"] = `${user.updatedBy}`
         userToUpdate.save()
         .then(user => {
             successcb(user);
         })
         .catch(err => failurecb(err))
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
+
+queries.updateUserEmail = (user, successcb, failurecb) => {
+    User.findOne({id: user.id})
+    .then(userToUpdate => {
+        userToUpdate["email"] = user.email;
+        userToUpdate["updatedBy"] = `${user.updatedBy}`
+        userToUpdate.save()
+        .then(user => {
+            successcb(user);
+        })
+        .catch(err => failurecb(err))
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
+
+queries.getAllAdmins = (successcb, failurecb) => {
+    User.find({userType: 'admin'}).sort({ updatedDate: -1 })
+    .select('-password')
+    .then(admins => {
+        successcb(admins);
     })
     .catch(err => {
         failurecb(err);

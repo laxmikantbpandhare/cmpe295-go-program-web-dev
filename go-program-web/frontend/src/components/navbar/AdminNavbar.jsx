@@ -25,6 +25,12 @@ function AdminNavbar() {
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <a className="nav-link" href="/admin/inventory"><i className="fas fa-boxes"></i> Inventory</a>
                     </li>
+                    {
+                        localStorage.getItem('userType') === 'manager' && 
+                        (<li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                            <a className="nav-link" href="/admin/users"><i className="fas fa-user"></i> Manage Admin Users</a>
+                        </li>)
+                    }
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <div className="dropdown">
                             <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-bell"></i> Requests</a>

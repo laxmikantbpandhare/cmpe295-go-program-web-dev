@@ -1,12 +1,12 @@
-.all-suggestions-heading{
+.all-admins-heading{
     background-color: #0056a3
 }
 
-.suggestions-below-heading{
+.admins-below-heading{
     padding-top: 3rem;
 }
 
-.suggestions-search-section{
+.admins-search-section{
     position: sticky;
     top: 6.4rem;
     position: -webkit-sticky;
@@ -14,7 +14,7 @@
     background: white;
 }
 
-.suggestions-search-section .input-group-text {
+.admins-search-section .input-group-text {
     color: #0056a3;
     background-color: #f8b21a;
     border: 1px solid #f8b21a

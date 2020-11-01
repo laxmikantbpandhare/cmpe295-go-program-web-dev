@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Suggestions.css'
 import {connect} from 'react-redux';
 import {createEvent, resetCreateResponseMessageProps} from '../../redux/actions/suggestedEventsAction';
 

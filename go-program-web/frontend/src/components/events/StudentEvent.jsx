@@ -130,10 +130,6 @@ class StudentEvent extends Component{
                                 onClick={() => this.setState({ isOpen: true })}>
                                     <i class="fas fa-search-plus"/> Images
                                 </button>
-                                {/* <button type="button" className="btn btn-link view-details-color"
-                                onClick = {this.showAdminViewItemModal}>
-                                    <i className="fas fa-edit"/> Edit
-                                </button> */}
                                 {
                                     this.props.event.status === "Action Required"
                                     ? <button type="button" className="btn btn-link view-details-color"

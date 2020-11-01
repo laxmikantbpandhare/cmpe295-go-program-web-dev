@@ -10,6 +10,7 @@ import adminDashboardReducer from './adminDashboardReducer';
 import suggestedEventsReducer from './suggestedEventsReducer';
 import suggestedEventsRequestsReducer from './suggestedEventsRequestsReducer';
 import usersRequestsReducer from './usersRequestsReducer';
+import adminUsersReducer from './adminUsersReducer'
 
 export default combineReducers({
     inventory: adminInventoryReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
     adminDashboard: adminDashboardReducer,
     suggestedEvents: suggestedEventsReducer,
     suggestedEventsRequests: suggestedEventsRequestsReducer,
-    usersRequests: usersRequestsReducer
+    usersRequests: usersRequestsReducer,
+    adminUsers: adminUsersReducer
 });

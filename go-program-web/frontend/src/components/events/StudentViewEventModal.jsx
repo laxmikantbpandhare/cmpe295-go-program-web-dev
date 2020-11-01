@@ -180,17 +180,8 @@ class StudentViewEventModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="eventModal">
-                            {/* {
-                                this.state.isEdited
-                                ? `Edit Event`
-                                : `View Event Details`
-                            } */}
                             Edit Event
                             </h5>
-                            {/* <button type="button" className="close" data-dismiss="modal"
-                                onClick = {this.hideModal} aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
                         </div>
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>
@@ -198,39 +189,18 @@ class StudentViewEventModal extends Component{
                                 <div class="form-group row">
                                     <label className="col-3">Event</label>
                                     <div className="col-9">
-                                        {/* {
-                                            this.state.isEdited
-                                            ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            value={this.props.event.name}/>
-                                            : <p>{this.props.event.name}</p>
-                                        } */}
                                         <p>{this.props.event.event.name}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label className="col-3">Points</label>
                                     <div className="col-9">
-                                        {/* {
-                                            this.state.isEdited
-                                            ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.points!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            value={this.props.event.points}/>
-                                            : <p>{this.props.event.points}</p>
-                                        }   */}
                                         <p>{this.props.event.event.points}</p>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label className="col-3">Description</label>
                                     <div className="col-9">
-                                        {/* {
-                                            this.state.isEdited
-                                            ? <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
-                                            name="description" value = {this.props.event.description}/>
-                                            : <p>{this.props.event.description}</p>
-                                        } */}
                                         <textarea className={`form-control ${this.props.event.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                             name="description" value = {this.props.event.description}/>
@@ -239,52 +209,12 @@ class StudentViewEventModal extends Component{
                                 <div class="form-group row">
                                     <label className="col-3">Status</label>
                                     <div className="col-9">
-                                        {/* {
-                                            this.state.isEdited
-                                            ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            value={this.props.event.name}/>
-                                            : <p>{this.props.event.name}</p>
-                                        } */}
                                         <p>{this.props.event.status}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label className="col-3">Completed</label>
                                     <div className="col-9">
-                                        {/* {
-                                            this.state.isEdited
-                                            ? <DatePicker
-                                                // selected={
-                                                //     this.props.event.expiryDate === null || this.props.event.expiryDate === ""
-                                                //     ? ""
-                                                //     : new Date(this.props.event.expiryDate)
-                                                // }
-                                                selected={
-                                                    this.props.event.expiryDate
-                                                    ? new Date(this.props.event.expiryDate)
-                                                    : null
-                                                }
-                                                onChange={this.handleDateChange}
-                                                className="form-control orig-inp-valid"
-                                                dateFormat="MM/dd/yyyy"
-                                                todayButton="Today"
-                                                showPopperArrow={false}
-                                                placeholderText="Click to select a date"
-                                                isClearable
-                                                withPortal
-                                                peekNextMonth
-                                                showMonthDropdown
-                                                showYearDropdown
-                                                dropdownMode="select"
-                                            />
-                                            : <p>{
-                                                this.props.event.expiryDate
-                                                ? new Date(this.props.event.expiryDate).toLocaleDateString()
-                                                : null
-                                                }
-                                            </p>
-                                        }   */}
                                         <p>{new Date(this.props.event.completedDate).toLocaleDateString()}</p>
                                     </div>
                                 </div>
