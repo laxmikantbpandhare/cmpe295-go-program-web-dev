@@ -38,16 +38,11 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
         queries.createAdmin(user, hash, result => {
             console.log("User created with id: " + result._id);
 
-            const admin = {
-                _id: result._id,
-                id: result.id,
-                fname: result.fname,
-                lname: result.lname,
-                status: result.status,
-                email: result.email,
-                createdDate: result.createdDate,
-                updatedDate: result.updatedDate
-            }
+            // We don't need to send password ever over the network,
+            // so convert mongoose Object to JS Object and remove password
+            const resultObject = { ...result.toObject() };
+            const {password, ...admin} = resultObject;
+            admin._id = admin._id.toString();
             res.status(200).json({message:'User created', admin});
         }, err => {
             if(err.code === 11000){
@@ -94,7 +89,7 @@ router.post('/login',function(req,res){
                 if (result){
                     let user = {
                         email: row.email,
-                        id: id,
+                        id: id
                     }
                     var token = jwt.sign(user, secret, {
                         expiresIn: 1008000 // in seconds
@@ -124,8 +119,12 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
     const user = req.body;
 
     queries.updateUserStatus(user, result => {
-        const {password, ...user} = result;
-        res.status(200).send({message:`User's status updated successfully`, user});
+        // We don't need to send password ever over the network,
+        // so convert mongoose Object to JS Object and remove password
+        const resultObject = { ...result.toObject() };
+        const {password, ...updatedUser} = resultObject;
+        updatedUser._id = updatedUser._id.toString();
+        res.status(200).send({message:`User's status updated successfully`, user: updatedUser});
     }, message =>{
         res.status(500).send({ message });
     });
@@ -137,8 +136,12 @@ router.post('/updateAdmin', passport.authenticate("jwt", { session: false }), fu
     const user = req.body;
 
     queries.updateAdmin(user, result => {
-        const {password, ...user} = result;
-        res.status(200).send({message:`Admin user updated successfully`, user});
+        // We don't need to send password ever over the network,
+        // so convert mongoose Object to JS Object and remove password
+        const resultObject = { ...result.toObject() };
+        const {password, ...updatedUser} = resultObject;
+        updatedUser._id = updatedUser._id.toString();
+        res.status(200).send({message:`Admin user updated successfully`, admin: updatedUser});
     }, message =>{
         res.status(500).send({ message });
     });

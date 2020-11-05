@@ -17,7 +17,6 @@ export const getAdmins = () => dispatch => {
     .then(res => {
         if(res.status === 200){
             res.json().then(data => {
-                console.log("data -- ++ ", data);
                 dispatch({
                     type: MANAGER_GET_ALL_ADMINS_SUCCESS,
                     payload: data
@@ -111,7 +110,7 @@ export const adminEditCancelHandler = previousProps => {
 export const updateAdmin = data =>  dispatch =>  
     new Promise(function(resolve, reject) {
     const token = localStorage.getItem('token');
-    data.updatedBy = localStorage.getItem('id');
+    
     return fetch(`${backendUrl}/user/updateAdmin`, {
         method: 'POST',
         headers: {

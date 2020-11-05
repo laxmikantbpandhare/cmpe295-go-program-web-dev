@@ -1,6 +1,6 @@
 import { REQUESTS_GET_ALL_STUDENTS_SUCCESS, REQUESTS_GET_ALL_STUDENTS_FAILED,
     REQUESTS_STUDENT_SELECT_CHANGE, REQUESTS_UPDATE_STUDENT_STATUS_SUCCESS, 
-    REQUESTS_UPDATE_STUDENT_STATUS_FAILED} from './types';
+    REQUESTS_UPDATE_STUDENT_STATUS_FAILED, REQUESTS_STUDENT_EDIT_CANCEL} from './types';
 import {backendUrl} from '../../config';
 
 export const getAllStudents = () => dispatch => {
@@ -44,6 +44,13 @@ export const studentSelectChangeHandler = (id, value) => {
     return{
         type: REQUESTS_STUDENT_SELECT_CHANGE,
         payload: {id, value}
+    }
+}
+
+export const studentEditCancelHandler = previousProps => {
+    return{
+        type: REQUESTS_STUDENT_EDIT_CANCEL,
+        payload: {student: previousProps}
     }
 }
 

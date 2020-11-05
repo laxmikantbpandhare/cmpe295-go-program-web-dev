@@ -20,9 +20,7 @@ class NewAdminModal extends Component{
     hideModal = e => {
         this.props.hideNewAdminModal();
         this.props.resetCreateResponseMessageProps();
-    }
-    
-    
+    }    
 
     handleChange = e => {
         this.setState({

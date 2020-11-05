@@ -1,6 +1,6 @@
 import { REQUESTS_GET_ALL_STUDENTS_SUCCESS, REQUESTS_GET_ALL_STUDENTS_FAILED,
     REQUESTS_STUDENT_SELECT_CHANGE, REQUESTS_UPDATE_STUDENT_STATUS_SUCCESS, 
-    REQUESTS_UPDATE_STUDENT_STATUS_FAILED}  from '../actions/types';
+    REQUESTS_UPDATE_STUDENT_STATUS_FAILED, REQUESTS_STUDENT_EDIT_CANCEL}  from '../actions/types';
 
 const initialState = {
     students: [],
@@ -36,6 +36,18 @@ const usersRequestsReducer = (state = initialState, action) => {
                     }
                 }
                 // Leave every other item unchanged
+                return student;
+            });
+            return {
+                ...state,
+                students
+            }
+        case REQUESTS_STUDENT_EDIT_CANCEL:
+            var students = state.students.map(student => {
+                if(student._id == action.payload.student._id){
+                    return action.payload.student;
+                }
+                // Leave every other admin unchanged
                 return student;
             });
             return {

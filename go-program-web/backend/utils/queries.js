@@ -67,7 +67,6 @@ queries.updateAdmin = (user, successcb, failurecb) => {
         adminToUpdate["lname"] = user.lname;
         adminToUpdate["email"] = user.email;
         adminToUpdate["status"] = user.status;
-        adminToUpdate["updatedBy"] = user.updatedBy;
         adminToUpdate.save()
         .then(admin => {
             successcb(admin);

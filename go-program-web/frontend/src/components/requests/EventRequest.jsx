@@ -125,7 +125,7 @@ class EventRequest extends Component{
                                 : <div class="row">
                                 <div className="col-sm-3 col-6">
                                     <select className="form-control-sm"
-                                    name="status" onChange={this.handleSelectChange}>
+                                        name="status" onChange={this.handleSelectChange}>
                                         {
                                             this.options.map( option => {
                                                 if(option === this.props.event.status){

@@ -112,7 +112,7 @@ class AdminViewItemModal extends Component{
         });
     }
 
-     handleUpdate = e => {
+    handleUpdate = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
@@ -179,10 +179,6 @@ class AdminViewItemModal extends Component{
                                 : `View Item Details`
                             }
                             </h5>
-                            {/* <button type="button" className="close" data-dismiss="modal"
-                                onClick = {this.hideModal} aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
                         </div>
                             <div className="modal-body">
                                 <h6 style= {{color:"red"}}>{this.state.message}</h6>

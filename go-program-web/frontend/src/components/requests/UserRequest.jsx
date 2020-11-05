@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {studentSelectChangeHandler, updateStudentStatus} from '../../redux/actions/usersRequestsAction';
 import {backendUrl} from '../../config';
 import ViewUserModal from './ViewUserModal';
+// import EditUserStatusModal from './EditUserStatusModal';
 
 class UserRequest extends Component{
     constructor(props){
@@ -13,6 +14,7 @@ class UserRequest extends Component{
         this.initialStatus = props.student.user.status;
         this.state = {
             showViewUserModal: false,
+            // showEditUserStatusModal: false,
             isOpen: false,
             initialStatus: this.initialStatus,
             message: "",
@@ -51,6 +53,14 @@ class UserRequest extends Component{
     hideViewUserModal = e => {
         this.setState({showViewUserModal: false});
     }
+
+    // showEditUserStatusModal = () => {
+    //     this.setState({showEditUserStatusModal: true});
+    // }
+    
+    // hideEditUserStatusModal = () => {
+    //     this.setState({showEditUserStatusModal: false});
+    // }
     
     options = ['Active', 'Inactive'];
 
@@ -59,8 +69,7 @@ class UserRequest extends Component{
         this.props.handleSelectChange(this.props.student._id, value);
     }
 
-    handleUpdate = e => {
-        e.preventDefault();
+    handleUpdate = () => {
         const data = {
             status: this.props.student.user.status,
             id: this.props.student.sjsuId,
@@ -79,7 +88,6 @@ class UserRequest extends Component{
     render() {
         const { isOpen } = this.state;
         const updateEnabled = this.state.initialStatus === this.props.student.user.status ? false : true;
-        
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
@@ -120,6 +128,12 @@ class UserRequest extends Component{
                                         Update Status</button>
                                 </div>
                             </div>
+                            {/* <p className="card-text">
+                                <strong>Status: </strong>{this.props.student.user.status}
+                                    <span className="view-details-color edit-status-icon" onClick={this.showEditUserStatusModal}>
+                                        <i className="fas fa-edit"/>
+                                    </span>
+                            </p> */}
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
@@ -142,6 +156,9 @@ class UserRequest extends Component{
                 {this.state.showViewUserModal ? 
                 <ViewUserModal hideViewUserModal={this.hideViewUserModal}
                 student={this.props.student}/> : null}
+                {/* {this.state.showEditUserStatusModal ? 
+                <EditUserStatusModal hideEditUserStatusModal={this.hideEditUserStatusModal}
+                student={this.props.student}/> : null} */}
             </div>
         )
     }
@@ -162,3 +179,4 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRequest);
+// export default connect(mapStateToProps)(UserRequest);

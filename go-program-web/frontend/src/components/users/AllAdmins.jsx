@@ -55,7 +55,6 @@ class AllAdmins extends Component{
         }
 
         let sortedAdmins = [...this.props.admins];
-        console.log("Sorted Admins -- ", sortedAdmins)
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
                 sortedAdmins.sort((admin1, admin2) => new Date(admin1.createdDate) - new Date(admin2.createdDate));

@@ -254,10 +254,10 @@ class StudentViewEventModal extends Component{
                             </div>
                         </div>
                         <div className="modal-footer">
-                                <button onClick = {this.handleUpdate} disabled ={!updateEnabled}
-                                    className="btn btn-primary btn-style">Update</button>
-                                <button onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
+                            <button onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
+                            <button onClick = {this.handleUpdate} disabled ={!updateEnabled}
+                                className="btn btn-primary btn-style">Update</button>
                         </div>
                     </div>
                 </div>

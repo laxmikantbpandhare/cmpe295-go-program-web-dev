@@ -29,8 +29,6 @@ class AdminViewEventModal extends Component{
     }
 
     handleDateChange = date => {
-        // var formattedDate = date === null ? "" : date.toLocaleDateString();
-        console.log("date====", date);
         this.props.handleDateChange(this.props.event._id, date);
     }
 
@@ -156,11 +154,6 @@ class AdminViewEventModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <DatePicker
-                                                // selected={
-                                                //     this.props.event.expiryDate === null || this.props.event.expiryDate === ""
-                                                //     ? ""
-                                                //     : new Date(this.props.event.expiryDate)
-                                                // }
                                                 selected={
                                                     this.props.event.expiryDate
                                                     ? new Date(this.props.event.expiryDate)

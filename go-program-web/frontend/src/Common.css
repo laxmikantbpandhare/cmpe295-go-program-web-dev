@@ -197,3 +197,8 @@
 .font-smaller {
     font-size: smaller
 }
+
+.edit-status-icon {
+    margin-left: 1em;
+    cursor: pointer;
+}

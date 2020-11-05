@@ -1,24 +1,21 @@
 import React, {Component} from 'react';
 import '../../Common.css';
+import EditAdminModal from './EditAdminModal';
 
 class AdminDetails extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showCommentsModal: false
+            showEditAdminModal: false
         };
     }
 
-    showCommentsModal = e => {
-        this.setState({showCommentsModal: true});
+    showEditAdminModal = e => {
+        this.setState({showEditAdminModal: true});
     }
     
-    hideCommentsModal = e => {
-        this.setState({showCommentsModal: false});
-    }
-
-    toggleMore = () => {
-        this.setState({ isMore: !this.state.isMore });
+    hideEditAdminModal = e => {
+        this.setState({showEditAdminModal: false});
     }
     
     render() {
@@ -35,22 +32,18 @@ class AdminDetails extends Component{
                                 {new Date(this.props.admin.createdDate).toLocaleString()}
                             </p>
                             <p className="card-text font-smaller"><strong>Updated Date: </strong>
-                                {new Date(this.props.admin.createdDate).toLocaleString()}
+                                {new Date(this.props.admin.updatedDate).toLocaleString()}
                             </p>
-                            {/* <div className="d-flex flex-row">
-                                <button type="button" className="btn btn-link view-details-color"
-                                onClick = {this.showCommentsModal}>
-                                    <i className="fas fa-comment"/> Comments
-                                </button>
-                            </div> */}
+                            <button type="button" className="btn btn-link view-details-color"
+                            onClick = {this.showEditAdminModal}>
+                                <i className="fas fa-edit"/> Edit
+                            </button>
                         </div>
                     </div>
                 </div>
-
-                {/* {this.state.showCommentsModal ? 
-                <CommentsModal hideCommentsModal={this.hideCommentsModal}
-                id={this.props.event._id} comments={this.props.event.comments}
-                commenter="Student" type="SuggestedEvent"/> : null} */}
+                {this.state.showEditAdminModal ? 
+                <EditAdminModal hideEditAdminModal={this.hideEditAdminModal}
+                admin={this.props.admin}/> : null}
             </div>
         )
     }
