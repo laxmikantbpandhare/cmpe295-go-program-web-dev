@@ -1,6 +1,5 @@
-import { MANAGER_CREATE_ADMIN_SUCCESS, MANAGER_CREATE_ADMIN_FAILED, MANAGER_ADMIN_EDIT_CANCEL,
-    MANAGER_GET_ALL_ADMINS_SUCCESS, MANAGER_GET_ALL_ADMINS_FAILED, MANAGER_UPDATE_ADMIN_SUCCESS,
-    MANAGER_UPDATE_ADMIN_FAILED, MANAGER_ADMIN_SELECT_CHANGE, 
+import { MANAGER_CREATE_ADMIN_SUCCESS, MANAGER_CREATE_ADMIN_FAILED, MANAGER_GET_ALL_ADMINS_SUCCESS, 
+    MANAGER_GET_ALL_ADMINS_FAILED, MANAGER_UPDATE_ADMIN_SUCCESS, MANAGER_UPDATE_ADMIN_FAILED, 
     RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE} from '../actions/types';
 
 const initialState = {
@@ -38,35 +37,6 @@ const adminUsersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getResponseMessage: action.payload.message
-            }
-        case MANAGER_ADMIN_SELECT_CHANGE:
-            var admins = state.admins.map(admin => {
-                // Find as admin with the matching id
-                if(admin._id == action.payload.id){
-                    //Return a new object
-                    return{
-                        ...admin, //copy the existing admin
-                        [action.payload.name]: action.payload.value
-                    }
-                }
-                // Leave every other admin unchanged
-                return admin;
-            });
-            return {
-                ...state,
-                admins
-            }
-        case MANAGER_ADMIN_EDIT_CANCEL:
-            var admins = state.admins.map(admin => {
-                if(admin._id == action.payload.admin._id){
-                    return action.payload.admin;
-                }
-                // Leave every other admin unchanged
-                return admin;
-            });
-            return {
-                ...state,
-                admins
             }
         case MANAGER_UPDATE_ADMIN_SUCCESS:
             var admins = state.admins.map(admin => {

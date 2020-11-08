@@ -1,7 +1,6 @@
 import { REQUESTS_GET_ALL_SUGGESTED_EVENTS_SUCCESS, REQUESTS_GET_ALL_SUGGESTED_EVENTS_FAILED, 
-    REQUESTS_SUGGESTED_EVENT_SELECT_CHANGE, REQUESTS_UPDATE_SUGGESTED_EVENT_STATUS_SUCCESS,
-     REQUESTS_UPDATE_SUGGESTED_EVENT_STATUS_FAILED, REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_SUCCESS,
-     REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_FAILED } from './types';
+    REQUESTS_UPDATE_SUGGESTED_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_SUGGESTED_EVENT_STATUS_FAILED, 
+    REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_SUCCESS, REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_FAILED } from './types';
 import {backendUrl} from '../../config';
 
 export const getAllEvents = () => dispatch => {
@@ -40,13 +39,6 @@ export const getAllEvents = () => dispatch => {
         })
     });  
 };
-
-export const eventSelectChangeHandler = (id, value) => {
-    return{
-        type: REQUESTS_SUGGESTED_EVENT_SELECT_CHANGE,
-        payload: {id, value}
-    }
-}
 
 export const updateEventStatus = data =>  dispatch =>  
     new Promise(function(resolve, reject) {

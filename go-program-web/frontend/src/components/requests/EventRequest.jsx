@@ -4,24 +4,34 @@ import './Requests.css'
 import ViewEventRequestModal from './ViewEventRequestModal';
 import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';
-import {eventSelectChangeHandler, updateEventStatus} from '../../redux/actions/eventsRequestsAction';
+import {updateEventStatus} from '../../redux/actions/eventsRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
 import {backendUrl} from '../../config';
 
 class EventRequest extends Component{
-    constructor(props){
-        super(props);
-        this.initialStatus = props.event.status;
-        this.state = {
-            showViewEventRequestModal: false,
-            showCommentsModal: false,
-            photoIndex: 0,
-            isOpen: false,
-            initialStatus: this.initialStatus,
-            message: "",
-            images: []
-        };
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.initialStatus = props.event.status;
+    //     this.state = {
+    //         showViewEventRequestModal: false,
+    //         showCommentsModal: false,
+    //         photoIndex: 0,
+    //         isOpen: false,
+    //         initialStatus: this.initialStatus,
+    //         message: "",
+    //         images: []
+    //     };
+    // }
+    state = {
+        status: this.props.event.status,
+        showViewEventRequestModal: false,
+        showCommentsModal: false,
+        photoIndex: 0,
+        isOpen: false,
+        message: "",
+        images: [],
+        loader: false
+    };
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -69,15 +79,30 @@ class EventRequest extends Component{
     
     options = ['Pending Approval', 'Approved', 'Rejected', 'Action Required'];
 
+    // handleSelectChange = e => {
+    //     const {value} = e.target;
+    //     this.props.handleSelectChange(this.props.event._id, value);
+    // }
+
     handleSelectChange = e => {
-        const {value} = e.target;
-        this.props.handleSelectChange(this.props.event._id, value);
+        this.setState({
+            status: e.target.value
+        });
     }
 
-    handleUpdate = e => {
-        e.preventDefault();
+    isUpdatable = () => {
+        if(this.state.status !== this.props.event.status){
+            return true;
+        } 
+        return false;
+    }
+
+    handleUpdate = () => {
+        this.setState({
+            loader: true
+        });
         const data = {
-            status: this.props.event.status,
+            status: this.state.status,
             id: this.props.event._id,
             updatedBy: localStorage.getItem('id'),
             student: {
@@ -90,16 +115,18 @@ class EventRequest extends Component{
         this.props.handleUpdate(data)
         .then(() => {
             this.setState({
-                initialStatus: this.props.event.status
+                loader: false
             });
         }).catch(() => {
-            
+            this.setState({
+                loader: false
+            });
         });
     }
     
     render() {
         const { photoIndex, isOpen } = this.state;
-        const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
+        // const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
         
         return(
             <div className="row justify-content-center mt-3">
@@ -120,7 +147,7 @@ class EventRequest extends Component{
                                 {new Date(this.props.event.createdDate).toLocaleString()}
                             </p>
                             {
-                                this.state.initialStatus === "Approved" 
+                                this.props.event.status === "Approved" 
                                 ? <p className="card-text"><strong>Status: </strong>{this.props.event.status}</p>
                                 : <div class="row">
                                 <div className="col-sm-3 col-6">
@@ -128,7 +155,7 @@ class EventRequest extends Component{
                                         name="status" onChange={this.handleSelectChange}>
                                         {
                                             this.options.map( option => {
-                                                if(option === this.props.event.status){
+                                                if(option === this.state.status){
                                                     return <option selected key={option}>{option}</option> ;
                                                 } else {
                                                     return <option key={option}>{option}</option> ;
@@ -139,9 +166,12 @@ class EventRequest extends Component{
                                 </div>
                                 <div className="col-sm-3 col-6">
                                     <button className="btn btn-primary btn-sm" style={{backgroundColor:"#0056a3"}}
-                                        onClick={this.handleUpdate} disabled = {!updateEnabled}>
+                                        onClick={this.handleUpdate} disabled = {!this.isUpdatable()}>
                                         Update Status</button>
                                 </div>
+                                {
+                                    this.state.loader && <span className="spinner-border text-primary" role="status"/>
+                                }
                             </div>
                             }
                             <div className="d-flex flex-row">
@@ -194,7 +224,7 @@ class EventRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
+        // handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateEventStatus(data))
     }
 }

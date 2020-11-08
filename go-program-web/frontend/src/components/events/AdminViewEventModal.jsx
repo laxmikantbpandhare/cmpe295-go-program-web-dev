@@ -8,24 +8,36 @@ import {eventInputChangeHandler, eventEditCancelHandler, updateEvent,
     eventDateChangeHandler} from '../../redux/actions/adminEventsAction';
 
 class AdminViewEventModal extends Component{
-    constructor(props){
-        super(props);
-        this.initialProp = props.event;
-        this.state = {
-            message: "",
-            isEdited: false
-        }
-        
-        this.hideModal = this.hideModal.bind(this);
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.initialProp = props.event;
+    //     this.state = {
+    //         message: "",
+    //         isEdited: false
+    //     }
+    //     this.hideModal = this.hideModal.bind(this);
+    // }
+
+    state = {
+        name: this.props.event.name,
+        message: "",
+        isEdited: false,
+        loader: false
+    };
     
     hideModal = e => {
         this.props.hideAdminViewEventModal();
     }
     
-    handleInputChange = e => {
+    handlePropsInputChange = e => {
         const { name, value } = e.target;
         this.props.handleInputChange(this.props.event._id, name, value);
+    }
+
+    handleStateInputChange = e => {
+        this.setState({
+            name: e.target.value
+        });
     }
 
     handleDateChange = date => {
@@ -117,7 +129,7 @@ class AdminViewEventModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
+                                            ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleStateInputChange}
                                             className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.event.name}/>
                                             : <p>{this.props.event.name}</p>
@@ -130,7 +142,7 @@ class AdminViewEventModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
+                                            rows="3" placeholder="Enter a short description" onChange={this.handlePropsInputChange}
                                             name="description" value = {this.props.event.description}/>
                                             : <p className="text-pre-wrap">{this.props.event.description}</p>
                                         }
@@ -141,7 +153,7 @@ class AdminViewEventModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
+                                            ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handlePropsInputChange}
                                             className={`form-control ${this.props.event.points>0?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.event.points}/>
                                             : <p>{this.props.event.points}</p>

@@ -1,8 +1,6 @@
 import { REQUESTS_GET_ALL_EVENTS_SUCCESS, REQUESTS_GET_ALL_EVENTS_FAILED,
-    REQUESTS_EVENT_SELECT_CHANGE, REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, 
-    REQUESTS_UPDATE_EVENT_STATUS_FAILED, 
-    REQUESTS_EVENT_ADD_COMMENT_SUCCESS,
-    REQUESTS_EVENT_ADD_COMMENT_FAILED} from '../actions/types';
+    REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_EVENT_STATUS_FAILED, 
+    REQUESTS_EVENT_ADD_COMMENT_SUCCESS, REQUESTS_EVENT_ADD_COMMENT_FAILED} from '../actions/types';
 
 const initialState = {
     events: [],
@@ -24,23 +22,6 @@ const eventsRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getResponseMessage: action.payload.message
-            }
-        case REQUESTS_EVENT_SELECT_CHANGE:
-            var events = state.events.map(event => {
-                // Find a item with the matching id
-                if(event._id == action.payload.id){
-                    //Return a new object
-                    return{
-                        ...event, //copy the existing item
-                        ["status"]: action.payload.value //replace the name with new name
-                    }
-                }
-                // Leave every other item unchanged
-                return event;
-            });
-            return {
-                ...state,
-                events
             }
         case REQUESTS_UPDATE_EVENT_STATUS_SUCCESS:
             var events = state.events.map(event => {

@@ -5,33 +5,44 @@ import {updateAdmin, adminChangeHandler, adminEditCancelHandler} from '../../red
 import {idPattern, emailPattern} from '../../config';
 
 class EditAdminModal extends Component{
-    constructor(props){
-        super(props);
-        // this.initialFname = props.admin.fname;
-        // this.initialLname = props.admin.lname;
-        // this.initialStatus = props.admin.status;
-        // this.initialId = props.admin.id;
-        // this.initialEmail = props.admin.email;
-        this.initialProp = props.admin;
-        this.state = {
-            message: ""
-        }
+    // constructor(props){
+    //     super(props);
+        
+    //     this.initialProp = props.admin;
+    //     this.state = {
+    //         message: ""
+    //     }
+    // }
+    state = {
+        status: this.props.admin.status,
+        fname: this.props.admin.fname,
+        lname: this.props.admin.lname,
+        email: this.props.admin.email,
+        id: this.props.admin.id,
+        message: "",
+        loader: false,
     }
     
-    handleEditCancel = e => {
-        this.props.handleEditCancel(this.initialProp);
-        this.props.hideEditAdminModal();
-        // this.props.resetCreateResponseMessageProps();
-    }    
+    // handleEditCancel = e => {
+    //     this.props.handleEditCancel(this.initialProp);
+    //     this.props.hideEditAdminModal();
+    //     // this.props.resetCreateResponseMessageProps();
+    // }    
+
+    // handleChange = e => {
+    //     const { name, value } = e.target;
+    //     this.props.handleChange(this.props.admin._id, name, value);
+    // }
 
     handleChange = e => {
-        const { name, value } = e.target;
-        this.props.handleChange(this.props.admin._id, name, value);
+        this.setState({
+            [e.target.name] : e.target.value
+        })
     }
 
     isFieldEmpty = () => {
-        if(this.props.admin.id === "" || this.props.admin.fname === "" || this.props.admin.lname === "" 
-            || this.props.admin.email === ""){
+        if(this.state.id === "" || this.state.fname === "" || this.state.lname === "" 
+            || this.state.email === ""){
             return true;
         } else {
             return false;
@@ -39,20 +50,49 @@ class EditAdminModal extends Component{
     }
 
     isEmailAndIdAccepted = () => {
-        if(this.props.admin.id.match(idPattern) && this.props.admin.email.match(emailPattern)){
+        if(this.state.id.match(idPattern) && this.state.email.match(emailPattern)){
             return true;
         } 
         return false;
     }
 
     isUpdatable = () => {
-        if(this.props.admin.id !== this.initialProp.id || this.props.admin.email !== this.initialProp.email
-            || this.props.admin.fname !== this.initialProp.fname || this.props.admin.lname !== this.initialProp.lname
-            || this.props.admin.status !== this.initialProp.status){
+        if(this.state.id !== this.props.admin.id || this.state.email !== this.props.admin.email
+            || this.state.fname !== this.props.admin.fname || this.state.lname !== this.props.admin.lname
+            || this.state.status !== this.props.admin.status){
             return true;
         } 
         return false;
     }
+
+    // handleUpdate = e => {
+    //     e.preventDefault();
+
+    //     if(this.isFieldEmpty()){
+    //         this.setState({ message: "All fields are mandatory." });
+    //         return;
+    //     } else if(!this.isEmailAndIdAccepted()){
+    //         this.setState({ message: "Please enter correct SJSU ID and SJSU Email Id" });
+    //         return;
+    //     } else {
+    //         this.setState(
+    //             { 
+    //                 message: "",
+    //                 loader: true
+    //             }
+    //         );
+    //     }
+        
+    //     this.props.updateAdmin(this.props.admin)
+    //     .then(() => {
+    //         this.props.hideEditAdminModal();
+    //     })
+    //     .catch(() => {
+    //         this.setState({
+    //             message: "Some Internal Error occured. Please refresh and check if the admin is updated. If not, please try again after sometime. If the problem persist, please comtact Admin."
+    //         });
+    //     });
+    // }
 
     handleUpdate = e => {
         e.preventDefault();
@@ -71,14 +111,16 @@ class EditAdminModal extends Component{
                 }
             );
         }
-        
-        this.props.updateAdmin(this.props.admin)
+        const {loader, message, ...data} = this.state;
+        data._id = this.props.admin._id;
+        this.props.updateAdmin(data)
         .then(() => {
             this.props.hideEditAdminModal();
         })
         .catch(() => {
             this.setState({
-                message: "Some Internal Error occured. Please refresh and check if the admin is updated. If not, please try again after sometime. If the problem persist, please comtact Admin."
+                loader: false,
+                message: "Some Internal Error occured. Please refresh and check if the admin is updated. If not, please try again after sometime. If the problem persist, please contact Admin."
             });
         });
     }
@@ -86,7 +128,7 @@ class EditAdminModal extends Component{
     options = ['Active', 'Inactive'];
     
     render() {
-        const updateEnabled = this.isUpdatable();
+        // const updateEnabled = this.isUpdatable();
         return(
         <div>
             <div className="modal">
@@ -102,32 +144,32 @@ class EditAdminModal extends Component{
                                 <label className="col-4">SJSU ID</label>
                                 <div className="col-8">
                                     <input type="number" name="id" placeholder="Enter SJSU ID" onChange={this.handleChange}
-                                    className={`form-control ${this.props.admin.id.match(idPattern)?'orig-inp-valid':'orig-inp-invalid'}`}
-                                    value={this.props.admin.id}/>
+                                    className={`form-control ${this.state.id.match(idPattern)?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    value={this.state.id}/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label className="col-4">First Name</label>
                                 <div className="col-8">
                                     <input type="text" name="fname" placeholder="Enter First Name" onChange={this.handleChange}
-                                    className={`form-control ${this.props.admin.fname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                    value={this.props.admin.fname}/>
+                                    className={`form-control ${this.state.fname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    value={this.state.fname}/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label className="col-4">Last Name</label>
                                 <div className="col-8">
                                     <input type="text" name="lname" placeholder="Enter Last Name" onChange={this.handleChange}
-                                    className={`form-control ${this.props.admin.lname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                    value={this.props.admin.lname}/>
+                                    className={`form-control ${this.state.lname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    value={this.state.lname}/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label className="col-4">Email ID</label>
                                 <div className="col-8">
                                     <input type="email" name="email" placeholder="Enter SJSU Email ID" onChange={this.handleChange}
-                                    className={`form-control ${this.props.admin.email.match(emailPattern)?'orig-inp-valid':'orig-inp-invalid'}`}
-                                    value={this.props.admin.email}/>
+                                    className={`form-control ${this.state.email.match(emailPattern)?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    value={this.state.email}/>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -136,7 +178,7 @@ class EditAdminModal extends Component{
                                     <select className="form-control orig-inp-valid" name="status" onChange={this.handleChange}>
                                         {
                                             this.options.map( option => {
-                                                if(option === this.props.admin.status){
+                                                if(option === this.state.status){
                                                     return <option selected key={option}>{option}</option> ;
                                                 } else {
                                                     return <option key={option}>{option}</option> ;
@@ -153,9 +195,11 @@ class EditAdminModal extends Component{
                                 ? <div className="spinner-border text-primary" role="status"/>
                                 : null
                             }
-                            <button type="button" onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
+                            {/* <button type="button" onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
+                                data-dismiss="modal">Cancel</button> */}
+                            <button type="button" onClick = {() => this.props.hideEditAdminModal()} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
-                            <button onClick = {this.handleUpdate} disabled ={!updateEnabled}
+                            <button onClick = {this.handleUpdate} disabled ={!this.isUpdatable()}
                                 className="btn btn-primary btn-style">Update</button>
                         </div>
                     </div>
@@ -168,15 +212,15 @@ class EditAdminModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleChange: (id, name, value) => {dispatch(adminChangeHandler(id, name, value))},
-        handleEditCancel : item => {dispatch(adminEditCancelHandler(item))},
+        // handleChange: (id, name, value) => {dispatch(adminChangeHandler(id, name, value))},
+        // handleEditCancel : item => {dispatch(adminEditCancelHandler(item))},
         updateAdmin: admin => dispatch(updateAdmin(admin))
     };
 };
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminUsers.createResponseMessage
+        responseMessage: state.adminUsers.updateResponseMessage
     }
 }
 

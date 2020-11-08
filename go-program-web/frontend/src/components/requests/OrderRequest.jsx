@@ -2,19 +2,25 @@ import React, {Component} from 'react';
 import '../../Common.css';
 import './Requests.css'
 import {connect} from 'react-redux';
-import {orderSelectChangeHandler, updateOrderStatus} from '../../redux/actions/ordersRequestsAction';
+import {updateOrderStatus} from '../../redux/actions/ordersRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
 import {Link} from 'react-router-dom';
 
 class OrderRequest extends Component{
-    constructor(props){
-        super(props);
-        this.initialStatus = props.order.status;
-        this.state = {
-            showCommentsModal: false,
-            initialStatus: this.initialStatus
-        };
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.initialStatus = props.order.status;
+    //     this.state = {
+    //         showCommentsModal: false,
+    //         initialStatus: this.initialStatus
+    //     };
+    // }
+
+    state = {
+        status: this.props.order.status,
+        showCommentsModal: false,
+        loader: false
+    };
 
     showCommentsModal = e => {
         this.setState({showCommentsModal: true});
@@ -26,15 +32,30 @@ class OrderRequest extends Component{
     
     options = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
 
+    // handleSelectChange = e => {
+    //     const {value} = e.target;
+    //     this.props.handleSelectChange(this.props.order._id, value);
+    // }
+
     handleSelectChange = e => {
-        const {value} = e.target;
-        this.props.handleSelectChange(this.props.order._id, value);
+        this.setState({
+            status: e.target.value
+        });
     }
 
-    handleUpdate = e => {
-        e.preventDefault();
+    isUpdatable = () => {
+        if(this.state.status !== this.props.order.status){
+            return true;
+        } 
+        return false;
+    }
+
+    handleUpdate = () => {
+        this.setState({
+            loader: true
+        });
         const data = {
-            status: this.props.order.status,
+            status: this.state.status,
             id: this.props.order._id,
             updatedBy: localStorage.getItem('id'),
             student: {
@@ -46,15 +67,17 @@ class OrderRequest extends Component{
         this.props.handleUpdate(data)
         .then(() => {
             this.setState({
-                initialStatus: this.props.order.status
+                loader: false
             });
         }).catch(() => {
-            
+            this.setState({
+                loader: false
+            });
         });
     }
     
     render() {
-        const updateEnabled = this.state.initialStatus === this.props.order.status ? false : true;
+        // const updateEnabled = this.state.initialStatus === this.props.order.status ? false : true;
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
@@ -73,7 +96,7 @@ class OrderRequest extends Component{
                                 {new Date(this.props.order.createdDate).toLocaleString()}
                             </p>
                             {
-                                this.state.initialStatus === "Delivered" || this.state.initialStatus === "Cancelled"
+                                this.props.order.status === "Delivered" || this.state.initialStatus === "Cancelled"
                                 ? <p><strong>Status: </strong>{this.props.order.status}</p>
                                 : <div class="row">
                                 <div className="col-sm-3 col-6">
@@ -81,7 +104,7 @@ class OrderRequest extends Component{
                                     name="status" onChange={this.handleSelectChange}>
                                         {
                                             this.options.map( option => {
-                                                if(option === this.props.order.status){
+                                                if(option === this.state.status){
                                                     return <option selected>{option}</option> ;
                                                 } else {
                                                     return <option>{option}</option> ;
@@ -92,9 +115,12 @@ class OrderRequest extends Component{
                                 </div>
                                 <div className="col-sm-3 col-6">
                                     <button className="btn btn-primary btn-sm" style={{backgroundColor:"#0056a3"}}
-                                        onClick={this.handleUpdate} disabled = {!updateEnabled}>
+                                        onClick={this.handleUpdate} disabled = {!this.isUpdatable()}>
                                         Update Status</button>
                                 </div>
+                                {
+                                    this.state.loader && <span className="spinner-border text-primary" role="status"/>
+                                }
                             </div>
                             }
                             <div className="d-flex flex-row">
@@ -122,7 +148,7 @@ class OrderRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleSelectChange: (id, value) => {dispatch(orderSelectChangeHandler(id, value))},
+        // handleSelectChange: (id, value) => {dispatch(orderSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateOrderStatus(data))
     }
 }

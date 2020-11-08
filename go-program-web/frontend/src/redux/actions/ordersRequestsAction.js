@@ -1,4 +1,4 @@
-import { REQUESTS_GET_ALL_ORDERS_SUCCESS, REQUESTS_GET_ALL_ORDERS_FAILED, REQUESTS_ORDER_SELECT_CHANGE,
+import { REQUESTS_GET_ALL_ORDERS_SUCCESS, REQUESTS_GET_ALL_ORDERS_FAILED,
     REQUESTS_UPDATE_ORDER_STATUS_SUCCESS, REQUESTS_UPDATE_ORDER_STATUS_FAILED, 
     REQUESTS_ORDER_ADD_COMMENT_SUCCESS, REQUESTS_ORDER_ADD_COMMENT_FAILED } from './types';
 import {backendUrl} from '../../config';
@@ -39,13 +39,6 @@ export const getAllOrders = () => dispatch => {
         })
     });  
 };
-
-export const orderSelectChangeHandler = (id, value) => {
-    return{
-        type: REQUESTS_ORDER_SELECT_CHANGE,
-        payload: {id, value}
-    }
-}
 
 export const updateOrderStatus = data =>  dispatch =>  
     new Promise(function(resolve, reject) {
