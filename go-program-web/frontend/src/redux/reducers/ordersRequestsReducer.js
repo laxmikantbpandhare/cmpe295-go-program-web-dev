@@ -1,7 +1,6 @@
 import { REQUESTS_GET_ALL_ORDERS_SUCCESS, REQUESTS_GET_ALL_ORDERS_FAILED, 
     REQUESTS_UPDATE_ORDER_STATUS_SUCCESS, REQUESTS_UPDATE_ORDER_STATUS_FAILED, 
-    REQUESTS_ORDER_ADD_COMMENT_SUCCESS, REQUESTS_ORDER_ADD_COMMENT_FAILED, 
-    REQUESTS_ORDER_SELECT_CHANGE } from '../actions/types';
+    REQUESTS_ORDER_ADD_COMMENT_SUCCESS, REQUESTS_ORDER_ADD_COMMENT_FAILED} from '../actions/types';
 
 const initialState = {
     orders: [],
@@ -23,23 +22,6 @@ const ordersRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getResponseMessage: action.payload.message
-            }
-        case REQUESTS_ORDER_SELECT_CHANGE:
-            var orders = state.orders.map(order => {
-                // Find a item with the matching id
-                if(order._id == action.payload.id){
-                    //Return a new object
-                    return{
-                        ...order, //copy the existing item
-                        ["status"]: action.payload.value //replace the name with new name
-                    }
-                }
-                // Leave every other item unchanged
-                return order;
-            });
-            return {
-                ...state,
-                orders
             }
         case REQUESTS_UPDATE_ORDER_STATUS_SUCCESS:
             var orders = state.orders.map(order => {

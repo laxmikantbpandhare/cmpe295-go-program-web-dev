@@ -1,7 +1,6 @@
-import { MANAGER_CREATE_ADMIN_SUCCESS, MANAGER_CREATE_ADMIN_FAILED, MANAGER_ADMIN_EDIT_CANCEL,
+import { MANAGER_CREATE_ADMIN_SUCCESS, MANAGER_CREATE_ADMIN_FAILED,
     MANAGER_GET_ALL_ADMINS_SUCCESS, MANAGER_GET_ALL_ADMINS_FAILED, MANAGER_UPDATE_ADMIN_SUCCESS,
-    MANAGER_UPDATE_ADMIN_FAILED, MANAGER_ADMIN_SELECT_CHANGE, 
-    RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE} from './types';
+    MANAGER_UPDATE_ADMIN_FAILED, RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE} from './types';
 import {backendUrl} from '../../config';
 
 export const getAdmins = () => dispatch => {
@@ -90,20 +89,6 @@ export const createAdmin = data =>  dispatch =>
 export const resetCreateResponseMessageProps = () => {
     return{
         type: RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE
-    }
-}
-
-export const adminChangeHandler = (id, name, value) => {
-    return{
-        type: MANAGER_ADMIN_SELECT_CHANGE,
-        payload: {id, name, value}
-    }
-}
-
-export const adminEditCancelHandler = previousProps => {
-    return{
-        type: MANAGER_ADMIN_EDIT_CANCEL,
-        payload: {admin: previousProps}
     }
 }
 

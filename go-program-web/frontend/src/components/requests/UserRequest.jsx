@@ -3,24 +3,31 @@ import '../../Common.css';
 import './Requests.css'
 import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';
-import {studentSelectChangeHandler, updateStudentStatus} from '../../redux/actions/usersRequestsAction';
+import {updateStudentStatus} from '../../redux/actions/usersRequestsAction';
 import {backendUrl} from '../../config';
 import ViewUserModal from './ViewUserModal';
-// import EditUserStatusModal from './EditUserStatusModal';
 
 class UserRequest extends Component{
-    constructor(props){
-        super(props);
-        this.initialStatus = props.student.user.status;
-        this.state = {
-            showViewUserModal: false,
-            // showEditUserStatusModal: false,
-            isOpen: false,
-            initialStatus: this.initialStatus,
-            message: "",
-            studentIdCard: ""
-        };
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.initialStatus = props.student.user.status;
+    //     this.state = {
+    //         showViewUserModal: false,
+    //         isOpen: false,
+    //         initialStatus: this.initialStatus,
+    //         message: "",
+    //         studentIdCard: ""
+    //     };
+    // }
+
+    state = {
+        status: this.props.student.user.status,
+        showViewUserModal: false,
+        isOpen: false,
+        message: "",
+        studentIdCard: "",
+        loader: false
+    };
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -53,23 +60,31 @@ class UserRequest extends Component{
     hideViewUserModal = e => {
         this.setState({showViewUserModal: false});
     }
-
-    // showEditUserStatusModal = () => {
-    //     this.setState({showEditUserStatusModal: true});
-    // }
-    
-    // hideEditUserStatusModal = () => {
-    //     this.setState({showEditUserStatusModal: false});
-    // }
     
     options = ['Active', 'Inactive'];
 
+    // handleSelectChange = e => {
+    //     const {value} = e.target;
+    //     this.props.handleSelectChange(this.props.student._id, value);
+    // }
+
     handleSelectChange = e => {
-        const {value} = e.target;
-        this.props.handleSelectChange(this.props.student._id, value);
+        this.setState({
+            status: e.target.value
+        });
+    }
+
+    isUpdatable = () => {
+        if(this.state.status !== this.props.student.user.status){
+            return true;
+        } 
+        return false;
     }
 
     handleUpdate = () => {
+        this.setState({
+            loader: true
+        });
         const data = {
             status: this.props.student.user.status,
             id: this.props.student.sjsuId
@@ -77,16 +92,18 @@ class UserRequest extends Component{
         this.props.handleUpdate(data)
         .then(() => {
             this.setState({
-                initialStatus: this.props.student.user.status
+                loader: false
             });
         }).catch(() => {
-            
+            this.setState({
+                loader: false
+            }); 
         });
     }
     
     render() {
         const { isOpen } = this.state;
-        const updateEnabled = this.state.initialStatus === this.props.student.user.status ? false : true;
+        // const updateEnabled = this.state.initialStatus === this.props.student.user.status ? false : true;
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
@@ -112,7 +129,7 @@ class UserRequest extends Component{
                                     name="status" onChange={this.handleSelectChange}>
                                         {
                                             this.options.map( option => {
-                                                if(option === this.props.student.user.status){
+                                                if(option === this.state.status){
                                                     return <option selected key={option}>{option}</option> ;
                                                 } else {
                                                     return <option key={option}>{option}</option> ;
@@ -123,16 +140,13 @@ class UserRequest extends Component{
                                 </div>
                                 <div className="col-sm-3 col-6">
                                     <button className="btn btn-primary btn-sm" style={{backgroundColor:"#0056a3"}}
-                                        onClick={this.handleUpdate} disabled = {!updateEnabled}>
+                                        onClick={this.handleUpdate} disabled = {!this.isUpdatable()}>
                                         Update Status</button>
                                 </div>
+                                {
+                                    this.state.loader && <span className="spinner-border text-primary" role="status"/>
+                                }   
                             </div>
-                            {/* <p className="card-text">
-                                <strong>Status: </strong>{this.props.student.user.status}
-                                    <span className="view-details-color edit-status-icon" onClick={this.showEditUserStatusModal}>
-                                        <i className="fas fa-edit"/>
-                                    </span>
-                            </p> */}
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
@@ -155,9 +169,6 @@ class UserRequest extends Component{
                 {this.state.showViewUserModal ? 
                 <ViewUserModal hideViewUserModal={this.hideViewUserModal}
                 student={this.props.student}/> : null}
-                {/* {this.state.showEditUserStatusModal ? 
-                <EditUserStatusModal hideEditUserStatusModal={this.hideEditUserStatusModal}
-                student={this.props.student}/> : null} */}
             </div>
         )
     }
@@ -165,7 +176,7 @@ class UserRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleSelectChange: (id, value) => {dispatch(studentSelectChangeHandler(id, value))},
+        // handleSelectChange: (id, value) => {dispatch(studentSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateStudentStatus(data))
     }
 }
@@ -178,4 +189,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRequest);
-// export default connect(mapStateToProps)(UserRequest);

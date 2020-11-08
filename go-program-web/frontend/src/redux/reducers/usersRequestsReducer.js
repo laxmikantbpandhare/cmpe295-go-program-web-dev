@@ -1,6 +1,6 @@
 import { REQUESTS_GET_ALL_STUDENTS_SUCCESS, REQUESTS_GET_ALL_STUDENTS_FAILED,
-    REQUESTS_STUDENT_SELECT_CHANGE, REQUESTS_UPDATE_STUDENT_STATUS_SUCCESS, 
-    REQUESTS_UPDATE_STUDENT_STATUS_FAILED, REQUESTS_STUDENT_EDIT_CANCEL}  from '../actions/types';
+    REQUESTS_UPDATE_STUDENT_STATUS_SUCCESS, REQUESTS_UPDATE_STUDENT_STATUS_FAILED, 
+    REQUESTS_STUDENT_EDIT_CANCEL}  from '../actions/types';
 
 const initialState = {
     students: [],
@@ -21,26 +21,6 @@ const usersRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getResponseMessage: action.payload.message
-            }
-        case REQUESTS_STUDENT_SELECT_CHANGE:
-            var students = state.students.map(student => {
-                // Find a student with the matching id
-                if(student._id == action.payload.id){
-                    //Return a new object
-                    return{
-                        ...student, //copy the existing student
-                        user: {
-                            ...student.user,
-                            status: action.payload.value
-                        }
-                    }
-                }
-                // Leave every other item unchanged
-                return student;
-            });
-            return {
-                ...state,
-                students
             }
         case REQUESTS_STUDENT_EDIT_CANCEL:
             var students = state.students.map(student => {

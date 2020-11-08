@@ -1,5 +1,5 @@
 import { REQUESTS_GET_ALL_EVENTS_SUCCESS, REQUESTS_GET_ALL_EVENTS_FAILED,
-    REQUESTS_EVENT_SELECT_CHANGE, REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_EVENT_STATUS_FAILED, 
+    REQUESTS_UPDATE_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_EVENT_STATUS_FAILED, 
     REQUESTS_EVENT_ADD_COMMENT_SUCCESS, REQUESTS_EVENT_ADD_COMMENT_FAILED} from './types';
 import {backendUrl} from '../../config';
 
@@ -39,13 +39,6 @@ export const getAllEvents = () => dispatch => {
         })
     });  
 };
-
-export const eventSelectChangeHandler = (id, value) => {
-    return{
-        type: REQUESTS_EVENT_SELECT_CHANGE,
-        payload: {id, value}
-    }
-}
 
 export const updateEventStatus = data =>  dispatch =>  
     new Promise(function(resolve, reject) {

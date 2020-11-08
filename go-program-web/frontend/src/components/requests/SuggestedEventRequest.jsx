@@ -3,19 +3,26 @@ import '../../Common.css';
 import './Requests.css'
 import ViewSuggestedEventRequestModal from './ViewSuggestedEventRequestModal';
 import {connect} from 'react-redux';
-import {eventSelectChangeHandler, updateEventStatus} from '../../redux/actions/suggestedEventsRequestsAction';
+import {updateEventStatus} from '../../redux/actions/suggestedEventsRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
 
 class SuggestedEventRequest extends Component{
-    constructor(props){
-        super(props);
-        this.initialStatus = props.event.status;
-        this.state = {
-            showViewSuggestedEventRequestModal: false,
-            showCommentsModal: false,
-            initialStatus: this.initialStatus
-        };
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.initialStatus = props.event.status;
+    //     this.state = {
+    //         showViewSuggestedEventRequestModal: false,
+    //         showCommentsModal: false,
+    //         initialStatus: this.initialStatus
+    //     };
+    // }
+
+    state = {
+        status: this.props.event.status,
+        showViewSuggestedEventRequestModal: false,
+        showCommentsModal: false,
+        loader: false
+    };
 
     showViewSuggestedEventRequestModal = e => {
         this.setState({showViewSuggestedEventRequestModal: true});
@@ -35,13 +42,28 @@ class SuggestedEventRequest extends Component{
     
     options = ['Pending Approval', 'Approved', 'Rejected'];
 
+    // handleSelectChange = e => {
+    //     const {value} = e.target;
+    //     this.props.handleSelectChange(this.props.event._id, value);
+    // }
+
     handleSelectChange = e => {
-        const {value} = e.target;
-        this.props.handleSelectChange(this.props.event._id, value);
+        this.setState({
+            status: e.target.value
+        });
     }
 
-    handleUpdate = e => {
-        e.preventDefault();
+    isUpdatable = () => {
+        if(this.state.status !== this.props.event.status){
+            return true;
+        } 
+        return false;
+    }
+
+    handleUpdate = () => {
+        this.setState({
+            loader: true
+        });
         const data = {
             status: this.props.event.status,
             id: this.props.event._id
@@ -49,15 +71,17 @@ class SuggestedEventRequest extends Component{
         this.props.handleUpdate(data)
         .then(() => {
             this.setState({
-                initialStatus: this.props.event.status
+                loader: false
             });
         }).catch(() => {
-            
+            this.setState({
+                loader: false
+            });
         });
     }
     
     render() {
-        const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
+        // const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
         
         return(
             <div className="row justify-content-center mt-3">
@@ -76,7 +100,7 @@ class SuggestedEventRequest extends Component{
                                 {new Date(this.props.event.createdDate).toLocaleString()}
                             </p>
                             {
-                                this.state.initialStatus === "Approved" 
+                                this.props.event.status === "Approved" 
                                 ? <p className="card-text"><strong>Status: </strong>{this.props.event.status}</p>
                                 : <div class="row">
                                 <div className="col-sm-3 col-6">
@@ -84,7 +108,7 @@ class SuggestedEventRequest extends Component{
                                     name="status" onChange={this.handleSelectChange}>
                                         {
                                             this.options.map( option => {
-                                                if(option === this.props.event.status){
+                                                if(option === this.state.status){
                                                     return <option selected>{option}</option> ;
                                                 } else {
                                                     return <option>{option}</option> ;
@@ -95,9 +119,12 @@ class SuggestedEventRequest extends Component{
                                 </div>
                                 <div className="col-sm-3 col-6">
                                     <button className="btn btn-primary btn-sm" style={{backgroundColor:"#0056a3"}}
-                                        onClick={this.handleUpdate} disabled = {!updateEnabled}>
+                                        onClick={this.handleUpdate} disabled = {!this.isUpdatable()}>
                                         Update Status</button>
                                 </div>
+                                {
+                                    this.state.loader && <span className="spinner-border text-primary" role="status"/>
+                                }
                             </div>
                             }
                             <div className="d-flex flex-row">
@@ -128,7 +155,7 @@ class SuggestedEventRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
+        // handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateEventStatus(data))
     }
 }

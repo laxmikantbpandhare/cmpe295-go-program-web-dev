@@ -128,9 +128,9 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
         const resultObject = { ...result.toObject() };
         const {password, ...updatedUser} = resultObject;
         updatedUser._id = updatedUser._id.toString();
-        res.status(200).send({message:`User's status updated successfully`, user: updatedUser});
+        res.status(200).json({message:`User's status updated successfully`, user: updatedUser});
     }, message =>{
-        res.status(500).send({ message });
+        res.status(500).json({ message });
     });
 });
 
@@ -145,9 +145,9 @@ router.post('/updateAdmin', passport.authenticate("jwt", { session: false }), fu
         const resultObject = { ...result.toObject() };
         const {password, ...updatedUser} = resultObject;
         updatedUser._id = updatedUser._id.toString();
-        res.status(200).send({message:`Admin user updated successfully`, admin: updatedUser});
-    }, message =>{
-        res.status(500).send({ message });
+        res.status(200).json({message:`Admin user updated successfully`, admin: updatedUser});
+    }, message => {
+        res.status(500).json({ message: `Something wrong when reading the record from the database. ${message}` });
     });
 });
 
