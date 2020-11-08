@@ -58,7 +58,6 @@ class AdminNewEventModal extends Component{
             name: this.state.name,
             description : this.state.description,
             points : this.state.points,
-            createdBy: localStorage.getItem('id'),
             expiryDate: this.state.expiry
         }
 

@@ -18,6 +18,10 @@ router.post('/createItem', passport.authenticate("jwt", { session: false }), fun
     console.log("Req Body : ",req.body);
     const item = req.body;
 
+    const id = getId(req.headers.authorization);
+    
+    item.createdBy = id;
+
     queries.createItem(item, result => {
             console.log("Item created: " + result);
             res.status(200).send({message:'Item created successfully', item: result});
@@ -34,6 +38,10 @@ router.post('/updateItem',passport.authenticate("jwt", { session: false }), func
     console.log("Inside Admin Update Item Post Request");
     console.log("Req Body : ",req.body);
     const item = req.body;
+
+    const id = getId(req.headers.authorization);
+
+    item.updatedBy = id;
 
     queries.updateItem(item, result => {
             res.status(200).send({message:'Item updated successfully', item: result});
@@ -83,6 +91,10 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
     console.log("Req Body : ",req.body);
     const event = req.body;
 
+    const id = getId(req.headers.authorization);
+
+    event.createdBy =  id;
+    
     queries.createEvent(event, result => {
             console.log("Event created: " + result);
             res.status(200).send({message:'Event created successfully', event: result});
@@ -100,9 +112,16 @@ router.post('/updateEvent',passport.authenticate("jwt", { session: false }), fun
     console.log("Req Body : ",req.body);
     const event = req.body;
 
+    const id = getId(req.headers.authorization);
+
+    event.updatedBy = id;
+
+    console.log("id",event.name)
     queries.updateEvent(event, result => {
+            console.log(result);
             res.status(200).send({message:'Event updated successfully', event: result});
         }, err=>{
+            console.log(err);
             if(err.code === 11000){
                 res.status(401).send({ message: "Event with same name already exist in the inventory. Please change name and try again" });
             }else{

@@ -92,7 +92,7 @@ router.post('/login',function(req,res){
                         id: id
                     }
                     var token = jwt.sign(user, secret, {
-                        expiresIn: 1008000 // in seconds
+                        expiresIn: 100800 // in seconds
                     });
                     if(row.status === "Active"){
                         res.status(200).json({success: true, message: "Login successful", user: {userType: row.userType, fname: row.fname}, token: token});
@@ -117,6 +117,10 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
     console.log("Inside User Update  Status Post Request");
     console.log("Req Body : ",req.body);
     const user = req.body;
+
+    const id = getId(req.headers.authorization);
+
+    user.updatedBy = id;
 
     queries.updateUserStatus(user, result => {
         // We don't need to send password ever over the network,

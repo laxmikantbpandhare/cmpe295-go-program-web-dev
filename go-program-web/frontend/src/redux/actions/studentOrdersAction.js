@@ -4,7 +4,7 @@ import {backendUrl} from '../../config';
 
 export const getOrders = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/ownOrders/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/ownOrders`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',

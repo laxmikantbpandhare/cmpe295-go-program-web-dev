@@ -15,8 +15,7 @@ class StudentOrderDetails extends Component{
 
     componentDidMount(){
         const token = localStorage.getItem('token');
-        const studentId = localStorage.getItem('id');
-        fetch(`${backendUrl}/student/specificOrder/?orderId=${this.props.match.params.orderId}&studentId=${studentId}`,{
+        fetch(`${backendUrl}/student/specificOrder/?orderId=${this.props.match.params.orderId}`,{
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

@@ -10,7 +10,7 @@ import {backendUrl} from '../../config';
 
 export const getPoints = () => dispatch => new Promise(function(resolve, reject) {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/points/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/points`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -50,7 +50,7 @@ export const getPoints = () => dispatch => new Promise(function(resolve, reject)
 
 export const getEvents = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/dashboardEvents/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/dashboardEvents`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -87,7 +87,7 @@ export const getEvents = () => dispatch => {
 
 export const getApprovedEvents = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/dashboardApprovedEvents/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/dashboardApprovedEvents`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -124,7 +124,7 @@ export const getApprovedEvents = () => dispatch => {
 
 export const getOrders = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/dashboardOrders/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/dashboardOrders`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -161,7 +161,7 @@ export const getOrders = () => dispatch => {
 
 export const getDeliveredOrders = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/dashboardDeliveredOrders/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/dashboardDeliveredOrders`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -198,7 +198,7 @@ export const getDeliveredOrders = () => dispatch => {
 
 export const getSuggestedEvents = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/dashboardSuggestedEvents/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/dashboardSuggestedEvents`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -235,7 +235,7 @@ export const getSuggestedEvents = () => dispatch => {
 
 export const getApprovedSuggestedEvents = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/dashboardApprovedSuggestedEvents/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/dashboardApprovedSuggestedEvents`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
