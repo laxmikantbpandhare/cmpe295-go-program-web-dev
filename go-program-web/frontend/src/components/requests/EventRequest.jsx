@@ -104,7 +104,6 @@ class EventRequest extends Component{
         const data = {
             status: this.state.status,
             id: this.props.event._id,
-            updatedBy: localStorage.getItem('id'),
             student: {
                 id: this.props.event.student._id
             },

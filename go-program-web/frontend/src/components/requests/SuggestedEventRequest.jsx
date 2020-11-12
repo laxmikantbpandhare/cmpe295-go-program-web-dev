@@ -65,9 +65,8 @@ class SuggestedEventRequest extends Component{
             loader: true
         });
         const data = {
-            status: this.state.status,
-            id: this.props.event._id,
-            updatedBy: localStorage.getItem('id'),
+            status: this.props.event.status,
+            id: this.props.event._id
         }
         this.props.handleUpdate(data)
         .then(() => {

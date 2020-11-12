@@ -57,7 +57,6 @@ class OrderRequest extends Component{
         const data = {
             status: this.state.status,
             id: this.props.order._id,
-            updatedBy: localStorage.getItem('id'),
             student: {
                 id: this.props.order.student._id
             },

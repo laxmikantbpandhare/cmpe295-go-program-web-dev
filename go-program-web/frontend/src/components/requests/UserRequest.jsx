@@ -86,9 +86,8 @@ class UserRequest extends Component{
             loader: true
         });
         const data = {
-            status: this.state.status,
-            id: this.props.student.sjsuId,
-            updatedBy: localStorage.getItem('id'),
+            status: this.props.student.user.status,
+            id: this.props.student.sjsuId
         }
         this.props.handleUpdate(data)
         .then(() => {

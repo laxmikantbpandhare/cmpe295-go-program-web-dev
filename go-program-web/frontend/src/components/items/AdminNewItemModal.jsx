@@ -205,8 +205,7 @@ class AdminNewItemModal extends Component{
             category : this.state.category,
             points : this.state.points,
             attributes : this.state.attributes,
-            images : this.state.images,
-            createdBy: localStorage.getItem('id')
+            images : this.state.images
         }
 
         this.props.createItem(data).then(() => {

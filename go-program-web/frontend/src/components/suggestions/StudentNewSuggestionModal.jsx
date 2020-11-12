@@ -47,7 +47,6 @@ class StudentNewSuggestionModal extends Component{
         }
         const data = {
             student: {
-                id: localStorage.getItem('id'),
                 fname: localStorage.getItem('fname'),
                 lname: localStorage.getItem('lname'),
                 email: localStorage.getItem('email'),

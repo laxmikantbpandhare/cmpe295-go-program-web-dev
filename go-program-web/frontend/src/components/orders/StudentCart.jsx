@@ -92,9 +92,6 @@ class StudentCart extends Component{
     confirmOrder = () => {
         this.prepareOrderItems((orderItems, inventoryItems) => {
             const data = {
-                student: {
-                    id: localStorage.getItem('id')
-                },
                 orderItems,
                 inventoryItems,
                 points: this.state.pointsUsed

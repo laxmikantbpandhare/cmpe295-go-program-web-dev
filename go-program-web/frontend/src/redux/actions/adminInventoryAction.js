@@ -173,7 +173,6 @@ export const itemEditCancelHandler = previousProps => {
 export const updateItem = data =>  dispatch =>  
     new Promise(function(resolve, reject) {
     const token = localStorage.getItem('token');
-    data.updatedBy = localStorage.getItem('id');
     return fetch(`${backendUrl}/admin/updateItem`, {
         method: 'POST',
         headers: {

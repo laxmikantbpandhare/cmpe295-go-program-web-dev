@@ -142,8 +142,7 @@ class StudentViewEventModal extends Component{
         const data = {
             id: this.props.event._id,
             description: this.props.event.description,
-            updatedBy: localStorage.getItem('id'),
-            images: this.state.images,
+            images: this.state.images
         }
 
         this.props.updateEvent(data).then(() => {

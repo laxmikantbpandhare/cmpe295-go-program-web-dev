@@ -4,7 +4,7 @@ import {backendUrl} from '../../config';
 
 export const getEvents = () => dispatch => {
     const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/student/ownEvents/?id=${localStorage.getItem('id')}`,{
+    fetch(`${backendUrl}/student/ownEvents`,{
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',

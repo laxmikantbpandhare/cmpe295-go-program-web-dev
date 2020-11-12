@@ -53,7 +53,7 @@ class CommentsModal extends Component {
         const data = {
             id: this.props.id,
             comment: {
-                commenter: `${this.props.commenter}(${localStorage.getItem('id')})`,
+                commenter: this.props.commenter,
                 commentDate: new Date().toLocaleString(),
                 comment : this.state.comment
             }
