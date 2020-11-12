@@ -12,10 +12,9 @@ class Login extends Component{
         this.state = {
             id: "",
             password: "",
-            authFlag: ""
+            authFlag: "",
+            loader: false
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }    
     
     //Call the Will Mount to set the auth Flag to false
@@ -25,7 +24,7 @@ class Login extends Component{
         })
     }
 
-    handleChange(e) {
+    handleChange = e => {
         this.setState({
             [e.target.name] : e.target.value
         })
@@ -59,6 +58,10 @@ class Login extends Component{
             return;
         }
 
+        this.setState({ 
+            loader: true
+        });
+
         const data = {
             id: this.state.id,
             password: this.state.password
@@ -89,7 +92,8 @@ class Login extends Component{
                 res.json().then(resData => {
                     this.setState({
                         authFlag : false,
-                        message: resData.message
+                        message: resData.message,
+                        loader: false
                     });
                 });
                 
@@ -126,12 +130,11 @@ class Login extends Component{
                             className={`form-control form-input ${this.state.password!=""?'input-valid':'input-invalid'}`}/>
                             <label className="form-label">Password</label>
                         </div>
-                        <div className="form-group form-check mb-4">
-                            <input type="checkbox" className="form-check-input" id="checkboxRemember"/>
-                            <label className="form-check-label font-weight-bold" htmlFor="checkboxRemember">Remember Me</label>
-                        </div>
                         <button className="btn btn-primary btn-block btn-style" onClick={this.handleSubmit}>
-                            Submit
+                            Submit&nbsp;&nbsp;&nbsp;
+                            {
+                                this.state.loader && <div className="spinner-border spinner-border-sm text-light" role="status"/>
+                            }
                         </button>
                     </form>
                     <div className="login-info">

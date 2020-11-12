@@ -32,7 +32,6 @@ class StudentItemDetails extends Component{
             attributeId: "",
             getImagesResponsemessage: ""
         }
-        this.handleSizeSelection = this.handleSizeSelection.bind(this);
     }
 
     handleInputChange = e => {

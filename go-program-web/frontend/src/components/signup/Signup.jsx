@@ -21,11 +21,9 @@ class Signup extends Component{
             message: "",
             success: false,
             imageUrl: "",
-            image: ""
+            image: "",
+            loader: false
         }
-        
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }    
     
     componentDidMount(){
@@ -34,7 +32,7 @@ class Signup extends Component{
         })
     }
 
-    handleChange(e) {
+    handleChange = e => {
         this.setState({
             [e.target.name] : e.target.value
         })
@@ -42,8 +40,8 @@ class Signup extends Component{
 
     isFieldEmpty = () => {
         if(this.state.id === "" || this.state.email === "" || this.state.fname === "" || 
-        this.state.lname === "" || this.state.password === "" || this.state.major === "" || 
-        this.state.year === "" || this.state.imageUrl === ""){
+        this.state.lname === "" || this.state.password === "" || this.state.confirmPassword === "" ||
+        this.state.major === "" || this.state.year === "" || this.state.imageUrl === ""){
             return true;
         }
         return false;
@@ -76,7 +74,6 @@ class Signup extends Component{
     }
 
     uploadIdImage = (image, id, successcb, failurecb) => {
-        console.log("ID -- ", id);
         const formData = new FormData();
         formData.append('id', id);
         formData.append('image', image);
@@ -121,7 +118,11 @@ class Signup extends Component{
             return;
         }
 
-        const {message, success, confirmPassword, imageUrl, image, ...data} = this.state;
+        this.setState({ 
+            loader: true
+        });
+
+        const {message, success, confirmPassword, imageUrl, image, loader,  ...data} = this.state;
         
         this.uploadIdImage(image, data.id, imageName => {
             data.imageName = imageName;
@@ -146,7 +147,8 @@ class Signup extends Component{
                     res.json().then(resData => {
                         this.setState({
                             success : false,
-                            message: resData.message
+                            message: resData.message,
+                            loader: false
                         });
                     });
                     
@@ -155,7 +157,8 @@ class Signup extends Component{
         }, message => {
             this.setState({
                 success : false,
-                message
+                message,
+                loader: false
             });
         })
     }
@@ -233,7 +236,10 @@ class Signup extends Component{
                             {this.state.imageUrl && <img className="rounded img-thumbnail signup-image mb-4" src= {this.state.imageUrl} 
                             alt="Responsive image"/>}
                             <button className="btn btn-primary btn-block btn-style" onClick={this.handleSubmit}>
-                                Submit
+                                Submit&nbsp;&nbsp;&nbsp;
+                                {
+                                    this.state.loader && <div className="spinner-border spinner-border-sm text-light" role="status"/>
+                                }
                             </button>
                         </form>
                         <div className="signup-info">

@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import closeIcon from '../../images/close_icon.png';
 import '../../Common.css';
 import './Events.css'
@@ -188,10 +186,6 @@ class StudentNewEventModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="eventModal">Submit Event</h5>
-                            {/* <button type="button" className="close" data-dismiss="modal"
-                                onClick = {this.hideModal} aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
                         </div>
                         <div className="modal-body">
                             <h6 style= {{color:"red"}}>{this.state.message}</h6>
@@ -270,7 +264,6 @@ class StudentNewEventModal extends Component{
                                 ? <div className="spinner-border text-primary" role="status"/>
                                 : null
                             }
-                            
                             <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
                             <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>

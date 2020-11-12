@@ -13,10 +13,9 @@ class StudentViewEventModal extends Component{
         this.state = {
             message: "",
             images: [],
-            imagesUrl: []
+            imagesUrl: [],
+            loader: false
         }
-        
-        this.hideModal = this.hideModal.bind(this);
     }
     
     hideModal = () => {
@@ -132,7 +131,12 @@ class StudentViewEventModal extends Component{
             this.setState({ message: "Description is a mandatory field." });
             return;
         } else {
-            this.setState({ message: "" });
+            this.setState(
+                { 
+                    message: "",
+                    loader: true
+                }
+            );
         }
 
         const data = {
@@ -145,7 +149,9 @@ class StudentViewEventModal extends Component{
         this.props.updateEvent(data).then(() => {
             this.hideModal();
         }).catch(() => {
-            
+            this.setState({
+                loader: false
+            });
         });
         
     }
@@ -254,6 +260,11 @@ class StudentViewEventModal extends Component{
                             </div>
                         </div>
                         <div className="modal-footer">
+                            {
+                                this.state.loader
+                                ? <div className="spinner-border text-primary" role="status"/>
+                                : null
+                            }
                             <button onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
                             <button onClick = {this.handleUpdate} disabled ={!updateEnabled}

@@ -16,9 +16,6 @@ class AdminInventory extends Component{
             filter: "",
             sort: ""
         };
-        this.showAdminNewItemModal = this.showAdminNewItemModal.bind(this);
-        this.hideAdminNewItemModal = this.hideAdminNewItemModal.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
     
     componentDidMount(){

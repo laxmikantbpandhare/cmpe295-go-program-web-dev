@@ -10,21 +10,28 @@ import {itemCategories, backendUrl} from '../../config';
 
 
 class AdminViewItemModal extends Component{
-    constructor(props){
-        super(props);
-        this.initialProp = props.item;
-        this.state = {
-            message: "",
-            isEdited: false,
-            getImagesMessage: "",
-            images: []
-        }
-        
-        this.hideModal = this.hideModal.bind(this);
-        this.handleAttributeChange = this.handleAttributeChange.bind(this);
-        this.addAttribute = this.addAttribute.bind(this);
-        this.removeAttribute = this.removeAttribute.bind(this);
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.initialProp = props.item;
+    //     this.state = {
+    //         message: "",
+    //         isEdited: false,
+    //         getImagesMessage: "",
+    //         images: []
+    //     }
+    // }
+
+    initialProp = this.props.item;
+    
+    state = {
+        name: this.props.item.name,
+        category: this.props.item.category,
+        message: "",
+        isEdited: false,
+        getImagesMessage: "",
+        images: [],
+        loader: false
+    };
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -58,9 +65,15 @@ class AdminViewItemModal extends Component{
         this.props.hideAdminViewItemModal();
     }
     
-    handleInputChange = e => {
+    handlePropsInputChange = e => {
         const { name, value } = e.target;
         this.props.handleInputChange(this.props.item._id, name, value);
+    }
+
+    handleStateInputChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
 
     handleAttributeChange(index, e) {
@@ -77,11 +90,11 @@ class AdminViewItemModal extends Component{
         }
     }
 
-    removeAttribute(index){
+    removeAttribute = index => {
         this.props.removeAttribute(this.props.item._id, index);
      }
 
-     isAttributeFieldEmpty = () => {
+    isAttributeFieldEmpty = () => {
         let totalAttributes = this.props.item.attributes.length;
         if(this.props.item.attributes[totalAttributes-1].size==="" || this.props.item.attributes[totalAttributes-1].quantity<1){
             return true;
@@ -90,15 +103,15 @@ class AdminViewItemModal extends Component{
         }
      }
 
-     isDuplicateAttribute = () => {
+    isDuplicateAttribute = () => {
         let allSizes = this.props.item.attributes.map(attribute => attribute.size);
 
         return allSizes.length !== new Set(allSizes).size;
     }
 
-     isFieldEmpty = () => {
-        if(this.props.item.name === "" || this.props.item.description === "" || this.props.item.points < 1 ||
-        this.props.item.category ==="" || this.isAttributeFieldEmpty()){
+    isFieldEmpty = () => {
+        if(this.state.name === "" || this.props.item.description === "" || this.props.item.points < 1 ||
+        this.state.category ==="" || this.isAttributeFieldEmpty()){
             return true;
         } else {
             return false;
@@ -112,6 +125,15 @@ class AdminViewItemModal extends Component{
         });
     }
 
+    isUpdatable = () => {
+        if(this.state.name !== this.props.item.name || this.props.item.description !== this.initialProp.description
+            || this.state.category !== this.initialProp.category || parseInt(this.props.item.points) !== this.initialProp.points
+            || this.props.item.attributes !== this.initialProp.attributes){
+            return true;
+        } 
+        return false;
+    }
+
     handleUpdate = e => {
         e.preventDefault();
 
@@ -122,18 +144,24 @@ class AdminViewItemModal extends Component{
             this.setState({ message: "Attribute size cannot be duplicate." });
             return;
         } else {
-            this.setState({ message: "" });
+            this.setState({ 
+                message: "",
+                loader: true 
+            });
         }
 
-        this.props.updateItem(this.props.item)
+        this.props.updateItem({...this.props.item, name: this.state.name, category: this.state.category})
         .then(() => {
             this.initialProp = this.props.item;
             this.setState({
-                isEdited: false
+                isEdited: false,
+                loader: false
             });
         })
         .catch(() => {
-            
+            this.setState({
+                loader: false
+            });
         });
         
     }
@@ -188,9 +216,9 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                            className={`form-control ${this.props.item.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            value = {this.props.item.name}/>
+                                            ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleStateInputChange}
+                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            value = {this.state.name}/>
                                             : <p>{this.props.item.name}</p>
                                         }
                                         
@@ -202,7 +230,7 @@ class AdminViewItemModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <textarea className={`form-control ${this.props.item.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
+                                            rows="3" placeholder="Enter a short description" onChange={this.handlePropsInputChange}
                                             name="description" value = {this.props.item.description}/>
                                             : <p className="text-pre-wrap">{this.props.item.description}</p>
                                         }
@@ -213,8 +241,8 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <select className={`form-control ${this.props.item.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            name="category" onChange={this.handleInputChange} value={this.props.item.category}>
+                                            ? <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            name="category" onChange={this.handleStateInputChange} value={this.state.category}>
                                                 <option selected value="">Select a Category</option>
                                                 {itemCategories.map(category => <option>{category}</option>)}
                                             </select>
@@ -227,7 +255,7 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}
+                                            ? <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handlePropsInputChange}
                                             className={`form-control ${this.props.item.points > 0?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.props.item.points}/>
                                             : <p>{this.props.item.points}</p>
@@ -326,7 +354,12 @@ class AdminViewItemModal extends Component{
                         {
                             this.state.isEdited
                             ? <div className="modal-footer">
-                                <button onClick = {this.handleUpdate} className="btn btn-primary btn-style">Update</button>
+                                {
+                                    this.state.loader && <span className="spinner-border text-primary" role="status"/>
+                                }
+                                <button onClick = {this.handleUpdate} className="btn btn-primary btn-style" disabled={!this.isUpdatable()}>
+                                    Update
+                                </button>
                                 <button onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
                             </div>

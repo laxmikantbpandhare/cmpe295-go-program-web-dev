@@ -16,9 +16,6 @@ class AdminAllEvents extends Component{
             search: "",
             sort: ""
         };
-        this.showAdminNewEventModal = this.showAdminNewEventModal.bind(this);
-        this.hideAdminNewEventModal = this.hideAdminNewEventModal.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
     
     componentDidMount(){

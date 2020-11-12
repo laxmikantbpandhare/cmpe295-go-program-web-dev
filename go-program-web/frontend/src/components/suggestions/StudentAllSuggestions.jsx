@@ -16,8 +16,6 @@ class StudentAllSuggestions extends Component{
             filter: "",
             sort: ""
         };
-        this.showStudentNewSuggestionModal = this.showStudentNewSuggestionModal.bind(this);
-        this.hideStudentNewSuggestionModal = this.hideStudentNewSuggestionModal.bind(this);
     }
     
     showStudentNewSuggestionModal = e => {

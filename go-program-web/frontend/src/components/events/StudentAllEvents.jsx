@@ -19,8 +19,6 @@ class StudentAllEvents extends Component{
             filter: "",
             sort: ""
         };
-        this.showStudentNewEventModal = this.showStudentNewEventModal.bind(this);
-        this.hideStudentNewEventModal = this.hideStudentNewEventModal.bind(this);
     }
     
     showStudentNewEventModal = e => {

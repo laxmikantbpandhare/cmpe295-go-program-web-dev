@@ -19,14 +19,9 @@ class AdminNewItemModal extends Component{
             category:"",
             points:0,
             attributes: [{size:"",quantity:0}],
-            message: ""
+            message: "",
+            loader: false
         }
-        
-        this.hideModal = this.hideModal.bind(this);
-        this.removeImage = this.removeImage.bind(this);
-        this.handleAttributeChange = this.handleAttributeChange.bind(this);
-        this.addAttribute = this.addAttribute.bind(this);
-        this.removeAttribute = this.removeAttribute.bind(this);
     }
     
     hideModal = e => {
@@ -125,7 +120,7 @@ class AdminNewItemModal extends Component{
         })
     }
 
-    handleAttributeChange(index, e) {
+    handleAttributeChange = (index, e) => {
         const { name, value } = e.target;
 
         this.setState(state => {
@@ -155,7 +150,7 @@ class AdminNewItemModal extends Component{
         }
     }
 
-    removeAttribute(index){
+    removeAttribute = index => {
         let attributes = [...this.state.attributes];
         attributes.splice(index, 1);
         this.setState({ attributes });
@@ -195,7 +190,12 @@ class AdminNewItemModal extends Component{
             this.setState({ message: "Attribute size cannot be duplicate." });
             return;
         } else {
-            this.setState({ message: "" });
+            this.setState(
+                { 
+                    message: "",
+                    loader: true
+                }
+            );
         }
         
 
@@ -209,14 +209,14 @@ class AdminNewItemModal extends Component{
             createdBy: localStorage.getItem('id')
         }
 
-        this.props.createItem(data);
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.responseMessage === "Item created successfully") {
+        this.props.createItem(data).then(() => {
             this.hideModal();
             this.props.resetCreateResponseMessageProps();
-        }
+        }).catch(() => {
+            this.setState({
+                loader: false
+            });
+        });
     }
     
     render() {
@@ -227,10 +227,6 @@ class AdminNewItemModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="itemModal">Add Item</h5>
-                            {/* <button type="button" className="close" data-dismiss="modal"
-                                onClick = {this.hideModal} aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
                         </div>
                         <div className="modal-body">
                             <h6 style= {{color:"red"}}>{this.state.message}</h6>
@@ -328,6 +324,11 @@ class AdminNewItemModal extends Component{
                         </div>
                     </div>
                     <div className="modal-footer">
+                        {
+                            this.state.loader
+                            ? <div className="spinner-border text-primary" role="status"/>
+                            : null
+                        }
                         <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
                         data-dismiss="modal">Cancel</button>
                         <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
@@ -342,7 +343,7 @@ class AdminNewItemModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        createItem: data => {dispatch(createItem(data))},
+        createItem: data => dispatch(createItem(data)),
         resetCreateResponseMessageProps: () => {dispatch(resetCreateResponseMessageProps())}
     };
 };

@@ -72,7 +72,7 @@ const saveItemImages = (images,successcb, failurecb) => {
     });
 }
 
-export const createItem = data =>  dispatch => {
+export const createItem = data =>  dispatch => new Promise(function(resolve, reject) {
     saveItemImages(data.images, imagesName => {
         data.images = imagesName;
         const token = localStorage.getItem('token');
@@ -92,7 +92,8 @@ export const createItem = data =>  dispatch => {
                     dispatch({
                         type: ADMIN_CREATE_ITEM_SUCCESS,
                         payload: resData
-                    })
+                    });
+                    resolve();
                 });
             }else{
                 res.json().then(resData => {
@@ -101,7 +102,8 @@ export const createItem = data =>  dispatch => {
                         payload: {
                             message: resData.message
                         }
-                    })
+                    });
+                    reject();
                 }) 
             }
         })
@@ -112,6 +114,7 @@ export const createItem = data =>  dispatch => {
                     message: `Internal Error -- ${err}`
                 }
             });
+            reject();
         });
 
     }, failedMessage => {
@@ -121,8 +124,10 @@ export const createItem = data =>  dispatch => {
                     message: failedMessage
                 }
             });
-    });
-};
+            reject();
+        }
+    );
+});
 
 export const resetCreateResponseMessageProps = () => {
     return{

@@ -94,7 +94,7 @@ export const createEvent = data =>  dispatch => new Promise(function(resolve, re
                     dispatch({
                         type: STUDENT_CREATE_EVENT_SUCCESS,
                         payload: resData
-                    })
+                    });
                     resolve();
                 });
             }else{

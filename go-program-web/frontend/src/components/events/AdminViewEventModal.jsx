@@ -18,6 +18,8 @@ class AdminViewEventModal extends Component{
     //     this.hideModal = this.hideModal.bind(this);
     // }
 
+    initialProp = this.props.event;
+    
     state = {
         name: this.props.event.name,
         message: "",
@@ -44,8 +46,8 @@ class AdminViewEventModal extends Component{
         this.props.handleDateChange(this.props.event._id, date);
     }
 
-     isFieldEmpty = () => {
-        if(this.props.event.name === "" || this.props.event.description === "" || this.props.event.points < 1){
+    isFieldEmpty = () => {
+        if(this.state.name === "" || this.props.event.description === "" || this.props.event.points < 1){
             return true;
         } else {
             return false;
@@ -59,23 +61,38 @@ class AdminViewEventModal extends Component{
         });
     }
 
-     handleUpdate = e => {
-        e.preventDefault();
+    isUpdatable = () => {
+        const oldDate = new Date(this.initialProp.expiryDate).toLocaleDateString();
+        const newDate = new Date(this.props.event.expiryDate).toLocaleDateString();
 
+        if(this.state.name !== this.props.event.name || this.props.event.description !== this.initialProp.description
+            || this.props.event.points !== this.initialProp.points || newDate !== oldDate){
+            return true;
+        } 
+        return false;
+    }
+
+     handleUpdate = () => {
         if(this.isFieldEmpty()){
             this.setState({ message: "All fields are mandatory." });
             return;
         } else {
-            this.setState({ message: "" });
+            this.setState({ 
+                message: "",
+                loader: true 
+            });
         }
 
-        this.props.updateEvent(this.props.event).then(() => {
+        this.props.updateEvent({...this.props.event, name: this.state.name}).then(() => {
             this.initialProp = this.props.event;
             this.setState({
-                isEdited: false
+                isEdited: false,
+                loader: false
             });
         }).catch(() => {
-            
+            this.setState({
+                loader: false
+            });
         });
         
     }
@@ -131,7 +148,7 @@ class AdminViewEventModal extends Component{
                                             this.state.isEdited
                                             ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleStateInputChange}
                                             className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
-                                            value={this.props.event.name}/>
+                                            value={this.state.name}/>
                                             : <p>{this.props.event.name}</p>
                                         }
                                     </div>
@@ -211,7 +228,12 @@ class AdminViewEventModal extends Component{
                         {
                             this.state.isEdited
                             ? <div className="modal-footer">
-                                <button onClick = {this.handleUpdate} className="btn btn-primary btn-style">Update</button>
+                                {
+                                    this.state.loader && <span className="spinner-border text-primary" role="status"/>
+                                }
+                                <button onClick = {this.handleUpdate} className="btn btn-primary btn-style" disabled={!this.isUpdatable()}>
+                                    Update
+                                </button>
                                 <button onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
                             </div>

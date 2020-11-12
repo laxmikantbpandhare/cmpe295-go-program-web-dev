@@ -14,10 +14,9 @@ class AdminNewEventModal extends Component{
             description:"",
             points:0,
             expiry:null,
-            message: ""
+            message: "",
+            loader: false
         }
-        this.hideModal = this.hideModal.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
     
     hideModal = e => {
@@ -52,7 +51,12 @@ class AdminNewEventModal extends Component{
             this.setState({ message: "Fields marked in red are mandatory. Points cannot be less than 1." });
             return;
         } else {
-            this.setState({ message: "" });
+            this.setState(
+                { 
+                    message: "",
+                    loader: true
+                }
+            );
         }
         const data = {
             name: this.state.name,
@@ -66,7 +70,9 @@ class AdminNewEventModal extends Component{
             this.hideModal();
             this.props.resetCreateResponseMessageProps();
         }).catch(() => {
-            
+            this.setState({
+                loader: false
+            });
         });
     }
     
@@ -130,6 +136,11 @@ class AdminNewEventModal extends Component{
                                 </div>
                             </div>
                             <div className="modal-footer">
+                                {
+                                    this.state.loader
+                                    ? <div className="spinner-border text-primary" role="status"/>
+                                    : null
+                                }
                                 <button type="button" onClick = {this.hideModal} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
                                 <button onClick = {this.handleSubmit} className="btn btn-primary btn-style">Submit</button>
