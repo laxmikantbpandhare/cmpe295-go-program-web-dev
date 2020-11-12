@@ -2,10 +2,6 @@
     background-color: #0056a3
 }
 
-.suggestions-below-heading{
-    padding-top: 3rem;
-}
-
 .suggestions-search-section{
     position: sticky;
     top: 6.4rem;

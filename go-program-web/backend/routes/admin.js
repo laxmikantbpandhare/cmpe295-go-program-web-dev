@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const queries = require('../utils/queries');
 var passport = require("passport");
+const getId = require('../utils/getSjsuId');
 
 router.get('/items',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Items Get Request");

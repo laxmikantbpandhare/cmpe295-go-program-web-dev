@@ -96,9 +96,11 @@ class Login extends Component{
                         loader: false
                     });
                 });
-                
             }
         })
+        .catch(err => {
+            this.setState({ message: `Internal Error. ${err}` });
+        });
     }
 
     render() {

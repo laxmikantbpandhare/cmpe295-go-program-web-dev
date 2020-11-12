@@ -78,7 +78,7 @@ class StudentAllSuggestions extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-lightbulb"></i> Suggestions</h4>
             </div>
             
-            <div className="container-fluid events-below-heading">
+            <div className="container-fluid below-heading">
                 <div className="row">
                     <div style={{fontSize:"1.2em"}} className="offset-sm-3 mt-2 font-weight-bold">
                         Can't find an event to submit? Suggest and send an event to admin for approval.

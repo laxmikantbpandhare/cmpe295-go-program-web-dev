@@ -75,7 +75,7 @@ class AllUserRequests extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-user"></i> Users</h4>
             </div>
             
-            <div className="container-fluid requests-below-heading">
+            <div className="container-fluid below-heading">
                 <div className="requests-search-section">
                     <h4 className="text-center text-white all-events-heading p-1 mt-2">All Students</h4>
                     <div className="row">

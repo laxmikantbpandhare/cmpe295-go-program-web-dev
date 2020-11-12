@@ -9,6 +9,7 @@ import StudentOrders from './orders/StudentOrders';
 import StudentCart from './orders/StudentCart';
 import StudentOrderDetails from './orders/StudentOrderDetails';
 import StudentAllSuggestions from './suggestions/StudentAllSuggestions';
+import ChangePassword from './password/ChangePassword';
 
 function Student() {
     return (
@@ -23,6 +24,7 @@ function Student() {
             <Route path="/student/suggestions" component={StudentAllSuggestions}/>
             <Route path="/student/cart" component={StudentCart}/>
             <Route path="/student/order-details/:orderId" component={StudentOrderDetails}/>
+            <Route path="/student/change-password" component={ChangePassword}/>
           </Switch>
       </div>
     );

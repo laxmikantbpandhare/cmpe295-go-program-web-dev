@@ -3,6 +3,7 @@ var router = express.Router();
 const queries = require('../utils/queries');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
+
 router.get('/ownEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Own Events Get Request");
 

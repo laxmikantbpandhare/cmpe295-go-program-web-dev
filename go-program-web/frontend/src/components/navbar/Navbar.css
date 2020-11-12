@@ -22,3 +22,7 @@
 .navbar-custom .dropdown-menu {
     background-color: #f8b21a;
 }
+
+.rightmost-menu .dropdown-item {
+    padding: .25rem .75rem;
+}

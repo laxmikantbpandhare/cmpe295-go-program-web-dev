@@ -94,7 +94,7 @@ class Signup extends Component{
             }
         })
         .catch(err => {
-            this.setState({ message: `Client Error. ${err}` });
+            this.setState({ message: `Internal Error. ${err}` });
         });
     }
 

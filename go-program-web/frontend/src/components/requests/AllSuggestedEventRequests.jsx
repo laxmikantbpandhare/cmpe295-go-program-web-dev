@@ -71,7 +71,7 @@ class AllSuggestedEventRequests extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-lightbulb"></i> Students Suggested Events</h4>
             </div>
             
-            <div className="container-fluid requests-below-heading">
+            <div className="container-fluid below-heading">
                 <div className="requests-search-section">
                     <h4 className="text-center text-white all-events-heading p-1 mt-2">All Submitted Events</h4>
                     <div className="row">

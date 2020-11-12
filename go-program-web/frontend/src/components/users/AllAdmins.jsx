@@ -83,7 +83,7 @@ class AllAdmins extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-user"></i> Admin Users</h4>
             </div>
             
-            <div className="container-fluid events-below-heading">
+            <div className="container-fluid below-heading">
                 <div className="row">
                     <div className="col-sm-4 offset-4 offset-sm-5 mt-2">
                         <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showNewAdminModal}>

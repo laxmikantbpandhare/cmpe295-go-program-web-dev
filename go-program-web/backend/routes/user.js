@@ -5,6 +5,7 @@ const encrypt = require('../utils/encrypt');
 var jwt = require("jsonwebtoken");
 const {secret} = require('../config/config');
 var passport = require("passport");
+const getId = require('../utils/getSjsuId');
 
 router.post('/signup',function(req,res){
     console.log("Inside User signup Post Request");
@@ -23,7 +24,7 @@ router.post('/signup',function(req,res){
             }
         });
     }, err => {
-        res.status(500).json({error: `Something failed when generating hash. ${err}` });
+        res.status(500).json({error: `Something failed when generating hash for the password to encrypt it. ${err}` });
     });
 });
 
@@ -56,29 +57,8 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
     });
 })
 
-router.get('/allStudents',passport.authenticate("jwt", { session: false }),function(req,res){
-    console.log("Inside User All Students Get Request");
-    
-    queries.getAllStudents(students => {
-        res.status(200).json({students});
-    }, err=> {
-        res.status(500).json({ message: `Something failed when getting students from the database. ${err.message}`});
-    });
-});
-
-router.get('/allAdmins',passport.authenticate("jwt", { session: false }),function(req,res){
-    console.log("Inside User All Admins Get Request");
-    
-    queries.getAllAdmins(admins => {
-        res.status(200).json({admins});
-    }, err=> {
-        res.status(500).json({ message: `Something failed when getting admins from the database. ${err.message}`});
-    });
-});
-
 router.post('/login',function(req,res){
     console.log("Inside User Login Post Request");
-    console.log("Req Body : ",req.body);
 
     const id = req.body.id;
     const password = req.body.password;
@@ -109,7 +89,58 @@ router.post('/login',function(req,res){
             res.status(401).json({success: false, message: "User does not exists. Please try again"});
         }
     }, err => {
-        res.status(500).json({success: false, message: `Something wrong when reading the record from the database. ${err}`});
+        res.status(500).json({success: false, message: `Something wrong when getting the user from the database. ${err}`});
+    });
+});
+
+router.post('/changePassword', passport.authenticate("jwt", {session: false}), function(req,res){
+    console.log("Inside User Change Password Post Request");
+
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+
+    const id = getId(req.headers.authorization);
+
+    queries.getUserPasswordById(id, row => {
+        encrypt.confirmPassword(oldPassword,row.password, result => {
+            if (result){
+                encrypt.generateHash(newPassword, hash => {
+                    queries.changeUserPassword(id, hash, result => {
+                        res.status(200).json({message:'Password Changed Successfully.'});
+                    }, err => {
+                        res.status(500).json({message: `Something failed when saving the new password. ${err}`});
+                    });
+                }, err => {
+                    res.status(500).json({error: `Something failed when generating hash for the new password to encrypt it. ${err}` });
+                });
+            }else{
+                res.status(401).json({success: false, message: "Incorrect Old Password"});
+            }
+        }, err => {
+            res.status(500).json({success: false, message: `Something wrong with bcrypt with the old password. ${err}`});
+        });
+    }, err => {
+        res.status(500).json({success: false, message: `Something wrong when getting the user from the database. ${err}`});
+    });
+});
+
+router.get('/allStudents',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside User All Students Get Request");
+    
+    queries.getAllStudents(students => {
+        res.status(200).json({students});
+    }, err=> {
+        res.status(500).json({ message: `Something failed when getting students from the database. ${err.message}`});
+    });
+});
+
+router.get('/allAdmins',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside User All Admins Get Request");
+    
+    queries.getAllAdmins(admins => {
+        res.status(200).json({admins});
+    }, err=> {
+        res.status(500).json({ message: `Something failed when getting admins from the database. ${err.message}`});
     });
 });
 

@@ -74,7 +74,7 @@ class AdminInventory extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-boxes"></i> Inventory</h4>
             </div>
             
-            <div className="container-fluid items-below-heading">
+            <div className="container-fluid below-heading">
                 <div class="row">
                     <div class="col-sm-4 offset-4 offset-sm-5 mt-2">
                         <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showAdminNewItemModal}>

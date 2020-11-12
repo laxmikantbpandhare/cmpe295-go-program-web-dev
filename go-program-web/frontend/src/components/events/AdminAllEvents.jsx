@@ -77,7 +77,7 @@ class AdminAllEvents extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Events</h4>
             </div>
             
-            <div className="container-fluid events-below-heading">
+            <div className="container-fluid below-heading">
                 <div class="row">
                     <div class="col-sm-4 offset-4 offset-sm-5 mt-2">
                         <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showAdminNewEventModal}>

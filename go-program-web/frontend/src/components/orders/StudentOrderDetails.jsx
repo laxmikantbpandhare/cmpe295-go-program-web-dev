@@ -56,7 +56,7 @@ class StudentOrderDetails extends Component{
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-receipt"></i> Orders</h4>
             </div>
-            <div className="container-fluid items-below-heading">
+            <div className="container-fluid below-heading">
                 <div className="orders-search-section">  {/*This class will support the sticky subheading */}
                     <h4 className="text-center text-white all-items-heading p-1">Order Details</h4>
                 </div>

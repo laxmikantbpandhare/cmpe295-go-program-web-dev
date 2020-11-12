@@ -84,6 +84,21 @@ queries.getUserPasswordById = (id, successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
+queries.changeUserPassword = (id, hash, successcb, failurecb) => {
+    User.findOne({ id })
+    .then(userToUpdate => {
+        userToUpdate["password"] = hash;
+        userToUpdate.save()
+        .then(user => {
+            successcb(user);
+        })
+        .catch(err => failurecb(err))
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
+
 queries.getAllStudents = (successcb, failurecb) => {
     Student.find()
     .populate('user', '-password')
@@ -101,22 +116,6 @@ queries.updateUserStatus = (user, successcb, failurecb) => {
     User.findOne({id: user.id})
     .then(userToUpdate => {
         userToUpdate["status"] = user.status;
-        userToUpdate["updatedBy"] = `${user.updatedBy}`
-        userToUpdate.save()
-        .then(user => {
-            successcb(user);
-        })
-        .catch(err => failurecb(err))
-    })
-    .catch(err => {
-        failurecb(err);
-    })
-}
-
-queries.updateUserEmail = (user, successcb, failurecb) => {
-    User.findOne({id: user.id})
-    .then(userToUpdate => {
-        userToUpdate["email"] = user.email;
         userToUpdate["updatedBy"] = `${user.updatedBy}`
         userToUpdate.save()
         .then(user => {

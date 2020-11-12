@@ -10,6 +10,7 @@ import OrderRequestDetails from './requests/OrderRequestDetails';
 import AllSuggestedEventRequests from './requests/AllSuggestedEventRequests';
 import AllUserRequests from './requests/AllUserRequests';
 import AllAdmins from './users/AllAdmins';
+import ChangePassword from './password/ChangePassword';
 
 function Admin() {
     return (
@@ -25,6 +26,7 @@ function Admin() {
             <Route path="/admin/suggested-events-requests" component={AllSuggestedEventRequests}/>
             <Route path="/admin/users-requests" component={AllUserRequests}/>
             <Route path="/admin/order-details/:orderId" component={OrderRequestDetails}/>
+            <Route path="/admin/change-password" component={ChangePassword}/>
           </Switch>
       </div>
     );
