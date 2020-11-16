@@ -145,29 +145,26 @@ class MainViewController: UIViewController {
         print("Inside sendFile")
 
         let url: URL = URL(string: urlPath)!
-        var request1: URLRequest = URLRequest(url: url as URL)
+        var uploadReq: URLRequest = URLRequest(url: url as URL)
 
-        request1.httpMethod = "POST"
+        uploadReq.httpMethod = "POST"
 
         let boundary = "Boundary-\(UUID().uuidString)"
         let fullData = photoDataToFormData(data: data,boundary:boundary,fileName:fileName)
 
-            request1.setValue("multipart/form-data; boundary=" + boundary,
+        uploadReq.setValue("multipart/form-data; boundary=" + boundary,
                 forHTTPHeaderField: "Content-Type")
-//        request1.setValue("application/json", forHTTPHeaderField: "Content-Type")
- //       request1.setValue("application/json", forHTTPHeaderField: "Accept")
-        request1.setValue("Bearer " + lResp.token, forHTTPHeaderField: "Authorization")
 
-            // REQUIRED!
-            request1.setValue(String(fullData.length), forHTTPHeaderField: "Content-Length")
+        uploadReq.setValue("Bearer " + lResp.token, forHTTPHeaderField: "Authorization")
+        uploadReq.setValue(String(fullData.length), forHTTPHeaderField: "Content-Length")
 
-        request1.httpBody = fullData as Data
-        request1.httpShouldHandleCookies = false
+        uploadReq.httpBody = fullData as Data
+        uploadReq.httpShouldHandleCookies = false
 
         let _:OperationQueue = OperationQueue()
 
         let session = URLSession.shared
-        let task = session.dataTask(with: request1 as URLRequest) { (data, response, error) in
+        let task = session.dataTask(with: uploadReq as URLRequest) { (data, response, error) in
             guard let data = data, error == nil else {
                 // check for fundamental networking error
                 print("error=\(String(describing: error))")
@@ -263,36 +260,36 @@ class MainViewController: UIViewController {
         
         let urlString = "http://10.0.0.207:3001/student/createEvent"
         
-            if let url = URL.init(string: urlString) {
-                var req = URLRequest.init(url: url)
-                req.httpMethod = "POST"
-                req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                req.setValue("application/json", forHTTPHeaderField: "Accept")
-                req.setValue("Bearer " + self.lResp.token, forHTTPHeaderField: "Authorization")
+        if let url = URL.init(string: urlString) {
+            var req = URLRequest.init(url: url)
+            req.httpMethod = "POST"
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            req.setValue("application/json", forHTTPHeaderField: "Accept")
+            req.setValue("Bearer " + self.lResp.token, forHTTPHeaderField: "Authorization")
+            
+            let jsonEncoder = JSONEncoder()
+            do {
+                let jsonData = try jsonEncoder.encode(eReq)
+                let jsonString = String(data:jsonData, encoding: .utf8)
+                req.httpBody   = jsonData
+                print("JSON String : " + jsonString!)
+            } catch {
                 
-                let jsonEncoder = JSONEncoder()
-                do {
-                    let jsonData = try jsonEncoder.encode(eReq)
-                    let jsonString = String(data:jsonData, encoding: .utf8)
-                    req.httpBody   = jsonData
-                    print("JSON String : " + jsonString!)
-                } catch {
-                    
-                }
-                
-                let task = URLSession.shared.dataTask(with: req,
-                    completionHandler: { (data, response, error) in
-                        print(String.init(data: data!, encoding: .ascii) ??
-                        "no data")
-                        
-                        DispatchQueue.main.async {
-                            //self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-                            guard let vc = self.presentingViewController else { return }
-                            vc.dismiss(animated: true, completion: nil)
-                        }
-                })
-                task.resume()
             }
+            
+            let task = URLSession.shared.dataTask(with: req,
+                completionHandler: { (data, response, error) in
+                    print(String.init(data: data!, encoding: .ascii) ??
+                    "no data")
+                    
+                    // Dismiss this view controller from main thread
+                    DispatchQueue.main.async {
+                        guard let vc = self.presentingViewController else { return }
+                        vc.dismiss(animated: true, completion: nil)
+                    }
+            })
+            task.resume()
+        }
     }
     
     func formatDate() {
