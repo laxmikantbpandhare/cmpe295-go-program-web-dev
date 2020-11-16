@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -38,11 +39,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class SubmitEventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -79,14 +91,6 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
         mDescView = findViewById(R.id.eventDesc);
 
         mEventSpinner = findViewById(R.id.eventType);
-
-        /*
-        EventUtils user1 = new EventUtils("Jim", "jim@gmail.com", 20);
-        userList.add(user1);
-        EventUtils user2 = new EventUtils("John", "john@gmail.com", 23);
-        userList.add(user2);
-        EventUtils user3 = new EventUtils("Jenny", "jenny@gmail.com", 25);
-        userList.add(user3);*/
 
         /* Setup spinner */
         ArrayAdapter<EventUtils> adapter = new ArrayAdapter<EventUtils>(this,
@@ -145,17 +149,17 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
 
         // To start it, run the startActivityForResult() method:
         startActivityForResult(loadPicture, CAMERA_REQUEST);
-        imageURL = "https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1590134760619.png";
+        //imageURL = "https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1590134760619.png";
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG_ACTIVITY, "onActivityResult " + resultCode);
 
-        /*Uri selectedImageUri = data.getData();
-        String s = getRealPathFromURI(selectedImageUri);
-        Log.d(TAG_ACTIVITY, s);
+        Uri selectedImageUri = data.getData();
+        imageURL = getRealPathFromURI(selectedImageUri);
+        Log.d(TAG_ACTIVITY, imageURL);
 
-        showProgress(true);
+        /*showProgress(true);
         Ion.with(this)
                 .load("POST",ConstantUtils.DOMAIN_URL + "upload/images")
                 //.uploadProgressBar(uploadProgressBar)
@@ -201,7 +205,268 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
             return;
         }
 
+        // Start ann AsyncTask to upload the image
+        final AsyncTask<Void, Void, Void> mTask = new ImageUploadTask();
+        mTask.execute();
+
         showProgress(true);
+    }
+
+    private class ImageUploadTask extends AsyncTask<Void, Void, Void>
+    {
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // Post event after image upload is complete
+            try {
+                postEvent();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            evImageUpload();
+            return null;
+        }
+    }
+
+    private void uploadImage() {
+        // Upload image and then call post event
+
+        String fileName = imageURL;
+        HttpURLConnection conn = null;
+        DataOutputStream dos = null;
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "------sjsuGO";
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+        int serverResponseCode;
+        File sourceFile = new File(fileName);
+        Log.v(TAG_ACTIVITY, "Uploading: sourcefileURI, " + fileName);
+
+        if (!sourceFile.isFile()) {
+            Log.e(TAG_ACTIVITY, "Source File not exist");//FullPath);
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    //messageText.setText("Source File not exist :"
+                }
+            });
+            return;  //RETURN #1
+        }
+        else{
+            try{
+
+                FileInputStream fileInputStream = new FileInputStream(sourceFile);
+                URL url = new URL(ConstantUtils.DOMAIN_URL + "upload/images");
+                Log.v(TAG_ACTIVITY,url.toString());
+
+                // Open a HTTP  connection to  the URL
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true); // Allow Inputs
+                conn.setDoOutput(true); // Allow Outputs
+                conn.setUseCaches(false); // Don't use a Cached Copy            s
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Authorization", "Bearer " + PreferencesUtils.getAuthToken(this));
+                conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                conn.setRequestProperty("file", fileName);
+
+                dos = new DataOutputStream(conn.getOutputStream());
+                dos.writeBytes(twoHyphens + boundary + lineEnd);
+                dos.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + fileName + "\"" + lineEnd);
+                dos.writeBytes(lineEnd);
+
+                // create a buffer of  maximum size
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                buffer = new byte[bufferSize];
+                // read file and write it into form...
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                while (bytesRead > 0) {
+                    dos.write(buffer, 0, bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                    Log.i(TAG_ACTIVITY,"->");
+                }
+
+                // send multipart form data necesssary after file data...
+                dos.writeBytes(lineEnd);
+                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                // Responses from the server (code and message)
+                serverResponseCode = conn.getResponseCode();
+                String serverResponseMessage = conn.getResponseMessage().toString();
+                Log.i(TAG_ACTIVITY, "HTTP Response is : "  + serverResponseMessage + ": " + serverResponseCode);
+
+                // ------------------ read the SERVER RESPONSE
+                DataInputStream inStream;
+                try {
+                    inStream = new DataInputStream(conn.getInputStream());
+                    String str;
+                    while ((str = inStream.readLine()) != null) {
+                        Log.e(TAG_ACTIVITY, "SOF Server Response" + str);
+                    }
+                    inStream.close();
+                }
+                catch (IOException ioex) {
+                    Log.e(TAG_ACTIVITY, "SOF error: " + ioex.getMessage(), ioex);
+                }
+
+                //close the streams //
+                fileInputStream.close();
+                dos.flush();
+                dos.close();
+
+                if(serverResponseCode == 200){
+                    //Do something
+                }//END IF Response code 200
+
+            }//END TRY - FILE READ
+            catch (MalformedURLException ex) {
+                ex.printStackTrace();
+                Log.e(TAG_ACTIVITY, "UL error: " + ex.getMessage(), ex);
+            } //CATCH - URL Exception
+
+            catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG_ACTIVITY, "Exception : "+ e.getMessage(), e);
+            } //
+
+            return; //after try
+        }//END ELSE, if file exists.
+
+    }
+
+    public void evImageUpload() {
+        HttpURLConnection connection = null;
+        DataOutputStream outputStream = null;
+        InputStream inputStream = null;
+
+        String twoHyphens = "--";
+        String boundary = "*****" + Long.toString(System.currentTimeMillis()) + "*****";
+        String lineEnd = "\r\n";
+        String filefield = "image";
+        String fileMimeType = "image/jpg";
+
+        String result = "";
+
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+
+        String[] q = imageURL.split("/");
+        int idx = q.length - 1;
+
+        try {
+            File file = new File(imageURL);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            URL url = new URL(ConstantUtils.DOMAIN_URL + "upload/images");
+            connection = (HttpURLConnection) url.openConnection();
+
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Connection", "Keep-Alive");
+            connection.setRequestProperty("User-Agent", "Android Multipart HTTP Client 1.0");
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            connection.setRequestProperty("Authorization", "Bearer " + PreferencesUtils.getAuthToken(this));
+
+            outputStream = new DataOutputStream(connection.getOutputStream());
+            outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+            outputStream.writeBytes("Content-Disposition: form-data; name=\"" + filefield + "\"; filename=\"" + q[idx] + "\"" + lineEnd);
+            outputStream.writeBytes("Content-Type: " + fileMimeType + lineEnd);
+            outputStream.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
+
+            outputStream.writeBytes(lineEnd);
+
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            buffer = new byte[bufferSize];
+
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            while (bytesRead > 0) {
+                outputStream.write(buffer, 0, bufferSize);
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            outputStream.writeBytes(lineEnd);
+
+            /* Upload POST Data
+            //Iterator<String> keys = parmas.keySet().iterator();
+            while (keys.hasNext()) {
+                //String key = keys.next();
+                //String value = parmas.get(key);
+
+                outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                outputStream.writeBytes("Content-Disposition: form-data; name=\"" + key + "\"" + lineEnd);
+                outputStream.writeBytes("Content-Type: text/plain" + lineEnd);
+                outputStream.writeBytes(lineEnd);
+                outputStream.writeBytes(value);
+                outputStream.writeBytes(lineEnd);
+            }*/
+
+            outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            if (200 != connection.getResponseCode()) {
+               Log.e(TAG_ACTIVITY, "Failed to upload code:" + connection.getResponseCode() + " " + connection.getResponseMessage());
+            }
+
+            inputStream = connection.getInputStream();
+
+            result = this.convertStreamToString(inputStream);
+            Log.d(TAG_ACTIVITY, "Response to image upload " + result);
+
+            JSONObject obj = new JSONObject(result);
+            imageURL = obj.getJSONArray("imagesName").getString(0);
+            Log.d(TAG_ACTIVITY, "Uploaded image url is " + imageURL);
+
+            fileInputStream.close();
+            inputStream.close();
+            outputStream.flush();
+            outputStream.close();
+
+            return ;
+        } catch (Exception e) {
+            Log.e(TAG_ACTIVITY, "Exception " + e.toString());
+        }
+
+    }
+
+    private String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+
+    public void postEvent() throws JSONException {
+
         JsonParser jsonParser = new JsonParser();
 
         JSONObject stuObj = PreferencesUtils.getUserData(this);
@@ -249,7 +514,6 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
                         startActivity(i);
                     }
                 });
-        //}
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -305,73 +569,3 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
         completedDate = dateString + "T07:00:00.000Z";
     }
 }
-
-/*
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void populateEventTypes(Spinner spinner, List<EventUtils> eventUtilsList) {
-        showProgress(true);
-        Ion.with(this)
-                .load("GET", "http://10.0.0.89:3001/admin/ActiveEvents")
-                .setHeader("Authorization", "Bearer " + PreferencesUtils.getAuthToken(this))
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-                        Log.d(TAG_ACTIVITY, result);
-                        if (e == null) {
-
-                            JSONObject o = new JSONObject();
-
-                            try {
-                                o = new JSONObject(result);
-                                JSONArray evArray = o.getJSONArray("events");
-                                for (int i = 0; i < evArray.length(); i++) {
-                                    o = evArray.getJSONObject(i);
-                                    String id = o.getString("_id");
-                                    String name = o.getString("name");
-                                    int points = Integer.parseInt(o.getString("points"));
-                                    EventUtils evUtils = new EventUtils(id, name, points);
-                                    eventUtilsList.add(evUtils);
-                                }
-
-                                Log.d(TAG_ACTIVITY, String.valueOf(eventUtilsList));
-                                Collections.sort(eventUtilsList);
-                                Log.d(TAG_ACTIVITY, String.valueOf(eventUtilsList));
-
-                                ArrayAdapter<EventUtils> adapter = new ArrayAdapter<EventUtils>(SubmitEventActivity.this,
-                                        android.R.layout.simple_spinner_item, eventUtilsList);
-                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                mEventSpinner.setAdapter(adapter);
-
-                                mEventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        mSelectedEvent = (EventUtils) parent.getSelectedItem();
-                                        Log.d(TAG_ACTIVITY, mSelectedEvent.toString());
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-                                        Log.d(TAG_ACTIVITY, "What the fuck");
-                                    }
-                                });
-
-                            } catch (JSONException ex) {
-                                //e.printStackTrace();
-                            }
-                            String error = o.optString("error");
-
-                            if (TextUtils.isEmpty(error)) {
-
-                            } else {
-                                //Show error
-                                Log.d(TAG_ACTIVITY, "Error is empty");
-                            }
-                        } else {
-                            Log.d(TAG_ACTIVITY, "Error not null");
-                        }
-                        showProgress(false);
-                    }
-                });
-        return ;
-    }*/
