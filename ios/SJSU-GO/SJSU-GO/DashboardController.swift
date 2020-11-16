@@ -25,7 +25,7 @@ class DashboardController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureButtons()
-        view.backgroundColor = .white
+        view.backgroundColor = .purple
         //print("Token is " + lResp.token + " for student " + lResp.user.fname)
         
         // Do any additional setup after loading the view.
@@ -69,7 +69,7 @@ class DashboardController: UIViewController {
     func configureButtons() {
         print("Laying out buttons..")
         let myFirstButton = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 50))
-        myFirstButton.setTitle("Submit event", for: .normal)
+        myFirstButton.setTitle("SUBMIT EVENT", for: .normal)
         myFirstButton.setTitleColor(UIColor.blue, for: .normal)
         myFirstButton.backgroundColor = UIColor.white
         myFirstButton.addTarget(self, action: #selector(self.pressed), for: .touchUpInside)
