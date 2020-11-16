@@ -67,7 +67,7 @@ class OrdersController: UIViewController {
         
         // Set delegates
         setTableViewDelegates()
-        tableView.rowHeight = 100
+        tableView.rowHeight = 150
         
         // register cells
         tableView.register(OrderCell.self, forCellReuseIdentifier: "OrderCell")

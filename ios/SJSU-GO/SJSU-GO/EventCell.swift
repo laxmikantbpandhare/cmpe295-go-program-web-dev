@@ -12,18 +12,20 @@ class EventCell: UITableViewCell{
     
     let eventImageView  = UIImageView()
     let eventTitleLabel = UILabel()
+    let eventStatusLabel = UILabel()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(eventImageView)
         addSubview(eventTitleLabel)
-        // Add status to event cell
+        addSubview(eventStatusLabel)
         
         configureImageView()
         configureTitleLabel()
         
         setImageConstraints()
         setTitleLabelConstraints()
+        setStatusLabelConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +35,8 @@ class EventCell: UITableViewCell{
     func set(event: GOEvent) {
         //print("Setting cell ", event.title)
         //eventImageView.image = event.image
-        eventTitleLabel.text = event.title
+        eventTitleLabel.text  = event.title
+        eventStatusLabel.text = "Status: " + event.status
         
         // Do image at the end
         do {
@@ -57,6 +60,12 @@ class EventCell: UITableViewCell{
         eventTitleLabel.textColor = UIColor.blue
     }
     
+    func configureStatusLabel() {
+        eventStatusLabel.numberOfLines             = 0
+        eventStatusLabel.adjustsFontSizeToFitWidth = true
+        eventStatusLabel.textColor = UIColor.blue
+    }
+    
     func setImageConstraints() {
         eventImageView.translatesAutoresizingMaskIntoConstraints = false
         eventImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -67,10 +76,19 @@ class EventCell: UITableViewCell{
     
     func setTitleLabelConstraints() {
         eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        eventTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        eventTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -5).isActive = true
         eventTitleLabel.leadingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: 20).isActive = true
-        eventTitleLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        eventTitleLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         eventTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
+    }
+    
+    func setStatusLabelConstraints() {
+        eventStatusLabel.translatesAutoresizingMaskIntoConstraints = false
+        //eventStatusLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        eventStatusLabel.topAnchor.constraint(equalTo: eventTitleLabel.bottomAnchor).isActive = true
+        eventStatusLabel.leadingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: 20).isActive = true
+        eventStatusLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        eventStatusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
     }
     
 }

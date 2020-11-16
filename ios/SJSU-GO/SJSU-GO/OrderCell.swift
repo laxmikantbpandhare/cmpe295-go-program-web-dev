@@ -12,11 +12,13 @@ class OrderCell: UITableViewCell{
     
     let orderImageView  = UIImageView()
     let orderTitleLabel = UILabel()
+    let orderStatusLabel = UILabel()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(orderImageView)
         addSubview(orderTitleLabel)
+        addSubview(orderStatusLabel)
         // Add status to order cell
         
         configureImageView()
@@ -24,6 +26,7 @@ class OrderCell: UITableViewCell{
         
         setImageConstraints()
         setTitleLabelConstraints()
+        setStatusLabelConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +37,7 @@ class OrderCell: UITableViewCell{
         //print("Setting cell ", order.title)
         //orderImageView.image = order.image
         orderTitleLabel.text = order.name
+        orderStatusLabel.text = "Status: " + order.status
         
         // Do image at the end
         do {
@@ -67,10 +71,19 @@ class OrderCell: UITableViewCell{
     
     func setTitleLabelConstraints() {
         orderTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        orderTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        orderTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -5).isActive = true
         orderTitleLabel.leadingAnchor.constraint(equalTo: orderImageView.trailingAnchor, constant: 20).isActive = true
-        orderTitleLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        orderTitleLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         orderTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
+    }
+    
+    func setStatusLabelConstraints() {
+        orderStatusLabel.translatesAutoresizingMaskIntoConstraints = false
+        //eventStatusLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        orderStatusLabel.topAnchor.constraint(equalTo: orderTitleLabel.bottomAnchor).isActive = true
+        orderStatusLabel.leadingAnchor.constraint(equalTo: orderImageView.trailingAnchor, constant: 20).isActive = true
+        orderStatusLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        orderStatusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
     }
     
 }

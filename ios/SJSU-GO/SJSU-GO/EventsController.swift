@@ -71,7 +71,7 @@ class EventsController: UIViewController {
         
         // Set delegates
         setTableViewDelegates()
-        tableView.rowHeight = 100
+        tableView.rowHeight = 150
         
         // register cells
         tableView.register(EventCell.self, forCellReuseIdentifier: "EventCell")

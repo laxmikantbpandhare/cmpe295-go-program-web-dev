@@ -28,6 +28,12 @@
 		3FA339E82473BC3600D61806 /* MenuOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339E72473BC3600D61806 /* MenuOptionCell.swift */; };
 		3FA339EA24749C2200D61806 /* MenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA339E924749C2200D61806 /* MenuOption.swift */; };
 		5C66356C252163EB00A76A75 /* NavContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C66356B252163EB00A76A75 /* NavContainerViewController.swift */; };
+		5CF86A80253D0E8500866880 /* OrdersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF86A7F253D0E8500866880 /* OrdersController.swift */; };
+		5CF86A88253D1CF900866880 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF86A87253D1CF900866880 /* UIViewExt.swift */; };
+		5CF86A8D253D56AC00866880 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF86A8C253D56AC00866880 /* EventCell.swift */; };
+		5CF86A92253D5B4600866880 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF86A91253D5B4600866880 /* Event.swift */; };
+		5CF86A9E253DFBF600866880 /* Orders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF86A9D253DFBF600866880 /* Orders.swift */; };
+		5CF86AA3253DFDC500866880 /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF86AA2253DFDC500866880 /* OrderCell.swift */; };
 		B6479C1F8392D64E83B3CFD0 /* Pods_SJSU_GOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EB910CDAF358D349452FED8 /* Pods_SJSU_GOTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +83,12 @@
 		3FA339E924749C2200D61806 /* MenuOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOption.swift; sourceTree = "<group>"; };
 		4842B947BD4302FD28AE5055 /* Pods-SJSU-GOTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJSU-GOTests.debug.xcconfig"; path = "Target Support Files/Pods-SJSU-GOTests/Pods-SJSU-GOTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5C66356B252163EB00A76A75 /* NavContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavContainerViewController.swift; sourceTree = "<group>"; };
+		5CF86A7F253D0E8500866880 /* OrdersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersController.swift; sourceTree = "<group>"; };
+		5CF86A87253D1CF900866880 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
+		5CF86A8C253D56AC00866880 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		5CF86A91253D5B4600866880 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		5CF86A9D253DFBF600866880 /* Orders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orders.swift; sourceTree = "<group>"; };
+		5CF86AA2253DFDC500866880 /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
 		75F0D41FB32FC246BF22A140 /* Pods_SJSU_GO_SJSU_GOUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SJSU_GO_SJSU_GOUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EB910CDAF358D349452FED8 /* Pods_SJSU_GOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SJSU_GOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		858854AD3F4EE97CDFB84DF0 /* Pods-SJSU-GO-SJSU-GOUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJSU-GO-SJSU-GOUITests.debug.xcconfig"; path = "Target Support Files/Pods-SJSU-GO-SJSU-GOUITests/Pods-SJSU-GO-SJSU-GOUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,11 +176,17 @@
 				3F4656752463655C0042AF94 /* Assets.xcassets */,
 				3F4656772463655C0042AF94 /* LaunchScreen.storyboard */,
 				3F46567A2463655C0042AF94 /* Info.plist */,
-				3FA339DB2473A80000D61806 /* EventsController.swift */,
-				3FA339DD2473A81000D61806 /* RedeemController.swift */,
+				5C66356B252163EB00A76A75 /* NavContainerViewController.swift */,
 				3FA339E12473B5BE00D61806 /* NavMenuController.swift */,
 				3FA339DF2473AADD00D61806 /* DashboardController.swift */,
-				5C66356B252163EB00A76A75 /* NavContainerViewController.swift */,
+				5CF86A91253D5B4600866880 /* Event.swift */,
+				3FA339DB2473A80000D61806 /* EventsController.swift */,
+				5CF86A8C253D56AC00866880 /* EventCell.swift */,
+				3FA339DD2473A81000D61806 /* RedeemController.swift */,
+				5CF86A9D253DFBF600866880 /* Orders.swift */,
+				5CF86A7F253D0E8500866880 /* OrdersController.swift */,
+				5CF86AA2253DFDC500866880 /* OrderCell.swift */,
+				5CF86A87253D1CF900866880 /* UIViewExt.swift */,
 			);
 			path = "SJSU-GO";
 			sourceTree = "<group>";
@@ -440,13 +458,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CF86A80253D0E8500866880 /* OrdersController.swift in Sources */,
 				3FA339EA24749C2200D61806 /* MenuOption.swift in Sources */,
 				3FA339E22473B5BE00D61806 /* NavMenuController.swift in Sources */,
 				5C66356C252163EB00A76A75 /* NavContainerViewController.swift in Sources */,
+				5CF86A88253D1CF900866880 /* UIViewExt.swift in Sources */,
+				5CF86A8D253D56AC00866880 /* EventCell.swift in Sources */,
+				5CF86A9E253DFBF600866880 /* Orders.swift in Sources */,
 				3FA339E82473BC3600D61806 /* MenuOptionCell.swift in Sources */,
+				5CF86AA3253DFDC500866880 /* OrderCell.swift in Sources */,
 				3F46569D24637A490042AF94 /* LoginViewController.swift in Sources */,
 				3F4656712463655A0042AF94 /* ViewController.swift in Sources */,
 				3FA339E42473B62F00D61806 /* Protocols.swift in Sources */,
+				5CF86A92253D5B4600866880 /* Event.swift in Sources */,
 				3F46569F24637E0C0042AF94 /* SignupViewController.swift in Sources */,
 				3FA339DC2473A80100D61806 /* EventsController.swift in Sources */,
 				3FA339E02473AADD00D61806 /* DashboardController.swift in Sources */,

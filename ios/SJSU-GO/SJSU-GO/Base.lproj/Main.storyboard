@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -226,7 +226,7 @@
         <!--Main View Controller-->
         <scene sceneID="jGe-Ni-kvS">
             <objects>
-                <viewController id="xmA-Mg-K5I" customClass="MainViewController" customModule="SJSU_GO" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="xmA-Mg-K5I" customClass="MainViewController" customModule="SJSU_GO" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uox-co-VG0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -275,7 +275,6 @@
                                     <action selector="attemptSubmission:" destination="xmA-Mg-K5I" eventType="touchUpInside" id="gGP-fb-Vip"/>
                                     <action selector="attemptSubmission:" destination="ePD-XM-hs5" eventType="touchUpInside" id="l6G-vc-62S"/>
                                     <action selector="signingUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oT3-qc-qra"/>
-                                    <segue destination="ePD-XM-hs5" kind="showDetail" identifier="doneSubmission" id="eeQ-6c-f3P"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="acA-Ye-zNT">
@@ -469,24 +468,30 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emailTF" destination="ZCQ-gf-Ozr" id="aFT-4O-kdS"/>
+                        <outlet property="fNameTF" destination="Upc-lP-Wow" id="aRp-bk-kNl"/>
+                        <outlet property="idTF" destination="3TD-rL-Dcx" id="fey-J1-E2P"/>
+                        <outlet property="lNameTF" destination="dch-Cf-eKN" id="ZoW-bv-94E"/>
+                        <outlet property="majorTF" destination="JyN-ZR-bzQ" id="pL1-X8-sGI"/>
                         <outlet property="passwordTF" destination="QcE-aD-eIQ" id="FQR-tN-fEC"/>
+                        <outlet property="yearTF" destination="MnB-Dv-rOZ" id="dBY-h8-824"/>
                         <segue destination="gv5-kd-DpI" kind="presentation" identifier="signedup" modalPresentationStyle="fullScreen" id="Yti-3K-qgs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oK6-00-1bn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1255.072463768116" y="768.75"/>
+            <point key="canvasLocation" x="1130" y="949"/>
         </scene>
         <!--Dashboard Controller-->
         <scene sceneID="FXp-8U-Zvd">
             <objects>
                 <viewController id="ePD-XM-hs5" customClass="DashboardController" customModule="SJSU_GO" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iZY-5z-AbL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dashboard" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DjX-aV-jbN">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="36"/>
                                 <color key="backgroundColor" red="0.9023834074" green="0.75478066129999999" blue="0.26417933179999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="textColor" red="0.097510247920000001" green="0.22964527539999999" blue="0.47487706219999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -501,10 +506,13 @@
                             <constraint firstItem="DjX-aV-jbN" firstAttribute="trailing" secondItem="1Wh-x6-szH" secondAttribute="trailing" id="SRt-FN-koa"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="xmA-Mg-K5I" kind="presentation" identifier="submitEvent" modalPresentationStyle="fullScreen" id="Ucc-aV-ZuN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fKH-DS-xmt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2057.971014492754" y="1228.7946428571429"/>
+            <point key="canvasLocation" x="2072" y="1319"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

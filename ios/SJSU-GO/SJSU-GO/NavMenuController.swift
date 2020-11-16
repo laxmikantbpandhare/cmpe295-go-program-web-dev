@@ -21,14 +21,14 @@ class NavMenuController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        conofigureTableView()
+        configureTableView()
         
         // Do any additional setup after loading the view.
     }
     
     // MARK: - Handlers
     
-    func conofigureTableView() {
+    func configureTableView() {
         tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
