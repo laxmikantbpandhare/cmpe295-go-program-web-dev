@@ -33,6 +33,10 @@ struct EventReq : Codable {
     var images: [String]?
 }
 
+struct UploadResp : Codable {
+    var imagesName: [String]?
+}
+
 class MainViewController: UIViewController {
     
     //  MARK: - Properties
@@ -49,6 +53,9 @@ class MainViewController: UIViewController {
     var selectedBtn = UIButton()
     var selectedRow = 0
     var datasource = [String]()
+    
+    var dateString = ""
+    var descString = ""
     
     @IBOutlet weak var imageBtn: UIButton!
     @IBOutlet weak var dateTxtFld: UITextField!
@@ -157,29 +164,30 @@ class MainViewController: UIViewController {
         request1.httpBody = fullData as Data
         request1.httpShouldHandleCookies = false
 
-        let queue:OperationQueue = OperationQueue()
+        let _:OperationQueue = OperationQueue()
 
         let session = URLSession.shared
         let task = session.dataTask(with: request1 as URLRequest) { (data, response, error) in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+            guard let data = data, error == nil else {
+                // check for fundamental networking error
                 print("error=\(String(describing: error))")
                 //self.showAlertMessage(title: "App name", message: "Server not responding, please try later")
                 return
             }
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                // print("response = \(String(describing: response))")
+                print("response = \(String(describing: response))")
                 //self.delegate?.internetConnectionFailedIssue()
             }else{
                 do {
                     print("I guess we got a response 200")
-                    //self.responseDictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! NSDictionary
-                    // self.Responsedata = data as NSData
-                    //self.responseDictionary = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: AnyObject] as NSDictionary;
-
-                    //self.delegate?.responseReceived()
-                } catch {
-                    print("error serializing JSON: \(error)")
+                    
+                    print(String.init(data: data, encoding: .ascii) ??
+                    "no data")
+                    
+                    let uResp = try? JSONDecoder().decode(UploadResp.self, from: data)
+                    self.postEvent(image: uResp?.imagesName?[0] ?? "default.jpg")
                 }
             }
         }
@@ -246,114 +254,71 @@ class MainViewController: UIViewController {
             data:data)
     }
     
-    func uploadFile() {
-        print("Attempting image upload")
+    func postEvent(image: String) {
         
-        let url = "http://10.0.0.207:3001/upload/images"
+        // Event object
+        let eObj = EventObj(id: self.evList.events[self.selectedRow]._id)
         
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer " + self.lResp.token,
-            "Content-type": "multipart/form-data"
-        ]
+        let eReq = EventReq(description: self.descString, completedDate: self.dateString, student: self.lResp.user, event: eObj, images: [image])
         
-        print("Calling upload AF")
-        AF.upload(multipartFormData: { (multipartFormData) in
-
-           // guard let imgData = self.selectedImage?.jpegData(compressionQuality: 1) else { print("Entering else"); return }
-       // multipartFormData.append(imgData, withName: "image", mimeType: "application/jpg")
-
-
-        },to: url, usingThreshold: UInt64.init(),
-          method: .post,
-          headers: headers).response{ response in
-
-            if((response.error != nil)){
-                do{
-                    print("Parsing response")
-                    if let jsonData = response.data{
-                        let parsedData = try JSONSerialization.jsonObject(with: jsonData) as! Dictionary<String, AnyObject>
-                        print(parsedData)
-                        
-                        // Date formatting
-                        let dateFormatterSend = DateFormatter()
-                        dateFormatterSend.dateFormat = "yyyy-MM-dd"
-
-                        let dateFormatterPick = DateFormatter()
-                        dateFormatterPick.dateFormat = "MMM dd,yyyy"
-
-                        let date: NSDate? = dateFormatterPick.date(from: self.dateTxtFld.text!) as NSDate?
-                        let dateString = dateFormatterSend.string(from: date! as Date)
-                        
-                        // Event object
-                        let eObj = EventObj(id: self.evList.events[self.selectedRow]._id)
-                        
-                        let eReq = EventReq(description: self.descTxtFld.text, completedDate: dateString, student: self.lResp.user, event: eObj, images: ["https://twitter-prototype-project.s3.us-west-1.amazonaws.com/sjsu_go%3A1589776627423.png"])
-                        
-                        let urlString = "http://10.0.0.207:3001/student/createEvent"
-                        
-                            if let url = URL.init(string: urlString) {
-                                var req = URLRequest.init(url: url)
-                                req.httpMethod = "POST"
-                                req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                                req.setValue("application/json", forHTTPHeaderField: "Accept")
-                                req.setValue("Bearer " + self.lResp.token, forHTTPHeaderField: "Authorization")
-                                
-                                let jsonEncoder = JSONEncoder()
-                                do {
-                                    let jsonData = try jsonEncoder.encode(eReq)
-                                    let jsonString = String(data:jsonData, encoding: .utf8)
-                                    req.httpBody   = jsonData
-                                    print("JSON String : " + jsonString!)
-                                } catch {
-                                    
-                                }
-                                
-                                let task = URLSession.shared.dataTask(with: req,
-                                    completionHandler: { (data, response, error) in
-                                        print(String.init(data: data!, encoding: .ascii) ??
-                                        "no data")
-                                        DispatchQueue.main.async {
-                                            self.performSegue(withIdentifier: "doneSubmission", sender: MainViewController.self)
-                                        }
-                                })
-                                task.resume()
-                            }
-
-                        //let status = parsedData[Message.Status] as? NSInteger ?? 0
-//
-//                        if (status == 1){
-//                            if let jsonArray = parsedData["data"] as? [[String: Any]] {
-//                                withblock(jsonArray as AnyObject)
-//                            }
-//
-//                        }else if (status == 2){
-//                            print("error message")
-//                        }else{
-//                            print("error message")
-//                        }
-                    }
+        let urlString = "http://10.0.0.207:3001/student/createEvent"
+        
+            if let url = URL.init(string: urlString) {
+                var req = URLRequest.init(url: url)
+                req.httpMethod = "POST"
+                req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                req.setValue("application/json", forHTTPHeaderField: "Accept")
+                req.setValue("Bearer " + self.lResp.token, forHTTPHeaderField: "Authorization")
+                
+                let jsonEncoder = JSONEncoder()
+                do {
+                    let jsonData = try jsonEncoder.encode(eReq)
+                    let jsonString = String(data:jsonData, encoding: .utf8)
+                    req.httpBody   = jsonData
+                    print("JSON String : " + jsonString!)
                 } catch {
-                    print("error message")
+                    
                 }
-            } else {
-                print(response.description)
+                
+                let task = URLSession.shared.dataTask(with: req,
+                    completionHandler: { (data, response, error) in
+                        print(String.init(data: data!, encoding: .ascii) ??
+                        "no data")
+                        
+                        DispatchQueue.main.async {
+                            //self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+                            guard let vc = self.presentingViewController else { return }
+                            vc.dismiss(animated: true, completion: nil)
+                        }
+                })
+                task.resume()
             }
-        }
+    }
+    
+    func formatDate() {
+        // Date formatting
+        let dateFormatterSend = DateFormatter()
+        dateFormatterSend.dateFormat = "yyyy-MM-dd"
+
+        let dateFormatterPick = DateFormatter()
+        dateFormatterPick.dateFormat = "MMM dd,yyyy"
+
+        let date: NSDate? = dateFormatterPick.date(from: self.dateTxtFld.text!) as NSDate?
+        self.dateString = dateFormatterSend.string(from: date! as Date)
     }
 
-    /*
     // MARK: - Button clicks
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
     @IBAction func attemptSubmission(_ sender: Any) {
         print("Selected event is " + evList.events[selectedRow].name)
         
-        // Get image URL
+        // Read description from text field
+        self.descString = self.descTxtFld.text ?? "None"
+        
+        // Read date and format it
+        formatDate()
+        
+        // Upload image and submit event
         uploadImage()
         
     }
