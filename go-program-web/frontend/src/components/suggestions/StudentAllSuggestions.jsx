@@ -49,11 +49,6 @@ class StudentAllSuggestions extends Component{
     statusOptions = ['Pending Approval', 'Approved', 'Rejected'];
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedEvents = [...this.props.events];
         if(this.state.sort !== ""){
             if(this.state.sort === "Submitted Date Ascending"){
@@ -73,7 +68,6 @@ class StudentAllSuggestions extends Component{
         : "No Event is suggested yet by you.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-lightbulb"></i> Suggestions</h4>
             </div>
@@ -131,7 +125,9 @@ class StudentAllSuggestions extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredEvents.length!==0 ? filteredEvents.map(event=>
                     <StudentSuggestion event={event} key={event._id}/>
@@ -159,6 +155,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.suggestedEvents.getResponseMessage,
+        responseStatus: state.suggestedEvents.getResponseStatus,
         events: state.suggestedEvents.events
     }
 }

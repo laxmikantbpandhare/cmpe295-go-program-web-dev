@@ -8,8 +8,11 @@ const initialState = {
     items: [],
     categories: [],
     createResponseMessage: "",
+    createResponseStatus: "success",
     getResponseMessage: "",
+    getResponseStatus: "success",
     updateResponseMessage: "",
+    updateResponseStatus: "success",
     deleteResponseMessage: ""
 };
 
@@ -20,12 +23,15 @@ const adminInventoryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 items: initialState.items.concat(action.payload.items),
-                categories: initialState.categories.concat(categories)
+                categories: initialState.categories.concat(categories),
+                getResponseMessage: "",
+                getResponseStatus: "success"
             }
         case ADMIN_GET_ITEMS_FAILED:
             return {
                 ...state,
-                getResponseMessage: action.payload.message
+                getResponseMessage: action.payload.message,
+                getResponseStatus: "failed"
             }
         case ADMIN_CREATE_ITEM_SUCCESS:
             var categoriesCopy = [...state.categories];
@@ -36,17 +42,20 @@ const adminInventoryReducer = (state = initialState, action) => {
                 ...state,
                 items: [action.payload.item, ...state.items],
                 createResponseMessage: action.payload.message,
+                createResponseStatus: "success",
                 categories: initialState.categories.concat(categoriesCopy)
             }
         case ADMIN_CREATE_ITEM_FAILED:
             return {
                 ...state,
-                createResponseMessage: action.payload.message
+                createResponseMessage: action.payload.message,
+                createResponseStatus: "failed"
             }
         case RESET_ADMIN_ITEM_CREATE_RESPONSE_MESSAGE:
             return {
                 ...state,
-                createResponseMessage: ""
+                createResponseMessage: "",
+                createResponseStatus: "success"
             }
         case ADMIN_ITEM_INPUT_CHANGE:
             var items = state.items.map(item => {
@@ -141,12 +150,14 @@ const adminInventoryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 items,
-                updateResponseMessage: action.payload.message
+                updateResponseMessage: action.payload.message,
+                updateResponseStatus: "success"
             }
         case ADMIN_UPDATE_ITEM_FAILED:
             return {
                 ...state,
-                updateResponseMessage: action.payload.message
+                updateResponseMessage: action.payload.message,
+                updateResponseStatus: "failed"
             }
         case ADMIN_DELETE_ITEM_SUCCESS:
             var items = state.items.filter(item => item._id !== action.payload.id);

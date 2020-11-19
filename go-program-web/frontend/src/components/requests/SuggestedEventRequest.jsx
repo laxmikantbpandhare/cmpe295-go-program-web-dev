@@ -65,7 +65,7 @@ class SuggestedEventRequest extends Component{
             loader: true
         });
         const data = {
-            status: this.props.event.status,
+            status: this.state.status,
             id: this.props.event._id
         }
         this.props.handleUpdate(data)
@@ -88,7 +88,9 @@ class SuggestedEventRequest extends Component{
                 <div className="col-sm-8">
                 {
                     this.props.event._id === this.props.updatedEvent
-                    ? <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                    ? <div className={`status-msg ${this.props.responseStatus}`}>
+                            {this.props.responseMessage}
+                        </div>
                     : null
                 }
                     <div className="card d-flex flex-row">
@@ -147,6 +149,8 @@ class SuggestedEventRequest extends Component{
                 {this.state.showCommentsModal ? 
                 <CommentsModal hideCommentsModal={this.hideCommentsModal}
                 id={this.props.event._id} comments={this.props.event.comments}
+                responseMessage = {this.props.commentsResponseMessage}
+                responseStatus = {this.props.commentsResponseStatus}
                 commenter="Admin" type="SuggestedEvent"/> : null}
             </div>
         )
@@ -163,7 +167,10 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.suggestedEventsRequests.updateResponseMessage,
-        updatedEvent: state.suggestedEventsRequests.updatedEvent
+        responseStatus: state.suggestedEventsRequests.updateResponseStatus,
+        updatedEvent: state.suggestedEventsRequests.updatedEvent,
+        commentsResponseMessage: state.suggestedEventsRequests.addCommentResponseMessage,
+        commentsResponseStatus: state.suggestedEventsRequests.addCommentResponseStatus
     }
 }
 

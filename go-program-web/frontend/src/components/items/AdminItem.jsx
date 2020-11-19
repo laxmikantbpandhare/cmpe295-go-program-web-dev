@@ -17,6 +17,7 @@ class AdminItem extends Component{
             photoIndex: 0,
             isOpen: false,
             message: "",
+            status: "success",
             images: []
         };
         
@@ -38,7 +39,8 @@ class AdminItem extends Component{
                 return res.blob()})
             .catch(err => {
                 this.setState({
-                    message: `Internal error when fetching item images - ${err}`
+                    message: `Internal error when fetching item images - ${err}`,
+                    status: "failed"
                 });
             })
         );
@@ -84,7 +86,9 @@ class AdminItem extends Component{
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
                 {/* <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6> */}
-                    <h6 style= {{color:"red"}}>{this.state.message}</h6>
+                    <div className={`status-msg ${this.state.status}`}>
+                        {this.state.message}
+                    </div>
                     <div className="card d-flex flex-row">
                         <img src={this.state.images[0]} className="img-fluid items-card-image align-self-center" alt="..."/>
                         <div className="card-body card-body-lesspad">

@@ -41,11 +41,6 @@ class AllUserRequests extends Component{
     }
 
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedStudents = [...this.props.students];
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
@@ -70,7 +65,6 @@ class AllUserRequests extends Component{
         : "No Student has signed up yet.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-user"></i> Users</h4>
             </div>
@@ -129,7 +123,9 @@ class AllUserRequests extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredStudents.length!==0 ? filteredStudents.map(student =>
                     <UserRequest student={student} key={student._id}/>
@@ -151,6 +147,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.usersRequests.getResponseMessage,
+        responseStatus: state.usersRequests.getResponseStatus,
         students: state.usersRequests.students
     }
 }

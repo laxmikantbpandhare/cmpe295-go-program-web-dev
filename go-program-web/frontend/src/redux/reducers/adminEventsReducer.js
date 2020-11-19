@@ -8,8 +8,11 @@ const initialState = {
     events: [],
     activeEvents:[],
     createResponseMessage: "",
+    createResponseStatus: "success",
     getResponseMessage: "",
+    getResponseStatus: "success",
     updateResponseMessage: "",
+    updateResponseStatus: "success",
     deleteResponseMessage: ""
 };
 
@@ -19,39 +22,46 @@ const adminEventsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 events: initialState.events.concat(action.payload.events),
-                getResponseMessage: ""
+                getResponseMessage: "",
+                getResponseStatus: "success"
             }
         case ADMIN_GET_EVENTS_FAILED:
             return {
                 ...state,
-                getResponseMessage: action.payload.message
+                getResponseMessage: action.payload.message,
+                getResponseStatus: "failed"
             }
         case ADMIN_GET_ACTIVE_EVENTS_SUCCESS:
             return {
                 ...state,
                 activeEvents: initialState.events.concat(action.payload.events),
-                getResponseMessage: ""
+                getResponseMessage: "",
+                getResponseStatus: "success"
             }
         case ADMIN_GET_ACTIVE_EVENTS_FAILED:
             return {
                 ...state,
-                getResponseMessage: action.payload.message
+                getResponseMessage: action.payload.message,
+                getResponseStatus: "failed"
             }
         case ADMIN_CREATE_EVENT_SUCCESS:
             return {
                 ...state,
                 events: [action.payload.event, ...state.events],
-                createResponseMessage: action.payload.message
+                createResponseMessage: action.payload.message,
+                createResponseStatus: "success"
             }
         case ADMIN_CREATE_EVENT_FAILED:
             return {
                 ...state,
-                createResponseMessage: action.payload.message
+                createResponseMessage: action.payload.message,
+                createResponseStatus: "failed"
             }
         case RESET_ADMIN_EVENT_CREATE_RESPONSE_MESSAGE:
             return {
                 ...state,
-                createResponseMessage: ""
+                createResponseMessage: "",
+                createResponseStatus: "success"
             }
         case ADMIN_EVENT_INPUT_CHANGE:
             var events = state.events.map(event => {
@@ -110,12 +120,14 @@ const adminEventsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 events,
-                updateResponseMessage: action.payload.message
+                updateResponseMessage: action.payload.message,
+                updateResponseStatus: "success"
             }
         case ADMIN_UPDATE_EVENT_FAILED:
             return {
                 ...state,
-                updateResponseMessage: action.payload.message
+                updateResponseMessage: action.payload.message,
+                updateResponseStatus: "failed"
             }
         case ADMIN_DELETE_EVENT_SUCCESS:
             var events = state.events.filter(event => event._id !== action.payload.id);

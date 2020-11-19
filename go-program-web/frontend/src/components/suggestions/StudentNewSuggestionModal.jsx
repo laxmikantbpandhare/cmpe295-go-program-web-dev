@@ -10,6 +10,7 @@ class StudentNewSuggestionModal extends Component{
             name: "",
             description: "",
             message: "",
+            status: "success",
             loader: false
         }
     }
@@ -35,23 +36,22 @@ class StudentNewSuggestionModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory." });
+            this.setState({ 
+                message: "All fields are mandatory.",
+                status: "failed"
+            });
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    status: "success",
                     loader: true
                 }
             );
         }
         const data = {
             student: {
-                fname: localStorage.getItem('fname'),
-                lname: localStorage.getItem('lname'),
-                email: localStorage.getItem('email'),
-                major: localStorage.getItem('major'),
-                year: localStorage.getItem('year')
             },
             name: this.state.name,
             description : this.state.description
@@ -77,8 +77,12 @@ class StudentNewSuggestionModal extends Component{
                             <h5 className="modal-title" id="eventModal">Suggest Event</h5>
                         </div>
                         <div className="modal-body">
-                            <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                            <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                            <div className={`status-msg ${this.state.status}`}>
+                                {this.state.message}
+                            </div>
+                            <div className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                             <div className="form-group row">
                                 <label className="col-3">Name</label>
                                 <div className="col-9">
@@ -124,7 +128,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.studentEvents.createResponseMessage
+        responseMessage: state.suggestedEvents.createResponseMessage,
+        responseStatus: state.suggestedEvents.createResponseStatus
     }
 }
 

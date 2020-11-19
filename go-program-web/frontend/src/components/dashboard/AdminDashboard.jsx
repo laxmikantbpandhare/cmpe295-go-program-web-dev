@@ -19,14 +19,8 @@ class AdminDashboard extends Component{
     }
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-        
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-tachometer-alt"></i> Dashboard</h4>
             </div>
@@ -44,7 +38,9 @@ class AdminDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getPendingApprovalEventsResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getPendingApprovalEventsResponseStatus}`}>
+                                    {this.props.getPendingApprovalEventsResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.pendingApprovalEvents.length !==0 
@@ -74,7 +70,9 @@ class AdminDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getSubmittedOrdersResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getSubmittedOrdersResponseStatus}`}>
+                                    {this.props.getSubmittedOrdersResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.submittedOrders.length !==0 
@@ -105,7 +103,9 @@ class AdminDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getPendingApprovalSuggestedEventsResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getPendingApprovalSuggestedEventsResponseStatus}`}>
+                                    {this.props.getPendingApprovalSuggestedEventsResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.pendingApprovalSuggestedEvents.length !==0 
@@ -140,10 +140,13 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         getPendingApprovalEventsResponseMessage: state.adminDashboard.getPendingApprovalEventsResponseMessage,
+        getPendingApprovalEventsResponseStatus: state.adminDashboard.getPendingApprovalEventsResponseStatus,
         pendingApprovalEvents: state.adminDashboard.pendingApprovalEvents,
         getSubmittedOrdersResponseMessage: state.adminDashboard.getSubmittedOrdersResponseMessage,
+        getSubmittedOrdersResponseStatus: state.adminDashboard.getSubmittedOrdersResponseStatus,
         submittedOrders: state.adminDashboard.submittedOrders,
         getPendingApprovalSuggestedEventsResponseMessage: state.adminDashboard.getPendingApprovalSuggestedEventsResponseMessage,
+        getPendingApprovalSuggestedEventsResponseStatus: state.adminDashboard.getPendingApprovalSuggestedEventsResponseStatus,
         pendingApprovalSuggestedEvents: state.adminDashboard.pendingApprovalSuggestedEvents
     }
 }

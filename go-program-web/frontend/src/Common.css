@@ -1,3 +1,11 @@
+.account-info {
+    margin: 2rem
+}
+
+.account-info-color {
+    color: #0056a3; 
+}
+
 .top-align {
     padding-top: 3.7rem
 }
@@ -205,4 +213,22 @@
 .edit-status-icon {
     margin-left: 1em;
     cursor: pointer;
+}
+
+.success {
+    color: green;
+}
+
+.failed {
+    color: red;
+}
+
+.status-msg {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.page-not-found {
+    text-align: center;
+    padding: 5em
 }

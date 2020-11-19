@@ -12,6 +12,7 @@ class StudentViewEventModal extends Component{
         this.initialDesc = props.event.description;
         this.state = {
             message: "",
+            status: "success",
             images: [],
             imagesUrl: [],
             loader: false
@@ -124,16 +125,25 @@ class StudentViewEventModal extends Component{
         })
     }
 
+    scrollToMessage = () => {
+        this.el.scrollIntoView({ behavior: 'smooth' });
+    }
+
     handleUpdate = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "Description is a mandatory field." });
+            this.setState({ 
+                message: "Description is a mandatory field.",
+                status: "failed"
+            });
+            this.scrollToMessage();
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    status: "success",
                     loader: true
                 }
             );
@@ -148,6 +158,7 @@ class StudentViewEventModal extends Component{
         this.props.updateEvent(data).then(() => {
             this.hideModal();
         }).catch(() => {
+            this.scrollToMessage();
             this.setState({
                 loader: false
             });
@@ -185,12 +196,16 @@ class StudentViewEventModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="eventModal">
-                            Edit Event
+                                Edit Event
                             </h5>
                         </div>
                             <div className="modal-body">
-                                <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                                <div ref={el => { this.el = el; }} className={`status-msg ${this.state.status}`}>
+                                    {this.state.message}
+                                </div>
+                                <div ref={el => { this.el = el; }} className={`status-msg ${this.props.responseStatus}`}>
+                                    {this.props.responseMessage}
+                                </div>
                                 <div class="form-group row">
                                     <label className="col-3">Event</label>
                                     <div className="col-9">
@@ -287,7 +302,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.studentEvents.updateResponseMessage
+        responseMessage: state.studentEvents.updateResponseMessage,
+        responseStatus: state.studentEvents.updateResponseStatus
     }
 }
 

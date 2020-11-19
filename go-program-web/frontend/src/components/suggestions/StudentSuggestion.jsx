@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import CommentsModal from '../comments/CommentsModal';
+import {connect} from 'react-redux';
 
 class StudentSuggestion extends Component{
     constructor(props){
@@ -64,10 +65,19 @@ class StudentSuggestion extends Component{
                 {this.state.showCommentsModal ? 
                 <CommentsModal hideCommentsModal={this.hideCommentsModal}
                 id={this.props.event._id} comments={this.props.event.comments}
+                responseMessage = {this.props.commentsResponseMessage}
+                responseStatus = {this.props.commentsResponseStatus}
                 commenter="Student" type="SuggestedEvent"/> : null}
             </div>
         )
     }
 }
 
-export default StudentSuggestion;
+const mapStateToProps = state => {
+    return {
+        commentsResponseMessage: state.suggestedEvents.addCommentResponseMessage,
+        commentsResponseStatus: state.suggestedEvents.addCommentResponseStatus
+    }
+}
+
+export default connect(mapStateToProps)(StudentSuggestion);

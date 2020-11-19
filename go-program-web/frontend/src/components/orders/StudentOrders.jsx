@@ -39,12 +39,7 @@ class StudentOrders extends Component{
 
     statusOptions = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
     
-    render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-        
+    render() { 
         let sortedOrders = [...this.props.studentOrders];
         if(this.state.sort !== ""){
             this.state.sort === "Ascending" 
@@ -65,7 +60,6 @@ class StudentOrders extends Component{
         : "No Order is submitted yet by you.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-receipt"></i> Orders</h4>
             </div>
@@ -113,7 +107,9 @@ class StudentOrders extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.studentResponseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     searchedOrders.length!==0 ? searchedOrders.map(order=>
                     <StudentOrder order={order} key={order.id}/>
@@ -135,7 +131,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        studentResponseMessage:state.studentOrders.getResponseMessage,
+        responseMessage:state.studentOrders.getResponseMessage,
+        responseStatus:state.studentOrders.getResponseStatus,
         studentOrders: state.studentOrders.orders
     }
 }

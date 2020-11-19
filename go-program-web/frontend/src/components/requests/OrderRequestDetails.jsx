@@ -8,7 +8,8 @@ class OrderRequestDetails extends Component{
     constructor(props){
         super(props);
         this.state = {
-            responseMessage: ""
+            message: "",
+            status: "success"
         };
     }
 
@@ -32,26 +33,23 @@ class OrderRequestDetails extends Component{
             }else{
                 res.json().then(data => {
                     this.setState({
-                        responseMessage: data.message
+                        message: data.message,
+                        status: "failed"
                     });
                 })
             }
         })
         .catch(err => {
             this.setState({
-                responseMessage: err.message
+                message: err.message,
+                status: "failed"
             });
         }); 
     }
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-receipt"></i> Student Orders</h4>
             </div>
@@ -59,7 +57,9 @@ class OrderRequestDetails extends Component{
                 <div className="orders-search-section">  {/*This class will support the sticky subheading */}
                     <h4 className="text-center text-white all-items-heading p-1">Order Details</h4>
                 </div>
-                <h6 style= {{color:"red"}}>{this.state.responseMessage}</h6>
+                <div className={`status-msg ${this.state.status}`}>
+                    {this.state.message}
+                </div>
                 {
                     this.state.order
                     ? <div>

@@ -42,11 +42,6 @@ class AllOrderRequests extends Component{
     statusOptions = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedOrders = [...this.props.orders];
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
@@ -70,7 +65,6 @@ class AllOrderRequests extends Component{
         : "No Order is submitted yet by any student.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-receipt"></i> Students Orders</h4>
             </div>
@@ -128,7 +122,9 @@ class AllOrderRequests extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredOrders.length!==0 ? filteredOrders.map(order=>
                     <OrderRequest order={order} key={order.id}/>
@@ -151,6 +147,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.ordersRequests.getResponseMessage,
+        responseStatus: state.ordersRequests.getResponseStatus,
         orders: state.ordersRequests.orders
     }
 }

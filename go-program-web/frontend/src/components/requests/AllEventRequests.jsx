@@ -43,11 +43,6 @@ class AllEventRequests extends Component{
     statusOptions = ['Pending Approval', 'Approved', 'Rejected', 'Action Required'];
 
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedEvents = [...this.props.events];
         if(this.state.sort !== ""){
             if(this.state.sort === "Submitted Date Ascending"){
@@ -58,7 +53,6 @@ class AllEventRequests extends Component{
         }
 
         let filteredEvents = sortedEvents.filter(event => {
-            console.log("event.student.sjsuId -- ", event.student.sjsuId.toLowerCase());
             return (event.event.name.toLowerCase().indexOf(this.state.searchEventName.toLowerCase()) !== -1 &&
             event.student.sjsuId.toLowerCase().indexOf(this.state.searchStudentId.toLowerCase()) !== -1 && 
             event.status.indexOf(this.state.filter)!==-1)
@@ -69,7 +63,6 @@ class AllEventRequests extends Component{
         : "No Event is submitted yet by any student.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Students Events</h4>
             </div>
@@ -127,7 +120,9 @@ class AllEventRequests extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredEvents.length!==0 ? filteredEvents.map(event =>
                     <EventRequest event={event} key={event._id}/>
@@ -149,6 +144,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.eventsRequests.getResponseMessage,
+        responseStatus: state.eventsRequests.getResponseStatus,
         events: state.eventsRequests.events
     }
 }

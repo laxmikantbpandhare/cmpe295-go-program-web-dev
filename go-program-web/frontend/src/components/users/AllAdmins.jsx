@@ -49,11 +49,6 @@ class AllAdmins extends Component{
     }
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedAdmins = [...this.props.admins];
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
@@ -78,7 +73,6 @@ class AllAdmins extends Component{
         : "No Admin is yet created.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-user"></i> Admin Users</h4>
             </div>
@@ -144,7 +138,9 @@ class AllAdmins extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredAdmins.length!==0 ? filteredAdmins.map(admin=>
                     <AdminDetails admin={admin} key={admin._id}/>
@@ -172,6 +168,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.adminUsers.getResponseMessage,
+        responseStatus: state.adminUsers.getResponseStatus,
         admins: state.adminUsers.admins
     }
 }

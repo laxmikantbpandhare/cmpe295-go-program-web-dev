@@ -13,6 +13,7 @@ class NewAdminModal extends Component{
             email:"",
             id: "",
             message: "",
+            status: "success",
             loader: false
         }
     }
@@ -48,15 +49,22 @@ class NewAdminModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory." });
+            this.setState({ 
+                message: "All fields are mandatory.",
+                status: "failed"
+            });
             return;
         } else if(!this.isEmailAndIdAccepted()){
-            this.setState({ message: "Please enter correct SJSU ID and SJSU Email Id" });
+            this.setState({ 
+                message: "Please enter correct SJSU ID and SJSU Email Id",
+                status: "failed"
+            });
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    status: "success",
                     loader: true
                 }
             );
@@ -84,8 +92,12 @@ class NewAdminModal extends Component{
                             <h5 className="modal-title" id="itemModal">Add Admin</h5>
                         </div>
                         <div className="modal-body">
-                            <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                            <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                            <div className={`status-msg ${this.state.status}`}>
+                                {this.state.message}
+                            </div>
+                            <div className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                             <div class="form-group row">
                                 <label className="col-4">SJSU ID</label>
                                 <div className="col-8">
@@ -142,7 +154,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminUsers.createResponseMessage
+        responseMessage: state.adminUsers.createResponseMessage,
+        responseStatus: state.adminUsers.createResponseStatus
     }
 }
 

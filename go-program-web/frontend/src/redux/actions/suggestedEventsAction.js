@@ -1,7 +1,7 @@
 import { STUDENT_GET_SUGGESTED_EVENTS_SUCCESS, STUDENT_GET_SUGGESTED_EVENTS_FAILED, 
     STUDENT_CREATE_SUGGESTED_EVENT_SUCCESS, STUDENT_CREATE_SUGGESTED_EVENT_FAILED, 
     RESET_STUDENT_SUGGESTED_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_SUGGESTED_EVENT_ADD_COMMENT_SUCCESS, 
-    STUDENT_SUGGESTED_EVENT_ADD_COMMENT_FAILED} from './types';
+    STUDENT_SUGGESTED_EVENT_ADD_COMMENT_FAILED, RESET_STUDENT_SUGGESTED_EVENT_ADD_COMMENT_RESPONSE} from './types';
 import {backendUrl} from '../../config';
 
 export const getEvents = () => dispatch => {
@@ -136,3 +136,9 @@ export const suggestedEventAddStudentComment = data =>  dispatch =>
         reject();
     });
 });
+
+export const resetAddCommentResponseMessageProps = () => {
+    return{
+        type: RESET_STUDENT_SUGGESTED_EVENT_ADD_COMMENT_RESPONSE
+    }
+}

@@ -46,10 +46,6 @@ class AdminAllEvents extends Component{
     }
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
         let sortedEvents = [...this.props.events];
         if(this.state.sort !== ""){
             if(this.state.sort === "Points Asc"){
@@ -72,7 +68,6 @@ class AdminAllEvents extends Component{
         : "No Event is created yet";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Events</h4>
             </div>
@@ -119,7 +114,9 @@ class AdminAllEvents extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredEvents.length!==0 ? filteredEvents.map(event=>
                     <AdminEvent event={event} key={event._id}/>
@@ -144,6 +141,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.adminEvents.getResponseMessage,
+        responseStatus: state.adminEvents.getResponseStatus,
         events: state.adminEvents.events
     }
 }

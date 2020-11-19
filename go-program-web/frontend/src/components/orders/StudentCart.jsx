@@ -13,7 +13,8 @@ class StudentCart extends Component{
             pointsAvailable: 0,
             pointsUsed: 0,
             cart: [],
-            responseMessage: ""
+            message: "",
+            status: "success"
         };
     }
 
@@ -33,7 +34,8 @@ class StudentCart extends Component{
             pointsAvailable: 0,
             pointsUsed: 0,
             cart: [],
-            responseMessage: ""
+            message: "",
+            status: "success"
         });
         localStorage.removeItem('cart');
         localStorage.removeItem('pointsUsed');
@@ -56,7 +58,8 @@ class StudentCart extends Component{
                 pointsAvailable: 0,
                 pointsUsed: 0,
                 cart: [],
-                responseMessage: ""
+                message: "",
+                status: "success"
             });
             localStorage.removeItem('cart');
             localStorage.removeItem('pointsUsed');
@@ -92,6 +95,9 @@ class StudentCart extends Component{
     confirmOrder = () => {
         this.prepareOrderItems((orderItems, inventoryItems) => {
             const data = {
+                student: {
+
+                },
                 orderItems,
                 inventoryItems,
                 points: this.state.pointsUsed
@@ -114,7 +120,8 @@ class StudentCart extends Component{
                             pointsAvailable: 0,
                             pointsUsed: 0,
                             cart: [],
-                            responseMessage: resData.message
+                            message: resData.message,
+                            status: "success"
                         });
                         localStorage.removeItem('cart');
                         localStorage.removeItem('pointsUsed');
@@ -122,24 +129,22 @@ class StudentCart extends Component{
                 }else{
                     res.json().then(resData => {
                         this.setState({
-                            responseMessage: resData.message
+                            message: resData.message,
+                            status: "failed"
                         })
                     })
                 }
             })
             .catch(err => {
                 this.setState({
-                    responseMessage: err.message
+                    message: err.message,
+                    status: "failed"
                 })
             });
         })
     }
     
     render() {
-        let redirectVar = null;
-        if(localStorage.getItem('token')){
-
-        }
         return(
         <div className="top-align">
             <div className="heading py-1">
@@ -149,7 +154,9 @@ class StudentCart extends Component{
                 <div className="orders-search-section">  {/*This class will support the sticky subheading */}
                     <h4 className="text-center text-white all-items-heading p-1">Cart Items</h4>
                 </div>
-                <h6 style= {{color:"red"}}>{this.state.responseMessage}</h6>
+                <div className={`status-msg ${this.state.status}`}>
+                    {this.state.message}
+                </div>
                 {
                     this.state.cart.length > 0
                     ? <div>

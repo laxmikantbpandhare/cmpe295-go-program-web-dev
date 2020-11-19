@@ -3,6 +3,7 @@ import '../../Common.css';
 import './Orders.css'
 import CommentsModal from '../comments/CommentsModal';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class StudentOrder extends Component{
     constructor(props){
@@ -49,10 +50,19 @@ class StudentOrder extends Component{
                 {this.state.showCommentsModal ? 
                 <CommentsModal hideCommentsModal={this.hideCommentsModal}
                 id={this.props.order._id} comments={this.props.order.comments}
+                responseMessage = {this.props.commentsResponseMessage}
+                responseStatus = {this.props.commentsResponseStatus}
                 commenter="Student" type="Order"/> : null}
             </div>
         )
     }
 }
 
-export default StudentOrder;
+const mapStateToProps = state => {
+    return {
+        commentsResponseMessage: state.studentOrders.addCommentResponseMessage,
+        commentsResponseStatus: state.studentOrders.addCommentResponseStatus
+    }
+}
+
+export default connect(mapStateToProps)(StudentOrder);

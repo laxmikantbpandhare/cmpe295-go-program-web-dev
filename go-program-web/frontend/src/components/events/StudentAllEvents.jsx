@@ -53,11 +53,6 @@ class StudentAllEvents extends Component{
     statusOptions = ['Pending Approval', 'Approved', 'Rejected', 'Action Required'];
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedEvents = [...this.props.studentEvents];
         if(this.state.sort !== ""){
             if(this.state.sort === "Points Ascending"){
@@ -81,7 +76,6 @@ class StudentAllEvents extends Component{
         : "No Event is submitted yet by you.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-calendar-check"></i> Events</h4>
             </div>
@@ -138,8 +132,12 @@ class StudentAllEvents extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.adminResponseMessage}</h6>
-                <h6 style= {{color:"red"}}>{this.props.studentResponseMessage}</h6>
+                <div className={`status-msg ${this.props.adminResponseStatus}`}>
+                    {this.props.adminResponseMessage}
+                </div>
+                <div className={`status-msg ${this.props.studentResponseStatus}`}>
+                    {this.props.studentResponseMessage}
+                </div>
                 {
                     filteredEvents.length!==0 ? filteredEvents.map(event=>
                     <StudentEvent event={event} key={event._id}/>
@@ -169,7 +167,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         adminResponseMessage: state.adminEvents.getResponseMessage,
+        adminResponseStatus: state.adminEvents.getResponseStatus,
         studentResponseMessage:state.studentEvents.getResponseMessage,
+        studentResponseStatus:state.studentEvents.getResponseStatus,
         adminEvents: state.adminEvents.activeEvents,
         studentEvents: state.studentEvents.events
     }

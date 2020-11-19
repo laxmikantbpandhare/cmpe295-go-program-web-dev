@@ -15,6 +15,7 @@ class AdminNewEventModal extends Component{
             points:0,
             expiry:null,
             message: "",
+            status: "success",
             loader: false
         }
     }
@@ -48,12 +49,16 @@ class AdminNewEventModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "Fields marked in red are mandatory. Points cannot be less than 1." });
+            this.setState({ 
+                message: "Fields marked in red are mandatory. Points cannot be less than 1.",
+                status: "failed"
+            });
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    status: "success",
                     loader: true
                 }
             );
@@ -83,14 +88,14 @@ class AdminNewEventModal extends Component{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="eventModal">Add Event</h5>
-                            {/* <button type="button" className="close" data-dismiss="modal"
-                                onClick = {this.hideModal} aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
                         </div>
                             <div className="modal-body">
-                                <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                                <div className={`status-msg ${this.state.status}`}>
+                                    {this.state.message}
+                                </div>
+                                <div className={`status-msg ${this.props.responseStatus}`}>
+                                    {this.props.responseMessage}
+                                </div>
                                 <div class="form-group row">
                                     <label className="col-3">Name</label>
                                     <div className="col-9">
@@ -161,7 +166,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminEvents.createResponseMessage
+        responseMessage: state.adminEvents.createResponseMessage,
+        responseStatus: state.adminEvents.createResponseStatus
     }
 }
 
