@@ -16,6 +16,9 @@ class OrderCell: UITableViewCell{
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
         addSubview(orderImageView)
         addSubview(orderTitleLabel)
         addSubview(orderStatusLabel)
@@ -41,7 +44,7 @@ class OrderCell: UITableViewCell{
         
         // Do image at the end
         do {
-            guard let url = URL(string: order.image) else { return }
+            guard let url = URL(string: "http://10.0.0.207:3001/download/image/?name=" + order.image) else { return }
             let data = try Data(contentsOf: url)
             orderImageView.image = UIImage(data: data)
         }
@@ -58,7 +61,7 @@ class OrderCell: UITableViewCell{
     func configureTitleLabel() {
         orderTitleLabel.numberOfLines             = 0
         orderTitleLabel.adjustsFontSizeToFitWidth = true
-        orderTitleLabel.textColor = UIColor.blue
+        orderTitleLabel.textColor = UIColor.white
     }
     
     func setImageConstraints() {

@@ -9,22 +9,17 @@
 import UIKit
 import Alamofire
 
-//class Events {
-//    static func getEvents() {
-//        let urlString = "http://10.0.0.89:3001/user/login"
-//    }
-//}
-
 // TableView Cell
 class CellClass: UITableViewCell {
     
 }
 
-// Submit event request
+// Struct for event object inside EventReq
 struct EventObj : Codable {
     var id: String?
 }
 
+// Struct to capture payload for event submission request
 struct EventReq : Codable {
     var description: String?
     var completedDate: String?
@@ -33,6 +28,7 @@ struct EventReq : Codable {
     var images: [String]?
 }
 
+// Struct to receive response to image upload request
 struct UploadResp : Codable {
     var imagesName: [String]?
 }

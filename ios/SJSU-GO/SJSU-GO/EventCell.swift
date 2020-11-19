@@ -16,6 +16,9 @@ class EventCell: UITableViewCell{
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
         addSubview(eventImageView)
         addSubview(eventTitleLabel)
         addSubview(eventStatusLabel)
@@ -40,7 +43,7 @@ class EventCell: UITableViewCell{
         
         // Do image at the end
         do {
-            guard let url = URL(string: event.image) else { return }
+            guard let url = URL(string: "http://10.0.0.207:3001/download/image/?name=" + event.image) else { return }
             let data = try Data(contentsOf: url)
             eventImageView.image = UIImage(data: data)
         }
@@ -57,13 +60,13 @@ class EventCell: UITableViewCell{
     func configureTitleLabel() {
         eventTitleLabel.numberOfLines             = 0
         eventTitleLabel.adjustsFontSizeToFitWidth = true
-        eventTitleLabel.textColor = UIColor.blue
+        eventTitleLabel.textColor = UIColor.white
     }
     
     func configureStatusLabel() {
         eventStatusLabel.numberOfLines             = 0
         eventStatusLabel.adjustsFontSizeToFitWidth = true
-        eventStatusLabel.textColor = UIColor.blue
+        eventStatusLabel.textColor = UIColor.white
     }
     
     func setImageConstraints() {

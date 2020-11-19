@@ -25,6 +25,9 @@ class OrdersController: UIViewController {
         super.viewDidLoad()
         
         title = "Orders"
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        navigationController?.navigationBar.barStyle     = .black
+        
         // Can't see background if tableView fills entire screen
         view.backgroundColor = .blue
         
@@ -72,6 +75,8 @@ class OrdersController: UIViewController {
         // register cells
         tableView.register(OrderCell.self, forCellReuseIdentifier: "OrderCell")
         tableView.pin(to: view)
+        
+        tableView.separatorColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
     }
     
     func setTableViewDelegates() {
