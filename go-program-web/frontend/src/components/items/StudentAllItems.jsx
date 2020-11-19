@@ -98,8 +98,8 @@ class StudentAllItems extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Redeem</h4>
             </div>
             <div className="container-fluid below-heading">
-                <div className="items-search-section">
-                    <h4 className="text-center text-white all-items-heading p-1">All Items</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1">All Items</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="pointFilter" onChange={this.handleChange}

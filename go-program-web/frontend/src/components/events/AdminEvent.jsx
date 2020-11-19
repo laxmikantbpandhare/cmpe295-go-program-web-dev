@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Events.css'
 import AdminViewEventModal from './AdminViewEventModal';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';

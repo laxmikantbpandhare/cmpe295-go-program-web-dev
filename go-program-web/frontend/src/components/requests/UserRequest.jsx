@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Requests.css'
 import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';
 import {updateStudentStatus} from '../../redux/actions/usersRequestsAction';

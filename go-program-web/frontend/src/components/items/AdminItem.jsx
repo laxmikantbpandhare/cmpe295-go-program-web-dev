@@ -90,7 +90,7 @@ class AdminItem extends Component{
                         {this.state.message}
                     </div>
                     <div className="card d-flex flex-row">
-                        <img src={this.state.images[0]} className="img-fluid items-card-image align-self-center" alt="..."/>
+                        <img src={this.state.images[0]} className="img-fluid entity-card-image align-self-center" alt="..."/>
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold">{this.props.item.name}</h5>
                             <p className="card-text">{trimmedDescription}</p>

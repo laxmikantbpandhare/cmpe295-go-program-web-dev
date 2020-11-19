@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import closeIcon from '../../images/close_icon.png';
 import '../../Common.css';
-import './Events.css'
 import {connect} from 'react-redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

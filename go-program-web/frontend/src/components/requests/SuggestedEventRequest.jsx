@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Requests.css'
 import ViewSuggestedEventRequestModal from './ViewSuggestedEventRequestModal';
 import {connect} from 'react-redux';
 import {updateEventStatus} from '../../redux/actions/suggestedEventsRequestsAction';

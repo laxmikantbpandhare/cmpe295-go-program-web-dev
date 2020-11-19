@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Events.css'
 import StudentViewEventModal from './StudentViewEventModal';
 import Lightbox from 'react-image-lightbox';
 import CommentsModal from '../comments/CommentsModal';
@@ -106,7 +105,7 @@ class StudentEvent extends Component{
                         {this.state.message}
                     </div>
                     <div className="card d-flex flex-row">
-                        <img src={this.state.images[0]} className="img-fluid events-card-image m-1" alt="..."/>
+                        <img src={this.state.images[0]} className="img-fluid entity-card-image m-1" alt="..."/>
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold">{this.props.event.event.name}</h5>
                             {

@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
-import './Events.css'
 import AdminNewEventModal from './AdminNewEventModal';
 import {connect} from 'react-redux';
 import {getEvents} from '../../redux/actions/adminEventsAction';
@@ -80,8 +77,8 @@ class AdminAllEvents extends Component{
                         </button>
                     </div>
                 </div>
-                <div className="events-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Events</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Events</h4>
                     <div className="row">
                         <div className="col-sm-2 order-sm-3">
                             <select className="form-control" name="sort" onChange={this.handleChange}

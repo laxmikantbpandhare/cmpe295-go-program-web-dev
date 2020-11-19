@@ -59,7 +59,7 @@ class OrderItem extends Component{
                         {this.state.message}
                     </div>
                     <div className="card d-flex flex-row">
-                        <img src={this.state.images[0]} className="img-fluid cart-item-image m-1" alt="..."/>
+                        <img src={this.state.images[0]} className="img-fluid entity-card-image m-1" alt="..."/>
                         <div className="card-body card-body-lesspad">
                             <h5 style={{fontSize: '1rem'}} className="font-weight-bold">{this.props.item.item.name}</h5>
                             <p className="font-smaller"><strong>Points: </strong>{this.props.item.item.points}</p>

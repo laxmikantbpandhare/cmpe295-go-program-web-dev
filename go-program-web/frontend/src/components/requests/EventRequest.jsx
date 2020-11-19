@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Requests.css'
 import ViewEventRequestModal from './ViewEventRequestModal';
 import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';

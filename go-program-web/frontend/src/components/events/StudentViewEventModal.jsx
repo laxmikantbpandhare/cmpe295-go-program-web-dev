@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Events.css'
 import {connect} from 'react-redux';
 import closeIcon from '../../images/close_icon.png';
 import {eventInputChangeHandler, eventEditCancelHandler, 

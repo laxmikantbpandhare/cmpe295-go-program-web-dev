@@ -23,7 +23,7 @@ class StudentCartItem extends Component{
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
                     <div className="card d-flex flex-row">
-                        <img src={this.props.item.images[0]} className="img-fluid cart-item-image m-1" alt="..."/>
+                        <img src={this.props.item.images[0]} className="img-fluid entity-card-image m-1" alt="..."/>
                         <div className="card-body card-body-lesspad">
                             <h5 style={{fontSize: '1rem'}} className="font-weight-bold">{this.props.item.name}</h5>
                             <p className="font-smaller"><strong>Points: </strong>{this.props.item.points}</p>

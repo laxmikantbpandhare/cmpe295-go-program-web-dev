@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
-import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
-import './Events.css';
 import StudentNewEventModal from './StudentNewEventModal';
 import {connect} from 'react-redux';
 import {getActiveEvents} from '../../redux/actions/adminEventsAction';
@@ -88,8 +84,8 @@ class StudentAllEvents extends Component{
                         </button>
                     </div>
                 </div>
-                <div className="events-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Submitted Events</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Submitted Events</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="filter" onChange={this.handleChange}

@@ -151,8 +151,8 @@ class StudentCart extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fas fa-shopping-cart"></i> Cart</h4>
             </div>
             <div className="container-fluid below-heading">
-                <div className="orders-search-section">  {/*This class will support the sticky subheading */}
-                    <h4 className="text-center text-white all-items-heading p-1">Cart Items</h4>
+                <div className="entities-search-section">  {/*This class will support the sticky subheading */}
+                    <h4 className="text-center text-white all-entity-heading p-1">Cart Items</h4>
                 </div>
                 <div className={`status-msg ${this.state.status}`}>
                     {this.state.message}

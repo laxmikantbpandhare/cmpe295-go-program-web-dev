@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router';
 import '../../Common.css';
-import './Users.css';
 import NewAdminModal from './NewAdminModal';
 import {connect} from 'react-redux';
 import {getAdmins} from '../../redux/actions/adminUsersAction';
@@ -85,8 +83,8 @@ class AllAdmins extends Component{
                         </button>
                     </div>
                 </div>
-                <div className="events-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Admin Users</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Admin Users</h4>
                     <div className="row">
                     <div  class="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}

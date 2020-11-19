@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Requests.css'
 import {connect} from 'react-redux';
 import {updateOrderStatus} from '../../redux/actions/ordersRequestsAction';
 import CommentsModal from '../comments/CommentsModal';

@@ -1,30 +1,3 @@
-.orders-search-section{
-    position: sticky;
-    top: 6.4rem;
-    position: -webkit-sticky;
-    z-index: 9;
-    background: white;
-}
-
-.orders-search-section .input-group-text {
-    color: #0056a3;
-    background-color: #f8b21a;
-    border: 1px solid #fdf4df
-}
-
-.all-orders-heading{
-    background-color: #0056a3
-}
-
-.cart-item-image {
-    width: 8rem;
-    height: 8rem;
-}
-
-/* .student-order-item {
-    background-color: #f8b21a;
-} */
-
 .student-order-item hr{
     margin-top: 0;
     margin-bottom: 0;

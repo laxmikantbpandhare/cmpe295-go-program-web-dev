@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
-import './Requests.css';
 import {connect} from 'react-redux';
 import {getAllOrders} from '../../redux/actions/ordersRequestsAction';
 import OrderRequest from './OrderRequest';
@@ -70,8 +67,8 @@ class AllOrderRequests extends Component{
             </div>
             
             <div className="container-fluid below-heading">
-                <div className="requests-search-section">
-                    <h4 className="text-center text-white all-orders-heading p-1 mt-2">All Submitted Events</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Submitted Events</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}
