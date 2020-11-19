@@ -157,37 +157,8 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
 
         Uri selectedImageUri = data.getData();
         imageURL = getRealPathFromURI(selectedImageUri);
-        Log.d(TAG_ACTIVITY, imageURL);
+        Log.d(TAG_ACTIVITY, "onActivityResult " + imageURL);
 
-        /*showProgress(true);
-        Ion.with(this)
-                .load("POST",ConstantUtils.DOMAIN_URL + "upload/images")
-                //.uploadProgressBar(uploadProgressBar)
-                .setHeader("Authorization", "Bearer " + PreferencesUtils.getAuthToken(this))
-                .setMultipartFile("image", "application/jpg", new File(s))
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-                        Log.d(TAG_ACTIVITY, result);
-                        if (e == null) {
-                            Log.d(TAG_ACTIVITY, "REST successful");
-                            JSONObject o;
-                            JSONArray imagesArray;
-                            try {
-                                o = new JSONObject(result);
-                                imagesArray = o.getJSONArray("imagesUrl");
-                                imageURL = imagesArray.getString(0);
-                            } catch (JSONException ex) {
-                                //e.printStackTrace();
-                            }
-
-                        } else {
-                            Log.d(TAG_ACTIVITY, "Error not null");
-                        }
-                        showProgress(false);
-                    }
-                });*/
     }
 
     public String getRealPathFromURI(Uri uri) {
@@ -205,7 +176,7 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
             return;
         }
 
-        // Start ann AsyncTask to upload the image
+        // Start an AsyncTask to upload the image
         final AsyncTask<Void, Void, Void> mTask = new ImageUploadTask();
         mTask.execute();
 
@@ -230,118 +201,6 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
             evImageUpload();
             return null;
         }
-    }
-
-    private void uploadImage() {
-        // Upload image and then call post event
-
-        String fileName = imageURL;
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "------sjsuGO";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        int serverResponseCode;
-        File sourceFile = new File(fileName);
-        Log.v(TAG_ACTIVITY, "Uploading: sourcefileURI, " + fileName);
-
-        if (!sourceFile.isFile()) {
-            Log.e(TAG_ACTIVITY, "Source File not exist");//FullPath);
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    //messageText.setText("Source File not exist :"
-                }
-            });
-            return;  //RETURN #1
-        }
-        else{
-            try{
-
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL(ConstantUtils.DOMAIN_URL + "upload/images");
-                Log.v(TAG_ACTIVITY,url.toString());
-
-                // Open a HTTP  connection to  the URL
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true); // Allow Inputs
-                conn.setDoOutput(true); // Allow Outputs
-                conn.setUseCaches(false); // Don't use a Cached Copy            s
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "Bearer " + PreferencesUtils.getAuthToken(this));
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("file", fileName);
-
-                dos = new DataOutputStream(conn.getOutputStream());
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + fileName + "\"" + lineEnd);
-                dos.writeBytes(lineEnd);
-
-                // create a buffer of  maximum size
-                bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-                // read file and write it into form...
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-                    dos.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                    Log.i(TAG_ACTIVITY,"->");
-                }
-
-                // send multipart form data necesssary after file data...
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                // Responses from the server (code and message)
-                serverResponseCode = conn.getResponseCode();
-                String serverResponseMessage = conn.getResponseMessage().toString();
-                Log.i(TAG_ACTIVITY, "HTTP Response is : "  + serverResponseMessage + ": " + serverResponseCode);
-
-                // ------------------ read the SERVER RESPONSE
-                DataInputStream inStream;
-                try {
-                    inStream = new DataInputStream(conn.getInputStream());
-                    String str;
-                    while ((str = inStream.readLine()) != null) {
-                        Log.e(TAG_ACTIVITY, "SOF Server Response" + str);
-                    }
-                    inStream.close();
-                }
-                catch (IOException ioex) {
-                    Log.e(TAG_ACTIVITY, "SOF error: " + ioex.getMessage(), ioex);
-                }
-
-                //close the streams //
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-
-                if(serverResponseCode == 200){
-                    //Do something
-                }//END IF Response code 200
-
-            }//END TRY - FILE READ
-            catch (MalformedURLException ex) {
-                ex.printStackTrace();
-                Log.e(TAG_ACTIVITY, "UL error: " + ex.getMessage(), ex);
-            } //CATCH - URL Exception
-
-            catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG_ACTIVITY, "Exception : "+ e.getMessage(), e);
-            } //
-
-            return; //after try
-        }//END ELSE, if file exists.
-
     }
 
     public void evImageUpload() {
@@ -403,7 +262,7 @@ public class SubmitEventActivity extends AppCompatActivity implements DatePicker
 
             outputStream.writeBytes(lineEnd);
 
-            /* Upload POST Data
+            /* Upload POST Data. This might be needed in signup form
             //Iterator<String> keys = parmas.keySet().iterator();
             while (keys.hasNext()) {
                 //String key = keys.next();

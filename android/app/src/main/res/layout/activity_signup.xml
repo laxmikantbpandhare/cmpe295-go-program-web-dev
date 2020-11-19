@@ -116,7 +116,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/major"
-            app:layout_constraintBottom_toTopOf="@+id/sign_in_button"/>
+            app:layout_constraintBottom_toTopOf="@+id/sjsu_id_button"/>
+
+            <Button
+                android:id="@+id/sjsu_id_button"
+                android:layout_width="215dp"
+                android:layout_height="43dp"
+                android:text="Upload SJSU ID"
+                android:background="@color/sjsuBlue"
+                android:onClick="attachSJSUId"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/year" />
 
         <Button
             android:id="@+id/sign_up_button"
@@ -129,7 +143,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/year" />
+            app:layout_constraintTop_toBottomOf="@+id/sjsu_id_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
