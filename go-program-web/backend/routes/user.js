@@ -7,6 +7,11 @@ const {secret} = require('../config/config');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
 
+var sendmail = require('../sendmail')({
+    smtpHost:'localhost',
+    smtpPort: 1025
+})
+
 router.post('/signup',function(req,res){
     console.log("Inside User signup Post Request");
     console.log("Req Body : ",req.body);
@@ -60,6 +65,17 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
 router.post('/login',function(req,res){
     console.log("Inside User Login Post Request");
 
+    sendmail({
+        from: 'test@yourdomain.com',
+        to: 'info@yourdomain.com',
+        replyTo: 'jason@yourdomain.com',
+        subject: 'MailComposer sendmail',
+        html: 'Mail of test sendmail '
+      }, function (err, reply) {
+        console.log(err && err.stack)
+        console.dir(reply)
+      })
+      
     const id = req.body.id;
     const password = req.body.password;
 

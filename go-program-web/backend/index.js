@@ -55,9 +55,9 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 //start your server on port 3101
-app.listen(3001);
+app.listen(8080);
 // app.listen(3001, "127.0.0.1");
 
-console.log("Server Listening on port 3001.");
+console.log("Server Listening on port 8080.");
 
 module.exports = app;
