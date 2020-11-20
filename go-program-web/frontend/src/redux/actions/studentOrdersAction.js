@@ -1,5 +1,5 @@
 import { STUDENT_GET_ORDERS_SUCCESS, STUDENT_GET_ORDERS_FAILED, STUDENT_ORDER_ADD_COMMENT_SUCCESS,
-    STUDENT_ORDER_ADD_COMMENT_FAILED} from './types';
+    STUDENT_ORDER_ADD_COMMENT_FAILED, RESET_STUDENT_ORDER_ADD_COMMENT_RESPONSE} from './types';
 import {backendUrl} from '../../config';
 
 export const getOrders = () => dispatch => {
@@ -83,3 +83,9 @@ export const orderAddStudentComment = data =>  dispatch =>
         reject();
     });
 });
+
+export const resetAddCommentResponseMessageProps = () => {
+    return{
+        type: RESET_STUDENT_ORDER_ADD_COMMENT_RESPONSE
+    }
+}

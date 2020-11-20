@@ -22,6 +22,12 @@ struct LoginResponse : Codable {
 }
 
 struct User : Codable {
+    let userType: String
+    let fname: String
+}
+
+/*
+struct User : Codable {
     let id: String
     let fname: String
     let lname: String
@@ -29,7 +35,8 @@ struct User : Codable {
     let major: String
     let year: String
 }
-
+*/
+ 
 // Events reponse
 struct Event : Codable {
     let _id: String

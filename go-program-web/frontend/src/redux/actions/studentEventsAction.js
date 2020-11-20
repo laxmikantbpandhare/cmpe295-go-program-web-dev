@@ -1,5 +1,8 @@
 import { STUDENT_CREATE_EVENT_SUCCESS, STUDENT_CREATE_EVENT_FAILED, STUDENT_GET_EVENTS_SUCCESS,
-    STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_EVENT_INPUT_CHANGE, STUDENT_EVENT_EDIT_CANCEL, STUDENT_UPDATE_EVENT_SUCCESS, STUDENT_UPDATE_EVENT_FAILED, STUDENT_EVENT_ADD_COMMENT_SUCCESS, STUDENT_EVENT_ADD_COMMENT_FAILED} from './types';
+    STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_EVENT_INPUT_CHANGE, 
+    STUDENT_EVENT_EDIT_CANCEL, STUDENT_UPDATE_EVENT_SUCCESS, STUDENT_UPDATE_EVENT_FAILED, 
+    STUDENT_EVENT_ADD_COMMENT_SUCCESS, STUDENT_EVENT_ADD_COMMENT_FAILED,
+    RESET_STUDENT_EVENT_ADD_COMMENT_RESPONSE} from './types';
 import {backendUrl} from '../../config';
 
 export const getEvents = () => dispatch => {
@@ -66,7 +69,7 @@ const saveEventImages = (images,successcb, failurecb) => {
             }
         })
         .catch(err => {
-            failurecb(err);
+            failurecb(`Internal error -- ${err}`);
         });
     } else {
         successcb([]);
@@ -255,3 +258,9 @@ export const eventAddStudentComment = data =>  dispatch =>
         reject();
     });
 });
+
+export const resetAddCommentResponseMessageProps = () => {
+    return{
+        type: RESET_STUDENT_EVENT_ADD_COMMENT_RESPONSE
+    }
+}

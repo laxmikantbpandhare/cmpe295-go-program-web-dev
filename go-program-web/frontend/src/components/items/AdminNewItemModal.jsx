@@ -20,6 +20,7 @@ class AdminNewItemModal extends Component{
             points:0,
             attributes: [{size:"",quantity:0}],
             message: "",
+            status: "success",
             loader: false
         }
     }
@@ -180,24 +181,36 @@ class AdminNewItemModal extends Component{
         return allSizes.length !== new Set(allSizes).size;
     }
 
-     handleSubmit = e => {
+    scrollToMessage = () => {
+        this.el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    handleSubmit = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory with at least 1 pic. Points and Quantity cannot be less than 1" });
+            this.setState({ 
+                message: "All fields are mandatory with at least 1 pic. Points and Quantity cannot be less than 1",
+                status: "failed"
+            });
+            this.scrollToMessage();
             return;
         } else if(this.isDuplicateAttribute()){
-            this.setState({ message: "Attribute size cannot be duplicate." });
+            this.setState({ 
+                message: "Attribute size cannot be duplicate.",
+                status: "failed"
+            });
+            this.scrollToMessage();
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    status: "success",
                     loader: true
                 }
             );
         }
-        
 
         const data = {
             name: this.state.name,
@@ -212,6 +225,7 @@ class AdminNewItemModal extends Component{
             this.hideModal();
             this.props.resetCreateResponseMessageProps();
         }).catch(() => {
+            this.scrollToMessage();
             this.setState({
                 loader: false
             });
@@ -228,8 +242,12 @@ class AdminNewItemModal extends Component{
                             <h5 className="modal-title" id="itemModal">Add Item</h5>
                         </div>
                         <div className="modal-body">
-                            <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                            <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                            <div ref={el => { this.el = el; }} className={`status-msg ${this.state.status}`}>
+                                {this.state.message}
+                            </div>
+                            <div ref={el => { this.el = el; }} className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                             <div class="form-group row">
                                 <label className="col-4">Name</label>
                                 <div className="col-8">
@@ -349,7 +367,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.inventory.createResponseMessage
+        responseMessage: state.inventory.createResponseMessage,
+        responseStatus: state.inventory.createResponseStatus
     }
 }
 

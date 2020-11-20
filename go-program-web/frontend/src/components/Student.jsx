@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import {Redirect} from 'react-router';
 import StudentNavbar from './navbar/StudentNavbar';
 import StudentAllEvents from './events/StudentAllEvents';
 import StudentDashboard from './dashboard/StudentDashboard';
@@ -10,10 +11,22 @@ import StudentCart from './orders/StudentCart';
 import StudentOrderDetails from './orders/StudentOrderDetails';
 import StudentAllSuggestions from './suggestions/StudentAllSuggestions';
 import ChangePassword from './password/ChangePassword';
+import PageNotFound from './PageNotFound';
 
 function Student() {
+    let redirectVar = null;
+    if(!localStorage.getItem('userType')|| (localStorage.getItem('userType') !== "manager" &&
+      localStorage.getItem('userType') !== "admin" && localStorage.getItem('userType') !== "student")){
+        localStorage.clear();
+    }
+    if(!localStorage.getItem('token')){
+        redirectVar = <Redirect to= "/login"/>
+    } else if(localStorage.getItem('userType') !== "student"){
+        redirectVar = <Redirect to= "/login"/>
+    }
     return (
       <div>
+          {redirectVar}
           <StudentNavbar/>
           <Switch>
             <Route path="/student/dashboard" component={StudentDashboard}/>
@@ -25,6 +38,7 @@ function Student() {
             <Route path="/student/cart" component={StudentCart}/>
             <Route path="/student/order-details/:orderId" component={StudentOrderDetails}/>
             <Route path="/student/change-password" component={ChangePassword}/>
+            <Route component={PageNotFound}/>
           </Switch>
       </div>
     );

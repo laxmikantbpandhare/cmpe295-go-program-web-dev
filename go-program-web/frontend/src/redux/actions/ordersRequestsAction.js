@@ -1,6 +1,6 @@
 import { REQUESTS_GET_ALL_ORDERS_SUCCESS, REQUESTS_GET_ALL_ORDERS_FAILED,
-    REQUESTS_UPDATE_ORDER_STATUS_SUCCESS, REQUESTS_UPDATE_ORDER_STATUS_FAILED, 
-    REQUESTS_ORDER_ADD_COMMENT_SUCCESS, REQUESTS_ORDER_ADD_COMMENT_FAILED } from './types';
+    REQUESTS_UPDATE_ORDER_STATUS_SUCCESS, REQUESTS_UPDATE_ORDER_STATUS_FAILED, REQUESTS_ORDER_ADD_COMMENT_SUCCESS, 
+    REQUESTS_ORDER_ADD_COMMENT_FAILED, RESET_REQUESTS_ORDER_ADD_COMMENT_RESPONSE } from './types';
 import {backendUrl} from '../../config';
 
 export const getAllOrders = () => dispatch => {
@@ -131,3 +131,9 @@ export const orderAddAdminComment = data =>  dispatch =>
         reject();
     });
 });
+
+export const resetAddCommentResponseMessageProps = () => {
+    return{
+        type: RESET_REQUESTS_ORDER_ADD_COMMENT_RESPONSE
+    }
+}

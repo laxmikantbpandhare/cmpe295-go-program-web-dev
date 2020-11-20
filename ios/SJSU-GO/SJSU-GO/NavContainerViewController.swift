@@ -67,7 +67,7 @@ class NavContainerViewController: UIViewController {
         print("Inside container view controller")
         super.viewDidLoad()
         configureDashboardController()
-        studentId = lResp.user.id
+        //studentId = lResp.user.id
     }
     
     // MARK: - Handlers

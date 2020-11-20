@@ -16,6 +16,7 @@ class DashboardController: UIViewController {
     var delegate: HomeContollerDelegate?
     
     var lResp: LoginResponse!
+    var evResp: EventsList!
     @IBOutlet weak var submitBtn: UIButton!
     
     //  MARK: - Init
@@ -23,6 +24,7 @@ class DashboardController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+        configureButtons()
         view.backgroundColor = .purple
         //print("Token is " + lResp.token + " for student " + lResp.user.fname)
         
@@ -48,7 +50,60 @@ class DashboardController: UIViewController {
                                             target: self, action: #selector(handleMenuToggle))
     }
     
+    @objc func pressed() {
+        print("Button pressed")
+        getActiveEvents()
+    }
+    
+    func loadNextScreen() {
+        //let submissionController = MainViewController()
+        
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let submissionController = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+        submissionController.lResp = self.lResp
+        submissionController.evList = self.evResp
+        present(submissionController, animated: true, completion: nil)
+        //present(UINavigationController(rootViewController: submissionController), animated: true, )
+    }
+    
+    func configureButtons() {
+        print("Laying out buttons..")
+        let myFirstButton = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 50))
+        myFirstButton.setTitle("SUBMIT EVENT", for: .normal)
+        myFirstButton.setTitleColor(UIColor.blue, for: .normal)
+        myFirstButton.backgroundColor = UIColor.white
+        myFirstButton.addTarget(self, action: #selector(self.pressed), for: .touchUpInside)
+        self.view.addSubview(myFirstButton)
+    }
+    
     @IBAction func attemptSubmission(_ sender: Any) {
         print("Token is " + lResp.token + " for student " + lResp.user.fname)
+    }
+    
+    // MARK: - REST calls
+    
+    // REST request to get active events to be passed to next view controller
+    func getActiveEvents() {
+        let urlString = "http://10.0.0.207:3001/admin/ActiveEvents"
+        
+        if let url = URL.init(string: urlString) {
+        var req = URLRequest.init(url: url)
+            req.httpMethod = "GET"
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            req.setValue("application/json", forHTTPHeaderField: "Accept")
+            req.setValue("Bearer " + lResp.token, forHTTPHeaderField: "Authorization")
+            
+            let task = URLSession.shared.dataTask(with: req,
+                completionHandler: { (data, response, error) in
+                    print(String.init(data: data!, encoding: .ascii) ??
+                    "no data")
+                    let eResp = try? JSONDecoder().decode(EventsList.self, from: data!)
+                    self.evResp = eResp!
+                    DispatchQueue.main.async {
+                        self.loadNextScreen()
+                    }
+            })
+            task.resume()
+        }
     }
 }

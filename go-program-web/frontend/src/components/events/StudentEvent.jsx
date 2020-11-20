@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Events.css'
 import StudentViewEventModal from './StudentViewEventModal';
 import Lightbox from 'react-image-lightbox';
 import CommentsModal from '../comments/CommentsModal';
-// import {connect} from 'react-redux';
+import {connect} from 'react-redux';
 // import {deleteEvent} from '../../redux/actions/adminEventsAction';
 import {backendUrl} from '../../config';
 
@@ -18,6 +17,7 @@ class StudentEvent extends Component{
             isOpen: false,
             isMore: false,
             message: "",
+            status:"success",
             images: []
         };
     }
@@ -71,7 +71,8 @@ class StudentEvent extends Component{
                 return res.blob()})
             .catch(err => {
                 this.setState({
-                    message: `Internal error when fetching item images - ${err}`
+                    message: `Internal error when fetching item images - ${err}`,
+                    status: "failed"
                 });
             })
         );
@@ -100,13 +101,13 @@ class StudentEvent extends Component{
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
-                    {/* <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6> */}
-                    <h6 style= {{color:"red"}}>{this.state.message}</h6>
+                    <div className={`status-msg ${this.state.status}`}>
+                        {this.state.message}
+                    </div>
                     <div className="card d-flex flex-row">
-                        <img src={this.state.images[0]} className="img-fluid events-card-image m-1" alt="..."/>
+                        <img src={this.state.images[0]} className="img-fluid entity-card-image m-1" alt="..."/>
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold">{this.props.event.event.name}</h5>
-                            {/* <p className="card-text" style={{whiteSpace:'pre-wrap', color:'red'}}>{trimmedDescription}</p> */}
                             {
                                 isLongDesc
                                 ? <p className="card-text text-pre-wrap">
@@ -175,6 +176,8 @@ class StudentEvent extends Component{
                 {this.state.showCommentsModal ? 
                 <CommentsModal hideCommentsModal={this.hideCommentsModal}
                 id={this.props.event._id} comments={this.props.event.comments}
+                responseMessage = {this.props.commentsResponseMessage}
+                responseStatus = {this.props.commentsResponseStatus}
                 commenter="Student" type="Event"/> : null}
             </div>
         )
@@ -187,11 +190,11 @@ class StudentEvent extends Component{
 //     }
 // }
 
-// const mapStateToProps = state => {
-//     return {
-//         responseMessage: state.adminEvents.deleteResponseMessage
-//     }
-// }
+const mapStateToProps = state => {
+    return {
+        commentsResponseMessage: state.studentEvents.addCommentResponseMessage,
+        commentsResponseStatus: state.studentEvents.commentsResponseStatus
+    }
+}
 
-// export default connect(mapStateToProps, mapDispatchToProps)(StudentEvent);
-export default StudentEvent;
+export default connect(mapStateToProps)(StudentEvent);

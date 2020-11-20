@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Requests.css'
 import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';
 import {updateStudentStatus} from '../../redux/actions/usersRequestsAction';
@@ -25,6 +24,7 @@ class UserRequest extends Component{
         showViewUserModal: false,
         isOpen: false,
         message: "",
+        fetchStatus: "success",
         studentIdCard: "",
         loader: false
     };
@@ -48,7 +48,8 @@ class UserRequest extends Component{
         })
         .catch(err => {
             this.setState({
-                message: `Internal error when fetching student ID Card - ${err}`
+                message: `Internal error when fetching student ID Card - ${err}`,
+                fetchStatus: "failed"
             });
         })
     }
@@ -86,7 +87,7 @@ class UserRequest extends Component{
             loader: true
         });
         const data = {
-            status: this.props.student.user.status,
+            status: this.state.status,
             id: this.props.student.sjsuId
         }
         this.props.handleUpdate(data)
@@ -109,10 +110,14 @@ class UserRequest extends Component{
                 <div className="col-sm-8">
                     {
                         this.props.student.sjsuId === this.props.updatedStudent
-                        ? <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                        ? <div className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                         : null
                     }
-                    <h6 style= {{color:"red"}}>{this.state.message}</h6>
+                    <div className={`status-msg ${this.state.fetchStatus}`}>
+                        {this.state.message}
+                    </div>
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold">{`${this.props.student.user.fname} ${this.props.student.user.lname}`}</h5>
@@ -184,6 +189,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.usersRequests.updateResponseMessage,
+        responseStatus: state.usersRequests.updateResponseStatus,
         updatedStudent: state.usersRequests.updatedStudent
     }
 }

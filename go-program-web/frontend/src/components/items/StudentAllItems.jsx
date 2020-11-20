@@ -6,7 +6,6 @@ import './Items.css';
 import {connect} from 'react-redux';
 import {getItems} from '../../redux/actions/adminInventoryAction';
 import StudentItem from './StudentItem';
-import {backendUrl} from '../../config';
 
 class StudentAllItems extends Component{
     constructor(props){
@@ -55,10 +54,7 @@ class StudentAllItems extends Component{
     
     render() {
         const disabledSelectText = "Please note: Select button is disabled if you have insufficient points or if an item is not available.";
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
+        
         let sortedItems = [...this.props.items];
         
         if(this.state.sort !== ""){
@@ -92,19 +88,18 @@ class StudentAllItems extends Component{
             item.category.indexOf(this.state.categoryFilter)!==-1)
         });
 
-        let noItemText = this.state.search !== "" || this.state.filter !== "" 
+        let noItemText = this.state.search !== "" || this.state.pointFilter !== "" 
         ? "No Item Matching the Search or Filter Criteria"
         : "No Item in the Inventory";
         let pointsBalance = this.state.pointsAvailable - this.state.pointsUsed;
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Redeem</h4>
             </div>
             <div className="container-fluid below-heading">
-                <div className="items-search-section">
-                    <h4 className="text-center text-white all-items-heading p-1">All Items</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1">All Items</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="pointFilter" onChange={this.handleChange}
@@ -163,7 +158,9 @@ class StudentAllItems extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.itemsResponseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 <h6 style= {{fontStyle:"Italic"}}>{disabledSelectText}</h6>
                 
                 <div className="row mt-2">
@@ -189,7 +186,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        itemsResponseMessage: state.inventory.getResponseMessage,
+        responseMessage: state.inventory.getResponseMessage,
+        responseStatus: state.inventory.getResponseStatus,
         items: state.inventory.items,
         categories: state.inventory.categories
     }

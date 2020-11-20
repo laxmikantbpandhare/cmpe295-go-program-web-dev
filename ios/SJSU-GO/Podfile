@@ -7,6 +7,7 @@ target 'SJSU-GO' do
 
   # Pods for SJSU-GO
 pod 'Alamofire'
+pod 'IQKeyboardManagerSwift'
 
   target 'SJSU-GOTests' do
     inherit! :search_paths

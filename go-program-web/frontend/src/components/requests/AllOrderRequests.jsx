@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
-import './Requests.css';
 import {connect} from 'react-redux';
 import {getAllOrders} from '../../redux/actions/ordersRequestsAction';
 import OrderRequest from './OrderRequest';
@@ -42,11 +39,6 @@ class AllOrderRequests extends Component{
     statusOptions = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedOrders = [...this.props.orders];
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
@@ -70,14 +62,13 @@ class AllOrderRequests extends Component{
         : "No Order is submitted yet by any student.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-receipt"></i> Students Orders</h4>
             </div>
             
             <div className="container-fluid below-heading">
-                <div className="requests-search-section">
-                    <h4 className="text-center text-white all-orders-heading p-1 mt-2">All Submitted Events</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Submitted Events</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}
@@ -128,7 +119,9 @@ class AllOrderRequests extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredOrders.length!==0 ? filteredOrders.map(order=>
                     <OrderRequest order={order} key={order.id}/>
@@ -151,6 +144,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.ordersRequests.getResponseMessage,
+        responseStatus: state.ordersRequests.getResponseStatus,
         orders: state.ordersRequests.orders
     }
 }

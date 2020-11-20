@@ -66,7 +66,7 @@ class CommentsModal extends Component {
                 });
             })
             .catch(() => {
-            
+
             })
         } else if(this.props.commenter === "Student" && this.props.type === "Event"){
             this.props.eventAddStudentComment(data)
@@ -130,7 +130,6 @@ class CommentsModal extends Component {
                     <h4 className="modal-title">Add Comment</h4>
                   </div>
                   <div className="modal-body">     
-                    <h5 style= {{color:"red"}}>{this.props.responseMessage}</h5>
                     {
                         this.props.comments.length > 0  
                         ? this.props.comments.map(comment => {
@@ -144,7 +143,10 @@ class CommentsModal extends Component {
                         : <p>{`No comments yet for this ${this.props.type}`}</p>
                     }
                     
-                    <div ref={el => { this.el = el; }} />               
+                    <div ref={el => { this.el = el; }} />  
+                    <div className={`status-msg ${this.props.responseStatus}`}>
+                        {this.props.responseMessage}
+                    </div>
                     <textarea required onChange = {this.changeHandler} placeholder="New Comment"
                         type="text" value = {this.state.comment} className="form-control comment-textarea" 
                         name="comment" rows='3' 
@@ -155,7 +157,7 @@ class CommentsModal extends Component {
                         className="btn btn-primary btn-style" data-dismiss="modal">Close</button>
                     <button onClick = {this.clearComment} 
                         className="btn btn-primary btn-style">Clear</button>
-                    <button onClick = {this.addComment} 
+                    <button onClick = {this.addComment} disabled = {!this.state.comment}
                         className="btn btn-primary btn-style">Comment</button>
                   </div>
                 </div>
@@ -176,10 +178,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        responseMessage: state.eventsRequests.addCommentResponseMessage
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentsModal);
+export default connect(null, mapDispatchToProps)(CommentsModal);

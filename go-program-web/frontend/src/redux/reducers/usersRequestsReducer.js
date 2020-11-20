@@ -5,7 +5,9 @@ import { REQUESTS_GET_ALL_STUDENTS_SUCCESS, REQUESTS_GET_ALL_STUDENTS_FAILED,
 const initialState = {
     students: [],
     getResponseMessage: "",
+    getResponseStatus: "success",
     updateResponseMessage: "",
+    updateResponseStatus: "success",
     updatedStudent: "",
 };
 
@@ -15,12 +17,14 @@ const usersRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 students: initialState.students.concat(action.payload.students),
-                getResponseMessage: ""
+                getResponseMessage: "",
+                getResponseStatus: "success"
             }
         case REQUESTS_GET_ALL_STUDENTS_FAILED:
             return {
                 ...state,
-                getResponseMessage: action.payload.message
+                getResponseMessage: action.payload.message,
+                getResponseStatus: "failed"
             }
         case REQUESTS_STUDENT_EDIT_CANCEL:
             var students = state.students.map(student => {
@@ -49,12 +53,14 @@ const usersRequestsReducer = (state = initialState, action) => {
                 ...state,
                 students,
                 updateResponseMessage: action.payload.message,
+                updateResponseStatus: "success",
                 updatedStudent: action.payload.user.id
             }
         case REQUESTS_UPDATE_STUDENT_STATUS_FAILED:
             return {
                 ...state,
                 updateResponseMessage: action.payload.message,
+                updateResponseStatus: "failed",
                 updatedStudent: action.payload.id
             }
         default:

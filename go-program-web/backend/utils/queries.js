@@ -33,7 +33,7 @@ queries.createStudent = (user, hash, successcb, failurecb) => {
         .then(student => {
             // student.populate('user').execPopulate()
             // .then(student => {successcb(result)});
-            successcb(result);
+            successcb(student);
         })
         .catch(err => failurecb(err, "Student"))
     })
@@ -80,6 +80,12 @@ queries.updateAdmin = (user, successcb, failurecb) => {
 
 queries.getUserPasswordById = (id, successcb, failurecb) => {
     User.findOne({id})
+    .then(user => successcb(user))
+    .catch(err => failurecb(err))
+}
+
+queries.getUserByEmail = (email, successcb, failurecb) => {
+    User.findOne({email})
     .then(user => successcb(user))
     .catch(err => failurecb(err))
 }
@@ -537,6 +543,7 @@ queries.getStudentOwnOrders = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             Order.find({student: student._id})
+            .sort({updatedDate:-1})
             // .populate('student')
             // .populate('items.item')
             // .sort({updatedDate:-1})

@@ -31,21 +31,17 @@ class StudentDashboard extends Component{
     }
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-        
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-tachometer-alt"></i> Dashboard</h4>
             </div>
             <div className="container-fluid dashboard-below-heading">
                 <div className="row mt-4">
                     <div className="col-sm-4">
-                        <h6 style= {{color:"red"}}>{this.props.getPointsResponseMessage}</h6>
+                        <div className={`status-msg ${this.props.getPointsResponseStatus}`}>
+                            {this.props.getPointsResponseMessage}
+                        </div>
                         <div className="card">
                             <div className="points-card-header">
                                 <h2 className="text-center text-white">Points Earned</h2>
@@ -57,7 +53,9 @@ class StudentDashboard extends Component{
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        <h6 style= {{color:"red"}}>{this.props.getPointsResponseMessage}</h6>
+                        <div className={`status-msg ${this.props.getPointsResponseStatus}`}>
+                            {this.props.getPointsResponseMessage}
+                        </div>
                         <div className="card">
                             <div className="points-card-header">
                                 <h2 className="text-center text-white">Points Spent</h2>
@@ -69,7 +67,6 @@ class StudentDashboard extends Component{
                         </div>
                     </div>
                     <div className="col-sm-4">
-                        <h6 style= {{color:"red"}}>{this.props.getPointsResponseMessage}</h6>
                         <div className="card">
                             <div className="points-card-header">
                                 <h2 className="text-center text-white">Balance Points</h2>
@@ -93,7 +90,9 @@ class StudentDashboard extends Component{
                                         <th>Date Added</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getApprovedEventsResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getApprovedEventsResponseStatus}`}>
+                                    {this.props.getApprovedEventsResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.approvedEvents.length !==0 
@@ -122,7 +121,9 @@ class StudentDashboard extends Component{
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getEventsResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getEventsResponseStatus}`}>
+                                    {this.props.getEventsResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.events.length !==0 
@@ -153,7 +154,9 @@ class StudentDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getDeliveredOrdersResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getDeliveredOrdersResponseStatus}`}>
+                                    {this.props.getDeliveredOrdersResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.deliveredOrders.length !==0 
@@ -182,7 +185,9 @@ class StudentDashboard extends Component{
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getOrdersResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getOrdersResponseStatus}`}>
+                                    {this.props.getOrdersResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.orders.length !==0 
@@ -212,7 +217,9 @@ class StudentDashboard extends Component{
                                         <th>Date Suggested</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getApprovedSuggestedEventsResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getApprovedSuggestedEventsResponseStatus}`}>
+                                    {this.props.getApprovedSuggestedEventsResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.approvedSuggestedEvents.length !==0 
@@ -239,7 +246,9 @@ class StudentDashboard extends Component{
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <h6 style= {{color:"red"}}>{this.props.getSuggestedEventsResponseMessage}</h6>
+                                <div className={`status-msg ${this.props.getSuggestedEventsResponseStatus}`}>
+                                    {this.props.getSuggestedEventsResponseMessage}
+                                </div>
                                 <tbody>
                                     {
                                         this.props.suggestedEvents.length !==0 
@@ -278,19 +287,26 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         getPointsResponseMessage: state.studentDashboard.getPointsResponseMessage,
+        getPointsResponseStatus: state.studentDashboard.getPointsResponseStatus,
         pointsAccumulated: state.studentDashboard.pointsAccumulated,
         pointsSpent: state.studentDashboard.pointsSpent,
         getEventsResponseMessage: state.studentDashboard.getEventsResponseMessage,
+        getEventsResponseStatus: state.studentDashboard.getEventsResponseStatus,
         events: state.studentDashboard.events,
         getApprovedEventsResponseMessage: state.studentDashboard.getApprovedEventsResponseMessage,
+        getApprovedEventsResponseStatus: state.studentDashboard.getApprovedEventsResponseStatus,
         approvedEvents: state.studentDashboard.approvedEvents,
         getOrdersResponseMessage: state.studentDashboard.getOrdersResponseMessage,
+        getOrdersResponseStatus: state.studentDashboard.getOrdersResponseStatus,
         orders: state.studentDashboard.orders,
         getDeliveredOrdersResponseMessage: state.studentDashboard.getDeliveredOrdersResponseMessage,
+        getDeliveredOrdersResponseStatus: state.studentDashboard.getDeliveredOrdersResponseStatus,
         deliveredOrders: state.studentDashboard.deliveredOrders,
         getSuggestedEventsResponseMessage: state.studentDashboard.getSuggestedEventsResponseMessage,
+        getSuggestedEventsResponseStatus: state.studentDashboard.getSuggestedEventsResponseStatus,
         suggestedEvents: state.studentDashboard.suggestedEvents,
         getApprovedSuggestedEventsResponseMessage: state.studentDashboard.getApprovedSuggestedEventsResponseMessage,
+        getApprovedSuggestedEventsResponseStatus: state.studentDashboard.getApprovedSuggestedEventsResponseStatus,
         approvedSuggestedEvents: state.studentDashboard.approvedSuggestedEvents
     }
 }

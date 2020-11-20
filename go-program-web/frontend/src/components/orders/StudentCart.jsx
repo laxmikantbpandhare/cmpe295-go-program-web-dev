@@ -13,7 +13,8 @@ class StudentCart extends Component{
             pointsAvailable: 0,
             pointsUsed: 0,
             cart: [],
-            responseMessage: ""
+            message: "",
+            status: "success"
         };
     }
 
@@ -33,7 +34,8 @@ class StudentCart extends Component{
             pointsAvailable: 0,
             pointsUsed: 0,
             cart: [],
-            responseMessage: ""
+            message: "",
+            status: "success"
         });
         localStorage.removeItem('cart');
         localStorage.removeItem('pointsUsed');
@@ -56,7 +58,8 @@ class StudentCart extends Component{
                 pointsAvailable: 0,
                 pointsUsed: 0,
                 cart: [],
-                responseMessage: ""
+                message: "",
+                status: "success"
             });
             localStorage.removeItem('cart');
             localStorage.removeItem('pointsUsed');
@@ -92,6 +95,9 @@ class StudentCart extends Component{
     confirmOrder = () => {
         this.prepareOrderItems((orderItems, inventoryItems) => {
             const data = {
+                student: {
+
+                },
                 orderItems,
                 inventoryItems,
                 points: this.state.pointsUsed
@@ -110,11 +116,15 @@ class StudentCart extends Component{
             .then(res => {
                 if(res.status === 200){
                     res.json().then(resData => {
+                        const currPointsSpent = parseInt(localStorage.getItem('pointsSpent'));
+                        const newPointsSpent = currPointsSpent + this.state.pointsUsed;
+                        localStorage.setItem('pointsSpent', newPointsSpent);
                         this.setState({
                             pointsAvailable: 0,
                             pointsUsed: 0,
                             cart: [],
-                            responseMessage: resData.message
+                            message: resData.message,
+                            status: "success"
                         });
                         localStorage.removeItem('cart');
                         localStorage.removeItem('pointsUsed');
@@ -122,34 +132,34 @@ class StudentCart extends Component{
                 }else{
                     res.json().then(resData => {
                         this.setState({
-                            responseMessage: resData.message
+                            message: resData.message,
+                            status: "failed"
                         })
                     })
                 }
             })
             .catch(err => {
                 this.setState({
-                    responseMessage: err.message
+                    message: err.message,
+                    status: "failed"
                 })
             });
         })
     }
     
     render() {
-        let redirectVar = null;
-        if(localStorage.getItem('token')){
-
-        }
         return(
         <div className="top-align">
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fas fa-shopping-cart"></i> Cart</h4>
             </div>
             <div className="container-fluid below-heading">
-                <div className="orders-search-section">  {/*This class will support the sticky subheading */}
-                    <h4 className="text-center text-white all-items-heading p-1">Cart Items</h4>
+                <div className="entities-search-section">  {/*This class will support the sticky subheading */}
+                    <h4 className="text-center text-white all-entity-heading p-1">Cart Items</h4>
                 </div>
-                <h6 style= {{color:"red"}}>{this.state.responseMessage}</h6>
+                <div className={`status-msg ${this.state.status}`}>
+                    {this.state.message}
+                </div>
                 {
                     this.state.cart.length > 0
                     ? <div>
@@ -183,8 +193,13 @@ class StudentCart extends Component{
                 : <div>
                     <h2>Cart is Empty</h2>
                     <Link to = "/student/redeem">
-                        <button type="button" className="btn btn-primary btn-style mt-2">
+                        <button type="button" className="btn btn-primary btn-style mt-2 mr-2">
                             Add Item
+                        </button>
+                    </Link>
+                    <Link to = "/student/orders">
+                        <button type="button" className="btn btn-primary btn-style mt-2">
+                            All Orders
                         </button>
                     </Link>
                 </div>

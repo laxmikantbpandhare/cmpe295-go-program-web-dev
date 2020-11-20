@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router';
 import '../../Common.css';
-import './Suggestions.css';
 import StudentNewSuggestionModal from './StudentNewSuggestionModal';
 import {connect} from 'react-redux';
 import {getEvents} from '../../redux/actions/suggestedEventsAction';
@@ -49,11 +47,6 @@ class StudentAllSuggestions extends Component{
     statusOptions = ['Pending Approval', 'Approved', 'Rejected'];
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedEvents = [...this.props.events];
         if(this.state.sort !== ""){
             if(this.state.sort === "Submitted Date Ascending"){
@@ -73,7 +66,6 @@ class StudentAllSuggestions extends Component{
         : "No Event is suggested yet by you.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-lightbulb"></i> Suggestions</h4>
             </div>
@@ -89,8 +81,8 @@ class StudentAllSuggestions extends Component{
                         </button>
                     </div>
                 </div>
-                <div className="events-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Suggested Events</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Suggested Events</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="filter" onChange={this.handleChange}
@@ -131,7 +123,9 @@ class StudentAllSuggestions extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredEvents.length!==0 ? filteredEvents.map(event=>
                     <StudentSuggestion event={event} key={event._id}/>
@@ -159,6 +153,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.suggestedEvents.getResponseMessage,
+        responseStatus: state.suggestedEvents.getResponseStatus,
         events: state.suggestedEvents.events
     }
 }

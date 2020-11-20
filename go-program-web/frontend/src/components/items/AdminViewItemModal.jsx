@@ -27,8 +27,10 @@ class AdminViewItemModal extends Component{
         name: this.props.item.name,
         category: this.props.item.category,
         message: "",
+        status: "success",
         isEdited: false,
         getImagesMessage: "",
+        getImagesStatus: "success",
         images: [],
         loader: false
     };
@@ -49,7 +51,8 @@ class AdminViewItemModal extends Component{
                 return res.blob()})
             .catch(err => {
                 this.setState({
-                    message: `Internal error when fetching item images - ${err}`
+                    getImagesMessage: `Internal error when fetching item images - ${err}`,
+                    getImagesStatus: "failed"
                 });
             })
         );
@@ -138,14 +141,21 @@ class AdminViewItemModal extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory." });
+            this.setState({ 
+                message: "All fields are mandatory.",
+                status: "failed",
+            });
             return;
         } else if(this.isDuplicateAttribute()){
-            this.setState({ message: "Attribute size cannot be duplicate." });
+            this.setState({ 
+                message: "Attribute size cannot be duplicate.",
+                status: "failed"
+            });
             return;
         } else {
             this.setState({ 
                 message: "",
+                status: "success",
                 loader: true 
             });
         }
@@ -209,8 +219,12 @@ class AdminViewItemModal extends Component{
                             </h5>
                         </div>
                             <div className="modal-body">
-                                <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                                <div className={`status-msg ${this.state.status}`}>
+                                    {this.state.message}
+                                </div>
+                                <div className={`status-msg ${this.props.responseStatus}`}>
+                                    {this.props.responseMessage}
+                                </div>
                                 <div class="form-group row">
                                     <label className="col-4">Name</label>
                                     <div className="col-8">
@@ -331,7 +345,9 @@ class AdminViewItemModal extends Component{
                                 </div>
                                 {updatedBy}
                                 {updatedDate}
-                                <h6 style= {{color:"red"}}>{this.state.getImagesMessage}</h6>
+                                <div className={`status-msg ${this.state.getImagesStatus}`}>
+                                    {this.state.getImagesMessage}
+                                </div>
                             {
                                 !this.state.isEdited
                                 ? <div className="form-group row">
@@ -390,7 +406,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.inventory.updateResponseMessage
+        responseMessage: state.inventory.updateResponseMessage,
+        responseStatus: state.inventory.updateResponseStatus
     }
 }
 

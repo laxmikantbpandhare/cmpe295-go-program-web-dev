@@ -1,6 +1,5 @@
 import React from 'react';
 import '../../Common.css';
-import './Requests.css'
 
 const ViewSuggestedEventRequestModal = (props) => {
 

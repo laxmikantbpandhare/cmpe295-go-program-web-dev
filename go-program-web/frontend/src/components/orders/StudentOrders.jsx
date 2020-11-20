@@ -39,12 +39,7 @@ class StudentOrders extends Component{
 
     statusOptions = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
     
-    render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-        
+    render() { 
         let sortedOrders = [...this.props.studentOrders];
         if(this.state.sort !== ""){
             this.state.sort === "Ascending" 
@@ -65,14 +60,13 @@ class StudentOrders extends Component{
         : "No Order is submitted yet by you.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-receipt"></i> Orders</h4>
             </div>
             
             <div className="container-fluid below-heading">
-                <div className="orders-search-section">
-                    <h4 className="text-center text-white all-orders-heading p-1 mt-2">Your Orders</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">Your Orders</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="filter" onChange={this.handleChange}
@@ -113,7 +107,9 @@ class StudentOrders extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.studentResponseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     searchedOrders.length!==0 ? searchedOrders.map(order=>
                     <StudentOrder order={order} key={order.id}/>
@@ -135,7 +131,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        studentResponseMessage:state.studentOrders.getResponseMessage,
+        responseMessage:state.studentOrders.getResponseMessage,
+        responseStatus:state.studentOrders.getResponseStatus,
         studentOrders: state.studentOrders.orders
     }
 }

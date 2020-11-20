@@ -68,7 +68,7 @@ const saveItemImages = (images,successcb, failurecb) => {
         }
     })
     .catch(err => {
-        console.log(err);
+        failurecb(`Internal error -- ${err}`);
     });
 }
 
@@ -118,13 +118,13 @@ export const createItem = data =>  dispatch => new Promise(function(resolve, rej
         });
 
     }, failedMessage => {
-            dispatch({
-                type: ADMIN_CREATE_ITEM_FAILED,
-                payload: {
-                    message: failedMessage
-                }
-            });
-            reject();
+        dispatch({
+            type: ADMIN_CREATE_ITEM_FAILED,
+            payload: {
+                message: failedMessage
+            }
+        });
+        reject();
         }
     );
 });

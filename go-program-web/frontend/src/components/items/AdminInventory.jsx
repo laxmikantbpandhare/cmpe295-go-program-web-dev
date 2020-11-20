@@ -47,10 +47,6 @@ class AdminInventory extends Component{
     }
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
         let sortedItems = [...this.props.items];
         
         if(this.state.sort !== ""){
@@ -69,7 +65,6 @@ class AdminInventory extends Component{
         : "No Item in the Inventory";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-boxes"></i> Inventory</h4>
             </div>
@@ -82,8 +77,8 @@ class AdminInventory extends Component{
                         </button>
                     </div>
                 </div>
-                <div className="items-search-section">
-                    <h4 className="text-center text-white all-items-heading p-1 mt-2">All Items</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Items</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="filter" onChange={this.handleChange}
@@ -126,7 +121,9 @@ class AdminInventory extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredItems.length!==0 ? filteredItems.map(item=>
                     <AdminItem item={item} key={item._id}/>
@@ -151,6 +148,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.inventory.getResponseMessage,
+        responseStatus: state.inventory.getResponseStatus,
         items: state.inventory.items,
         categories: state.inventory.categories
     }

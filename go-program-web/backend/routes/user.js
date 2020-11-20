@@ -6,6 +6,8 @@ var jwt = require("jsonwebtoken");
 const {secret} = require('../config/config');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
+const sendEmail = require('../utils/sendEmail');
+const {RESET_PASSWORD} = require('../utils/emailTypes');
 
 var sendmail = require('../sendmail')({
     smtpHost:'localhost',
@@ -29,7 +31,7 @@ router.post('/signup',function(req,res){
             }
         });
     }, err => {
-        res.status(500).json({error: `Something failed when generating hash for the password to encrypt it. ${err}` });
+        res.status(500).json({message: `Something failed when generating hash for the password to encrypt it. ${err}` });
     });
 });
 
@@ -58,7 +60,7 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
             }
         });
     }, err => {
-        res.status(500).json({error: `Something failed when generating hash. ${err}` });
+        res.status(500).json({message: `Something failed when generating hash. ${err}` });
     });
 })
 
@@ -127,7 +129,7 @@ router.post('/changePassword', passport.authenticate("jwt", {session: false}), f
                         res.status(500).json({message: `Something failed when saving the new password. ${err}`});
                     });
                 }, err => {
-                    res.status(500).json({error: `Something failed when generating hash for the new password to encrypt it. ${err}` });
+                    res.status(500).json({message: `Something failed when generating hash for the new password to encrypt it. ${err}` });
                 });
             }else{
                 res.status(401).json({success: false, message: "Incorrect Old Password"});
@@ -135,6 +137,38 @@ router.post('/changePassword', passport.authenticate("jwt", {session: false}), f
         }, err => {
             res.status(500).json({success: false, message: `Something wrong with bcrypt with the old password. ${err}`});
         });
+    }, err => {
+        res.status(500).json({success: false, message: `Something wrong when getting the user from the database. ${err}`});
+    });
+});
+
+router.post('/resetPassword',function(req,res){
+    console.log("Inside User Reset Password Post Request");
+
+    const email = req.body.email;
+
+    queries.getUserByEmail(email, user => {
+        if(user) {
+            const randomPassword = Math.random().toString(36).slice(-8);
+            console.log('random password = ', randomPassword);
+            encrypt.generateHash(randomPassword, hash => {
+                queries.changeUserPassword(user.id, hash, result => {
+                    sendEmail(email, RESET_PASSWORD, randomPassword, messageInfo => {
+                        console.log("Email sent success");
+                        res.status(200).json({message:'Password reset successfully. Please check your email for the new password.'});
+                    }, err => {
+                        console.log("Email sent erred");
+                        res.status(500).json({message:'Password reset successfully but something failed when sending email to the specified email id. Please try again after sometime. If the problem persist, please contact the administration.'});
+                    })
+                }, err => {
+                    res.status(500).json({message: `Something failed when saving the new password. ${err}`});
+                });
+            }, err => {
+                res.status(500).json({message: `Something failed when generating hash for the new password to encrypt it. ${err}` });
+            });
+        } else {
+            res.status(401).json({success: false, message: "User with specified email does not exists. You need to sign up before using the system."});
+        }
     }, err => {
         res.status(500).json({success: false, message: `Something wrong when getting the user from the database. ${err}`});
     });
