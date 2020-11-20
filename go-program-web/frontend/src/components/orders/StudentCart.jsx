@@ -116,6 +116,9 @@ class StudentCart extends Component{
             .then(res => {
                 if(res.status === 200){
                     res.json().then(resData => {
+                        const currPointsSpent = parseInt(localStorage.getItem('pointsSpent'));
+                        const newPointsSpent = currPointsSpent + this.state.pointsUsed;
+                        localStorage.setItem('pointsSpent', newPointsSpent);
                         this.setState({
                             pointsAvailable: 0,
                             pointsUsed: 0,
@@ -190,8 +193,13 @@ class StudentCart extends Component{
                 : <div>
                     <h2>Cart is Empty</h2>
                     <Link to = "/student/redeem">
-                        <button type="button" className="btn btn-primary btn-style mt-2">
+                        <button type="button" className="btn btn-primary btn-style mt-2 mr-2">
                             Add Item
+                        </button>
+                    </Link>
+                    <Link to = "/student/orders">
+                        <button type="button" className="btn btn-primary btn-style mt-2">
+                            All Orders
                         </button>
                     </Link>
                 </div>
