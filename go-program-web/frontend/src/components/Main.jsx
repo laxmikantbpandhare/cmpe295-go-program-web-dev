@@ -3,6 +3,8 @@ import {Route,Switch} from 'react-router-dom';
 import Landing from './landing/Landing';
 import Login from './login/Login';
 import Signup from './signup/Signup';
+import ResendEmail from './signup/ResendEmail';
+import ConfirmEmail from './signup/ConfirmEmail';
 import Student from './Student';
 import Admin from './Admin';
 import ResetPassword from './password/ResetPassword';
@@ -16,6 +18,8 @@ function Main() {
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup}/>
       <Route path="/reset-password" component={ResetPassword}/>
+      <Route path="/resend-emailVerification" component={ResendEmail}/>
+      <Route path="/confirm-email/:email" component={ConfirmEmail}/>
       <Route path="/student/:id" component={Student}/>
       <Route path="/admin/:id" component={Admin}/>
       <Route component={PageNotFound}/>

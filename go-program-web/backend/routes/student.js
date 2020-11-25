@@ -3,6 +3,7 @@ var router = express.Router();
 const queries = require('../utils/queries');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
+const {sendMail} = require('../config/email');
 
 router.get('/ownEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Own Events Get Request");
@@ -27,6 +28,20 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
     
     queries.createStudentEvent(event, result => {
         console.log("Event created: " + result);
+
+        // queries.getUserPasswordById(id, row => {
+        //     console.log(row);
+
+            sendMail("Student Event Submission on GO Program.", 
+                     '<h2>Student with id '+id+' submitted the event on GO Program.</h2>'+
+                     '<h2>Please visit GO Application for further action on the submitted event.</h2>'+
+                     '<p>Thank You and Regards</p>'+
+                     '<p>GO Program,</p>'+
+                     '<p>San Jose State Universiry.</p>',
+                     "coe-go-project-group@sjsu.edu");
+
+        // })
+
         res.status(200).send({message:'Student event created successfully', event: result});
     }, (err, tag)=>{
         if(err.code === 11000){
@@ -62,6 +77,17 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
     
     queries.updateStudentEventStatus(event, result => {
         console.log("Event updated: " + result);
+        console.log(result.student.user.email)
+        
+        // send email here
+        sendMail("Student Submitted Event Update on GO Program.", 
+                 '<h2>The Admin of SJSU GO Program updated your Event status to: '+event.status+'</h2>'+
+                 '<h2>Please contact SJSU admin for any further queries.</h2>'+
+                 '<p>Thank You and Regards</p>'+
+                 '<p>GO Program,</p>'+
+                 '<p>San Jose State University.</p>',
+                 result.student.user.email);
+
         res.status(200).send({message:'Student event status updated successfully', event: result});
     }, message =>{
         res.status(500).send({ message });
@@ -124,6 +150,15 @@ router.post('/createOrder', passport.authenticate("jwt", { session: false }), fu
     order.student.id = id;
     
     queries.createOrder(order, result => {
+
+        sendMail("Student Order Submission on GO Program.", 
+                '<h2>Student with id '+id+' submitted the Order on GO Program.</h2>'+
+                '<h2>Please visit GO Application for further action on the submitted event.</h2>'+
+                '<p>Thank You and Regards</p>'+
+                '<p>GO Program,</p>'+
+                '<p>San Jose State Universiry.</p>',
+                "coe-go-project-group@sjsu.edu");
+
         res.status(200).send({message:`Student order created successfully. Order Id# ${result.id}`});
     }, message =>{
         res.status(500).send({ message });
@@ -257,6 +292,15 @@ router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: fal
     event.student.id = id;
 
     queries.createSuggestedEvent(event, result => {
+
+        sendMail("Student Suggested Event on GO Program.", 
+                 '<h2>Student with id '+id+' suggested the Event on GO Program.</h2>'+
+                 '<h2>Please visit GO Application for further action on the submitted event.</h2>'+
+                 '<p>Thank You and Regards</p>'+
+                 '<p>GO Program,</p>'+
+                 '<p>San Jose State Universiry.</p>',
+                 "coe-go-project-group@sjsu.edu");
+
         res.status(200).send({message:'Suggested event created successfully', event: result});
     }, (err, tag)=>{
         if(err.code === 11000){
@@ -321,6 +365,14 @@ router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { sessio
     event.updatedBy = id;
     queries.updateStudentSuggestedEventStatus(event, result => {
         console.log("Event updated: " + result);
+                // send email here
+        sendMail("Student Suggested Event Update on GO Program.", 
+                 '<h2>The Admin of SJSU GO Program updated your Suggested Event status to: '+event.status+'</h2>'+
+                 '<h2>Please contact SJSU admin for any further queries.</h2>'+
+                 '<p>Thank You and Regards</p>'+
+                 '<p>GO Program Admin,</p>'+
+                 '<p>San Jose State Universiry.</p>',
+                 result.student.user.email);
         res.status(200).send({message:'Student suggested event status updated successfully', event: result});
     }, message =>{
         res.status(500).send({ message });

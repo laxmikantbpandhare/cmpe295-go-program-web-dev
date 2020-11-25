@@ -257,6 +257,7 @@ class Signup extends Component{
                                     this.state.loader && <div className="spinner-border spinner-border-sm text-light" role="status"/>
                                 }
                             </button>
+                            <h6 className="text-right mb-4"><Link className="account-info-color" to="/resend-emailVerification">Resend Email Verification?</Link></h6>
                         </form>
                         <div className="account-info">
                             <h6>Have Account? <Link className="account-info-color" to="/login">Log in now</Link></h6>
