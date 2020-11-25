@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    emailVerified: {
+        type: String,
+        required: true
+    },
     createdDate: {
         type: Date,
         required: true,

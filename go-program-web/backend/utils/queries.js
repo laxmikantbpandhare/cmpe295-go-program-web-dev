@@ -18,7 +18,8 @@ queries.createStudent = (user, hash, successcb, failurecb) => {
         lname: user.lname,
         email: user.email,
         userType: "student",
-        status: "Inactive"
+        status: "Inactive",
+        emailVerified: "0"
     });
     Userdoc.save()
     .then(result => {
@@ -47,6 +48,7 @@ queries.createAdmin = (user, hash, successcb, failurecb) => {
         fname: user.fname,
         lname: user.lname,
         email: user.email,
+        emailVerified: "1",
         userType: "admin",
         status: "Active"
     });
@@ -108,6 +110,12 @@ queries.getUserPasswordById = (id, successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
+queries.getUserEmailById = (id, successcb, failurecb) => {
+    User.findOne({id:id})
+    .then(user => successcb(user))
+    .catch(err => failurecb(err))
+}
+
 queries.getUserByEmail = (email, successcb, failurecb) => {
     User.findOne({email})
     .then(user => successcb(user))
@@ -129,13 +137,32 @@ queries.changeUserPassword = (id, hash, successcb, failurecb) => {
     })
 }
 
+queries.changeEmailVerified = (email, successcb, failurecb) => {
+    User.findOne({ email })
+    .then(userToUpdate => {
+        userToUpdate["emailVerified"] = "1";
+        userToUpdate.save()
+        .then(user => {
+            successcb(user);
+        })
+        .catch(err => failurecb(err))
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
+
 queries.getAllStudents = (successcb, failurecb) => {
     Student.find()
-    .populate('user', '-password')
+    .populate({
+        path: 'user',
+        match: { emailVerified: "1"}
+    })
     .sort({ createdDate: -1 })
     .exec()
     .then(students => {
-        successcb(students);
+        var emailVerifiedStudent = students.filter(student => student.user)
+        successcb(emailVerifiedStudent);
     })
     .catch(err => {
         failurecb(err);
@@ -677,7 +704,7 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                                 select: 'sjsuId user',
                                 populate : {
                                   path : 'user',
-                                  select: 'fname lname'
+                                  select: 'fname lname email'
                                 }
                             }).
                             populate('items.item').
@@ -685,6 +712,12 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                             then(populatedOrder => {
                                 successcb(populatedOrder)
                             })
+
+
+
+
+
+
                         })
                         .catch(err => {
                             let message = `Failed to get Order details from the db. ${err.message}`;
@@ -723,7 +756,7 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                     select: 'sjsuId user',
                     populate : {
                       path : 'user',
-                      select: 'fname lname'
+                      select: 'fname lname email'
                     }
                 }).
                 populate('items.item').
