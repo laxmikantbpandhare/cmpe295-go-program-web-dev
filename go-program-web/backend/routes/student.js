@@ -3,7 +3,7 @@ var router = express.Router();
 const queries = require('../utils/queries');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
-const {sendMail} = require('../config/email');
+const {sendMail} = require('../utils/email');
 
 router.get('/ownEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Own Events Get Request");
@@ -81,14 +81,13 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
     
     queries.updateStudentEventStatus(event, result => {
         console.log("Event updated: " + result);
-        console.log(result.student.user.email)
         
         // send email here
 
         const title = "Student Submitted Event on GO Program";
             
         const emailBody =   '<div>Dear Student,</div><br/>'+
-                            '<div>The Admin of SJSU GO Program updated your Event status to: '+event.status+'</div><br/>'+
+                            '<div>The Admin of SJSU GO Program updated your Event status to: <b>'+event.status+'</b></div><br/>'+
                             '<div>Please contact SJSU GO Program admin for any further queries.</div><br/>'+
                             '<div>Thank You and Regards,</div>'+
                             '<div>GO Program,</div>'+
@@ -168,7 +167,7 @@ router.post('/createOrder', passport.authenticate("jwt", { session: false }), fu
         const title = "Student Submitted Order on GO Program";
             
         const emailBody =   '<div>Dear Admin,</div><br/>'+
-                            '<div>Student with id '+id+' submitted the Order on GO Program. </div><br/>'+
+                            '<div>Student with id <b>'+id+'</b> submitted the Order on GO Program. </div><br/>'+
                             '<div>Please visit GO Program website for further action on the submitted order. </div><br/>'+
                             '<div>Thank You and Regards,</div>'+
                             '<div>GO Program,</div>'+
@@ -242,7 +241,7 @@ router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false 
         const title = "Your Order status updated on GO Program";
             
         const emailBody =   '<div>Dear Student,</div><br/>'+
-                            '<div>The Admin of SJSU GO Program updated your Order status to: '+order.status+'</div><br/>'+
+                            '<div>The Admin of SJSU GO Program updated your Order status to: <b>'+order.status+'</b></div><br/>'+
                             '<div>Please contact SJSU GO Program admin for any further queries.</div><br/>'+
                             '<div>Thank You and Regards,</div>'+
                             '<div>GO Program,</div>'+
@@ -336,7 +335,7 @@ router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: fal
         const title = "Student suggested Event on GO Program";
             
         const emailBody =   '<div>Dear Admin,</div><br/>'+
-                            '<div>Student with id '+id+' suggested the Event on GO Program.</div><br/>'+
+                            '<div>Student with id <b>'+id+'</b> suggested the Event on GO Program.</div><br/>'+
                             '<div>Please visit GO Program website for further action on the submitted order. </div><br/>'+
                             '<div>Thank You and Regards,</div>'+
                             '<div>GO Program,</div>'+
@@ -419,7 +418,7 @@ router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { sessio
         const title = "Student Suggested Event Update on GO Program";
             
         const emailBody =   '<div>Dear Student,</div><br/>'+
-                            '<div>The Admin of SJSU GO Program updated your Suggested Event status to: '+event.status+'</div><br/>'+
+                            '<div>The Admin of SJSU GO Program updated your Suggested Event status to: <b>'+event.status+'</b></div><br/>'+
                             '<div>Please contact SJSU GO Program admin for any further queries.</div><br/>'+
                             '<div>Thank You and Regards,</div>'+
                             '<div>GO Program,</div>'+

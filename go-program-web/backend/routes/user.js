@@ -7,9 +7,7 @@ const {secret} = require('../config/config');
 const {frontendURL} = require('../config/config');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
-const sendEmail = require('../utils/sendEmail');
-const {RESET_PASSWORD} = require('../utils/emailTypes');
-const {sendMail} = require('../config/email');
+const {sendMail} = require('../utils/email');
 
 router.post('/signup',function(req,res){
     console.log("Inside User signup Post Request");
@@ -22,10 +20,13 @@ router.post('/signup',function(req,res){
             console.log("User created with id: " + result._id);
 
             const title = "GO Program Account Activation Link";
-            
+            const email = user.email;
+            // added token
+            const token = jwt.sign({email}, secret, {expiresIn: '20m'});
+
             const emailBody =   '<div>Dear Student,</div>'+
                                 '<h2>Please click on Link below to verify your account.</h2>'+
-                                '<a href="'+frontendURL+'/confirm-email/'+user.email+'"><H2>Click on this to Activate Your Account</H2></a>'+
+                                '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this to Activate Your Account</H2></a>'+
                                 '<div>Thank You and Regards,</div>'+
                                 '<div>GO Program,</div>'+
                                 '<div>San Jose State University</div>';
@@ -56,6 +57,8 @@ router.post('/resendEmail',function(req,res){
 
     const email = req.body.email;
 
+    var token = jwt.sign({email}, secret, {expiresIn: '20m'});
+
     queries.getUserByEmail(email, user => {
         if(user) {
 
@@ -63,7 +66,7 @@ router.post('/resendEmail',function(req,res){
             
             const emailBody =   '<div>Dear Student,</div>'+
                                 '<h2>Please click on Link below to verify your account.</h2>'+
-                                '<a href="'+frontendURL+'/confirm-email/'+email+'"><H2>Click on this to Activate Your Account</H2></a>'+
+                                '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this to Activate Your Account</H2></a>'+
                                 '<div>Thank You and Regards,</div>'+
                                 '<div>GO Program,</div>'+
                                 '<div>San Jose State University</div>';
@@ -88,31 +91,41 @@ router.post('/resendEmail',function(req,res){
 
 router.post('/verifyEmail', function(req,res){
     console.log("Inside User Email Verification Post Request");
-    console.log(req.query.email);
 
-    queries.changeEmailVerified(req.query.email, result => {
+    const token = req.query.email;
 
-        const title = "Student Account approval request on GO Program";
+    jwt.verify(token, secret, function(err, decodedToken){
+        if(err){
+            res.status(400).json({message:`Incorrect or Expired link. Please resend email verification link from SignUp Page.`});
+        }else{
+
+            queries.changeEmailVerified(decodedToken.email, result => {
+
+                const title = "Student Account approval request on GO Program";
+                    
+                const emailBody =   '<div>Dear Admin,</div><br/>'+
+                                    '<div>Student submitted the account activation request on GO Program. </div><br/>'+
+                                    '<div>Please visit GO Program website for further action on the submitted request. </div><br/>'+
+                                    '<div>Thank You and Regards,</div>'+
+                                    '<div>GO Program,</div>'+
+                                    '<div>San Jose State University</div>';
+                                               
+                sendMail(title, 
+                         emailBody,
+                         "coe-go-project-group@sjsu.edu", messageInfo => {
+                            res.status(200).json({message:`Account is Verified.\nThis is a Two step verification. Please wait for the Admin to verify and activate the account.`});
+                        }, err => {
+                            res.status(500).json({message:`Failed to send an email. If still issue persists then contact GO Program admin. ${err}`});
+                        }
+                );
+        
+            }, message =>{
+                res.status(500).json({ message: `Unable to update status in the DB.${message}` });
+            });
             
-        const emailBody =   '<div>Dear Admin,</div><br/>'+
-                            '<div>Student submitted the account activation request on GO Program. </div><br/>'+
-                            '<div>Please visit GO Program website for further action on the submitted request. </div><br/>'+
-                            '<div>Thank You and Regards,</div>'+
-                            '<div>GO Program,</div>'+
-                            '<div>San Jose State University</div>';
-                                       
-        sendMail(title, 
-                 emailBody,
-                 "coe-go-project-group@sjsu.edu", messageInfo => {
-                    res.status(200).json({message:`Account is Verified.\nThis is a Two step verification. Please wait for the Admin to verify and activate the account.`});
-                }, err => {
-                    res.status(500).json({message:`Failed to send an email. If still issue persists then contact GO Program admin. ${err}`});
-                }
-        );
-
-    }, message =>{
-        res.status(500).json({ message: `Unable to update status in the DB.${message}` });
+        }
     });
+
 });
 
 router.post('/createAdmin', passport.authenticate("jwt", { session: false }), function(req, res){
@@ -135,7 +148,7 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
             const title = "GO Program Admin Account";
             
             const emailBody =   '<div>Dear Admin,</div><br/>'+
-                                '<div>You have been added as a Admin on GO program. Please use your SJSU ID with the password: '+randomPassword+'</div><br/>'+
+                                '<div>You have been added as a Admin on GO program. Please use your SJSU ID with the password: <b>'+randomPassword+'</b></div><br/>'+
                                 '<div>Please contact SJSU GO Program authority for any further queries.</div><br/>'+
                                 '<div>Thank You and Regards,</div>'+
                                 '<div>GO Program,</div>'+
@@ -247,7 +260,7 @@ router.post('/resetPassword',function(req,res){
                     const title = "Password Reset Instructions from GO Program";
             
                     const emailBody =   '<div>Dear User,</div><br/>'+
-                                        '<div>Please use this password for log in to GO Program: '+randomPassword+' </div><br/>'+
+                                        '<div>Please use this password for log in to GO Program: <b>'+randomPassword+'</b> </div><br/>'+
                                         '<div>You can change your password by log in to the GO program. Please use change password for password change. </div><br/>'+
                                         '<div>Please contact SJSU admin for any further queries. </div><br/>'+
                                         '<div>Thank You and Regards,</div>'+
@@ -313,7 +326,6 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
         const resultObject = { ...result.toObject() };
         const {password, ...updatedUser} = resultObject;
         updatedUser._id = updatedUser._id.toString();
-        console.log(user.id)
         
         // send email here
         queries.getUserEmailById(user.id, row => {
@@ -322,7 +334,7 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
                 const title = "Student Account Status Update on GO Program";
             
                 const emailBody =   '<div>Dear Student,</div><br/>'+
-                                    '<div>The GO Program Admin changes your accoint status to: '+user.status+' </div><br/>'+
+                                    '<div>The GO Program Admin changes your accoint status to: <b>'+user.status+'</b> </div><br/>'+
                                     '<div>Please contact SJSU admin for any further queries. </div><br/>'+
                                     '<div>Thank You and Regards,</div>'+
                                     '<div>GO Program,</div>'+

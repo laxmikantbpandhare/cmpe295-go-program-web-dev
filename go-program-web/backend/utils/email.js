@@ -1,11 +1,13 @@
 const nodemailer = require('nodemailer');
-//const defaultMailingList = "laxmikantpandhare@gmail.com";
 const senderEmail = "engineering-smtp-service@sjsu.edu";
 const senderPassword = "thatcould"; // gmail app password
 module.exports = {
     sendMail: async (subject, text, to = defaultMailingList, successcb, failurecb) => {
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
+            host: 'smtp.example.com',
+            port: 587,
+            secure: false, //secure:false for port 587
             auth: {
             user: senderEmail,
             pass: senderPassword,
@@ -19,8 +21,6 @@ module.exports = {
             text: subject,
             html: text,
         };
-
-        // transporter.sendMail(message, () => {});
 
         transporter.sendMail(message, function (err,info) {
             if(err)
