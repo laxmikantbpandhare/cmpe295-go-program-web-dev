@@ -21,23 +21,23 @@ router.post('/signup',function(req,res){
         queries.createStudent(user, hash, result => {
             console.log("User created with id: " + result._id);
 
-            const title = "GO Program Account Activation Link.";
+            const title = "GO Program Account Activation Link";
             
             const emailBody =   '<div>Dear Student,</div>'+
                                 '<h2>Please click on Link below to verify your account.</h2>'+
                                 '<a href="'+frontendURL+'/confirm-email/'+user.email+'"><H2>Click on this to Activate Your Account</H2></a>'+
-                                '<div>Thank You and Regards</div>'+
-                                '<div>GO Program Admin,</div>'+
-                                '<div>San Jose State University.</div>';
+                                '<div>Thank You and Regards,</div>'+
+                                '<div>GO Program,</div>'+
+                                '<div>San Jose State University</div>';
+
             sendMail(title, 
                      emailBody,
                      user.email, messageInfo => {
-                        console.log("Email sent success");
                         res.status(200).json({message:'User created Successfully.'});
                     }, err => {
-                        console.log("Email sent erred");
-                        res.status(500).json({message:`msg here. ${err}`});
-                    });
+                        res.status(500).json({message:`Failed to send an email with Account Activation instruction. Please re-send email from SignUp page. If still issue persists then contact GO Program admin.${err}`});
+                    }
+            );
 
         }, (err, tag) => {
             if(err.code === 11000){
@@ -56,15 +56,24 @@ router.post('/resendEmail',function(req,res){
 
     const email = req.body.email;
 
-    sendMail("GO Program Account Activation Link.", 
-            '<h2>Please click on Link below to verify your account.</h2>'+
-            '<a href="'+frontendURL+'/confirm-email/'+email+'"><H2>Click on this.</H2></a>'+
-            '<p>Thank You and Regards</p>'+
-            '<p>GO Program Admin,</p>'+
-            '<p>San Jose State Universiry.</p>',
-             email);
+    const title = "GO Program Account Activation Link";
+            
+    const emailBody =   '<div>Dear Student,</div>'+
+                        '<h2>Please click on Link below to verify your account.</h2>'+
+                        '<a href="'+frontendURL+'/confirm-email/'+email+'"><H2>Click on this to Activate Your Account</H2></a>'+
+                        '<div>Thank You and Regards,</div>'+
+                        '<div>GO Program,</div>'+
+                        '<div>San Jose State University</div>';
+ 
+    sendMail(title, 
+             emailBody,
+             email, messageInfo => {
+                res.status(200).json({message:'Email sent successfully. Please check your inbox for the Account Activation Link.'});
+            }, err => {
+                res.status(500).json({message:`Failed to send an email with Account Activation instruction. Please re-send email from SignUp page. If still issue persists then contact GO Program admin.${err}`});
+             }
+    );
 
-    res.status(200).json({message:'Email sent successfully. Please check your inbox for the Account Activation Link.'});
 });
 
 router.post('/verifyEmail', function(req,res){
@@ -94,7 +103,26 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
             const resultObject = { ...result.toObject() };
             const {password, ...admin} = resultObject;
             admin._id = admin._id.toString();
-            res.status(200).json({message:'User created', admin});
+
+            const title = "GO Program Admin Account";
+            
+            const emailBody =   '<div>Dear Admin,</div><br/>'+
+                                '<div>You have been added as a Admin on GO program. Please use your SJSU ID with the password: '+randomPassword+'</div><br/>'+
+                                '<div>Please contact SJSU GO Program authority for any further queries.</div><br/>'+
+                                '<div>Thank You and Regards,</div>'+
+                                '<div>GO Program,</div>'+
+                                '<div>San Jose State University</div>';
+         
+            sendMail(title, 
+                     emailBody,
+                     user.email, messageInfo => {
+                        res.status(200).json({message:'User created', admin});
+                    }, err => {
+                        res.status(500).json({message:`Failed to send an email that will inform Admin. If still issue persists then contact GO Program admin. ${err}`});
+                     }
+            );
+
+
         }, err => {
             if(err.code === 11000){
                 res.status(401).json({message: 'User with same SJSU Id/Email Id already exists.' });
@@ -187,16 +215,34 @@ router.post('/resetPassword',function(req,res){
             console.log('random password = ', randomPassword);
             encrypt.generateHash(randomPassword, hash => {
                 queries.changeUserPassword(user.id, hash, result => {
-                    sendEmail(email, RESET_PASSWORD, randomPassword, messageInfo => {
-                        console.log("Email sent success");
-                        res.status(200).json({message:'Password reset successfully. Please check your email for the new password.'});
-                    }, err => {
-                        console.log("Email sent erred");
-                        res.status(500).json({message:'Password reset successfully but something failed when sending email to the specified email id. Please try again after sometime. If the problem persist, please contact the administration.'});
-                    })
+
+                    const title = "Password Reset Instructions from GO Program";
+            
+                    const emailBody =   '<div>Dear User,</div><br/>'+
+                                        '<div>Please use this password for log in to GO Program: '+randomPassword+' </div><br/>'+
+                                        '<div>You can change your password by log in to the GO program. Please use change password for password change. </div><br/>'+
+                                        '<div>Please contact SJSU admin for any further queries. </div><br/>'+
+                                        '<div>Thank You and Regards,</div>'+
+                                        '<div>GO Program,</div>'+
+                                        '<div>San Jose State University</div>';
+                          
+                    sendMail(title, 
+                             emailBody,
+                             email, messageInfo => {
+                                res.status(200).json({message:'Password reset successfully. Please check your email for the new password.'});
+                            }, err => {
+                                res.status(500).json({message:`Failed to send an email. If still issue persists then contact GO Program admin. ${err}`});
+                            }
+                    );
+
                 }, err => {
                     res.status(500).json({message: `Something failed when saving the new password. ${err}`});
                 });
+
+
+
+
+
             }, err => {
                 res.status(500).json({message: `Something failed when generating hash for the new password to encrypt it. ${err}` });
             });
@@ -249,21 +295,23 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
         queries.getUserEmailById(user.id, row => {
             if(row){
 
-                var acctStatus = "";
-                if(user.status === "Active"){
-                    acctStatus = "Activated"
-                }else{
-                    acctStatus = "Rejected"
-                }
-                sendMail("Student Account Status Update on GO Program.", 
-                        '<h2>The Admin of SJSU GO Program '+acctStatus+' your account.</h2>'+
-                        '<h2>Please contact SJSU admin for any further queries.</h2>'+
-                        '<p>Thank You and Regards</p>'+
-                        '<p>GO Program Admin,</p>'+
-                        '<p>San Jose State Universiry.</p>',
-                        row.email);
-
-                res.status(200).json({message:`User's status updated successfully`, user: updatedUser});
+                const title = "Student Account Status Update on GO Program";
+            
+                const emailBody =   '<div>Dear Student,</div><br/>'+
+                                    '<div>The GO Program Admin changes your accoint status to: '+user.status+' </div><br/>'+
+                                    '<div>Please contact SJSU admin for any further queries. </div><br/>'+
+                                    '<div>Thank You and Regards,</div>'+
+                                    '<div>GO Program,</div>'+
+                                    '<div>San Jose State University</div>';
+                              
+                sendMail(title, 
+                         emailBody,
+                         row.email, messageInfo => {
+                            res.status(200).json({message:`User's status updated successfully`, user: updatedUser});
+                        }, err => {
+                            res.status(500).json({message:`Failed to send an email. If still issue persists then contact GO Program admin. ${err}`});
+                        }
+                );
             }else{
                 res.status(401).json({success: false, message: "User does not exists. Please try again"});         
             }

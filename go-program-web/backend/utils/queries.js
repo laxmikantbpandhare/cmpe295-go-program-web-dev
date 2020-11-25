@@ -48,6 +48,7 @@ queries.createAdmin = (user, hash, successcb, failurecb) => {
         fname: user.fname,
         lname: user.lname,
         email: user.email,
+        emailVerified: "1",
         userType: "admin",
         status: "Active"
     });
