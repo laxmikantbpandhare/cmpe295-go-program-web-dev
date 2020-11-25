@@ -56,23 +56,33 @@ router.post('/resendEmail',function(req,res){
 
     const email = req.body.email;
 
-    const title = "GO Program Account Activation Link";
+    queries.getUserByEmail(email, user => {
+        if(user) {
+
+            const title = "GO Program Account Activation Link";
             
-    const emailBody =   '<div>Dear Student,</div>'+
-                        '<h2>Please click on Link below to verify your account.</h2>'+
-                        '<a href="'+frontendURL+'/confirm-email/'+email+'"><H2>Click on this to Activate Your Account</H2></a>'+
-                        '<div>Thank You and Regards,</div>'+
-                        '<div>GO Program,</div>'+
-                        '<div>San Jose State University</div>';
- 
-    sendMail(title, 
-             emailBody,
-             email, messageInfo => {
-                res.status(200).json({message:'Email sent successfully. Please check your inbox for the Account Activation Link.'});
-            }, err => {
-                res.status(500).json({message:`Failed to send an email with Account Activation instruction. Please re-send email from SignUp page. If still issue persists then contact GO Program admin.${err}`});
-             }
-    );
+            const emailBody =   '<div>Dear Student,</div>'+
+                                '<h2>Please click on Link below to verify your account.</h2>'+
+                                '<a href="'+frontendURL+'/confirm-email/'+email+'"><H2>Click on this to Activate Your Account</H2></a>'+
+                                '<div>Thank You and Regards,</div>'+
+                                '<div>GO Program,</div>'+
+                                '<div>San Jose State University</div>';
+                 
+            sendMail(title, 
+                     emailBody,
+                     email, messageInfo => {
+                        res.status(200).json({message:'Email sent successfully. Please check your inbox for the Account Activation Link.'});
+                     }, err => {
+                        res.status(500).json({message:`Failed to send an email with Account Activation instruction. Please re-send email from SignUp page. If still issue persists then contact GO Program admin.${err}`});
+                     }
+            );
+
+        } else {
+            res.status(401).json({success: false, message: "User with specified email does not exists. You need to sign up before using the system."});
+        }
+    }, err => {
+        res.status(500).json({success: false, message: `Something wrong when getting the user from the database. ${err}`});
+    });
 
 });
 
@@ -81,7 +91,25 @@ router.post('/verifyEmail', function(req,res){
     console.log(req.query.email);
 
     queries.changeEmailVerified(req.query.email, result => {
-        res.status(200).json({message:`Account is Verified.\nThis is a Two step verification. Please wait for the Admin to verify and activate the account.`});
+
+        const title = "Student Account approval request on GO Program";
+            
+        const emailBody =   '<div>Dear Admin,</div><br/>'+
+                            '<div>Student submitted the account activation request on GO Program. </div><br/>'+
+                            '<div>Please visit GO Program website for further action on the submitted request. </div><br/>'+
+                            '<div>Thank You and Regards,</div>'+
+                            '<div>GO Program,</div>'+
+                            '<div>San Jose State University</div>';
+                                       
+        sendMail(title, 
+                 emailBody,
+                 "coe-go-project-group@sjsu.edu", messageInfo => {
+                    res.status(200).json({message:`Account is Verified.\nThis is a Two step verification. Please wait for the Admin to verify and activate the account.`});
+                }, err => {
+                    res.status(500).json({message:`Failed to send an email. If still issue persists then contact GO Program admin. ${err}`});
+                }
+        );
+
     }, message =>{
         res.status(500).json({ message: `Unable to update status in the DB.${message}` });
     });
@@ -238,10 +266,6 @@ router.post('/resetPassword',function(req,res){
                 }, err => {
                     res.status(500).json({message: `Something failed when saving the new password. ${err}`});
                 });
-
-
-
-
 
             }, err => {
                 res.status(500).json({message: `Something failed when generating hash for the new password to encrypt it. ${err}` });
