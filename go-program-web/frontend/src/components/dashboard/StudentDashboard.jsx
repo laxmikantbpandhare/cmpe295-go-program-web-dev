@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Dashboard.css';
 import {connect} from 'react-redux';
@@ -14,7 +12,6 @@ class StudentDashboard extends Component{
 
     componentDidMount(){
         this.props.getPoints().then(() => {
-            console.log("Inside Student Dashboard get point then");
             localStorage.setItem('pointsAccumulated', this.props.pointsAccumulated);
             localStorage.setItem('pointsSpent', this.props.pointsSpent);
         }).catch(() => {

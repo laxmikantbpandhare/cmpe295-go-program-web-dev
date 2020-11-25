@@ -168,6 +168,18 @@ router.get('/allStudents',passport.authenticate("jwt", { session: false }),funct
     });
 });
 
+router.get('/student',passport.authenticate("jwt", { session: false }),function(req,res){
+    console.log("Inside User Student Get Request");
+
+    const id = getId(req.headers.authorization);
+    
+    queries.getStudent(id, student => {
+        res.status(200).json({student});
+    }, err=> {
+        res.status(500).json({ message: `Something failed when getting student from the database. ${err.message}`});
+    });
+});
+
 router.get('/allAdmins',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside User All Admins Get Request");
     
@@ -213,6 +225,19 @@ router.post('/updateAdmin', passport.authenticate("jwt", { session: false }), fu
         res.status(200).json({message:`Admin user updated successfully`, admin: updatedUser});
     }, message => {
         res.status(500).json({ message: `Something wrong when reading the record from the database. ${message}` });
+    });
+});
+
+router.post('/updateStudent', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside User Update Student Post Request");
+    console.log("Req Body : ",req.body);
+    const student = req.body;
+
+    const id = getId(req.headers.authorization);
+    queries.updateStudent(id, student, result => {
+        res.status(200).json({message:`Student updated successfully`, student: result});
+    }, message => {
+        res.status(500).json({ message: `Something wrong when updating the record in the database. ${message}` });
     });
 });
 

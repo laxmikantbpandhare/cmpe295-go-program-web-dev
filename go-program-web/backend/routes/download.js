@@ -4,7 +4,7 @@ var router = express.Router();
 var passport = require("passport");
 
 router.get('/image',passport.authenticate("jwt", { session: false }),function(req,res){
-    console.log("Inside Admin item Image Get Request");
+    console.log("Inside Download Image Get Request");
     
     res.sendFile(path.join(__dirname, `../uploads/${req.query.name}`), err => {
         if(err){

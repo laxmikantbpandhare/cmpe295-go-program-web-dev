@@ -10,6 +10,7 @@ import StudentOrders from './orders/StudentOrders';
 import StudentCart from './orders/StudentCart';
 import StudentOrderDetails from './orders/StudentOrderDetails';
 import StudentAllSuggestions from './suggestions/StudentAllSuggestions';
+import StudentProfile from './users/StudentProfile';
 import ChangePassword from './password/ChangePassword';
 import PageNotFound from './PageNotFound';
 
@@ -38,6 +39,7 @@ function Student() {
             <Route path="/student/cart" component={StudentCart}/>
             <Route path="/student/order-details/:orderId" component={StudentOrderDetails}/>
             <Route path="/student/change-password" component={ChangePassword}/>
+            <Route path="/student/profile" component={StudentProfile}/>
             <Route component={PageNotFound}/>
           </Switch>
       </div>

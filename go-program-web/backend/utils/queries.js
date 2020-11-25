@@ -78,6 +78,30 @@ queries.updateAdmin = (user, successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
+queries.updateStudent = (id, student, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .then(studentToUpdate => {
+        studentToUpdate["major"] = student.major;
+        studentToUpdate["year"] = student.year;
+        studentToUpdate.save()
+        .then(updatedStudent => {
+            updatedStudent
+            .populate({
+                path : 'user',
+                select: 'fname lname email'
+            })
+            .execPopulate().
+            then(student => {
+                successcb(student);
+            })
+        })
+        .catch(err => {
+            failurecb(err);
+        })
+    })
+    .catch(err => failurecb(err))
+}
+
 queries.getUserPasswordById = (id, successcb, failurecb) => {
     User.findOne({id})
     .then(user => successcb(user))
@@ -112,6 +136,21 @@ queries.getAllStudents = (successcb, failurecb) => {
     .exec()
     .then(students => {
         successcb(students);
+    })
+    .catch(err => {
+        failurecb(err);
+    })
+}
+
+queries.getStudent = (id, successcb, failurecb) => {
+    Student.findOne({sjsuId: id})
+    .populate({
+        path : 'user',
+        select: 'fname lname email'
+    })
+    .exec()
+    .then(student => {
+        successcb(student);
     })
     .catch(err => {
         failurecb(err);

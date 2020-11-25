@@ -34,10 +34,6 @@
   .landing-image{
     height: 100%;
   }
-
-  .small-font{
-    font-size: 13px;
-  }
 }
 
 @media (max-width: 576px){
