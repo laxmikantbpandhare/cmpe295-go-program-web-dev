@@ -54,7 +54,7 @@ const studentEventsReducer = (state = initialState, action) => {
         case STUDENT_EVENT_INPUT_CHANGE:
             var events = state.events.map(event => {
                 // Find a event with the matching id
-                if(event._id == action.payload.id){
+                if(event._id === action.payload.id){
                     //Return a new object
                     return{
                         ...event, //copy the existing event
@@ -70,7 +70,7 @@ const studentEventsReducer = (state = initialState, action) => {
             }
         case STUDENT_EVENT_EDIT_CANCEL:
             var events = state.events.map(event => {
-                if(event._id == action.payload.id){
+                if(event._id === action.payload.id){
                     return{
                         ...event, //copy the existing event
                         ["description"]: action.payload.description //replace the name with new name
@@ -85,7 +85,7 @@ const studentEventsReducer = (state = initialState, action) => {
             }
         case STUDENT_UPDATE_EVENT_SUCCESS:
             var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
+                if(event._id === action.payload.event._id){
                     return action.payload.event;
                 }
                 // Leave every other item unchanged
@@ -105,7 +105,7 @@ const studentEventsReducer = (state = initialState, action) => {
             }
         case STUDENT_EVENT_ADD_COMMENT_SUCCESS:
             var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
+                if(event._id === action.payload.event._id){
                     return action.payload.event;
                 }
                 // Leave every other item unchanged

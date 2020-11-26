@@ -86,7 +86,7 @@ class StudentNewSuggestionModal extends Component{
                             <div className="form-group row">
                                 <label className="col-3">Name</label>
                                 <div className="col-9">
-                                    <input className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <input className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     placeholder="Enter event name" onChange={this.handleInputChange}
                                     name="name"/>
                                 </div>
@@ -94,7 +94,7 @@ class StudentNewSuggestionModal extends Component{
                             <div className="form-group row">
                                 <label className="col-3">Description</label>
                                 <div className="col-9">
-                                    <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     rows="3" placeholder="Enter event description" onChange={this.handleInputChange}
                                     name="description"/>
                                 </div>

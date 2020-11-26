@@ -74,7 +74,7 @@ class StudentProfile extends Component {
                             {this.state.responseMessage}
                         </div>
                         <img className="signup-image rounded img-thumbnail" src= {this.state.studentIdCard}
-                            alt="Responsive image"/>
+                            alt="Responsive Pic"/>
                         <h2>{`${this.props.student.user.fname} ${this.props.student.user.lname}`}</h2>
                         <h5>{this.props.student.sjsuId}</h5>
                         <h5>{this.props.student.user.email}</h5>

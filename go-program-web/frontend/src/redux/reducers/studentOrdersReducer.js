@@ -27,7 +27,7 @@ const studentOrdersReducer = (state = initialState, action) => {
             }
         case STUDENT_ORDER_ADD_COMMENT_SUCCESS:
             var orders = state.orders.map(order => {
-                if(order._id == action.payload.order._id){
+                if(order._id === action.payload.order._id){
                     return action.payload.order;
                 }
                 // Leave every other item unchanged

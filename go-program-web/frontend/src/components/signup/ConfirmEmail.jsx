@@ -41,7 +41,7 @@ function ConfirmEmail(props) {
                 <div className="col-sm-10 col-md-8 col-lg-6">
                     <form className="form-container">
                         <div className="d-flex align-items-center justify-content-center">
-                            <img src={collegeLogo} className="img-fluid coe-logo text-center"/>
+                            <img src={collegeLogo} alt="College Logo" className="img-fluid coe-logo text-center"/>
                         </div>
                         <h4 className={`mt-4 status-msg ${status}`}>
                             {message}

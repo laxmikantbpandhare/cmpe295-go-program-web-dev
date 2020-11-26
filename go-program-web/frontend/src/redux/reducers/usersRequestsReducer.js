@@ -28,7 +28,7 @@ const usersRequestsReducer = (state = initialState, action) => {
             }
         case REQUESTS_STUDENT_EDIT_CANCEL:
             var students = state.students.map(student => {
-                if(student._id == action.payload.student._id){
+                if(student._id === action.payload.student._id){
                     return action.payload.student;
                 }
                 // Leave every other admin unchanged
@@ -40,7 +40,7 @@ const usersRequestsReducer = (state = initialState, action) => {
             }
         case REQUESTS_UPDATE_STUDENT_STATUS_SUCCESS:
             var students = state.students.map(student => {
-                if(student.sjsuId == action.payload.user.id){
+                if(student.sjsuId === action.payload.user.id){
                     return {
                         ...student,
                         user: action.payload.user

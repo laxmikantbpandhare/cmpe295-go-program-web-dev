@@ -66,7 +66,7 @@ const adminEventsReducer = (state = initialState, action) => {
         case ADMIN_EVENT_INPUT_CHANGE:
             var events = state.events.map(event => {
                 // Find a event with the matching id
-                if(event._id == action.payload.id){
+                if(event._id === action.payload.id){
                     //Return a new object
                     return{
                         ...event, //copy the existing event
@@ -83,7 +83,7 @@ const adminEventsReducer = (state = initialState, action) => {
         case ADMIN_EVENT_DATE_CHANGE:
             var events = state.events.map(event => {
                 // Find a event with the matching id
-                if(event._id == action.payload.id){
+                if(event._id === action.payload.id){
                     //Return a new object
                     return{
                         ...event, //copy the existing event
@@ -99,7 +99,7 @@ const adminEventsReducer = (state = initialState, action) => {
             }
         case ADMIN_EVENT_EDIT_CANCEL:
             var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
+                if(event._id === action.payload.event._id){
                     return action.payload.event;
                 }
                 // Leave every other event unchanged
@@ -111,7 +111,7 @@ const adminEventsReducer = (state = initialState, action) => {
             }
         case ADMIN_UPDATE_EVENT_SUCCESS:
             var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
+                if(event._id === action.payload.event._id){
                     return action.payload.event;
                 }
                 // Leave every other item unchanged

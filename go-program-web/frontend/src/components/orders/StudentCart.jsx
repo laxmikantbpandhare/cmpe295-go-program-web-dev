@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Orders.css';
 import StudentCartItem from './StudentCartItem';
@@ -43,7 +42,7 @@ class StudentCart extends Component{
 
     handleSetState = (itemIndex, pointsUsed, successcb) => {
         this.setState( state => {
-            const cart = state.cart.filter((cartItem, currIndex) => itemIndex != currIndex);
+            const cart = state.cart.filter((cartItem, currIndex) => itemIndex !== currIndex);
             return {
                 cart,
                 pointsUsed

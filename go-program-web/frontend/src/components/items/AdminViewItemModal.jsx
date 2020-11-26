@@ -10,16 +10,6 @@ import {itemCategories, backendUrl} from '../../config';
 
 
 class AdminViewItemModal extends Component{
-    // constructor(props){
-    //     super(props);
-    //     this.initialProp = props.item;
-    //     this.state = {
-    //         message: "",
-    //         isEdited: false,
-    //         getImagesMessage: "",
-    //         images: []
-    //     }
-    // }
 
     initialProp = this.props.item;
     
@@ -86,7 +76,7 @@ class AdminViewItemModal extends Component{
 
     addAttribute = () => {
         let totalAttributes = this.props.item.attributes.length;
-        if(this.props.item.attributes[totalAttributes-1].size!="" && this.props.item.attributes[totalAttributes-1].quantity>0){
+        if(this.props.item.attributes[totalAttributes-1].size!=="" && this.props.item.attributes[totalAttributes-1].quantity>0){
             this.props.addAttribute(this.props.item._id);
         } else {
             alert("Please fill out previous attribute");
@@ -231,7 +221,7 @@ class AdminViewItemModal extends Component{
                                         {
                                             this.state.isEdited
                                             ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleStateInputChange}
-                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value = {this.state.name}/>
                                             : <p>{this.props.item.name}</p>
                                         }
@@ -243,7 +233,7 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <textarea className={`form-control ${this.props.item.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            ? <textarea className={`form-control ${this.props.item.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handlePropsInputChange}
                                             name="description" value = {this.props.item.description}/>
                                             : <p className="text-pre-wrap">{this.props.item.description}</p>
@@ -255,7 +245,7 @@ class AdminViewItemModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            ? <select className={`form-control ${this.state.category!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             name="category" onChange={this.handleStateInputChange} value={this.state.category}>
                                                 <option selected value="">Select a Category</option>
                                                 {itemCategories.map(category => <option>{category}</option>)}
@@ -286,7 +276,7 @@ class AdminViewItemModal extends Component{
                                                     <div className="row mb-1" key={index}>
                                                         <div className = "col-5">
                                                             <input type="text" name="size" placeholder="Size"
-                                                            className={`form-control ${this.props.item.attributes[index].size!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                            className={`form-control ${this.props.item.attributes[index].size!==""?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                             value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                         </div>
                                                         <div className = "col-5">
@@ -297,7 +287,7 @@ class AdminViewItemModal extends Component{
                                                         {
                                                             index!==0 ? 
                                                             <div className = "col-1">
-                                                                <img onClick={e => this.removeAttribute(index)} className= "delete-icon" 
+                                                                <img onClick={e => this.removeAttribute(index)} alt="delete icon" className= "delete-icon" 
                                                                 src={deleteIcon}/>
                                                             </div> 
                                                             : null
@@ -306,7 +296,7 @@ class AdminViewItemModal extends Component{
                                                 ))
                                             }
                                             <span>Add a Row &nbsp;</span>
-                                            <img onClick={this.addAttribute} className= "add-icon" 
+                                            <img onClick={this.addAttribute} className= "add-icon" alt="add icon"
                                             src={addIcon}/>
                                     </div> 
                                     : <div className="col-8">
@@ -357,7 +347,7 @@ class AdminViewItemModal extends Component{
                                             { this.state.images.map((image,index) => 
                                             (<div className="col-6 modal-image mb-1" key ={index}>
                                                 <img className="rounded img-thumbnail" src= {image} 
-                                                alt="Responsive image"/>
+                                                alt="Responsive Pic"/>
                                             </div>
                                             ))
                                         }

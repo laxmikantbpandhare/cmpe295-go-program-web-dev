@@ -99,13 +99,13 @@ class AdminNewEventModal extends Component{
                                     <label className="col-3">Name</label>
                                     <div className="col-9">
                                         <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                        className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                        className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label className="col-3">Description</label>
                                     <div className="col-9">
-                                        <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                         rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                         name="description"/>
                                     </div>

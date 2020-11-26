@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import OrderItem from '../orders/OrderItem';
 import {backendUrl} from '../../config';

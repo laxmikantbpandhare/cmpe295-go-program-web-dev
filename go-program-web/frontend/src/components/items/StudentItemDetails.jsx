@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Items.css';
 import {backendUrl} from '../../config';
@@ -196,7 +195,7 @@ class StudentItemDetails extends Component{
                             ? this.state.item.images.filter((image,index)=> index>0).map((image,index) => 
                                 (<div className="col-3 m-1" key ={index}>
                                         <img className="rounded img-thumbnail" src= {image} 
-                                        alt="Responsive image"style={{cursor:"pointer"}}
+                                        alt="Responsive Pic"style={{cursor:"pointer"}}
                                         onClick={() => this.setState({ isOpen: true })}/>
                                     </div>
                                 ))

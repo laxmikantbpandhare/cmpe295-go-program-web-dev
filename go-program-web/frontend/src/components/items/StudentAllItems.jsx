@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Items.css';
 import {connect} from 'react-redux';
