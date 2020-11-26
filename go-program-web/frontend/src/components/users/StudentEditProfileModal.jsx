@@ -93,7 +93,7 @@ class StudentEditProfileModal extends Component{
                                 <div className="form-group row">
                                     <label className="col-4">Major</label>
                                     <div className="col-8">
-                                        <select className={`form-control ${this.props.student.major!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        <select className={`form-control ${this.props.student.major!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             name="major" onChange={this.handleSelectChange} value={this.props.student.major}>
                                                 <option selected value="">Select a Major</option>
                                                 {major.map(item => <option>{item}</option>)}
@@ -103,7 +103,7 @@ class StudentEditProfileModal extends Component{
                                 <div className="form-group row">
                                     <label className="col-4">Year</label>
                                     <div className="col-8">
-                                        <select className={`form-control ${this.props.student.year!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                        <select className={`form-control ${this.props.student.year!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             name="year" onChange={this.handleSelectChange} value={this.props.student.year}>
                                                 <option selected value="">Select a Year</option>
                                                 {academicYear.map(item => <option>{item}</option>)}
@@ -137,11 +137,11 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-const mapStateToProps = state => {
-    return {
-        responseMessage: state.studentProfile.updateResponseMessage,
-        responseStatus: state.studentProfile.updateResponseStatus
-    }
-}
+// const mapStateToProps = state => {
+//     return {
+//         responseMessage: state.studentProfile.updateResponseMessage,
+//         responseStatus: state.studentProfile.updateResponseStatus
+//     }
+// }
 
 export default connect(null, mapDispatchToProps)(StudentEditProfileModal);

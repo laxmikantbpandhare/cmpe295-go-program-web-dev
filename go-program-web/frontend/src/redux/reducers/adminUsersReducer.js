@@ -48,7 +48,7 @@ const adminUsersReducer = (state = initialState, action) => {
             }
         case MANAGER_UPDATE_ADMIN_SUCCESS:
             var admins = state.admins.map(admin => {
-                if(admin._id == action.payload.admin._id){
+                if(admin._id === action.payload.admin._id){
                     return action.payload.admin;
                 }
                 // Leave every other admin unchanged

@@ -109,14 +109,14 @@ class NewAdminModal extends Component{
                                 <label className="col-4">First Name</label>
                                 <div className="col-8">
                                     <input type="text" name="fname" placeholder="Enter First Name" onChange={this.handleChange}
-                                    className={`form-control ${this.state.fname!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                    className={`form-control ${this.state.fname!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label className="col-4">Last Name</label>
                                 <div className="col-8">
                                     <input type="text" name="lname" placeholder="Enter Last Name" onChange={this.handleChange}
-                                    className={`form-control ${this.state.lname!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                    className={`form-control ${this.state.lname!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
                             <div class="form-group row">

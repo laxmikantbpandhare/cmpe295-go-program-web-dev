@@ -6,9 +6,6 @@ import {getPoints, getEvents, getApprovedEvents, getOrders,
     getDeliveredOrders, getSuggestedEvents, getApprovedSuggestedEvents} from '../../redux/actions/studentDashboardAction';
 
 class StudentDashboard extends Component{
-    constructor(props){
-        super(props);
-    }
 
     componentDidMount(){
         this.props.getPoints().then(() => {

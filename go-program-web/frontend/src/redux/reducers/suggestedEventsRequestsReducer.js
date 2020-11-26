@@ -31,7 +31,7 @@ const suggestedEventsRequestsReducer = (state = initialState, action) => {
             }
         case REQUESTS_UPDATE_SUGGESTED_EVENT_STATUS_SUCCESS:
             var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
+                if(event._id === action.payload.event._id){
                     return action.payload.event;
                 }
                 // Leave every other item unchanged
@@ -53,7 +53,7 @@ const suggestedEventsRequestsReducer = (state = initialState, action) => {
             }
         case REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_SUCCESS:
             var events = state.events.map(event => {
-                if(event._id == action.payload.event._id){
+                if(event._id === action.payload.event._id){
                     return action.payload.event;
                 }
                 // Leave every other item unchanged

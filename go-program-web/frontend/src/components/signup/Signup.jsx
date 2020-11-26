@@ -189,7 +189,7 @@ class Signup extends Component{
                     <div className="col-sm-10 col-md-8 col-lg-6">
                         <form className="form-container">
                             <div className="d-flex align-items-center justify-content-center">
-                                <img src={collegeLogo} className="img-fluid coe-logo text-center"/>
+                                <img src={collegeLogo}  alt="COllege Logo" className="img-fluid coe-logo text-center"/>
                             </div>
                             <h4 className="text-center font-weight-bold">Sign Up</h4>
                             <div ref={el => { this.el = el; }} className={`mb-4 status-msg ${this.state.status}`}>
@@ -250,7 +250,7 @@ class Signup extends Component{
                                 <label className="form-label">Attach a clear copy of SJSU ID Card</label>
                             </div>
                             {this.state.imageUrl && <img className="rounded img-thumbnail signup-image mb-4" src= {this.state.imageUrl} 
-                            alt="Responsive image"/>}
+                            alt="Responsive Pic"/>}
                             <button className="btn btn-primary btn-block btn-style" onClick={this.handleSubmit}>
                                 Submit&nbsp;&nbsp;&nbsp;
                                 {

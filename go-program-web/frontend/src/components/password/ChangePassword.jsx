@@ -128,13 +128,13 @@ class ChangePassword extends Component {
                             </div>
                             <div className="form-group input-wrapper mb-4">
                                 <input type="password" name = "oldPassword" placeholder = "Enter Old Password" onChange={this.handleChange}
-                                className={`form-control form-input ${this.state.oldPassword!=""?'input-valid':'input-invalid'}`}
+                                className={`form-control form-input ${this.state.oldPassword!==""?'input-valid':'input-invalid'}`}
                                 value = {this.state.oldPassword}/>
                                 <label className="form-label">Old Password</label>
                             </div>
                             <div className="form-group input-wrapper mb-4">
                                 <input type="password" name = "newPassword" placeholder = "Enter New Password" onChange={this.handleChange}
-                                className={`form-control form-input ${this.state.newPassword!=""?'input-valid':'input-invalid'}`}
+                                className={`form-control form-input ${this.state.newPassword!==""?'input-valid':'input-invalid'}`}
                                 value = {this.state.newPassword}/>
                                 <label className="form-label">New Password</label>
                             </div>

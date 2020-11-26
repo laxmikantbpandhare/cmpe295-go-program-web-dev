@@ -1,18 +1,11 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import {connect} from 'react-redux';
-import {updateAdmin, adminChangeHandler, adminEditCancelHandler} from '../../redux/actions/adminUsersAction';
+import {updateAdmin} from '../../redux/actions/adminUsersAction';
 import {idPattern, emailPattern} from '../../config';
 
 class EditAdminModal extends Component{
-    // constructor(props){
-    //     super(props);
-        
-    //     this.initialProp = props.admin;
-    //     this.state = {
-    //         message: ""
-    //     }
-    // }
+
     state = {
         status: this.props.admin.status,
         fname: this.props.admin.fname,
@@ -23,17 +16,6 @@ class EditAdminModal extends Component{
         fetchStatus: "success",
         loader: false,
     }
-    
-    // handleEditCancel = e => {
-    //     this.props.handleEditCancel(this.initialProp);
-    //     this.props.hideEditAdminModal();
-    //     // this.props.resetCreateResponseMessageProps();
-    // }    
-
-    // handleChange = e => {
-    //     const { name, value } = e.target;
-    //     this.props.handleChange(this.props.admin._id, name, value);
-    // }
 
     handleChange = e => {
         this.setState({
@@ -134,7 +116,7 @@ class EditAdminModal extends Component{
                                 <label className="col-4">First Name</label>
                                 <div className="col-8">
                                     <input type="text" name="fname" placeholder="Enter First Name" onChange={this.handleChange}
-                                    className={`form-control ${this.state.fname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    className={`form-control ${this.state.fname!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     value={this.state.fname}/>
                                 </div>
                             </div>
@@ -142,7 +124,7 @@ class EditAdminModal extends Component{
                                 <label className="col-4">Last Name</label>
                                 <div className="col-8">
                                     <input type="text" name="lname" placeholder="Enter Last Name" onChange={this.handleChange}
-                                    className={`form-control ${this.state.lname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    className={`form-control ${this.state.lname!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     value={this.state.lname}/>
                                 </div>
                             </div>

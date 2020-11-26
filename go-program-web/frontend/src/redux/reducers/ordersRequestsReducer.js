@@ -30,7 +30,7 @@ const ordersRequestsReducer = (state = initialState, action) => {
             }
         case REQUESTS_UPDATE_ORDER_STATUS_SUCCESS:
             var orders = state.orders.map(order => {
-                if(order._id == action.payload.order._id){
+                if(order._id === action.payload.order._id){
                     return action.payload.order;
                 }
                 // Leave every other item unchanged
@@ -52,7 +52,7 @@ const ordersRequestsReducer = (state = initialState, action) => {
             }
         case REQUESTS_ORDER_ADD_COMMENT_SUCCESS:
             var orders = state.orders.map(order => {
-                if(order._id == action.payload.order._id){
+                if(order._id === action.payload.order._id){
                     return action.payload.order;
                 }
                 // Leave every other item unchanged

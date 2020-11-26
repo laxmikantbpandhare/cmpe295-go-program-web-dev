@@ -116,7 +116,7 @@ class Login extends Component{
     render() {
         let redirectVar = null;
         if(localStorage.getItem('token')){
-            if(localStorage.getItem('userType')=="student")
+            if(localStorage.getItem('userType')==="student")
                 redirectVar = <Redirect to= "/student/dashboard"/>;
             else
                 redirectVar = <Redirect to= "/admin/dashboard"/>;
@@ -128,7 +128,7 @@ class Login extends Component{
                 <div className="col-sm-10 col-md-8 col-lg-6">
                     <form className="form-container">
                         <div className="d-flex align-items-center justify-content-center">
-                            <img src={collegeLogo} className="img-fluid coe-logo text-center"/>
+                            <img src={collegeLogo} alt="College Logo" className="img-fluid coe-logo text-center"/>
                         </div>
                         <h4 className="text-center font-weight-bold">Log in</h4>
                         <div className={`mb-4 status-msg ${this.state.status}`}>
@@ -141,7 +141,7 @@ class Login extends Component{
                         </div>
                         <div className="form-group input-wrapper mb-1">
                             <input type="password" name = "password" placeholder = "Enter Password" onChange={this.handleChange}
-                            className={`form-control form-input ${this.state.password!=""?'input-valid':'input-invalid'}`}/>
+                            className={`form-control form-input ${this.state.password!==""?'input-valid':'input-invalid'}`}/>
                             <label className="form-label">Password</label>
                         </div>
                         <h6 className="text-right mb-4"><Link className="account-info-color" to="/reset-password">Forgot Password?</Link></h6>

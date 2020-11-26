@@ -3,7 +3,7 @@ import {Route,Switch} from 'react-router-dom';
 import Landing from './landing/Landing';
 import Login from './login/Login';
 import Signup from './signup/Signup';
-import ResendEmail from './signup/ResendEmail';
+import ResendEmail from './signup/ConfirmEmail';
 import ConfirmEmail from './signup/ConfirmEmail';
 import Student from './Student';
 import Admin from './Admin';
