@@ -28,8 +28,9 @@ router.post('/signup',function(req,res){
                                 '<h2>Please click on Link below to verify your account.</h2>'+
                                 '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this to Activate Your Account</H2></a>'+
                                 '<div>Thank You and Regards,</div>'+
-                                '<div>GO Program,</div>'+
-                                '<div>San Jose State University</div>';
+                                '<div>The GO program</div>'+
+                                '<div>Charles W. Davidson College of Engineering</div>'+
+                                '<div>San José State University</div>';
 
             sendMail(title, 
                      emailBody,
@@ -68,8 +69,9 @@ router.post('/resendEmail',function(req,res){
                                 '<h2>Please click on Link below to verify your account.</h2>'+
                                 '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this to Activate Your Account</H2></a>'+
                                 '<div>Thank You and Regards,</div>'+
-                                '<div>GO Program,</div>'+
-                                '<div>San Jose State University</div>';
+                                '<div>The GO program</div>'+
+                                '<div>Charles W. Davidson College of Engineering</div>'+
+                                '<div>San José State University</div>';
                  
             sendMail(title, 
                      emailBody,
@@ -107,8 +109,9 @@ router.post('/verifyEmail', function(req,res){
                                     '<div>Student submitted the account activation request on GO Program. </div><br/>'+
                                     '<div>Please visit GO Program website for further action on the submitted request. </div><br/>'+
                                     '<div>Thank You and Regards,</div>'+
-                                    '<div>GO Program,</div>'+
-                                    '<div>San Jose State University</div>';
+                                    '<div>The GO program</div>'+
+                                    '<div>Charles W. Davidson College of Engineering</div>'+
+                                    '<div>San José State University</div>';
                                                
                 sendMail(title, 
                          emailBody,
@@ -151,8 +154,9 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
                                 '<div>You have been added as a Admin on GO program. Please use your SJSU ID with the password: <b>'+randomPassword+'</b></div><br/>'+
                                 '<div>Please contact SJSU GO Program authority for any further queries.</div><br/>'+
                                 '<div>Thank You and Regards,</div>'+
-                                '<div>GO Program,</div>'+
-                                '<div>San Jose State University</div>';
+                                '<div>The GO program</div>'+
+                                '<div>Charles W. Davidson College of Engineering</div>'+
+                                '<div>San José State University</div>';
          
             sendMail(title, 
                      emailBody,
@@ -264,8 +268,9 @@ router.post('/resetPassword',function(req,res){
                                         '<div>You can change your password by log in to the GO program. Please use change password for password change. </div><br/>'+
                                         '<div>Please contact SJSU admin for any further queries. </div><br/>'+
                                         '<div>Thank You and Regards,</div>'+
-                                        '<div>GO Program,</div>'+
-                                        '<div>San Jose State University</div>';
+                                        '<div>The GO program</div>'+
+                                        '<div>Charles W. Davidson College of Engineering</div>'+
+                                        '<div>San José State University</div>';
                           
                     sendMail(title, 
                              emailBody,
@@ -349,8 +354,9 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
                                     '<div>The GO Program Admin changes your accoint status to: <b>'+user.status+'</b> </div><br/>'+
                                     '<div>Please contact SJSU admin for any further queries. </div><br/>'+
                                     '<div>Thank You and Regards,</div>'+
-                                    '<div>GO Program,</div>'+
-                                    '<div>San Jose State University</div>';
+                                    '<div>The GO program</div>'+
+                                    '<div>Charles W. Davidson College of Engineering</div>'+
+                                    '<div>San José State University</div>';
                               
                 sendMail(title, 
                          emailBody,

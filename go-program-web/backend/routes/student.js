@@ -35,8 +35,9 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
                                 '<div>Student with id '+id+' submitted the event on GO Program. </div><br/>'+
                                 '<div>Please visit GO Program website for further action on the submitted event. </div><br/>'+
                                 '<div>Thank You and Regards,</div>'+
-                                '<div>GO Program,</div>'+
-                                '<div>San Jose State University</div>';
+                                '<div>The GO program</div>'+
+                                '<div>Charles W. Davidson College of Engineering</div>'+
+                                '<div>San José State University</div>';
                                    
             sendMail(title, 
                      emailBody,
@@ -90,8 +91,9 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
                             '<div>The Admin of SJSU GO Program updated your Event status to: <b>'+event.status+'</b></div><br/>'+
                             '<div>Please contact SJSU GO Program admin for any further queries.</div><br/>'+
                             '<div>Thank You and Regards,</div>'+
-                            '<div>GO Program,</div>'+
-                            '<div>San Jose State University</div>';
+                            '<div>The GO program</div>'+
+                            '<div>Charles W. Davidson College of Engineering</div>'+
+                            '<div>San José State University</div>';
                                         
         sendMail(title, 
                  emailBody,
@@ -170,8 +172,9 @@ router.post('/createOrder', passport.authenticate("jwt", { session: false }), fu
                             '<div>Student with id <b>'+id+'</b> submitted the Order on GO Program. </div><br/>'+
                             '<div>Please visit GO Program website for further action on the submitted order. </div><br/>'+
                             '<div>Thank You and Regards,</div>'+
-                            '<div>GO Program,</div>'+
-                            '<div>San Jose State University</div>';
+                            '<div>The GO program</div>'+
+                            '<div>Charles W. Davidson College of Engineering</div>'+
+                            '<div>San José State University</div>';
                                        
         sendMail(title, 
                  emailBody,
@@ -244,8 +247,9 @@ router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false 
                             '<div>The Admin of SJSU GO Program updated your Order status to: <b>'+order.status+'</b></div><br/>'+
                             '<div>Please contact SJSU GO Program admin for any further queries.</div><br/>'+
                             '<div>Thank You and Regards,</div>'+
-                            '<div>GO Program,</div>'+
-                            '<div>San Jose State University</div>';
+                            '<div>The GO program</div>'+
+                            '<div>Charles W. Davidson College of Engineering</div>'+
+                            '<div>San José State University</div>';
                                                  
         sendMail(title, 
                  emailBody,
@@ -338,8 +342,9 @@ router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: fal
                             '<div>Student with id <b>'+id+'</b> suggested the Event on GO Program.</div><br/>'+
                             '<div>Please visit GO Program website for further action on the submitted order. </div><br/>'+
                             '<div>Thank You and Regards,</div>'+
-                            '<div>GO Program,</div>'+
-                            '<div>San Jose State University</div>';
+                            '<div>The GO program</div>'+
+                            '<div>Charles W. Davidson College of Engineering</div>'+
+                            '<div>San José State University</div>';
                     
         sendMail(title, 
                 emailBody,
@@ -421,8 +426,9 @@ router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { sessio
                             '<div>The Admin of SJSU GO Program updated your Suggested Event status to: <b>'+event.status+'</b></div><br/>'+
                             '<div>Please contact SJSU GO Program admin for any further queries.</div><br/>'+
                             '<div>Thank You and Regards,</div>'+
-                            '<div>GO Program,</div>'+
-                            '<div>San Jose State University</div>';
+                            '<div>The GO program</div>'+
+                            '<div>Charles W. Davidson College of Engineering</div>'+
+                            '<div>San José State University</div>';
                                                           
         sendMail(title, 
                  emailBody,
