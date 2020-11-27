@@ -26,7 +26,7 @@ router.post('/signup',function(req,res){
 
             const emailBody =   '<div>Dear Student,</div>'+
                                 '<h2>Please click on Link below to verify your account.</h2>'+
-                                '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this to Activate Your Account</H2></a>'+
+                                '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this Link to Activate Your Account</H2></a>'+
                                 '<div>Thank You and Regards,</div>'+
                                 '<div>The GO program</div>'+
                                 '<div>Charles W. Davidson College of Engineering</div>'+
@@ -67,7 +67,7 @@ router.post('/resendEmail',function(req,res){
             
             const emailBody =   '<div>Dear Student,</div>'+
                                 '<h2>Please click on Link below to verify your account.</h2>'+
-                                '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this to Activate Your Account</H2></a>'+
+                                '<a href="'+frontendURL+'/confirm-email/'+token+'"><H2>Click on this Link to Activate Your Account</H2></a>'+
                                 '<div>Thank You and Regards,</div>'+
                                 '<div>The GO program</div>'+
                                 '<div>Charles W. Davidson College of Engineering</div>'+
