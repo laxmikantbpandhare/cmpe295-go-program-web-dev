@@ -14,7 +14,8 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true">
         <activity android:name=".SignupActivity"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SubmitEventActivity" />

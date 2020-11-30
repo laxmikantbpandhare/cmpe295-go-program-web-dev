@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router';
 import '../../Common.css';
-import './Users.css';
 import NewAdminModal from './NewAdminModal';
 import {connect} from 'react-redux';
 import {getAdmins} from '../../redux/actions/adminUsersAction';
@@ -49,11 +47,6 @@ class AllAdmins extends Component{
     }
     
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
         let sortedAdmins = [...this.props.admins];
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
@@ -78,7 +71,6 @@ class AllAdmins extends Component{
         : "No Admin is yet created.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-user"></i> Admin Users</h4>
             </div>
@@ -91,8 +83,8 @@ class AllAdmins extends Component{
                         </button>
                     </div>
                 </div>
-                <div className="events-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Admin Users</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Admin Users</h4>
                     <div className="row">
                     <div  class="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}
@@ -144,7 +136,9 @@ class AllAdmins extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredAdmins.length!==0 ? filteredAdmins.map(admin=>
                     <AdminDetails admin={admin} key={admin._id}/>
@@ -172,6 +166,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.adminUsers.getResponseMessage,
+        responseStatus: state.adminUsers.getResponseStatus,
         admins: state.adminUsers.admins
     }
 }

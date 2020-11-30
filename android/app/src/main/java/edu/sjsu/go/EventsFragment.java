@@ -63,23 +63,6 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
         parseJSON();
 
         return rootView;
-
-        /*
-        View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-
-        ArrayList<EventsItem> eventsList = new ArrayList<>();
-        eventsList.add(new EventsItem(R.drawable.ic_events, "Event 1", "Today"));
-        eventsList.add(new EventsItem(R.drawable.ic_events, "Event 2", "Today"));
-        eventsList.add(new EventsItem(R.drawable.ic_events, "Event 3", "Today"));
-
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recylerView);
-        mRecyclerView.setHasFixedSize(true);
-        mAdapter = new EventsAdapter(eventsList);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
-
-        return rootView;*/
     }
 
     private void parseJSON() {
@@ -113,15 +96,6 @@ public class EventsFragment extends Fragment implements EventsAdapter.OnItemClic
                                 String eventID     = event.getString("_id");
                                 String eventName   = event.getString("name");
                                 String eventPts    = event.getString("points");
-
-                                if (i == 0) {
-                                    JSONObject stu = item.getJSONObject("student");
-                                    int pointsEarned = stu.getInt("pointsAccumulated");
-                                    int pointsSpent = stu.getInt("pointsSpent");
-
-                                    PreferencesUtils.savePointsEarned(pointsEarned, getActivity());
-                                    PreferencesUtils.savePointsSpent(pointsSpent, getActivity());
-                                }
 
                                 SimpleDateFormat dateFormat = null;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {

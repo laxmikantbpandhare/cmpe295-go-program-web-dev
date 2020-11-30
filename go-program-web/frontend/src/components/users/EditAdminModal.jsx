@@ -1,18 +1,11 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import {connect} from 'react-redux';
-import {updateAdmin, adminChangeHandler, adminEditCancelHandler} from '../../redux/actions/adminUsersAction';
+import {updateAdmin} from '../../redux/actions/adminUsersAction';
 import {idPattern, emailPattern} from '../../config';
 
 class EditAdminModal extends Component{
-    // constructor(props){
-    //     super(props);
-        
-    //     this.initialProp = props.admin;
-    //     this.state = {
-    //         message: ""
-    //     }
-    // }
+
     state = {
         status: this.props.admin.status,
         fname: this.props.admin.fname,
@@ -20,19 +13,9 @@ class EditAdminModal extends Component{
         email: this.props.admin.email,
         id: this.props.admin.id,
         message: "",
+        fetchStatus: "success",
         loader: false,
     }
-    
-    // handleEditCancel = e => {
-    //     this.props.handleEditCancel(this.initialProp);
-    //     this.props.hideEditAdminModal();
-    //     // this.props.resetCreateResponseMessageProps();
-    // }    
-
-    // handleChange = e => {
-    //     const { name, value } = e.target;
-    //     this.props.handleChange(this.props.admin._id, name, value);
-    // }
 
     handleChange = e => {
         this.setState({
@@ -65,48 +48,24 @@ class EditAdminModal extends Component{
         return false;
     }
 
-    // handleUpdate = e => {
-    //     e.preventDefault();
-
-    //     if(this.isFieldEmpty()){
-    //         this.setState({ message: "All fields are mandatory." });
-    //         return;
-    //     } else if(!this.isEmailAndIdAccepted()){
-    //         this.setState({ message: "Please enter correct SJSU ID and SJSU Email Id" });
-    //         return;
-    //     } else {
-    //         this.setState(
-    //             { 
-    //                 message: "",
-    //                 loader: true
-    //             }
-    //         );
-    //     }
-        
-    //     this.props.updateAdmin(this.props.admin)
-    //     .then(() => {
-    //         this.props.hideEditAdminModal();
-    //     })
-    //     .catch(() => {
-    //         this.setState({
-    //             message: "Some Internal Error occured. Please refresh and check if the admin is updated. If not, please try again after sometime. If the problem persist, please comtact Admin."
-    //         });
-    //     });
-    // }
-
     handleUpdate = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory." });
+            this.setState({ message: "All fields are mandatory.",
+            fetchStatus: "failed"
+        });
             return;
         } else if(!this.isEmailAndIdAccepted()){
-            this.setState({ message: "Please enter correct SJSU ID and SJSU Email Id" });
+            this.setState({ message: "Please enter correct SJSU ID and SJSU Email Id",
+            fetchStatus: "failed"
+        });
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    fetchStatus: "success",
                     loader: true
                 }
             );
@@ -120,7 +79,8 @@ class EditAdminModal extends Component{
         .catch(() => {
             this.setState({
                 loader: false,
-                message: "Some Internal Error occured. Please refresh and check if the admin is updated. If not, please try again after sometime. If the problem persist, please contact Admin."
+                message: "Some Internal Error occured. Please refresh and check if the admin is updated. If not, please try again after sometime. If the problem persist, please contact Admin.",
+                fetchStatus: "failed"
             });
         });
     }
@@ -138,8 +98,12 @@ class EditAdminModal extends Component{
                             <h5 className="modal-title" id="itemModal">Add Admin</h5>
                         </div>
                         <div className="modal-body">
-                            <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                            <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                            <div className={`status-msg ${this.state.fetchStatus}`}>
+                                {this.state.message}
+                            </div>
+                            <div className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                             <div class="form-group row">
                                 <label className="col-4">SJSU ID</label>
                                 <div className="col-8">
@@ -152,7 +116,7 @@ class EditAdminModal extends Component{
                                 <label className="col-4">First Name</label>
                                 <div className="col-8">
                                     <input type="text" name="fname" placeholder="Enter First Name" onChange={this.handleChange}
-                                    className={`form-control ${this.state.fname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    className={`form-control ${this.state.fname!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     value={this.state.fname}/>
                                 </div>
                             </div>
@@ -160,7 +124,7 @@ class EditAdminModal extends Component{
                                 <label className="col-4">Last Name</label>
                                 <div className="col-8">
                                     <input type="text" name="lname" placeholder="Enter Last Name" onChange={this.handleChange}
-                                    className={`form-control ${this.state.lname!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    className={`form-control ${this.state.lname!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     value={this.state.lname}/>
                                 </div>
                             </div>
@@ -220,7 +184,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminUsers.updateResponseMessage
+        responseMessage: state.adminUsers.updateResponseMessage,
+        responseStatus: state.adminUsers.updateResponseStatus
     }
 }
 

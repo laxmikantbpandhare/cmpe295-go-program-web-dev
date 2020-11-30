@@ -20,6 +20,7 @@ class AdminNewItemModal extends Component{
             points:0,
             attributes: [{size:"",quantity:0}],
             message: "",
+            status: "success",
             loader: false
         }
     }
@@ -32,7 +33,7 @@ class AdminNewItemModal extends Component{
     maxSelectFile=(event)=>{
         let files = event.target.files // create file object
         if (files.length + this.state.images.length > 4) {
-            const msg = 'Only 4 images can be uploaded at a time';
+            // const msg = 'Only 4 images can be uploaded at a time';
             event.target.value = null // discard selected file   
             return false;
         }
@@ -141,7 +142,7 @@ class AdminNewItemModal extends Component{
 
     addAttribute = () => {
         let totalAttributes = this.state.attributes.length;
-        if(this.state.attributes[totalAttributes-1].size!="" && this.state.attributes[totalAttributes-1].quantity>0){
+        if(this.state.attributes[totalAttributes-1].size!=="" && this.state.attributes[totalAttributes-1].quantity>0){
             this.setState(prevState => ({ 
                 attributes: [...prevState.attributes, { size: "", quantity: 0 }]
             }))
@@ -180,24 +181,36 @@ class AdminNewItemModal extends Component{
         return allSizes.length !== new Set(allSizes).size;
     }
 
-     handleSubmit = e => {
+    scrollToMessage = () => {
+        this.el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    handleSubmit = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory with at least 1 pic. Points and Quantity cannot be less than 1" });
+            this.setState({ 
+                message: "All fields are mandatory with at least 1 pic. Points and Quantity cannot be less than 1",
+                status: "failed"
+            });
+            this.scrollToMessage();
             return;
         } else if(this.isDuplicateAttribute()){
-            this.setState({ message: "Attribute size cannot be duplicate." });
+            this.setState({ 
+                message: "Attribute size cannot be duplicate.",
+                status: "failed"
+            });
+            this.scrollToMessage();
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    status: "success",
                     loader: true
                 }
             );
         }
-        
 
         const data = {
             name: this.state.name,
@@ -212,6 +225,7 @@ class AdminNewItemModal extends Component{
             this.hideModal();
             this.props.resetCreateResponseMessageProps();
         }).catch(() => {
+            this.scrollToMessage();
             this.setState({
                 loader: false
             });
@@ -228,19 +242,23 @@ class AdminNewItemModal extends Component{
                             <h5 className="modal-title" id="itemModal">Add Item</h5>
                         </div>
                         <div className="modal-body">
-                            <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                            <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                            <div ref={el => { this.el = el; }} className={`status-msg ${this.state.status}`}>
+                                {this.state.message}
+                            </div>
+                            <div ref={el => { this.el = el; }} className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                             <div class="form-group row">
                                 <label className="col-4">Name</label>
                                 <div className="col-8">
                                     <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
-                                    className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}/>
+                                    className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
                             <div className="form-group row">
                                 <label className="col-4">Description</label>
                                 <div className="col-8">
-                                    <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                     name="description"/>
                                 </div>
@@ -248,7 +266,7 @@ class AdminNewItemModal extends Component{
                             <div className="form-group row">
                                 <label className="col-4">Category</label>
                                 <div className="col-8">
-                                    <select className={`form-control ${this.state.category!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <select className={`form-control ${this.state.category!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     name="category" onChange={this.handleInputChange}>
                                         <option selected value="">Select a Category</option>
                                         {itemCategories.map(category => <option>{category}</option>)}
@@ -270,7 +288,7 @@ class AdminNewItemModal extends Component{
                                             <div className="row mb-1" key={index}>
                                                 <div className = "col-5">
                                                     <input type="text" name="size" placeholder="Size"
-                                                    className={`form-control ${this.state.attributes[index].size!=""?'orig-inp-valid':'orig-inp-invalid'}`} 
+                                                    className={`form-control ${this.state.attributes[index].size!==""?'orig-inp-valid':'orig-inp-invalid'}`} 
                                                     value={attribute.size ||''} onChange={e => this.handleAttributeChange(index, e)} />
                                                 </div>
                                                 <div className = "col-5">
@@ -281,7 +299,7 @@ class AdminNewItemModal extends Component{
                                                 {
                                                     index!==0 ? 
                                                     <div className = "col-1">
-                                                        <img onClick={e => this.removeAttribute(index)} className= "delete-icon" 
+                                                        <img onClick={e => this.removeAttribute(index)} alt="delete icon" className= "delete-icon" 
                                                         src={deleteIcon}/>
                                                     </div> 
                                                     : null
@@ -291,7 +309,7 @@ class AdminNewItemModal extends Component{
                                         ))
                                     }
                                     <span>Add a Row &nbsp;</span>
-                                    <img onClick={this.addAttribute} className= "add-icon" 
+                                    <img onClick={this.addAttribute} alt="add icon" className= "add-icon" 
                                     src={addIcon}/>
                                 </div>
                             </div>
@@ -311,10 +329,10 @@ class AdminNewItemModal extends Component{
                                 <div className="row">
                                 {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
                                     (<div className="col-5 modal-image m-1" key ={index}>
-                                        <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                        <img onClick={e => this.removeImage(index)} alt="delete icon" className= "delete-icon" 
                                         src={closeIcon}/>
                                         <img className="rounded img-thumbnail" src= {imageUrl} 
-                                        alt="Responsive image"/>
+                                        alt="Responsive Pic"/>
                                     </div>
                                     )) :null
                                 }
@@ -349,7 +367,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.inventory.createResponseMessage
+        responseMessage: state.inventory.createResponseMessage,
+        responseStatus: state.inventory.createResponseStatus
     }
 }
 

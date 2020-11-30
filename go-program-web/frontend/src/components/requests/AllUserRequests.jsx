@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
-import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
-import './Requests.css';
 import {connect} from 'react-redux';
 import {getAllStudents} from '../../redux/actions/usersRequestsAction';
 import UserRequest from './UserRequest';
@@ -41,11 +37,7 @@ class AllUserRequests extends Component{
     }
 
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
-
+        console.log(this.props.students)
         let sortedStudents = [...this.props.students];
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
@@ -70,14 +62,13 @@ class AllUserRequests extends Component{
         : "No Student has signed up yet.";
         return(
         <div className="top-align">
-            {redirectVar}
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-user"></i> Users</h4>
             </div>
             
             <div className="container-fluid below-heading">
-                <div className="requests-search-section">
-                    <h4 className="text-center text-white all-events-heading p-1 mt-2">All Students</h4>
+                <div className="entities-search-section">
+                    <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Students</h4>
                     <div className="row">
                         <div  class="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}
@@ -129,7 +120,9 @@ class AllUserRequests extends Component{
                     </div>
                     <hr/>
                 </div>
-                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                <div className={`status-msg ${this.props.responseStatus}`}>
+                    {this.props.responseMessage}
+                </div>
                 {
                     filteredStudents.length!==0 ? filteredStudents.map(student =>
                     <UserRequest student={student} key={student._id}/>
@@ -151,6 +144,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.usersRequests.getResponseMessage,
+        responseStatus: state.usersRequests.getResponseStatus,
         students: state.usersRequests.students
     }
 }

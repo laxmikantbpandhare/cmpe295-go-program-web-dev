@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import closeIcon from '../../images/close_icon.png';
 import '../../Common.css';
-import './Events.css'
 import {connect} from 'react-redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,7 +17,8 @@ class StudentNewEventModal extends Component{
             description: "",
             completedDate:null,
             message: "",
-            loader: false
+            loader: false,
+            status: "success"
         }
     }
     
@@ -137,16 +137,25 @@ class StudentNewEventModal extends Component{
         }
     }
 
+    scrollToMessage = () => {
+        this.el.scrollIntoView({ behavior: 'smooth' });
+    }
+
     handleSubmit = e => {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory with at least 1 pic" });
+            this.setState({ 
+                message: "All fields are mandatory with at least 1 pic",
+                status: "failed"
+            });
+            this.scrollToMessage();
             return;
         } else {
             this.setState(
                 { 
                     message: "",
+                    status: "success",
                     loader: true
                 }
             );
@@ -156,11 +165,6 @@ class StudentNewEventModal extends Component{
                 id: this.state.eventId
             },
             student: {
-                fname: localStorage.getItem('fname'),
-                lname: localStorage.getItem('lname'),
-                email: localStorage.getItem('email'),
-                major: localStorage.getItem('major'),
-                year: localStorage.getItem('year')
             },
             description : this.state.description,
             completedDate: this.state.completedDate,
@@ -171,6 +175,7 @@ class StudentNewEventModal extends Component{
             this.hideModal();
             this.props.resetCreateResponseMessageProps();
         }).catch(() => {
+            this.scrollToMessage();
             this.setState({
                 loader: false
             });
@@ -187,8 +192,12 @@ class StudentNewEventModal extends Component{
                             <h5 className="modal-title" id="eventModal">Submit Event</h5>
                         </div>
                         <div className="modal-body">
-                            <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                            <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                            <div ref={el => { this.el = el; }} className={`status-msg ${this.state.status}`}>
+                                {this.state.message}
+                            </div>
+                            <div ref={el => { this.el = el; }} className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                             <div class="form-group row">
                                 <label className="col-3">Event</label>
                                 <div className="col-9">
@@ -204,7 +213,7 @@ class StudentNewEventModal extends Component{
                             <div className="form-group row">
                                 <label className="col-3">Description</label>
                                 <div className="col-9">
-                                    <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                    <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     rows="3" placeholder="Enter a short description" onChange={this.handleInputChange}
                                     name="description"/>
                                 </div>
@@ -246,10 +255,10 @@ class StudentNewEventModal extends Component{
                                     <div className="row">
                                     {this.state.imagesUrl ? this.state.imagesUrl.map((imageUrl,index) => 
                                         (<div className="col-5 modal-image m-1" key ={index}>
-                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" 
+                                            <img onClick={e => this.removeImage(index)} className= "delete-icon" alt="delete icon"
                                             src={closeIcon}/>
                                             <img className="rounded img-thumbnail" src= {imageUrl} 
-                                            alt="Responsive image"/>
+                                            alt="Responsive Pic"/>
                                         </div>
                                         )) :null
                                     }
@@ -284,7 +293,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.studentEvents.createResponseMessage
+        responseMessage: state.studentEvents.createResponseMessage,
+        responseStatus: state.studentEvents.createResponseStatus
     }
 }
 

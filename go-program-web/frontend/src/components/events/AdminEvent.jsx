@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Events.css'
 import AdminViewEventModal from './AdminViewEventModal';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -47,7 +46,6 @@ class AdminEvent extends Component{
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
-                {/* <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6> */}
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold pl-3">{this.props.event.name}</h5>

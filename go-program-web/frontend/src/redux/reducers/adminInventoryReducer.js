@@ -8,8 +8,11 @@ const initialState = {
     items: [],
     categories: [],
     createResponseMessage: "",
+    createResponseStatus: "success",
     getResponseMessage: "",
+    getResponseStatus: "success",
     updateResponseMessage: "",
+    updateResponseStatus: "success",
     deleteResponseMessage: ""
 };
 
@@ -20,12 +23,15 @@ const adminInventoryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 items: initialState.items.concat(action.payload.items),
-                categories: initialState.categories.concat(categories)
+                categories: initialState.categories.concat(categories),
+                getResponseMessage: "",
+                getResponseStatus: "success"
             }
         case ADMIN_GET_ITEMS_FAILED:
             return {
                 ...state,
-                getResponseMessage: action.payload.message
+                getResponseMessage: action.payload.message,
+                getResponseStatus: "failed"
             }
         case ADMIN_CREATE_ITEM_SUCCESS:
             var categoriesCopy = [...state.categories];
@@ -36,22 +42,25 @@ const adminInventoryReducer = (state = initialState, action) => {
                 ...state,
                 items: [action.payload.item, ...state.items],
                 createResponseMessage: action.payload.message,
+                createResponseStatus: "success",
                 categories: initialState.categories.concat(categoriesCopy)
             }
         case ADMIN_CREATE_ITEM_FAILED:
             return {
                 ...state,
-                createResponseMessage: action.payload.message
+                createResponseMessage: action.payload.message,
+                createResponseStatus: "failed"
             }
         case RESET_ADMIN_ITEM_CREATE_RESPONSE_MESSAGE:
             return {
                 ...state,
-                createResponseMessage: ""
+                createResponseMessage: "",
+                createResponseStatus: "success"
             }
         case ADMIN_ITEM_INPUT_CHANGE:
             var items = state.items.map(item => {
                 // Find a item with the matching id
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     //Return a new object
                     return{
                         ...item, //copy the existing item
@@ -67,7 +76,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_ATTRIBUTE_CHANGE:
             var items = state.items.map(item => {
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     let itemToUpdate = {...item};
                     const attributes = itemToUpdate.attributes.map((attribute, curr_index)=> {
                         if(curr_index === action.payload.index){
@@ -90,7 +99,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_ADD_ATTRIBUTE:
             var items = state.items.map(item => {
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     let itemToUpdate = {...item};
                     itemToUpdate.attributes = [...itemToUpdate.attributes, { size: "", quantity: 0 }];
                     return itemToUpdate;
@@ -104,7 +113,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_REMOVE_ATTRIBUTE:
             var items = state.items.map(item => {
-                if(item._id == action.payload.id){
+                if(item._id === action.payload.id){
                     let itemToUpdate = {...item};
                     itemToUpdate.attributes = itemToUpdate.attributes.filter((attribute, curr_index) => {
                         return curr_index !==  action.payload.index;
@@ -120,7 +129,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_ITEM_EDIT_CANCEL:
             var items = state.items.map(item => {
-                if(item._id == action.payload.item._id){
+                if(item._id === action.payload.item._id){
                     return action.payload.item;
                 }
                 // Leave every other item unchanged
@@ -132,7 +141,7 @@ const adminInventoryReducer = (state = initialState, action) => {
             }
         case ADMIN_UPDATE_ITEM_SUCCESS:
             var items = state.items.map(item => {
-                if(item._id == action.payload.item._id){
+                if(item._id === action.payload.item._id){
                     return action.payload.item;
                 }
                 // Leave every other item unchanged
@@ -141,12 +150,14 @@ const adminInventoryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 items,
-                updateResponseMessage: action.payload.message
+                updateResponseMessage: action.payload.message,
+                updateResponseStatus: "success"
             }
         case ADMIN_UPDATE_ITEM_FAILED:
             return {
                 ...state,
-                updateResponseMessage: action.payload.message
+                updateResponseMessage: action.payload.message,
+                updateResponseStatus: "failed"
             }
         case ADMIN_DELETE_ITEM_SUCCESS:
             var items = state.items.filter(item => item._id !== action.payload.id);

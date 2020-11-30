@@ -12,11 +12,16 @@ class OrderCell: UITableViewCell{
     
     let orderImageView  = UIImageView()
     let orderTitleLabel = UILabel()
+    let orderStatusLabel = UILabel()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
         addSubview(orderImageView)
         addSubview(orderTitleLabel)
+        addSubview(orderStatusLabel)
         // Add status to order cell
         
         configureImageView()
@@ -24,6 +29,7 @@ class OrderCell: UITableViewCell{
         
         setImageConstraints()
         setTitleLabelConstraints()
+        setStatusLabelConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -34,10 +40,11 @@ class OrderCell: UITableViewCell{
         //print("Setting cell ", order.title)
         //orderImageView.image = order.image
         orderTitleLabel.text = order.name
+        orderStatusLabel.text = "Status: " + order.status
         
         // Do image at the end
         do {
-            guard let url = URL(string: order.image) else { return }
+            guard let url = URL(string: "http://10.0.0.207:3001/download/image/?name=" + order.image) else { return }
             let data = try Data(contentsOf: url)
             orderImageView.image = UIImage(data: data)
         }
@@ -54,7 +61,7 @@ class OrderCell: UITableViewCell{
     func configureTitleLabel() {
         orderTitleLabel.numberOfLines             = 0
         orderTitleLabel.adjustsFontSizeToFitWidth = true
-        orderTitleLabel.textColor = UIColor.blue
+        orderTitleLabel.textColor = UIColor.white
     }
     
     func setImageConstraints() {
@@ -67,10 +74,19 @@ class OrderCell: UITableViewCell{
     
     func setTitleLabelConstraints() {
         orderTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        orderTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        orderTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -5).isActive = true
         orderTitleLabel.leadingAnchor.constraint(equalTo: orderImageView.trailingAnchor, constant: 20).isActive = true
-        orderTitleLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        orderTitleLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         orderTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
+    }
+    
+    func setStatusLabelConstraints() {
+        orderStatusLabel.translatesAutoresizingMaskIntoConstraints = false
+        //eventStatusLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        orderStatusLabel.topAnchor.constraint(equalTo: orderTitleLabel.bottomAnchor).isActive = true
+        orderStatusLabel.leadingAnchor.constraint(equalTo: orderImageView.trailingAnchor, constant: 20).isActive = true
+        orderStatusLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        orderStatusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12).isActive = true
     }
     
 }

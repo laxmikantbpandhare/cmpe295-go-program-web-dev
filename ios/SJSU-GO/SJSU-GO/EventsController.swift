@@ -30,9 +30,13 @@ class EventsController: UIViewController {
         eventsArray.append(GOEventTemp(title: "Event 4"))
         eventsArray.append(GOEventTemp(title: "Event 5"))*/
         
+        // This title is used
         title = "Events"
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        navigationController?.navigationBar.barStyle     = .black
+        
         // Can't see background if tableView fills entire screen
-        view.backgroundColor = .blue
+        view.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         //configureUI()
         configureTableView()
 
@@ -52,17 +56,18 @@ class EventsController: UIViewController {
         delegate?.handleMenuToggle(forMenuOption: nil)
     }
     
+    // This is not called
     func configureUI() {
         
         let cancelImage = UIImage(named: "icon_cancel")!
                 
-        navigationController?.navigationBar.barTintColor = .darkGray
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         navigationController?.navigationBar.barStyle     = .black
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Events"
+        navigationItem.title = "Events1"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: cancelImage.withRenderingMode(.alwaysOriginal),
-                                                    style: .plain, target: self, action: #selector(handleDismiss))
+                                                           style: .plain, target: self, action: #selector(handleDismiss))
 
     }
     
@@ -71,11 +76,13 @@ class EventsController: UIViewController {
         
         // Set delegates
         setTableViewDelegates()
-        tableView.rowHeight = 100
+        tableView.rowHeight = 150
         
         // register cells
         tableView.register(EventCell.self, forCellReuseIdentifier: "EventCell")
         tableView.pin(to: view)
+        
+        tableView.separatorColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
     }
     
     func setTableViewDelegates() {

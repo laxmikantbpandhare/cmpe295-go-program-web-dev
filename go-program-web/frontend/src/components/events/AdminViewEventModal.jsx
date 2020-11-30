@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Events.css'
 import {connect} from 'react-redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,21 +7,13 @@ import {eventInputChangeHandler, eventEditCancelHandler, updateEvent,
     eventDateChangeHandler} from '../../redux/actions/adminEventsAction';
 
 class AdminViewEventModal extends Component{
-    // constructor(props){
-    //     super(props);
-    //     this.initialProp = props.event;
-    //     this.state = {
-    //         message: "",
-    //         isEdited: false
-    //     }
-    //     this.hideModal = this.hideModal.bind(this);
-    // }
 
     initialProp = this.props.event;
     
     state = {
         name: this.props.event.name,
         message: "",
+        status: "success",
         isEdited: false,
         loader: false
     };
@@ -74,11 +65,15 @@ class AdminViewEventModal extends Component{
 
      handleUpdate = () => {
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory." });
+            this.setState({ 
+                message: "All fields are mandatory.",
+                status: "failed"
+            });
             return;
         } else {
             this.setState({ 
                 message: "",
+                status: "success",
                 loader: true 
             });
         }
@@ -139,15 +134,19 @@ class AdminViewEventModal extends Component{
                             </h5>
                         </div>
                             <div className="modal-body">
-                                <h6 style= {{color:"red"}}>{this.state.message}</h6>
-                                <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                                <div className={`status-msg ${this.state.status}`}>
+                                    {this.state.message}
+                                </div>
+                                <div className={`status-msg ${this.props.responseStatus}`}>
+                                    {this.props.responseMessage}
+                                </div>
                                 <div class="form-group row">
                                     <label className="col-4">Name</label>
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
                                             ? <input type="text" name="name" placeholder="Enter Name" onChange={this.handleStateInputChange}
-                                            className={`form-control ${this.state.name!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            className={`form-control ${this.state.name!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             value={this.state.name}/>
                                             : <p>{this.props.event.name}</p>
                                         }
@@ -158,7 +157,7 @@ class AdminViewEventModal extends Component{
                                     <div className="col-8">
                                         {
                                             this.state.isEdited
-                                            ? <textarea className={`form-control ${this.state.description!=""?'orig-inp-valid':'orig-inp-invalid'}`}
+                                            ? <textarea className={`form-control ${this.state.description!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             rows="3" placeholder="Enter a short description" onChange={this.handlePropsInputChange}
                                             name="description" value = {this.props.event.description}/>
                                             : <p className="text-pre-wrap">{this.props.event.description}</p>
@@ -263,7 +262,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.adminEvents.updateResponseMessage
+        responseMessage: state.adminEvents.updateResponseMessage,
+        responseStatus: state.adminEvents.updateResponseStatus
     }
 }
 

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import {backendUrl} from '../../config';
 
@@ -9,6 +8,7 @@ class ChangePassword extends Component {
         newPassword: "",
         confirmPassword: "",
         message: "",
+        status: "success",
         loader: false
     };
 
@@ -44,16 +44,25 @@ class ChangePassword extends Component {
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory" });
+            this.setState({ 
+                message: "All fields are mandatory",
+                status: "failed"
+            });
             return;
         }
         if(!this.isPasswordConfirmed()){
-            this.setState({ message: "New Password mismatch. Please enter same password in both the fields." });
+            this.setState({ 
+                message: "New Password mismatch. Please enter same password in both the fields.",
+                status: "failed"
+            });
             return;
         }
 
         if(!this.isPasswordDifferent()){
-            this.setState({ message: "Old and New Passwords must be different." });
+            this.setState({ 
+                message: "Old and New Passwords must be different.",
+                status: "failed"
+            });
             return;
         }
 
@@ -61,7 +70,7 @@ class ChangePassword extends Component {
             loader: true
         });
 
-        const {message, loader,  confirmPassword, ...data} = this.state;
+        const {message, status, loader,  confirmPassword, ...data} = this.state;
         const token = localStorage.getItem('token');
         fetch(`${backendUrl}/user/changePassword`, {
             method: "POST",
@@ -81,6 +90,7 @@ class ChangePassword extends Component {
                         newPassword: "",
                         confirmPassword: "",
                         message: resData.message,
+                        status: "success",
                         loader: false
                     });
                 });
@@ -88,6 +98,7 @@ class ChangePassword extends Component {
                 res.json().then(resData => {
                     this.setState({
                         message: resData.message,
+                        status: "failed",
                         loader: false
                     });
                 });
@@ -96,36 +107,34 @@ class ChangePassword extends Component {
         .catch(err => {
             this.setState({
                 message: `Internal Error. ${err}`,
+                status: "failed",
                 loader: false
             });
         });
     }
 
     render() {
-        let redirectVar = null;
-        if(!localStorage.getItem('token')){
-            redirectVar = <Redirect to= "/login"/>
-        }
         return(
         <div className="top-align">
             <div className="heading py-1">
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-key"></i> Change Password</h4>
             </div>
             <div className="container below-heading">
-                {redirectVar}
                 <div className="row d-flex justify-content-center">
                     <div className="col-sm-10 col-md-8 col-lg-6">
                         <form className="form-container">
-                            <h6 className="mb-4" style={{color:"red"}}>{this.state.message}</h6>
+                            <div className={`mb-4 status-msg ${this.state.status}`}>
+                                {this.state.message}
+                            </div>
                             <div className="form-group input-wrapper mb-4">
                                 <input type="password" name = "oldPassword" placeholder = "Enter Old Password" onChange={this.handleChange}
-                                className={`form-control form-input ${this.state.oldPassword!=""?'input-valid':'input-invalid'}`}
+                                className={`form-control form-input ${this.state.oldPassword!==""?'input-valid':'input-invalid'}`}
                                 value = {this.state.oldPassword}/>
                                 <label className="form-label">Old Password</label>
                             </div>
                             <div className="form-group input-wrapper mb-4">
                                 <input type="password" name = "newPassword" placeholder = "Enter New Password" onChange={this.handleChange}
-                                className={`form-control form-input ${this.state.newPassword!=""?'input-valid':'input-invalid'}`}
+                                className={`form-control form-input ${this.state.newPassword!==""?'input-valid':'input-invalid'}`}
                                 value = {this.state.newPassword}/>
                                 <label className="form-label">New Password</label>
                             </div>

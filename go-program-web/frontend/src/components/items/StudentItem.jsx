@@ -17,6 +17,7 @@ const StudentItem = (props) => {
 
     const [images, setImages] = useState([]);
     const [message, setMessage] = useState("");
+    const [status, setStatus] = useState("success");
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -34,6 +35,7 @@ const StudentItem = (props) => {
                 return res.blob()})
             .catch(err => {
                 setMessage(`Internal error when fetching item images - ${err}`);
+                setStatus("failed");
             })
         );
 
@@ -46,9 +48,11 @@ const StudentItem = (props) => {
 
     return(
         <div className="col-sm-6 my-1">
-            <h6 style= {{color:"red"}}>{message}</h6>
+            <div className={`status-msg ${status}`}>
+                {message}
+            </div>
             <div className="card d-flex flex-row">
-                <img src={images[0]} className="img-fluid items-card-image align-self-center" alt="..."/>
+                <img src={images[0]} className="img-fluid entity-card-image align-self-center" alt="..."/>
                 <div className="card-body card-body-lesspad">
                     <h5 className="card-title font-weight-bold">{props.item.name}</h5>
                     <p className="card-text"><strong>Points: </strong>{props.item.points}</p>

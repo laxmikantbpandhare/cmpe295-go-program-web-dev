@@ -17,7 +17,7 @@ public class OrdersItem {
     }
 
     public String getImageResource() {
-        return mImageResource;
+        return "http://10.0.0.207:3001/download/image/?name=" + mImageResource;
     }
 
     public String getOrderName() {

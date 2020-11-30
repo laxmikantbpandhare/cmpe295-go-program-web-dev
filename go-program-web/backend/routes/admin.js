@@ -166,10 +166,8 @@ router.post('/updateEvent',passport.authenticate("jwt", { session: false }), fun
 
     console.log("id",event.name)
     queries.updateEvent(event, result => {
-            console.log(result);
             res.status(200).send({message:'Event updated successfully', event: result});
         }, err=>{
-            console.log(err);
             if(err.code === 11000){
                 res.status(401).send({ message: "Event with same name already exist in the inventory. Please change name and try again" });
             }else{

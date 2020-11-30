@@ -107,7 +107,7 @@ export const getPendingApprovalSuggestedEvents = () => dispatch => {
     })
     .catch(err => {
         dispatch({
-            type: ADMIN_DASHBOARD_GET_PENDING_APPROVAL_EVENTS_FAILED,
+            type: ADMIN_DASHBOARD_GET_PENDING_APPROVAL_SUGGESTED_EVENTS_FAILED,
             payload: {
                 message: `Internal error -- ${err}`
             }

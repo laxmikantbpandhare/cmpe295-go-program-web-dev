@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import '../../Common.css';
 import './Items.css';
 import {backendUrl} from '../../config';
@@ -176,12 +175,6 @@ class StudentItemDetails extends Component{
     }
     
     render() {
-        console.log(this.state);
-        let redirectVar = null;
-        if(localStorage.getItem('token')){
-
-        }
-
         const { photoIndex, isOpen } = this.state;
         return(
         <div className="top-align">
@@ -189,8 +182,8 @@ class StudentItemDetails extends Component{
                 <h4 className="font-weight-bold">&nbsp;&nbsp;<i className="fas fa-award"></i> Redeem</h4>
             </div>
             <div className="container-fluid below-heading">
-                <div className="items-search-section">  {/*This class will support the sticky subheading */}
-                    <h4 className="text-center text-white all-items-heading p-1">Item Details</h4>
+                <div className="entities-search-section">  {/*This class will support the sticky subheading */}
+                    <h4 className="text-center text-white all-entity-heading p-1">Item Details</h4>
                 </div>
                 <h2 className="text-center">{this.state.item.name}</h2>
                 <div className="row">
@@ -202,7 +195,7 @@ class StudentItemDetails extends Component{
                             ? this.state.item.images.filter((image,index)=> index>0).map((image,index) => 
                                 (<div className="col-3 m-1" key ={index}>
                                         <img className="rounded img-thumbnail" src= {image} 
-                                        alt="Responsive image"style={{cursor:"pointer"}}
+                                        alt="Responsive Pic"style={{cursor:"pointer"}}
                                         onClick={() => this.setState({ isOpen: true })}/>
                                     </div>
                                 ))
@@ -211,7 +204,9 @@ class StudentItemDetails extends Component{
                         </div>
                     </div>
                     <div className="col-sm-6 my-auto">
-                        <h6 style= {{color:"red"}}>{this.state.insufficientPointsInfo}</h6>
+                        <div className= "status-msg failed">
+                            {this.state.insufficientPointsInfo}
+                        </div>
                         <p className="h6 text-pre-wrap"><strong>Description: </strong>{this.state.item.description}</p>
                         <p className="h6"><strong>Points: </strong>{this.state.item.points}</p>
                         <p className="h6"><strong>Select a Size:</strong></p>

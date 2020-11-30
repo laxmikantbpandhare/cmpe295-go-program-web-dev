@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Requests.css'
 import {connect} from 'react-redux';
 import {updateOrderStatus} from '../../redux/actions/ordersRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
@@ -82,7 +81,9 @@ class OrderRequest extends Component{
                 <div className="col-sm-8">
                 {
                     this.props.order._id === this.props.updatedOrder
-                    ? <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                    ? <div className={`status-msg ${this.props.responseStatus}`}>
+                            {this.props.responseMessage}
+                        </div>
                     : null
                 }
                     <div className="card d-flex flex-row">
@@ -139,6 +140,8 @@ class OrderRequest extends Component{
                 {this.state.showCommentsModal ? 
                 <CommentsModal hideCommentsModal={this.hideCommentsModal}
                 id={this.props.order._id} comments={this.props.order.comments}
+                responseMessage = {this.props.commentsResponseMessage}
+                responseStatus = {this.props.commentsResponseStatus}
                 commenter="Admin" type="Order"/> : null}
             </div>
         )
@@ -155,7 +158,10 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         responseMessage: state.ordersRequests.updateResponseMessage,
-        updatedOrder: state.ordersRequests.updatedOrder
+        responseStatus: state.ordersRequests.updateResponseStatus,
+        updatedOrder: state.ordersRequests.updatedOrder,
+        commentsResponseMessage: state.ordersRequests.addCommentResponseMessage,
+        commentsResponseStatus: state.ordersRequests.addCommentResponseStatus
     }
 }
 

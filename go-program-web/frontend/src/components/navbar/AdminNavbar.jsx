@@ -44,20 +44,12 @@ function AdminNavbar() {
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">
-                    {/* <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <div className="dropdown">
-                            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-id-badge"></i> Hi,{localStorage.getItem('fname')}!!! </a>
-                            <div className="dropdown-menu">
-                                <a href="#/profile" className="dropdown-item"><i className="fas fa-id-card"></i> Profile</a>
-                            </div>
-                        </div>
-                    </li> */}
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <div className="dropdown">
                             <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-id-badge"></i> Hi,{localStorage.getItem('fname')}</a>
                             <div className="dropdown-menu rightmost-menu">
-                                <Link to="/admin/change-password" className="dropdown-item small-font"><i className="fas fa-key"></i>Change Password</Link>
-                                <Link to="/" className="dropdown-item small-font" onClick = {handleLogout}><i className="fas fa-sign-out-alt"></i>Log Out</Link>
+                                <Link to="/admin/change-password" className="dropdown-item"><i className="fas fa-key"></i>Change Password</Link>
+                                <Link to="/" className="dropdown-item" onClick = {handleLogout}><i className="fas fa-sign-out-alt"></i>Log Out</Link>
                             </div>
                         </div>
                     </li> 

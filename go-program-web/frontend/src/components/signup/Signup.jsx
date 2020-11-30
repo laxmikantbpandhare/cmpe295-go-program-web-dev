@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
 import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
-import './Signup.css';
 import {backendUrl, academicYear, major, idPattern, emailPattern} from '../../config';
 
 class Signup extends Component{
@@ -19,6 +18,7 @@ class Signup extends Component{
             major: "",
             year: "",
             message: "",
+            status: "success",
             success: false,
             imageUrl: "",
             image: "",
@@ -94,7 +94,10 @@ class Signup extends Component{
             }
         })
         .catch(err => {
-            this.setState({ message: `Internal Error. ${err}` });
+            this.setState({ 
+                message: `Internal Error. ${err}`,
+                status: "failed"
+            });
         });
     }
 
@@ -102,18 +105,27 @@ class Signup extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields including SJSU Id Card are mandatory" });
+            this.setState({ 
+                message: "All fields including SJSU Id Card are mandatory",
+                status: "failed"
+            });
             this.scrollToMessage();
             return;
         }
         if(!this.isEmailAndIdAccepted()){
-            this.setState({ message: "Please enter correct SJSU ID and SJSU Email Id" });
+            this.setState({ 
+                message: "Please enter correct SJSU ID and SJSU Email Id",
+                status: "failed"
+            });
             this.scrollToMessage();
             return;
         }
 
         if(!this.isPasswordConfirmed()){
-            this.setState({ message: "Password mismatch. Please enter same password in both the fields." });
+            this.setState({ 
+                message: "Password mismatch. Please enter same password in both the fields.",
+                status: "failed"
+            });
             this.scrollToMessage();
             return;
         }
@@ -148,6 +160,7 @@ class Signup extends Component{
                         this.setState({
                             success : false,
                             message: resData.message,
+                            status: "failed",
                             loader: false
                         });
                     });
@@ -158,6 +171,7 @@ class Signup extends Component{
             this.setState({
                 success : false,
                 message,
+                status: "failed",
                 loader: false
             });
         })
@@ -175,10 +189,12 @@ class Signup extends Component{
                     <div className="col-sm-10 col-md-8 col-lg-6">
                         <form className="form-container">
                             <div className="d-flex align-items-center justify-content-center">
-                                <img src={collegeLogo} className="img-fluid coe-logo text-center"/>
+                                <img src={collegeLogo}  alt="COllege Logo" className="img-fluid coe-logo text-center"/>
                             </div>
                             <h4 className="text-center font-weight-bold">Sign Up</h4>
-                            <h6 ref={el => { this.el = el; }} className="mb-4" style={{color:"red"}}>{this.state.message}</h6>
+                            <div ref={el => { this.el = el; }} className={`mb-4 status-msg ${this.state.status}`}>
+                                {this.state.message}
+                            </div>
                             <div className="form-group input-wrapper mb-4">
                                 <input type = "number" name="id" placeholder = "Enter SJSU ID" onChange={this.handleChange}
                                 className={`form-control form-input ${this.state.id.match(idPattern)?'input-valid':'input-invalid'}`} />
@@ -195,7 +211,7 @@ class Signup extends Component{
                                 <label className="form-label">Last Name</label>
                             </div>
                             <div className="form-group input-wrapper mb-4">
-                                <input type = "email" name="email" placeholder = "Enter Email Id" onChange={this.handleChange}
+                                <input type = "email" name="email" placeholder = "Enter SJSU Email Id" onChange={this.handleChange}
                                 className={`form-control form-input ${this.state.email.match(emailPattern)?'input-valid':'input-invalid'}`} />
                                 <label className="form-label">Email Id</label>
                             </div>
@@ -234,18 +250,19 @@ class Signup extends Component{
                                 <label className="form-label">Attach a clear copy of SJSU ID Card</label>
                             </div>
                             {this.state.imageUrl && <img className="rounded img-thumbnail signup-image mb-4" src= {this.state.imageUrl} 
-                            alt="Responsive image"/>}
+                            alt="Responsive Pic"/>}
                             <button className="btn btn-primary btn-block btn-style" onClick={this.handleSubmit}>
                                 Submit&nbsp;&nbsp;&nbsp;
                                 {
                                     this.state.loader && <div className="spinner-border spinner-border-sm text-light" role="status"/>
                                 }
                             </button>
+                            <h6 className="text-right mb-4"><Link className="account-info-color" to="/resend-email">Resend Email Verification?</Link></h6>
                         </form>
-                        <div className="signup-info">
-                        <h6>Have Account? <Link className="signup-info-color" to="/login">Log in now</Link></h6>
-                        <h6><Link className="signup-info-color" to="/">Back to Home</Link></h6>
-                    </div>
+                        <div className="account-info">
+                            <h6>Have Account? <Link className="account-info-color" to="/login">Log in now</Link></h6>
+                            <h6><Link className="account-info-color" to="/">Back to Home</Link></h6>
+                        </div>
                     </div>
                 </div>
             </div>

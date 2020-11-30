@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
 import collegeLogo from '../../images/coe_logo.png';
 import '../../Common.css';
-import './Login.css';
 import {backendUrl, idPattern} from '../../config';
 
 class Login extends Component{
@@ -13,7 +12,9 @@ class Login extends Component{
             id: "",
             password: "",
             authFlag: "",
-            loader: false
+            loader: false,
+            message: "",
+            status: "success"
         }
     }    
     
@@ -50,11 +51,17 @@ class Login extends Component{
         e.preventDefault();
 
         if(this.isFieldEmpty()){
-            this.setState({ message: "All fields are mandatory" });
+            this.setState({ 
+                message: "All fields are mandatory",
+                status: "failed"
+            });
             return;
         }
         if(!this.isIdAccepted()){
-            this.setState({ message: "Please enter correct SJSU ID" });
+            this.setState({ 
+                message: "Please enter correct SJSU ID",
+                status: "failed"
+            });
             return;
         }
 
@@ -78,8 +85,7 @@ class Login extends Component{
         })
         .then(res => {
             if(res.status === 200){
-                res.json().then(resData => { 
-                    localStorage.setItem('id',this.state.id);
+                res.json().then(resData => {
                     localStorage.setItem('token', resData.token);
                     localStorage.setItem('userType', resData.user.userType);
                     localStorage.setItem('fname', resData.user.fname);
@@ -93,20 +99,24 @@ class Login extends Component{
                     this.setState({
                         authFlag : false,
                         message: resData.message,
+                        status: "failed",
                         loader: false
                     });
                 });
             }
         })
         .catch(err => {
-            this.setState({ message: `Internal Error. ${err}` });
+            this.setState({ 
+                message: `Internal Error. ${err}`,
+                status: "failed"
+            });
         });
     }
 
     render() {
         let redirectVar = null;
         if(localStorage.getItem('token')){
-            if(localStorage.getItem('userType')=="student")
+            if(localStorage.getItem('userType')==="student")
                 redirectVar = <Redirect to= "/student/dashboard"/>;
             else
                 redirectVar = <Redirect to= "/admin/dashboard"/>;
@@ -118,20 +128,23 @@ class Login extends Component{
                 <div className="col-sm-10 col-md-8 col-lg-6">
                     <form className="form-container">
                         <div className="d-flex align-items-center justify-content-center">
-                            <img src={collegeLogo} className="img-fluid coe-logo text-center"/>
+                            <img src={collegeLogo} alt="College Logo" className="img-fluid coe-logo text-center"/>
                         </div>
                         <h4 className="text-center font-weight-bold">Log in</h4>
-                        <h6 className="mb-4" style={{color:"red"}}>{this.state.message}</h6>
+                        <div className={`mb-4 status-msg ${this.state.status}`}>
+                            {this.state.message}
+                        </div>
                         <div className="form-group input-wrapper">
                             <input type = "number" name="id" placeholder = "Enter SJSU ID" onChange={this.handleChange}
                             className={`form-control form-input ${this.state.id.match(idPattern)?'input-valid':'input-invalid'}`} />
                             <label className="form-label">SJSU Id</label>
                         </div>
-                        <div className="form-group input-wrapper mb-4">
+                        <div className="form-group input-wrapper mb-1">
                             <input type="password" name = "password" placeholder = "Enter Password" onChange={this.handleChange}
-                            className={`form-control form-input ${this.state.password!=""?'input-valid':'input-invalid'}`}/>
+                            className={`form-control form-input ${this.state.password!==""?'input-valid':'input-invalid'}`}/>
                             <label className="form-label">Password</label>
                         </div>
+                        <h6 className="text-right mb-4"><Link className="account-info-color" to="/reset-password">Forgot Password?</Link></h6>
                         <button className="btn btn-primary btn-block btn-style" onClick={this.handleSubmit}>
                             Submit&nbsp;&nbsp;&nbsp;
                             {
@@ -139,9 +152,9 @@ class Login extends Component{
                             }
                         </button>
                     </form>
-                    <div className="login-info">
-                        <h6>No Account Yet? <Link className="login-info-color" to="/signup">Sign up now</Link></h6>
-                        <h6><Link className="login-info-color" to="/">Back to Home</Link></h6>
+                    <div className="account-info">
+                        <h6>No Account Yet? <Link className="account-info-color" to="/signup">Sign up now</Link></h6>
+                        <h6><Link className="account-info-color" to="/">Back to Home</Link></h6>
                     </div>
                     
                 </div>

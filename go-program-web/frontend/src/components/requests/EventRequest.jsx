@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import '../../Common.css';
-import './Requests.css'
 import ViewEventRequestModal from './ViewEventRequestModal';
 import Lightbox from 'react-image-lightbox';
 import {connect} from 'react-redux';
-import {updateEventStatus} from '../../redux/actions/eventsRequestsAction';
+import {updateEventStatus, resetAddCommentResponseMessageProps} from '../../redux/actions/eventsRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
 import {backendUrl} from '../../config';
 
@@ -29,6 +28,7 @@ class EventRequest extends Component{
         photoIndex: 0,
         isOpen: false,
         message: "",
+        fetchStatus: "success",
         images: [],
         loader: false
     };
@@ -49,7 +49,8 @@ class EventRequest extends Component{
                 return res.blob()})
             .catch(err => {
                 this.setState({
-                    message: `Internal error when fetching item images - ${err}`
+                    message: `Internal error when fetching item images - ${err}`,
+                    fetchStatus: "failed"
                 });
             })
         );
@@ -74,6 +75,7 @@ class EventRequest extends Component{
     }
     
     hideCommentsModal = e => {
+        this.props.resetCommentsResponseMessage()
         this.setState({showCommentsModal: false});
     }
     
@@ -126,16 +128,19 @@ class EventRequest extends Component{
     render() {
         const { photoIndex, isOpen } = this.state;
         // const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
-        
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
                     {
                         this.props.event._id === this.props.updatedEvent
-                        ? <h6 style= {{color:"red"}}>{this.props.responseMessage}</h6>
+                        ? <div className={`status-msg ${this.props.responseStatus}`}>
+                                {this.props.responseMessage}
+                            </div>
                         : null
                     }
-                    <h6 style= {{color:"red"}}>{this.state.message}</h6>
+                    <div className={`status-msg ${this.state.fetchStatus}`}>
+                        {this.state.message}
+                    </div>
                     <div className="card d-flex flex-row">
                         <div className="card-body card-body-lesspad">
                             <h5 className="card-title font-weight-bold">{`${this.props.event.student.user.fname} ${this.props.event.student.user.lname}`}</h5>
@@ -215,6 +220,8 @@ class EventRequest extends Component{
                 {this.state.showCommentsModal ? 
                 <CommentsModal hideCommentsModal={this.hideCommentsModal}
                 id={this.props.event._id} comments={this.props.event.comments}
+                responseMessage = {this.props.commentsResponseMessage}
+                responseStatus = {this.props.commentsResponseStatus}
                 commenter="Admin" type="Event"/> : null}
             </div>
         )
@@ -224,14 +231,18 @@ class EventRequest extends Component{
 const mapDispatchToProps = dispatch => {
     return {
         // handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
-        handleUpdate: data => dispatch(updateEventStatus(data))
+        handleUpdate: data => dispatch(updateEventStatus(data)),
+        resetCommentsResponseMessage: () => {dispatch(resetAddCommentResponseMessageProps())}
     }
 }
 
 const mapStateToProps = state => {
     return {
         responseMessage: state.eventsRequests.updateResponseMessage,
-        updatedEvent: state.eventsRequests.updatedEvent
+        responseStatus: state.eventsRequests.updateResponseStatus,
+        updatedEvent: state.eventsRequests.updatedEvent,
+        commentsResponseMessage: state.eventsRequests.addCommentResponseMessage,
+        commentsResponseStatus: state.eventsRequests.addCommentResponseStatus  
     }
 }
 

@@ -1,6 +1,7 @@
 import { REQUESTS_GET_ALL_SUGGESTED_EVENTS_SUCCESS, REQUESTS_GET_ALL_SUGGESTED_EVENTS_FAILED, 
     REQUESTS_UPDATE_SUGGESTED_EVENT_STATUS_SUCCESS, REQUESTS_UPDATE_SUGGESTED_EVENT_STATUS_FAILED, 
-    REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_SUCCESS, REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_FAILED } from './types';
+    REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_SUCCESS, REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_FAILED,
+    RESET_REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_RESPONSE } from './types';
 import {backendUrl} from '../../config';
 
 export const getAllEvents = () => dispatch => {
@@ -131,3 +132,9 @@ export const suggestedEventAddAdminComment = data =>  dispatch =>
         reject();
     });
 });
+
+export const resetAddCommentResponseMessageProps = () => {
+    return{
+        type: RESET_REQUESTS_SUGGESTED_EVENT_ADD_COMMENT_RESPONSE
+    }
+}

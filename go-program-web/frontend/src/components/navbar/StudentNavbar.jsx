@@ -35,21 +35,14 @@ function StudentNavbar() {
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <Link to="/student/cart" className="nav-link"><i className="fas fa-shopping-cart"></i>Cart</Link>
-                    </li> 
-                    {/* <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                        <div className="dropdown">
-                            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-id-badge"></i> UserName</a>
-                            <div className="dropdown-menu">
-                                <a href="#/profile" className="dropdown-item"><i className="fas fa-id-card"></i> Profile</a>
-                            </div>
-                        </div>
-                    </li> */}
+                    </li>
                     <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <div className="dropdown">
                             <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i className="fas fa-id-badge"></i> Hi,{localStorage.getItem('fname')}</a>
                             <div className="dropdown-menu rightmost-menu">
-                                <Link to="/student/change-password" className="dropdown-item small-font"><i className="fas fa-key"></i>&nbsp;Change Password</Link>
-                                <Link to="/" className="dropdown-item small-font" onClick = {handleLogout}><i className="fas fa-sign-out-alt"></i>&nbsp;Log Out</Link>
+                                <Link to="/student/profile" className="dropdown-item"><i className="fas fa-id-card"></i>&nbsp;Profile</Link>
+                                <Link to="/student/change-password" className="dropdown-item"><i className="fas fa-key"></i>&nbsp;Change Password</Link>
+                                <Link to="/" className="dropdown-item" onClick = {handleLogout}><i className="fas fa-sign-out-alt"></i>&nbsp;Log Out</Link>
                             </div>
                         </div>
                     </li> 
