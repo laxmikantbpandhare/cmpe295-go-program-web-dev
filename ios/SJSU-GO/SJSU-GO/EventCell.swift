@@ -43,7 +43,7 @@ class EventCell: UITableViewCell{
         
         // Do image at the end
         do {
-            guard let url = URL(string: "http://10.0.0.207:3001/download/image/?name=" + event.image) else { return }
+            guard let url = URL(string: "http://10.0.0.207:8080/download/imageMob/?name=" + event.image) else { return }
             let data = try Data(contentsOf: url)
             eventImageView.image = UIImage(data: data)
         }

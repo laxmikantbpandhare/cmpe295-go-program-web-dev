@@ -48,7 +48,7 @@ class SignupViewController: UIViewController {
     func restSignup() {
         let data = self.userData!
         print("Signing up with " + data.id + " and " + data.password!)
-        let urlString = "http://10.0.0.207:3001/user/signup"
+        let urlString = "http://10.0.0.207:8080/user/signup"
     
         if let url = URL.init(string: urlString) {
             var req = URLRequest.init(url: url)
@@ -223,7 +223,7 @@ class SignupViewController: UIViewController {
     
     func uploadImage() {
         print("Trying to upload image")
-        let url = "http://10.0.0.207:3001/upload/sjsuIdImage"
+        let url = "http://10.0.0.207:8080/upload/sjsuIdImage"
         print(self.selectedImage ?? "No image")
         guard let img = UIImage(contentsOfFile: self.selectedImage) else { print("No image here"); return }
         let data: Data = img.jpegData(compressionQuality: 1)!

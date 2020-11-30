@@ -76,7 +76,7 @@ class LoginViewController: UIViewController {
     // REST request for logging in
     func restLogin(cred: Cred) {
         print("Signing in with " + cred.id! + " and " + cred.password!)
-        let urlString = "http://10.0.0.207:3001/user/login"
+        let urlString = "http://10.0.0.207:8080/user/login"
     
         if let url = URL.init(string: urlString) {
             var req = URLRequest.init(url: url)
@@ -110,7 +110,7 @@ class LoginViewController: UIViewController {
     
     // REST request to get active events to be passed to next view controller
     func getActiveEvents() {
-        let urlString = "http://10.0.0.207:3001/admin/ActiveEvents"
+        let urlString = "http://10.0.0.207:8080/admin/ActiveEvents"
         
         if let url = URL.init(string: urlString) {
         var req = URLRequest.init(url: url)

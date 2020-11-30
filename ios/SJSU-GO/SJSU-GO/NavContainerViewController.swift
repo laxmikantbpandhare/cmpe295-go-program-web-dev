@@ -182,7 +182,7 @@ class NavContainerViewController: UIViewController {
     
     // REST request to get events to be passed to next view controller
     func getMyEvents() {
-        let urlString = "http://10.0.0.207:3001/student/ownEvents?id=" + studentId
+        let urlString = "http://10.0.0.207:8080/student/ownEvents?id=" + studentId
         
         if let url = URL.init(string: urlString) {
         var req = URLRequest.init(url: url)
@@ -225,7 +225,7 @@ class NavContainerViewController: UIViewController {
     
     // REST request to get orders to be passed to next view controller
     func getMyOrders() {
-        let urlString = "http://10.0.0.207:3001/student/ownOrders?id=" + studentId
+        let urlString = "http://10.0.0.207:8080/student/ownOrders?id=" + studentId
         
         if let url = URL.init(string: urlString) {
         var req = URLRequest.init(url: url)

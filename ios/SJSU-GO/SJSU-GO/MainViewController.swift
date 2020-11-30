@@ -236,7 +236,7 @@ class MainViewController: UIViewController {
     
     func uploadImage() {
         print("Trying to upload image")
-        let url = "http://10.0.0.207:3001/upload/images"
+        let url = "http://10.0.0.207:8080/upload/images"
         print(self.selectedImage ?? "No image")
         guard let img = UIImage(contentsOfFile: self.selectedImage) else { print("No image here"); return }
         let data: Data = img.jpegData(compressionQuality: 1)!
@@ -254,7 +254,7 @@ class MainViewController: UIViewController {
         
         let eReq = EventReq(description: self.descString, completedDate: self.dateString, student: self.lResp.user, event: eObj, images: [image])
         
-        let urlString = "http://10.0.0.207:3001/student/createEvent"
+        let urlString = "http://10.0.0.207:8080/student/createEvent"
         
         if let url = URL.init(string: urlString) {
             var req = URLRequest.init(url: url)

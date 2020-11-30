@@ -44,7 +44,7 @@ class OrderCell: UITableViewCell{
         
         // Do image at the end
         do {
-            guard let url = URL(string: "http://10.0.0.207:3001/download/image/?name=" + order.image) else { return }
+            guard let url = URL(string: "http://10.0.0.207:8080/download/imageMob/?name=" + order.image) else { return }
             let data = try Data(contentsOf: url)
             orderImageView.image = UIImage(data: data)
         }

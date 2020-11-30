@@ -146,7 +146,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="SJSU ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FLU-yF-ezh">
-                                <rect key="frame" x="82" y="599" width="250" height="34"/>
+                                <rect key="frame" x="82" y="183" width="250" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="P3x-GR-6Pa"/>
                                 </constraints>
@@ -154,7 +154,7 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="continue"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pgi-ZA-kF5">
-                                <rect key="frame" x="82" y="683" width="250" height="34"/>
+                                <rect key="frame" x="82" y="281" width="250" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="UxQ-Po-Lgg"/>
                                 </constraints>
@@ -162,7 +162,7 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coe_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Rii-3b-2eh">
-                                <rect key="frame" x="100" y="54" width="214" height="214"/>
+                                <rect key="frame" x="100" y="598" width="214" height="214"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Rii-3b-2eh" secondAttribute="height" multiplier="1:1" id="SbH-Bx-qXZ"/>
                                     <constraint firstAttribute="width" secondItem="Rii-3b-2eh" secondAttribute="height" multiplier="2:2" id="day-E6-1US"/>
@@ -177,7 +177,7 @@
                                 </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="poZ-TO-xeO">
-                                <rect key="frame" x="87" y="767" width="240" height="45"/>
+                                <rect key="frame" x="87" y="385" width="240" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.27324905659999998" blue="0.56705391839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="5NI-Mx-VcS"/>
@@ -199,16 +199,17 @@
                         <viewLayoutGuide key="safeArea" id="Xqh-3n-SKZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="poZ-TO-xeO" firstAttribute="top" secondItem="Pgi-ZA-kF5" secondAttribute="bottom" constant="50" id="AAm-o1-Jfg"/>
-                            <constraint firstItem="Rii-3b-2eh" firstAttribute="top" secondItem="Xqh-3n-SKZ" secondAttribute="top" constant="10" id="B2q-iF-biF"/>
-                            <constraint firstItem="Pgi-ZA-kF5" firstAttribute="top" secondItem="FLU-yF-ezh" secondAttribute="bottom" constant="50" id="Bjz-Rg-6dx"/>
+                            <constraint firstItem="Pgi-ZA-kF5" firstAttribute="top" secondItem="FLU-yF-ezh" secondAttribute="bottom" constant="64" id="4Qq-ZG-0Eq"/>
                             <constraint firstItem="Rii-3b-2eh" firstAttribute="leading" secondItem="Xqh-3n-SKZ" secondAttribute="leading" constant="100" id="Bs6-5A-qmh"/>
                             <constraint firstItem="Pgi-ZA-kF5" firstAttribute="centerX" secondItem="oxA-Zh-3Qu" secondAttribute="centerX" id="DIF-Jk-qUs"/>
                             <constraint firstItem="Xqh-3n-SKZ" firstAttribute="trailing" secondItem="Rii-3b-2eh" secondAttribute="trailing" constant="100" id="Hsq-7f-qOD"/>
-                            <constraint firstItem="Xqh-3n-SKZ" firstAttribute="bottom" secondItem="poZ-TO-xeO" secondAttribute="bottom" constant="50" id="I3P-LW-HPS"/>
                             <constraint firstItem="FLU-yF-ezh" firstAttribute="centerX" secondItem="oxA-Zh-3Qu" secondAttribute="centerX" id="M7q-RE-lfX"/>
+                            <constraint firstItem="FLU-yF-ezh" firstAttribute="top" secondItem="Xqh-3n-SKZ" secondAttribute="top" constant="139" id="Tfn-vj-BvL"/>
+                            <constraint firstItem="Xqh-3n-SKZ" firstAttribute="bottom" secondItem="Rii-3b-2eh" secondAttribute="bottom" constant="50" id="bjX-UO-WkR"/>
                             <constraint firstItem="poZ-TO-xeO" firstAttribute="centerX" secondItem="oxA-Zh-3Qu" secondAttribute="centerX" id="dGw-LU-lq2"/>
                             <constraint firstItem="Rii-3b-2eh" firstAttribute="width" secondItem="Rii-3b-2eh" secondAttribute="height" multiplier="2:2" id="egB-99-raI"/>
+                            <constraint firstItem="Xqh-3n-SKZ" firstAttribute="bottom" secondItem="Rii-3b-2eh" secondAttribute="bottom" constant="50" id="sDD-5K-Mtt"/>
+                            <constraint firstItem="poZ-TO-xeO" firstAttribute="top" secondItem="Pgi-ZA-kF5" secondAttribute="bottom" constant="70" id="zZa-U1-FqZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jM1-hX-ksP"/>

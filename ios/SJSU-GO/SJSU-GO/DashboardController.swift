@@ -84,7 +84,7 @@ class DashboardController: UIViewController {
     
     // REST request to get active events to be passed to next view controller
     func getActiveEvents() {
-        let urlString = "http://10.0.0.207:3001/admin/ActiveEvents"
+        let urlString = "http://10.0.0.207:8080/admin/ActiveEvents"
         
         if let url = URL.init(string: urlString) {
         var req = URLRequest.init(url: url)
