@@ -4,9 +4,16 @@ const queries = require('../utils/queries');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
 const {sendMail} = require('../utils/email');
+const util = require('../utils/util');
+const constants = require('../utils/constants');
 
 router.get('/ownEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Own Events Get Request");
+
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Own Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
 
     const id = getId(req.headers.authorization);
 
@@ -19,6 +26,12 @@ router.get('/ownEvents',passport.authenticate("jwt", { session: false }),functio
 
 router.post('/createEvent', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Student Create Event Post Request");
+
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Create Events POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const event = req.body;
 
@@ -63,6 +76,11 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
 
 router.get('/allEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Requests All Events Get Request");
+
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Requests All Events GET Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
     
     queries.getStudentsAllEvents(events => {
         res.status(200).json({success: true, events: events});
@@ -73,6 +91,12 @@ router.get('/allEvents',passport.authenticate("jwt", { session: false }),functio
 
 router.post('/updateEventStatus', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Student Update Event Status Post Request");
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Update Event Status POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const event = req.body;
 
@@ -111,6 +135,12 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
 
 router.post('/updateEvent', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Student Update Event Post Request");
+
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Update Event POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const event = req.body;
 
@@ -128,6 +158,11 @@ router.post('/updateEvent', passport.authenticate("jwt", { session: false }), fu
 router.get('/points',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Points Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Points Event GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentPoints(id, (pointsAccumulated, pointsSpent) => {
@@ -139,6 +174,12 @@ router.get('/points',passport.authenticate("jwt", { session: false }),function(r
 
 router.post('/addEventComment',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Add Event Comment Post Request");
+
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Add Event Comment POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const comment = req.body.comment;
     const eventId = req.body.id;
@@ -157,6 +198,12 @@ router.post('/addEventComment',passport.authenticate("jwt", { session: false }),
 
 router.post('/createOrder', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Student Create Order Post Request");
+
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Create Order POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const order = req.body;
 
@@ -192,6 +239,11 @@ router.post('/createOrder', passport.authenticate("jwt", { session: false }), fu
 router.get('/ownOrders',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Own Orders Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Own Orders GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentOwnOrders(id,orders => {
@@ -203,6 +255,12 @@ router.get('/ownOrders',passport.authenticate("jwt", { session: false }),functio
 
 router.post('/addOrderComment',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Add Order Comment Post Request");
+
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Add Order Comment POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const comment = req.body.comment;
     const orderId = req.body.id;
@@ -222,6 +280,11 @@ router.post('/addOrderComment',passport.authenticate("jwt", { session: false }),
 router.get('/allOrders',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Requests All Orders Get Request");
     
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Requests All Orders GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getStudentsAllOrders(orders => {
         res.status(200).json({success: true, orders: orders});
     }, err=> {
@@ -231,6 +294,12 @@ router.get('/allOrders',passport.authenticate("jwt", { session: false }),functio
 
 router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Student Update Order Status Post Request");
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Update Order Status POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const order = req.body;
 
@@ -268,6 +337,11 @@ router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false 
 router.get('/specificOrder',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Specific Order Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Specific Order GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
     
     queries.getOrderDetailsStudent(req.query.orderId, id, order => {
@@ -280,6 +354,11 @@ router.get('/specificOrder',passport.authenticate("jwt", { session: false }),fun
 router.get('/dashboardEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Dashboard Events Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Dashboard Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentDashboardEvents(id,events => {
@@ -292,6 +371,11 @@ router.get('/dashboardEvents',passport.authenticate("jwt", { session: false }),f
 router.get('/dashboardApprovedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Dashboard Approved Events Get Request");
  
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Dashboard Approved Events GET Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentDashboardApprovedEvents(id,events => {
@@ -304,6 +388,11 @@ router.get('/dashboardApprovedEvents',passport.authenticate("jwt", { session: fa
 router.get('/dashboardOrders',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Dashboard Orders Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Dashboard Orders GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentDashboardOrders(id,orders => {
@@ -316,6 +405,11 @@ router.get('/dashboardOrders',passport.authenticate("jwt", { session: false }),f
 router.get('/dashboardDeliveredOrders',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Dashboard Delivered Orders Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Dashboard Delivered Orders POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentDashboardDeliveredOrders(id,orders => {
@@ -327,6 +421,12 @@ router.get('/dashboardDeliveredOrders',passport.authenticate("jwt", { session: f
 
 router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Student Create Suggested Event Post Request");
+
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Create Suggested Event POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const event = req.body;
 
@@ -371,6 +471,11 @@ router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: fal
 router.get('/ownSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Own Suggested Events Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Own Suggested Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentOwnSuggestedEvents(id,events => {
@@ -382,6 +487,12 @@ router.get('/ownSuggestedEvents',passport.authenticate("jwt", { session: false }
 
 router.post('/addSuggestedEventComment',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Add Suggested Event Comment Post Request");
+
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Add Suggested Event Comment POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const comment = req.body.comment;
     const eventId = req.body.id;
@@ -401,6 +512,11 @@ router.post('/addSuggestedEventComment',passport.authenticate("jwt", { session: 
 router.get('/allSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Requests All Suggested Events Get Request");
     
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Requests All Suggested Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getStudentsAllSuggestedEvents(events => {
         res.status(200).json({success: true, events: events});
     }, err=> {
@@ -410,6 +526,12 @@ router.get('/allSuggestedEvents',passport.authenticate("jwt", { session: false }
 
 router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Student Update Suggested Event Status Post Request");
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Update Suggested Event Status POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const event = req.body;
 
@@ -447,6 +569,11 @@ router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { sessio
 router.get('/dashboardSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Dashboard Suggested Events Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Dashboard Suggested Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentDashboardSuggestedEvents(id,events => {
@@ -459,6 +586,11 @@ router.get('/dashboardSuggestedEvents',passport.authenticate("jwt", { session: f
 router.get('/dashboardApprovedSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Student Dashboard Approved Suggested Events Get Request");
     
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for Student Dashboard Approved Suggested Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     const id = getId(req.headers.authorization);
 
     queries.getStudentDashboardApprovedSuggestedEvents(id,events => {

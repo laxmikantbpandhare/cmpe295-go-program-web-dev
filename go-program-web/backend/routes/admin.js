@@ -9,7 +9,7 @@ const constants = require('../utils/constants');
 router.get('/items',passport.authenticate("jwt", { session: false }),function(req,res){ 
     console.log("Inside Admin Items Get Request");
 
-    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Items GET Request");
         return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
     }
@@ -110,7 +110,7 @@ router.get('/events',passport.authenticate("jwt", { session: false }),function(r
 router.get('/activeEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Active Events Get Request");
     
-    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+    if(!util.isUserStudentOrManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Active Events GET Request");
         return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
     }

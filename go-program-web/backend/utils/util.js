@@ -30,4 +30,9 @@ util.isUserManagerOrAdmin = (token) => {
     return userType === USER_TYPE_ENUM.MANAGER || userType === USER_TYPE_ENUM.ADMIN; 
 }
 
+util.isUserStudentOrManagerOrAdmin = (token) => {
+    const userType = util.getusertype(token);
+    return userType === USER_TYPE_ENUM.MANAGER || userType === USER_TYPE_ENUM.ADMIN || userType === USER_TYPE_ENUM.STUDENT; 
+}
+
 module.exports = util;
