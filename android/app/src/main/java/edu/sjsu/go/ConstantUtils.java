@@ -19,5 +19,6 @@ public class ConstantUtils {
     public static String KEY_USER_MAJOR = "USER_MAJOR";
     public static String KEY_USER_YEAR = "USER_YEAR";
 
-    public static String DOMAIN_URL = "http://10.0.0.207:3001/";
+    public static String DOMAIN_URL = "http://10.0.0.207:8080/";
+    public static String URL_IMAGE_PATH = "download/imageMob/?name=";
 }

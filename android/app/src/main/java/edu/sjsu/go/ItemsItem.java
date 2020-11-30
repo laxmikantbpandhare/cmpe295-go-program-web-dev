@@ -21,7 +21,7 @@ public class ItemsItem {
     }
 
     public String getImageResource() {
-        return "http://10.0.0.207:3001/download/image/?name=" + mImageResource;
+        return ConstantUtils.DOMAIN_URL + ConstantUtils.URL_IMAGE_PATH + mImageResource;
     }
 
     public String getItemTitle() {
