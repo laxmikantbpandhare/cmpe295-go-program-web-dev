@@ -69,6 +69,7 @@ router.post('/login',function(req,res){
                 if (result){
                     let user = {
                         email: row.email,
+                        userType: row.userType,
                         id: id
                     }
                     var token = jwt.sign(user, secret, {

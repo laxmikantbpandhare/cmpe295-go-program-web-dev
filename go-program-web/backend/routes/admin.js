@@ -3,9 +3,16 @@ var router = express.Router();
 const queries = require('../utils/queries');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
+const util = require('../utils/util');
+const constants = require('../utils/constants');
 
-router.get('/items',passport.authenticate("jwt", { session: false }),function(req,res){
+router.get('/items',passport.authenticate("jwt", { session: false }),function(req,res){ 
     console.log("Inside Admin Items Get Request");
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Items GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
     
     queries.getItems(items => {
         res.status(200).json({success: true, items: items});
@@ -17,6 +24,12 @@ router.get('/items',passport.authenticate("jwt", { session: false }),function(re
 router.post('/createItem', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Create Item Post Request");
     console.log("Req Body : ",req.body);
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Create Item POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const item = req.body;
 
     const id = getId(req.headers.authorization);
@@ -38,6 +51,12 @@ router.post('/createItem', passport.authenticate("jwt", { session: false }), fun
 router.post('/updateItem',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Update Item Post Request");
     console.log("Req Body : ",req.body);
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Update Item POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const item = req.body;
 
     const id = getId(req.headers.authorization);
@@ -58,6 +77,12 @@ router.post('/updateItem',passport.authenticate("jwt", { session: false }), func
 router.post('/deleteItem',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Delete Item Post Request");
     console.log("Req Body : ",req.body);
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Delete Item POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const id = req.body.id;
 
     queries.deleteItem(id, result => {
@@ -70,6 +95,11 @@ router.post('/deleteItem',passport.authenticate("jwt", { session: false }), func
 router.get('/events',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Events Get Request");
     
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Events Item GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+    
     queries.getEvents(events => {
         res.status(200).json({success: true, events: events});
     }, err=> {
@@ -80,6 +110,11 @@ router.get('/events',passport.authenticate("jwt", { session: false }),function(r
 router.get('/activeEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Active Events Get Request");
     
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Active Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getActiveEvents(events => {
         res.status(200).json({success: true, events: events});
     }, err=> {
@@ -90,6 +125,12 @@ router.get('/activeEvents',passport.authenticate("jwt", { session: false }),func
 router.post('/createEvent', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Create Event Post Request");
     console.log("Req Body : ",req.body);
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Create Event POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const event = req.body;
 
     const id = getId(req.headers.authorization);
@@ -111,6 +152,12 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
 router.post('/updateEvent',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Update Event Post Request");
     console.log("Req Body : ",req.body);
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Update Event POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const event = req.body;
 
     const id = getId(req.headers.authorization);
@@ -134,6 +181,12 @@ router.post('/updateEvent',passport.authenticate("jwt", { session: false }), fun
 router.post('/deleteEvent',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Delete Event Post Request");
     console.log("Req Body : ",req.body);
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Delete Event POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const id = req.body.id;
 
     queries.deleteEvent(id, result => {
@@ -155,6 +208,11 @@ router.get('/item',passport.authenticate("jwt", { session: false }),function(req
 
 router.get('/specificOrder',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Specific Order Get Request");
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Specific Order GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
     
     queries.getOrderDetailsAdmin(req.query.orderId, order => {
         res.status(200).send({success: true, order: order});
@@ -166,6 +224,11 @@ router.get('/specificOrder',passport.authenticate("jwt", { session: false }),fun
 router.get('/dashboardPendingApprovalEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Dashboard Pending Approval Events Get Request");
     
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Pending Approval Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getAdminDashboardPendingApprovalEvents(events => {
         res.status(200).json({success: true, events: events});
     }, err=> {
@@ -176,6 +239,11 @@ router.get('/dashboardPendingApprovalEvents',passport.authenticate("jwt", { sess
 router.get('/dashboardSubmittedOrders',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Dashboard Submitted Orders Get Request");
     
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Dashboard Submitted Orders GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getAdminDashboardSubmittedOrders(orders => {
         res.status(200).json({success: true, orders: orders});
     }, err => {
@@ -186,6 +254,11 @@ router.get('/dashboardSubmittedOrders',passport.authenticate("jwt", { session: f
 router.get('/dashboardPendingApprovalSuggestedEvents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Dashboard Pending Approval Suggested Events Get Request");
     
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Admin Dashboard Dashboard Pending Approval Suggested Events GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getAdminDashboardPendingApprovalSuggestedEvents(events => {
         res.status(200).json({success: true, events: events});
     }, err=> {
