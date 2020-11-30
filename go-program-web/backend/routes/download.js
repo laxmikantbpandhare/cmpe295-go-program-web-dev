@@ -13,4 +13,14 @@ router.get('/image',passport.authenticate("jwt", { session: false }),function(re
     });
 });
 
+router.get('/imageMob', function(req,res){
+    console.log("Inside Download Image Get Request");
+
+    res.sendFile(path.join(__dirname, `../uploads/${req.query.name}`), err => {
+        if(err){
+            res.status(500).send({ message: `Something failed when the server was sending item image. ${err.message}`});
+        }
+    });
+});
+
 module.exports = router;
