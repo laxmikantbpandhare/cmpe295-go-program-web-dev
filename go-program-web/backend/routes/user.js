@@ -8,6 +8,9 @@ const {frontendURL} = require('../config/config');
 var passport = require("passport");
 const getId = require('../utils/getSjsuId');
 const {sendMail} = require('../utils/email');
+const util = require('../utils/util');
+const constants = require('../utils/constants');
+
 
 router.post('/signup',function(req,res){
     console.log("Inside User signup Post Request");
@@ -134,6 +137,11 @@ router.post('/verifyEmail', function(req,res){
 router.post('/createAdmin', passport.authenticate("jwt", { session: false }), function(req, res){
     console.log("Inside User Create Admin Post Request");
 
+    if(!util.isUserManager(req.headers.authorization)){
+        console.log("Access failure for  Create Admin POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     const user = req.body;
     const randomPassword = Math.random().toString(36).slice(-8);
     console.log('random password = ', randomPassword);
@@ -192,6 +200,7 @@ router.post('/login',function(req,res){
                 if (result){
                     let user = {
                         email: row.email,
+                        userType: row.userType,
                         id: id
                     }
                     var token = jwt.sign(user, secret, {
@@ -298,7 +307,12 @@ router.post('/resetPassword',function(req,res){
 
 router.get('/allStudents',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside User All Students Get Request");
-    
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for User All Students GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getAllStudents(students => {
         res.status(200).json({students});
     }, err=> {
@@ -321,6 +335,11 @@ router.get('/student',passport.authenticate("jwt", { session: false }),function(
 router.get('/allAdmins',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside User All Admins Get Request");
     
+    if(!util.isUserManager(req.headers.authorization)){
+        console.log("Access failure for All Admin GET Request");
+        return res.status(403).send({ message: constants.ACCESS_FAILURE_MSG});
+    }
+
     queries.getAllAdmins(admins => {
         res.status(200).json({admins});
     }, err=> {
@@ -329,7 +348,13 @@ router.get('/allAdmins',passport.authenticate("jwt", { session: false }),functio
 });
 
 router.post('/updateStatus', passport.authenticate("jwt", { session: false }), function(req,res){
-    console.log("Inside User Update  Status Post Request");
+    console.log("Inside User Update Status Post Request");
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for User Update Status POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const user = req.body;
 
@@ -382,6 +407,12 @@ router.post('/updateAdmin', passport.authenticate("jwt", { session: false }), fu
     console.log("Req Body : ",req.body);
     const user = req.body;
 
+
+    if(!util.isUserManager(req.headers.authorization)){
+        console.log("Access failure for Update Admin POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     queries.updateAdmin(user, result => {
         // We don't need to send password ever over the network,
         // so convert mongoose Object to JS Object and remove password
@@ -396,6 +427,12 @@ router.post('/updateAdmin', passport.authenticate("jwt", { session: false }), fu
 
 router.post('/updateStudent', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside User Update Student Post Request");
+
+    if(!util.isUserStudent(req.headers.authorization)){
+        console.log("Access failure for User Update Student POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
     console.log("Req Body : ",req.body);
     const student = req.body;
 
