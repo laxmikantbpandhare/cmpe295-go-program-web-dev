@@ -12,7 +12,7 @@ import {suggestedEventAddAdminComment} from '../../redux/actions/suggestedEvents
 class CommentsModal extends Component {
      //call the constructor method
      constructor(props){
-        //Call the constrictor of Super class i.e The Component
+        //Call the constructor of Super class i.e The Component
         super(props);
         this.state = {
             comment: ""

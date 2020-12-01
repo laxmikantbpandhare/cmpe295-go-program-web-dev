@@ -62,10 +62,6 @@ class AdminEvent extends Component{
                                 onClick = {this.showAdminViewEventModal}>
                                     <i className="fas fa-eye"/> View Details
                                 </button>
-                                {/* <button type="button" className="btn btn-link delete-color"
-                                onClick = {this.handleDelete}>
-                                    <i className="fas fa-trash-alt"/> Delete
-                                </button> */}
                             </div>
                         </div>
                     </div>

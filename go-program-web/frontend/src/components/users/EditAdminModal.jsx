@@ -88,7 +88,6 @@ class EditAdminModal extends Component{
     options = ['Active', 'Inactive'];
     
     render() {
-        // const updateEnabled = this.isUpdatable();
         return(
         <div>
             <div className="modal">
@@ -159,8 +158,6 @@ class EditAdminModal extends Component{
                                 ? <div className="spinner-border text-primary" role="status"/>
                                 : null
                             }
-                            {/* <button type="button" onClick = {this.handleEditCancel} className="btn btn-primary btn-style" 
-                                data-dismiss="modal">Cancel</button> */}
                             <button type="button" onClick = {() => this.props.hideEditAdminModal()} className="btn btn-primary btn-style" 
                                 data-dismiss="modal">Cancel</button>
                             <button onClick = {this.handleUpdate} disabled ={!this.isUpdatable()}
@@ -176,8 +173,6 @@ class EditAdminModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        // handleChange: (id, name, value) => {dispatch(adminChangeHandler(id, name, value))},
-        // handleEditCancel : item => {dispatch(adminEditCancelHandler(item))},
         updateAdmin: admin => dispatch(updateAdmin(admin))
     };
 };

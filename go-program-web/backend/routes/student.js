@@ -539,7 +539,6 @@ router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { sessio
 
     event.updatedBy = id;
     queries.updateStudentSuggestedEventStatus(event, result => {
-        console.log("Event updated: " + result);
         // send email here
 
         const title = "Student Suggested Event Update on GO Program";

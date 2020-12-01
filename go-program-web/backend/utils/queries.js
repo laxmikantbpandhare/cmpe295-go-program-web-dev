@@ -32,8 +32,6 @@ queries.createStudent = (user, hash, successcb, failurecb) => {
         });
         studentDoc.save()
         .then(student => {
-            // student.populate('user').execPopulate()
-            // .then(student => {successcb(result)});
             successcb(student);
         })
         .catch(err => failurecb(err, "Student"))
@@ -328,7 +326,6 @@ queries.getStudentOwnEvents = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             StudentEvent.find({student: student._id})
-            // .populate('student')
             .populate('event')
             .sort({updatedDate:-1})
             .exec()
@@ -361,10 +358,8 @@ queries.createStudentEvent = (event, successcb, failurecb) => {
         .then(studentEvent => {
             studentEvent.
             populate('event').
-            // populate('student').
             execPopulate().
             then(studentEvent => {successcb(studentEvent)})
-            // successcb(studentEvent);
         })
         .catch(err => {
             failurecb(err, "Student Event");
@@ -610,10 +605,6 @@ queries.getStudentOwnOrders = (id, successcb, failurecb) => {
         if(student !== null){
             Order.find({student: student._id})
             .sort({updatedDate:-1})
-            // .populate('student')
-            // .populate('items.item')
-            // .sort({updatedDate:-1})
-            // .exec()
             .then(orders => {
                 successcb(orders)})
             .catch(err => failurecb(err,"Student Orders"))
@@ -782,7 +773,6 @@ queries.getOrderDetailsStudent = (orderId, studentId, successcb, failurecb) => {
     .select('_id')
     .then(student => {
         Order.findOne({_id:orderId,student: student._id})
-        // .populate('student')
         .populate('items.item')
         .exec()
         .then(order => {
@@ -824,7 +814,6 @@ queries.getStudentDashboardEvents = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             StudentEvent.find({student: student._id})
-            // .populate('student')
             .populate('event', 'name points')
             .sort({createdDate:-1})
             .limit(5)
@@ -848,7 +837,6 @@ queries.getStudentDashboardApprovedEvents = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             StudentEvent.find({student: student._id, status: "Approved"})
-            // .populate('student')
             .populate('event', 'name points')
             .sort({updatedDate:-1})
             .limit(5)
@@ -923,7 +911,6 @@ queries.getAdminDashboardPendingApprovalEvents = (successcb, failurecb) => {
 queries.getAdminDashboardSubmittedOrders = (successcb, failurecb) => {
     Order.find({status: "Submitted"})
     .populate('student', 'sjsuId')
-    // .populate('items.item')
     .sort({updatedDate:-1})
     .limit(5)
     .exec()
@@ -944,10 +931,6 @@ queries.createSuggestedEvent = (event, successcb, failurecb) => {
         });
         eventDoc.save()
         .then(suggestedEvent => {
-            // suggestedEvent.
-            // populate('student').
-            // execPopulate().
-            // then(suggestedEvent => {successcb(suggestedEvent)})
             successcb(suggestedEvent);
         })
         .catch(err => {
@@ -963,7 +946,6 @@ queries.getStudentOwnSuggestedEvents = (id, successcb, failurecb) => {
     .then(student => {
         if(student !== null){
             SuggestedEvent.find({student: student._id})
-            // .populate('student')
             .sort({updatedDate:-1})
             .exec()
             .then(events => {
