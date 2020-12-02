@@ -32,8 +32,6 @@ queries.createStudent = (user, hash, successcb, failurecb) => {
         });
         studentDoc.save()
         .then(student => {
-            // student.populate('user').execPopulate()
-            // .then(student => {successcb(result)});
             successcb(student);
         })
         .catch(err => failurecb(err, "Student"))
@@ -104,6 +102,29 @@ queries.updateStudent = (id, student, successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
+queries.updateStudentPoints = (student, successcb, failurecb) => {
+    Student.findOne({sjsuId: student.id})
+    .then(studentToUpdate => {
+        studentToUpdate["pointsAccumulated"] += (student.newPoints - student.previousPoints);
+        studentToUpdate.save()
+        .then(updatedStudent => {
+            updatedStudent
+            .populate({
+                path : 'user',
+                select: 'fname lname email id status createdDate updatedBy updatedDate'
+            })
+            .execPopulate().
+            then(student => {
+                successcb(student);
+            })
+        })
+        .catch(err => {
+            failurecb(err);
+        })
+    })
+    .catch(err => failurecb(err))
+}
+
 queries.getUserPasswordById = (id, successcb, failurecb) => {
     User.findOne({id})
     .then(user => successcb(user))
@@ -156,7 +177,8 @@ queries.getAllStudents = (successcb, failurecb) => {
     Student.find()
     .populate({
         path: 'user',
-        match: { emailVerified: "1"}
+        match: { emailVerified: "1"},
+        select: 'fname lname email id status createdDate updatedBy updatedDate'
     })
     .sort({ createdDate: -1 })
     .exec()
@@ -172,7 +194,7 @@ queries.getAllStudents = (successcb, failurecb) => {
 queries.getStudent = (id, successcb, failurecb) => {
     Student.findOne({sjsuId: id})
     .populate({
-        path : 'user',
+        path: 'user',
         select: 'fname lname email'
     })
     .exec()
@@ -253,14 +275,6 @@ queries.updateItem = (item, successcb, failurecb) => {
     .catch(err => failurecb(err))
 }
 
-queries.deleteItem = (id, successcb, failurecb) => {
-    Item.findOneAndRemove({_id:id})
-    .then(result => {
-        successcb(result);
-    })
-    .catch(err => failurecb(err))
-}
-
 queries.getEvents = (successcb, failurecb) => {
     Event.find().sort({ updatedDate: -1 })
     .then(events => {
@@ -310,14 +324,6 @@ queries.updateEvent = (event, successcb, failurecb) => {
             successcb(event);
         })
         .catch(err => failurecb(err))
-    })
-    .catch(err => failurecb(err))
-}
-
-queries.deleteEvent = (id, successcb, failurecb) => {
-    Event.findOneAndRemove({_id:id})
-    .then(result => {
-        successcb(result);
     })
     .catch(err => failurecb(err))
 }
@@ -379,7 +385,7 @@ queries.getStudentsAllEvents = (successcb, failurecb) => {
         path : 'student',
         select: 'sjsuId user major year',
         populate : {
-          path : 'user',
+          path: 'user',
           select: 'fname lname email'
         }
     })
@@ -411,7 +417,7 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
                             path : 'student',
                             select: 'sjsuId user major year',
                             populate : {
-                              path : 'user',
+                              path: 'user',
                               select: 'fname lname email'
                             }
                         })
@@ -436,7 +442,7 @@ queries.updateStudentEventStatus = (event, successcb, failurecb) => {
                     path : 'student',
                     select: 'sjsuId user major year',
                     populate : {
-                      path : 'user',
+                      path: 'user',
                       select: 'fname lname email'
                     }
                 }).
@@ -473,7 +479,7 @@ queries.updateStudentEvent = (event, successcb, failurecb) => {
                 path : 'student',
                 select: 'sjsuId user major year',
                 populate : {
-                  path : 'user',
+                  path: 'user',
                   select: 'fname lname email'
                 }
             })
@@ -520,7 +526,7 @@ queries.addStudentEventComment = (eventId, comment, successcb, failurecb) => {
                 path : 'student',
                 select: 'sjsuId user major year',
                 populate : {
-                  path : 'user',
+                  path: 'user',
                   select: 'fname lname email'
                 }
             })
@@ -637,7 +643,7 @@ queries.addStudentOrderComment = (orderId, comment, successcb, failurecb) => {
                 path : 'student',
                 select: 'sjsuId user',
                 populate : {
-                  path : 'user',
+                  path: 'user',
                   select: 'fname lname'
                 }
             })
@@ -658,7 +664,7 @@ queries.getStudentsAllOrders = (successcb, failurecb) => {
         path : 'student',
         select: 'sjsuId user',
         populate : {
-          path : 'user',
+          path: 'user',
           select: 'fname lname'
         }
     })
@@ -703,7 +709,7 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                                 path : 'student',
                                 select: 'sjsuId user',
                                 populate : {
-                                  path : 'user',
+                                  path: 'user',
                                   select: 'fname lname email'
                                 }
                             }).
@@ -712,12 +718,6 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                             then(populatedOrder => {
                                 successcb(populatedOrder)
                             })
-
-
-
-
-
-
                         })
                         .catch(err => {
                             let message = `Failed to get Order details from the db. ${err.message}`;
@@ -755,7 +755,7 @@ queries.updateStudentOrderStatus = (order, successcb, failurecb) => {
                     path : 'student',
                     select: 'sjsuId user',
                     populate : {
-                      path : 'user',
+                      path: 'user',
                       select: 'fname lname email'
                     }
                 }).
@@ -804,7 +804,7 @@ queries.getOrderDetailsAdmin = (orderId, successcb, failurecb) => {
         path : 'student',
         select: 'sjsuId user major year',
         populate : {
-          path : 'user',
+          path: 'user',
           select: 'fname lname email'
         }
     })
@@ -990,7 +990,7 @@ queries.addStudentSuggestedEventComment = (eventId, comment, successcb, failurec
                 path : 'student',
                 select: 'sjsuId user major year',
                 populate : {
-                  path : 'user',
+                  path: 'user',
                   select: 'fname lname email'
                 }
             })
@@ -1010,7 +1010,7 @@ queries.getStudentsAllSuggestedEvents = (successcb, failurecb) => {
         path : 'student',
         select: 'sjsuId user major year',
         populate : {
-          path : 'user',
+          path: 'user',
           select: 'fname lname email'
         }
     })

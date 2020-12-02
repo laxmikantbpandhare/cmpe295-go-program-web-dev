@@ -2,7 +2,7 @@ import { STUDENT_CREATE_EVENT_SUCCESS, STUDENT_CREATE_EVENT_FAILED, STUDENT_GET_
     STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_EVENT_INPUT_CHANGE, 
     STUDENT_EVENT_EDIT_CANCEL, STUDENT_UPDATE_EVENT_SUCCESS, STUDENT_UPDATE_EVENT_FAILED, 
     STUDENT_EVENT_ADD_COMMENT_SUCCESS, STUDENT_EVENT_ADD_COMMENT_FAILED,
-    RESET_STUDENT_EVENT_ADD_COMMENT_RESPONSE} from './types';
+    RESET_STUDENT_EVENT_ADD_COMMENT_RESPONSE, RESET_STUDENT_EVENT_UPDATE_RESPONSE_MESSAGE} from './types';
 import {backendUrl} from '../../config';
 
 export const getEvents = () => dispatch => {
@@ -262,5 +262,11 @@ export const eventAddStudentComment = data =>  dispatch =>
 export const resetAddCommentResponseMessageProps = () => {
     return{
         type: RESET_STUDENT_EVENT_ADD_COMMENT_RESPONSE
+    }
+}
+
+export const resetUpdateResponseMessage = () => {
+    return{
+        type: RESET_STUDENT_EVENT_UPDATE_RESPONSE_MESSAGE
     }
 }

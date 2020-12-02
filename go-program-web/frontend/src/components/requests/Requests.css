@@ -1,0 +1,18 @@
+.correct {
+    color: green;
+    cursor: pointer;
+}
+
+.incorrect {
+    color: red;
+    cursor: pointer;    
+}
+
+.edit {
+    color: #0056a3;
+    cursor: pointer;
+}
+
+.edit-student-points {
+    width: 100%;
+}

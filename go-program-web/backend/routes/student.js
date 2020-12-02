@@ -600,4 +600,21 @@ router.get('/dashboardApprovedSuggestedEvents',passport.authenticate("jwt", { se
     });
 });
 
+router.post('/updatePoints', passport.authenticate("jwt", { session: false }), function(req,res){
+    console.log("Inside Student Update Points Accumulated Post Request");
+    console.log("Req Body : ",req.body);
+    const student = req.body;
+
+    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
+        console.log("Access failure for Student Update Points Accumulated POST Request");
+        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
+    }
+
+    queries.updateStudentPoints(student, result => {
+        res.status(200).json({message:`Student points updated successfully`, student: result});
+    }, message => {
+        res.status(500).json({ message: `Something wrong when getting student details from the database. ${message}` });
+    });
+});
+
 module.exports = router;

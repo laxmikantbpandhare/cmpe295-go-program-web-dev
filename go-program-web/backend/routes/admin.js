@@ -74,24 +74,6 @@ router.post('/updateItem',passport.authenticate("jwt", { session: false }), func
     });
 });
 
-router.post('/deleteItem',passport.authenticate("jwt", { session: false }), function(req,res){
-    console.log("Inside Admin Delete Item Post Request");
-    console.log("Req Body : ",req.body);
-
-    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
-        console.log("Access failure for Admin Delete Item POST Request");
-        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
-    }
-
-    const id = req.body.id;
-
-    queries.deleteItem(id, result => {
-            res.status(200).send({message:'Item deleted successfully'});
-        }, err=>{
-            res.status(500).send({ message: `Something failed when deleted item from the collection. ${err.message}`});
-    });
-});
-
 router.get('/events',passport.authenticate("jwt", { session: false }),function(req,res){
     console.log("Inside Admin Events Get Request");
     
@@ -173,24 +155,6 @@ router.post('/updateEvent',passport.authenticate("jwt", { session: false }), fun
             }else{
                 res.status(500).send({ message: `Something failed when adding event in the database. ${err.message}`});
         }
-    });
-});
-
-router.post('/deleteEvent',passport.authenticate("jwt", { session: false }), function(req,res){
-    console.log("Inside Admin Delete Event Post Request");
-    console.log("Req Body : ",req.body);
-
-    if(!util.isUserManagerOrAdmin(req.headers.authorization)){
-        console.log("Access failure for Admin Delete Event POST Request");
-        return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
-    }
-
-    const id = req.body.id;
-
-    queries.deleteEvent(id, result => {
-            res.status(200).send({message:'Event deleted successfully'});
-        }, err=>{
-            res.status(500).send({ message: `Something failed when deleted item from the database. ${err.message}`});
     });
 });
 

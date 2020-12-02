@@ -30,8 +30,6 @@ const studentProfileReducer = (state = initialState, action) => {
                 getResponseStatus: "failed"
             }
         case STUDENT_PROFILE_SELECT_CHANGE:
-        console.log("action.payload.name -- ", action.payload.name);
-        console.log("action.payload.value -- ", action.payload.value);
             return {
                 ...state,
                 student: {

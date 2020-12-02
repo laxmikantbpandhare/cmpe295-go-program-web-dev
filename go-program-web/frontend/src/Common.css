@@ -28,19 +28,6 @@
     font-size: 0.8rem
 }
 
-.delete-btn-style {
-    background-color: #f8b21a;
-    font-weight: bold;
-    font-size: 0.8rem;
-    border: #f8b21a;
-    color: black
-}
-
-.delete-btn-style:hover {
-    background-color: #f8c41a;
-    color: black
-}
-
 .input-wrapper {
     position: relative;
 }
@@ -114,10 +101,6 @@
 
 .view-details-color {
     color: #0056a3; 
-}
-
-.delete-color {
-    color: #FF0000; 
 }
 
 .image-upload > input{

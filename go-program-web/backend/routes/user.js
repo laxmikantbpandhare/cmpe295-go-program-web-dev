@@ -148,8 +148,6 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
 
     encrypt.generateHash(randomPassword, hash => {
         queries.createAdmin(user, hash, result => {
-            console.log("User created with id: " + result._id);
-
             // We don't need to send password ever over the network,
             // so convert mongoose Object to JS Object and remove password
             const resultObject = { ...result.toObject() };
