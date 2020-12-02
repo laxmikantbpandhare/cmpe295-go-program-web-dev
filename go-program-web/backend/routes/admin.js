@@ -23,7 +23,6 @@ router.get('/items',passport.authenticate("jwt", { session: false }),function(re
 
 router.post('/createItem', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Create Item Post Request");
-    console.log("Req Body : ",req.body);
 
     if(!util.isUserManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Create Item POST Request");
@@ -37,7 +36,6 @@ router.post('/createItem', passport.authenticate("jwt", { session: false }), fun
     item.createdBy = id;
 
     queries.createItem(item, result => {
-            console.log("Item created: " + result);
             res.status(200).send({message:'Item created successfully', item: result});
         }, err=>{
             if(err.code === 11000){
@@ -50,7 +48,6 @@ router.post('/createItem', passport.authenticate("jwt", { session: false }), fun
 
 router.post('/updateItem',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Update Item Post Request");
-    console.log("Req Body : ",req.body);
 
     if(!util.isUserManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Update Item POST Request");
@@ -76,7 +73,6 @@ router.post('/updateItem',passport.authenticate("jwt", { session: false }), func
 
 router.post('/deleteItem',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Delete Item Post Request");
-    console.log("Req Body : ",req.body);
 
     if(!util.isUserManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Delete Item POST Request");
@@ -124,7 +120,6 @@ router.get('/activeEvents',passport.authenticate("jwt", { session: false }),func
 
 router.post('/createEvent', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Create Event Post Request");
-    console.log("Req Body : ",req.body);
 
     if(!util.isUserManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Create Event POST Request");
@@ -138,7 +133,6 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
     event.createdBy =  id;
     
     queries.createEvent(event, result => {
-            console.log("Event created: " + result);
             res.status(200).send({message:'Event created successfully', event: result});
         }, err=>{
             if(err.code === 11000){
@@ -151,7 +145,6 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
 
 router.post('/updateEvent',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Update Event Post Request");
-    console.log("Req Body : ",req.body);
 
     if(!util.isUserManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Update Event POST Request");
@@ -164,7 +157,6 @@ router.post('/updateEvent',passport.authenticate("jwt", { session: false }), fun
 
     event.updatedBy = id;
 
-    console.log("id",event.name)
     queries.updateEvent(event, result => {
             res.status(200).send({message:'Event updated successfully', event: result});
         }, err=>{
@@ -178,7 +170,6 @@ router.post('/updateEvent',passport.authenticate("jwt", { session: false }), fun
 
 router.post('/deleteEvent',passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside Admin Delete Event Post Request");
-    console.log("Req Body : ",req.body);
 
     if(!util.isUserManagerOrAdmin(req.headers.authorization)){
         console.log("Access failure for Admin Delete Event POST Request");

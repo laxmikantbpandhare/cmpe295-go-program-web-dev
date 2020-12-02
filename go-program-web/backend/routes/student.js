@@ -32,7 +32,6 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const event = req.body;
 
     const id = getId(req.headers.authorization);
@@ -40,7 +39,6 @@ router.post('/createEvent', passport.authenticate("jwt", { session: false }), fu
     event.student.id = id;
     
     queries.createStudentEvent(event, result => {
-        console.log("Event created: " + result);
 
             const title = "Student submitted Event on GO Program";
             
@@ -97,7 +95,6 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const event = req.body;
 
     const id = getId(req.headers.authorization);
@@ -105,7 +102,6 @@ router.post('/updateEventStatus', passport.authenticate("jwt", { session: false 
     event.updatedBy = id;
     
     queries.updateStudentEventStatus(event, result => {
-        console.log("Event updated: " + result);
         
         // send email here
 
@@ -141,7 +137,6 @@ router.post('/updateEvent', passport.authenticate("jwt", { session: false }), fu
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const event = req.body;
 
     const id = getId(req.headers.authorization);
@@ -180,7 +175,6 @@ router.post('/addEventComment',passport.authenticate("jwt", { session: false }),
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const comment = req.body.comment;
     const eventId = req.body.id;
 
@@ -204,7 +198,6 @@ router.post('/createOrder', passport.authenticate("jwt", { session: false }), fu
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const order = req.body;
 
     const id = getId(req.headers.authorization);
@@ -261,7 +254,6 @@ router.post('/addOrderComment',passport.authenticate("jwt", { session: false }),
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const comment = req.body.comment;
     const orderId = req.body.id;
 
@@ -300,7 +292,6 @@ router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false 
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const order = req.body;
 
     const id = getId(req.headers.authorization);
@@ -308,7 +299,6 @@ router.post('/updateOrderStatus', passport.authenticate("jwt", { session: false 
     order.updatedBy = id;
 
     queries.updateStudentOrderStatus(order, result => {
-        console.log("Order updated: " + result);
 
         const title = "Your Order status updated on GO Program";
             
@@ -427,7 +417,6 @@ router.post('/createSuggestedEvent', passport.authenticate("jwt", { session: fal
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const event = req.body;
 
     const id = getId(req.headers.authorization);
@@ -493,7 +482,6 @@ router.post('/addSuggestedEventComment',passport.authenticate("jwt", { session: 
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const comment = req.body.comment;
     const eventId = req.body.id;
 
@@ -532,7 +520,6 @@ router.post('/updateSuggestedEventStatus', passport.authenticate("jwt", { sessio
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const event = req.body;
 
     const id = getId(req.headers.authorization);

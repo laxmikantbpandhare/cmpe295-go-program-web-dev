@@ -14,7 +14,7 @@ router.get('/image',passport.authenticate("jwt", { session: false }),function(re
 });
 
 router.get('/imageMob', function(req,res){
-    console.log("Inside Download Image Get Request");
+    console.log("Inside Download Image Mobile Get Request");
 
     res.sendFile(path.join(__dirname, `../uploads/${req.query.name}`), err => {
         if(err){

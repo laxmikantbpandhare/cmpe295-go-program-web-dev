@@ -14,13 +14,11 @@ const constants = require('../utils/constants');
 
 router.post('/signup',function(req,res){
     console.log("Inside User signup Post Request");
-    console.log("Req Body : ",req.body);
     const user = req.body;
 
     
     encrypt.generateHash(user.password, hash => {
         queries.createStudent(user, hash, result => {
-            console.log("User created with id: " + result._id);
 
             const title = "GO Program Account Activation Link";
             const email = user.email;
@@ -144,11 +142,9 @@ router.post('/createAdmin', passport.authenticate("jwt", { session: false }), fu
 
     const user = req.body;
     const randomPassword = Math.random().toString(36).slice(-8);
-    console.log('random password = ', randomPassword);
 
     encrypt.generateHash(randomPassword, hash => {
         queries.createAdmin(user, hash, result => {
-            console.log("User created with id: " + result._id);
 
             // We don't need to send password ever over the network,
             // so convert mongoose Object to JS Object and remove password
@@ -266,7 +262,6 @@ router.post('/resetPassword',function(req,res){
     queries.getUserByEmail(email, user => {
         if(user) {
             const randomPassword = Math.random().toString(36).slice(-8);
-            console.log('random password = ', randomPassword);
             encrypt.generateHash(randomPassword, hash => {
                 queries.changeUserPassword(user.id, hash, result => {
 
@@ -355,7 +350,6 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const user = req.body;
 
     const id = getId(req.headers.authorization);
@@ -404,7 +398,6 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
 
 router.post('/updateAdmin', passport.authenticate("jwt", { session: false }), function(req,res){
     console.log("Inside User Update Admin Post Request");
-    console.log("Req Body : ",req.body);
     const user = req.body;
 
 
@@ -433,7 +426,6 @@ router.post('/updateStudent', passport.authenticate("jwt", { session: false }), 
         return res.status(403).send({ message: constants.ACTION_FAILURE_MSG});
     }
 
-    console.log("Req Body : ",req.body);
     const student = req.body;
 
     const id = getId(req.headers.authorization);
