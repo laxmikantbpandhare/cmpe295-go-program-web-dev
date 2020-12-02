@@ -1,13 +1,16 @@
 import { REQUESTS_GET_ALL_STUDENTS_SUCCESS, REQUESTS_GET_ALL_STUDENTS_FAILED,
     REQUESTS_UPDATE_STUDENT_STATUS_SUCCESS, REQUESTS_UPDATE_STUDENT_STATUS_FAILED, 
-    REQUESTS_STUDENT_EDIT_CANCEL}  from '../actions/types';
+    REQUESTS_STUDENT_EDIT_CANCEL, REQUESTS_UPDATE_STUDENT_POINTS_SUCCESS,
+    REQUESTS_UPDATE_STUDENT_POINTS_FAILED, RESET_REQUESTS_STUDENT_POINTS_UPDATE_RESPONSE}  from '../actions/types';
 
 const initialState = {
     students: [],
     getResponseMessage: "",
     getResponseStatus: "success",
-    updateResponseMessage: "",
-    updateResponseStatus: "success",
+    statusUpdateResponseMessage: "",
+    statusUpdateResponseStatus: "success",
+    pointsUpdateResponseMessage: "",
+    pointsUpdateResponseStatus: "success",
     updatedStudent: "",
 };
 
@@ -52,16 +55,42 @@ const usersRequestsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 students,
-                updateResponseMessage: action.payload.message,
-                updateResponseStatus: "success",
+                statusUpdateResponseMessage: action.payload.message,
+                statusUpdateResponseStatus: "success",
                 updatedStudent: action.payload.user.id
             }
         case REQUESTS_UPDATE_STUDENT_STATUS_FAILED:
             return {
                 ...state,
-                updateResponseMessage: action.payload.message,
-                updateResponseStatus: "failed",
+                statusUpdateResponseMessage: action.payload.message,
+                statusUpdateResponseStatus: "failed",
                 updatedStudent: action.payload.id
+            }
+        case REQUESTS_UPDATE_STUDENT_POINTS_SUCCESS:
+            var students = state.students.map(student => {
+                if(student.sjsuId === action.payload.student.sjsuId){
+                    return action.payload.student
+                }
+                // Leave every other item unchanged
+                return student;
+            });
+            return {
+                ...state,
+                students,
+                pointsUpdateResponseMessage: action.payload.message,
+                pointsUpdateResponseStatus: "success"
+            }
+        case REQUESTS_UPDATE_STUDENT_POINTS_FAILED:
+            return {
+                ...state,
+                pointsUpdateResponseMessage: action.payload.message,
+                pointsUpdateResponseStatus: "failed",
+            }
+        case RESET_REQUESTS_STUDENT_POINTS_UPDATE_RESPONSE:
+            return {
+                ...state,
+                pointsUpdateResponseMessage: "",
+                pointsUpdateResponseStatus: "success"
             }
         default:
             return state;

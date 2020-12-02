@@ -3,7 +3,7 @@ import '../../Common.css';
 import {connect} from 'react-redux';
 import closeIcon from '../../images/close_icon.png';
 import {eventInputChangeHandler, eventEditCancelHandler, 
-    updateEvent} from '../../redux/actions/studentEventsAction';
+    updateEvent, resetUpdateResponseMessage} from '../../redux/actions/studentEventsAction';
 
 class StudentViewEventModal extends Component{
     constructor(props){
@@ -16,6 +16,10 @@ class StudentViewEventModal extends Component{
             imagesUrl: [],
             loader: false
         }
+    }
+
+    componentDidMount() {
+        this.props.resetUpdateResponseMessage();
     }
     
     hideModal = () => {
@@ -45,7 +49,6 @@ class StudentViewEventModal extends Component{
         if (files.length + this.state.images.length > 4) {
             const msg = 'Only 4 images can be uploaded at a time';
             event.target.value = null // discard selected file   
-            console.log(msg);
             return false;
         }
         return true;
@@ -70,7 +73,6 @@ class StudentViewEventModal extends Component{
             // if message not same old that mean has error 
             event.target.value = null 
             // discard selected file
-            console.log(err);
             return false; 
         }return true;
     }
@@ -295,7 +297,8 @@ const mapDispatchToProps = dispatch => {
     return {
         handleInputChange: (id, name, value) => {dispatch(eventInputChangeHandler(id, name, value))},
         handleEditCancel : (id, description) => {dispatch(eventEditCancelHandler(id, description))},
-        updateEvent: event => dispatch(updateEvent(event))
+        updateEvent: event => dispatch(updateEvent(event)),
+        resetUpdateResponseMessage : () => {dispatch(resetUpdateResponseMessage())}
     };
 };
 

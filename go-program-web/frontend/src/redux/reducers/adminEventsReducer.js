@@ -1,8 +1,8 @@
 import { ADMIN_CREATE_EVENT_SUCCESS, ADMIN_CREATE_EVENT_FAILED, ADMIN_GET_EVENTS_SUCCESS,
     ADMIN_GET_EVENTS_FAILED, RESET_ADMIN_EVENT_CREATE_RESPONSE_MESSAGE, ADMIN_EVENT_INPUT_CHANGE,
-    ADMIN_EVENT_EDIT_CANCEL, ADMIN_UPDATE_EVENT_SUCCESS, ADMIN_UPDATE_EVENT_FAILED,
-    ADMIN_DELETE_EVENT_SUCCESS, ADMIN_DELETE_EVENT_FAILED, ADMIN_EVENT_DATE_CHANGE, 
-    ADMIN_GET_ACTIVE_EVENTS_SUCCESS, ADMIN_GET_ACTIVE_EVENTS_FAILED} from '../actions/types';
+    ADMIN_EVENT_EDIT_CANCEL, ADMIN_UPDATE_EVENT_SUCCESS, ADMIN_UPDATE_EVENT_FAILED, ADMIN_EVENT_DATE_CHANGE, 
+    ADMIN_GET_ACTIVE_EVENTS_SUCCESS, ADMIN_GET_ACTIVE_EVENTS_FAILED, RESET_ADMIN_EVENT_UPDATE_RESPONSE_MESSAGE}
+     from '../actions/types';
 
 const initialState = {
     events: [],
@@ -12,8 +12,7 @@ const initialState = {
     getResponseMessage: "",
     getResponseStatus: "success",
     updateResponseMessage: "",
-    updateResponseStatus: "success",
-    deleteResponseMessage: ""
+    updateResponseStatus: "success"
 };
 
 const adminEventsReducer = (state = initialState, action) => {
@@ -129,17 +128,11 @@ const adminEventsReducer = (state = initialState, action) => {
                 updateResponseMessage: action.payload.message,
                 updateResponseStatus: "failed"
             }
-        case ADMIN_DELETE_EVENT_SUCCESS:
-            var events = state.events.filter(event => event._id !== action.payload.id);
+        case RESET_ADMIN_EVENT_UPDATE_RESPONSE_MESSAGE:
             return {
                 ...state,
-                events,
-                deleteResponseMessage: action.payload.message
-            }
-        case ADMIN_DELETE_EVENT_FAILED:
-            return {
-                ...state,
-                deleteResponseMessage: action.payload.message
+                updateResponseMessage: "",
+                updateResponseStatus: "success"
             }
         default:
             return state;

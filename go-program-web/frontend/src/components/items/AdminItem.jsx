@@ -3,10 +3,6 @@ import '../../Common.css';
 import './Items.css'
 import AdminViewItemModal from './AdminViewItemModal';
 import Lightbox from 'react-image-lightbox';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-import {connect} from 'react-redux';
-import {deleteItem} from '../../redux/actions/adminInventoryAction';
 import {backendUrl} from '../../config';
 
 class AdminItem extends Component{
@@ -58,23 +54,6 @@ class AdminItem extends Component{
     
     hideAdminViewItemModal = e => {
         this.setState({showAdminViewItemModal: false});
-    }
-
-    handleDelete = () => {
-        confirmAlert({
-            title: 'Delete Item',
-            message: 'Are you sure you want to delete this Item?',
-            buttons: [
-              {
-                label: 'Yes',
-                onClick: () => {this.props.deleteItem(this.props.item._id);}
-              },
-              {
-                label: 'No',
-                onClick: () => {}
-              }
-            ]
-          });
     }
     
     render() {
@@ -136,16 +115,4 @@ class AdminItem extends Component{
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        deleteItem: id => {dispatch(deleteItem(id))}
-    }
-}
-
-const mapStateToProps = state => {
-    return {
-        responseMessage: state.inventory.deleteResponseMessage
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminItem);
+export default AdminItem;

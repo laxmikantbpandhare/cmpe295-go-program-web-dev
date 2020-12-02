@@ -4,8 +4,8 @@ import addIcon from '../../images/add_icon.png';
 import '../../Common.css';
 import './Items.css'
 import {connect} from 'react-redux';
-import {itemInputChangeHandler, itemAttributeChangeHandler, itemAddAttribute, 
-    itemRemoveAttribute, itemEditCancelHandler, updateItem} from '../../redux/actions/adminInventoryAction';
+import {itemInputChangeHandler, itemAttributeChangeHandler, itemAddAttribute, itemRemoveAttribute, 
+    itemEditCancelHandler, updateItem, resetUpdateResponseMessage} from '../../redux/actions/adminInventoryAction';
 import {itemCategories, backendUrl} from '../../config';
 
 
@@ -26,6 +26,7 @@ class AdminViewItemModal extends Component{
     };
 
     componentDidMount() {
+        this.props.resetUpdateResponseMessage();
         const token = localStorage.getItem('token');
 
         const imagePromises = this.props.item.images.map(imageName => 
@@ -390,7 +391,8 @@ const mapDispatchToProps = dispatch => {
         addAttribute: id => {dispatch(itemAddAttribute(id))},
         removeAttribute : (id, index) => {dispatch(itemRemoveAttribute(id, index))},
         handleEditCancel : item => {dispatch(itemEditCancelHandler(item))},
-        updateItem: item => dispatch(updateItem(item))
+        updateItem: item => dispatch(updateItem(item)),
+        resetUpdateResponseMessage : () => {dispatch(resetUpdateResponseMessage())}
     };
 };
 

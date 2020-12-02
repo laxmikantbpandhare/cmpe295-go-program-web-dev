@@ -1,6 +1,7 @@
 import { MANAGER_CREATE_ADMIN_SUCCESS, MANAGER_CREATE_ADMIN_FAILED, MANAGER_GET_ALL_ADMINS_SUCCESS, 
     MANAGER_GET_ALL_ADMINS_FAILED, MANAGER_UPDATE_ADMIN_SUCCESS, MANAGER_UPDATE_ADMIN_FAILED, 
-    RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE} from '../actions/types';
+    RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE, RESET_MANAGER_UPDATE_ADMIN_RESPONSE_MESSAGE} 
+    from '../actions/types';
 
 const initialState = {
     admins: [],
@@ -65,6 +66,12 @@ const adminUsersReducer = (state = initialState, action) => {
                 ...state,
                 updateResponseMessage: action.payload.message,
                 updateResponseStatus: "failed"
+            }
+        case RESET_MANAGER_UPDATE_ADMIN_RESPONSE_MESSAGE:
+            return {
+                ...state,
+                updateResponseMessage: "",
+                updateResponseStatus: "success"
             }
         default:
             return state;

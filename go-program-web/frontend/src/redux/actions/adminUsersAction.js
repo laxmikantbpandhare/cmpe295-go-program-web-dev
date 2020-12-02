@@ -1,6 +1,7 @@
-import { MANAGER_CREATE_ADMIN_SUCCESS, MANAGER_CREATE_ADMIN_FAILED,
-    MANAGER_GET_ALL_ADMINS_SUCCESS, MANAGER_GET_ALL_ADMINS_FAILED, MANAGER_UPDATE_ADMIN_SUCCESS,
-    MANAGER_UPDATE_ADMIN_FAILED, RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE} from './types';
+import { MANAGER_CREATE_ADMIN_SUCCESS, MANAGER_CREATE_ADMIN_FAILED, MANAGER_GET_ALL_ADMINS_SUCCESS, 
+    MANAGER_GET_ALL_ADMINS_FAILED, MANAGER_UPDATE_ADMIN_SUCCESS, MANAGER_UPDATE_ADMIN_FAILED, 
+    RESET_MANAGER_CREATE_ADMIN_RESPONSE_MESSAGE, RESET_MANAGER_UPDATE_ADMIN_RESPONSE_MESSAGE} 
+    from './types';
 import {backendUrl} from '../../config';
 
 export const getAdmins = () => dispatch => {
@@ -56,7 +57,6 @@ export const createAdmin = data =>  dispatch =>
     .then(res => {
         if(res.status === 200){
             res.json().then(resData => {
-                console.log("resdate -- ", resData);
                 dispatch({
                     type: MANAGER_CREATE_ADMIN_SUCCESS,
                     payload: resData
@@ -137,3 +137,9 @@ export const updateAdmin = data =>  dispatch =>
         return reject();
     });
 });
+
+export const resetUpdateResponseMessage = () => {
+    return{
+        type: RESET_MANAGER_UPDATE_ADMIN_RESPONSE_MESSAGE
+    }
+}

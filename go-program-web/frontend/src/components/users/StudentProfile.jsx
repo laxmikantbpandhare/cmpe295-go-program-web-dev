@@ -26,7 +26,6 @@ class StudentProfile extends Component {
     }
 
     componentDidMount() {
-        console.log('Inside compoent did mount student profile');
         this.props.getProfile()
         .then(() => {
             const token = localStorage.getItem('token');

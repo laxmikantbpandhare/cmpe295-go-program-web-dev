@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import AdminViewEventModal from './AdminViewEventModal';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-import {connect} from 'react-redux';
-import {deleteEvent} from '../../redux/actions/adminEventsAction';
 
 class AdminEvent extends Component{
     constructor(props){
@@ -20,23 +16,6 @@ class AdminEvent extends Component{
     
     hideAdminViewEventModal = e => {
         this.setState({showAdminViewEventModal: false});
-    }
-
-    handleDelete = () => {
-        confirmAlert({
-            title: 'Delete Event',
-            message: 'Are you sure you want to delete this Event?',
-            buttons: [
-              {
-                label: 'Yes',
-                onClick: () => {this.props.deleteEvent(this.props.event._id);}
-              },
-              {
-                label: 'No',
-                onClick: () => {}
-              }
-            ]
-          });
     }
     
     render() {
@@ -74,16 +53,4 @@ class AdminEvent extends Component{
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        deleteEvent: id => {dispatch(deleteEvent(id))}
-    }
-}
-
-const mapStateToProps = state => {
-    return {
-        responseMessage: state.adminEvents.deleteResponseMessage
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminEvent);
+export default AdminEvent;

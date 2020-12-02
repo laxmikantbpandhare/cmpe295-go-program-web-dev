@@ -1,6 +1,7 @@
 import { REQUESTS_GET_ALL_STUDENTS_SUCCESS, REQUESTS_GET_ALL_STUDENTS_FAILED,
     REQUESTS_UPDATE_STUDENT_STATUS_SUCCESS, REQUESTS_UPDATE_STUDENT_STATUS_FAILED, 
-    REQUESTS_STUDENT_EDIT_CANCEL} from './types';
+    REQUESTS_STUDENT_EDIT_CANCEL, REQUESTS_UPDATE_STUDENT_POINTS_SUCCESS,
+    REQUESTS_UPDATE_STUDENT_POINTS_FAILED, RESET_REQUESTS_STUDENT_POINTS_UPDATE_RESPONSE} from './types';
 import {backendUrl} from '../../config';
 
 export const getAllStudents = () => dispatch => {
@@ -93,3 +94,54 @@ export const updateStudentStatus = data =>  dispatch =>
         reject();
     });
 });
+
+export const updateStudentPoints = data =>  dispatch =>  
+    new Promise(function(resolve, reject) {
+    const token = localStorage.getItem('token');
+    return fetch(`${backendUrl}/student/updatePoints`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json,  text/plain, */*',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+            },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if(res.status === 200){
+            res.json().then(resData => {
+                dispatch({
+                    type: REQUESTS_UPDATE_STUDENT_POINTS_SUCCESS,
+                    payload: resData
+                });
+                resolve();
+            });
+        }else{
+            res.json().then(resData => {
+                dispatch({
+                    type: REQUESTS_UPDATE_STUDENT_POINTS_FAILED,
+                    payload: {
+                        message: resData.message
+                    }
+                });
+                reject();
+            }) 
+        }
+    })
+    .catch(err => {
+        dispatch({
+            type: REQUESTS_UPDATE_STUDENT_POINTS_FAILED,
+            payload: {
+                message: `Internal Error -- ${err}`
+            }
+        });
+        reject();
+    });
+});
+
+export const resetUpdatePointsResponseMessage = () => {
+    return{
+        type: RESET_REQUESTS_STUDENT_POINTS_UPDATE_RESPONSE
+    }
+}

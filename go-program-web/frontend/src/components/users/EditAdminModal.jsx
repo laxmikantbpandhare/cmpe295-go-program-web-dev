@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import {connect} from 'react-redux';
-import {updateAdmin} from '../../redux/actions/adminUsersAction';
+import {updateAdmin, resetUpdateResponseMessage} from '../../redux/actions/adminUsersAction';
 import {idPattern, emailPattern} from '../../config';
 
 class EditAdminModal extends Component{
-
     state = {
         status: this.props.admin.status,
         fname: this.props.admin.fname,
@@ -15,6 +14,10 @@ class EditAdminModal extends Component{
         message: "",
         fetchStatus: "success",
         loader: false,
+    }
+
+    componentDidMount() {
+        this.props.resetUpdateResponseMessage();
     }
 
     handleChange = e => {
@@ -173,7 +176,12 @@ class EditAdminModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
+<<<<<<< HEAD
+        updateAdmin: admin => dispatch(updateAdmin(admin)),
+        resetUpdateResponseMessage : () => {dispatch(resetUpdateResponseMessage())}
+=======
         updateAdmin: admin => dispatch(updateAdmin(admin))
+>>>>>>> 01ac41b117e1dba9b685b6a2f482507dd51a5a4e
     };
 };
 

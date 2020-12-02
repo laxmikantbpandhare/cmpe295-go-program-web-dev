@@ -2,7 +2,7 @@ import { STUDENT_CREATE_EVENT_SUCCESS, STUDENT_CREATE_EVENT_FAILED, STUDENT_GET_
     STUDENT_GET_EVENTS_FAILED, RESET_STUDENT_EVENT_CREATE_RESPONSE_MESSAGE, STUDENT_EVENT_INPUT_CHANGE, 
     STUDENT_EVENT_EDIT_CANCEL, STUDENT_UPDATE_EVENT_SUCCESS, STUDENT_UPDATE_EVENT_FAILED, 
     STUDENT_EVENT_ADD_COMMENT_SUCCESS, STUDENT_EVENT_ADD_COMMENT_FAILED,
-    RESET_STUDENT_EVENT_ADD_COMMENT_RESPONSE} from '../actions/types';
+    RESET_STUDENT_EVENT_ADD_COMMENT_RESPONSE, RESET_STUDENT_EVENT_UPDATE_RESPONSE_MESSAGE} from '../actions/types';
 
 const initialState = {
     events: [],
@@ -102,6 +102,12 @@ const studentEventsReducer = (state = initialState, action) => {
                 ...state,
                 updateResponseMessage: action.payload.message,
                 updateResponseStatus: "failed"
+            }
+        case RESET_STUDENT_EVENT_UPDATE_RESPONSE_MESSAGE:
+            return {
+                ...state,
+                updateResponseMessage: "",
+                updateResponseStatus: "success"
             }
         case STUDENT_EVENT_ADD_COMMENT_SUCCESS:
             var events = state.events.map(event => {

@@ -4,7 +4,6 @@ import { STUDENT_PROFILE_GET_SUCCESS, STUDENT_PROFILE_GET_FAILED, STUDENT_PROFIL
 import {backendUrl} from '../../config';
 
 export const getStudent = () => dispatch => new Promise(function(resolve, reject) {
-    console.log("Herrrrr")
     const token = localStorage.getItem('token');
     fetch(`${backendUrl}/user/student`,{
         headers: {

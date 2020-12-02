@@ -170,8 +170,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        responseMessage: state.usersRequests.updateResponseMessage,
-        responseStatus: state.usersRequests.updateResponseStatus,
+        responseMessage: state.usersRequests.statusUpdateResponseMessage,
+        responseStatus: state.usersRequests.statusUpdateResponseStatus,
         updatedStudent: state.usersRequests.updatedStudent
     }
 }

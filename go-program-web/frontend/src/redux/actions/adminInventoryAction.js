@@ -1,8 +1,8 @@
 import { ADMIN_CREATE_ITEM_SUCCESS, ADMIN_CREATE_ITEM_FAILED, ADMIN_GET_ITEMS_SUCCESS,
     ADMIN_GET_ITEMS_FAILED, RESET_ADMIN_ITEM_CREATE_RESPONSE_MESSAGE, ADMIN_ITEM_INPUT_CHANGE,
     ADMIN_ITEM_ATTRIBUTE_CHANGE, ADMIN_ITEM_ADD_ATTRIBUTE, ADMIN_ITEM_REMOVE_ATTRIBUTE,
-    ADMIN_ITEM_EDIT_CANCEL, ADMIN_UPDATE_ITEM_SUCCESS, ADMIN_UPDATE_ITEM_FAILED,
-    ADMIN_DELETE_ITEM_SUCCESS, ADMIN_DELETE_ITEM_FAILED} from './types';
+    ADMIN_ITEM_EDIT_CANCEL, ADMIN_UPDATE_ITEM_SUCCESS, ADMIN_UPDATE_ITEM_FAILED, 
+    RESET_ADMIN_ITEM_UPDATE_RESPONSE_MESSAGE} from './types';
 import {backendUrl} from '../../config';
 
 export const getItems = () => dispatch => {
@@ -211,51 +211,12 @@ export const updateItem = data =>  dispatch =>
                 message: `Internal Error -- ${err}`
             }
         });
-        console.log("Rejecting catch update item");
         return reject();
     });
 });
 
-export const deleteItem = id =>  dispatch =>  {
-    const token = localStorage.getItem('token');
-    fetch(`${backendUrl}/admin/deleteItem`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json,  text/plain, */*',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-            },
-        credentials: 'include',
-        body: JSON.stringify({id: id})
-    })
-    .then(res => {
-        if(res.status === 200){
-            res.json().then(resData => {
-                dispatch({
-                    type: ADMIN_DELETE_ITEM_SUCCESS,
-                    payload: {
-                        id: id,
-                        message: resData.message
-                    }
-                });
-            });
-        }else{
-            res.json().then(resData => {
-                dispatch({
-                    type: ADMIN_DELETE_ITEM_FAILED,
-                    payload: {
-                        message: resData.message
-                    }
-                });
-            }) 
-        }
-    })
-    .catch(err => {
-        dispatch({
-            type: ADMIN_DELETE_ITEM_FAILED,
-            payload: {
-                message: `Internal Error -- ${err}`
-            }
-        });
-    });
+export const resetUpdateResponseMessage = () => {
+    return{
+        type: RESET_ADMIN_ITEM_UPDATE_RESPONSE_MESSAGE
+    }
 }

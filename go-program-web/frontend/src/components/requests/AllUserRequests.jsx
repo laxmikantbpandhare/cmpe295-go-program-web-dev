@@ -37,7 +37,6 @@ class AllUserRequests extends Component{
     }
 
     render() {
-        console.log(this.props.students)
         let sortedStudents = [...this.props.students];
         if(this.state.sort !== ""){
             if(this.state.sort === "Created Date Ascending"){
