@@ -137,11 +137,5 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-// const mapStateToProps = state => {
-//     return {
-//         responseMessage: state.studentProfile.updateResponseMessage,
-//         responseStatus: state.studentProfile.updateResponseStatus
-//     }
-// }
 
 export default connect(null, mapDispatchToProps)(StudentEditProfileModal);

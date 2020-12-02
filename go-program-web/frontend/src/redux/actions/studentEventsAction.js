@@ -80,7 +80,6 @@ export const createEvent = data =>  dispatch => new Promise(function(resolve, re
     saveEventImages(data.images, imagesName => {
         data.images = imagesName;
         const token = localStorage.getItem('token');
-        // return new Promise(function(resolve, reject) {
             return fetch(`${backendUrl}/student/createEvent`, {
             method: 'POST',
             headers: {

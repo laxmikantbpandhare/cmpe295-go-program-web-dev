@@ -162,12 +162,6 @@ class StudentEvent extends Component{
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         deleteEvent: id => {dispatch(deleteEvent(id))}
-//     }
-// }
-
 const mapStateToProps = state => {
     return {
         commentsResponseMessage: state.studentEvents.addCommentResponseMessage,
