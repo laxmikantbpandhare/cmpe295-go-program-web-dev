@@ -33,7 +33,6 @@ class AdminNewItemModal extends Component{
     maxSelectFile=(event)=>{
         let files = event.target.files // create file object
         if (files.length + this.state.images.length > 4) {
-            // const msg = 'Only 4 images can be uploaded at a time';
             event.target.value = null // discard selected file   
             return false;
         }

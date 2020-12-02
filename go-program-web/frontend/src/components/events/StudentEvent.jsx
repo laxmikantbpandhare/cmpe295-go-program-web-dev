@@ -4,7 +4,6 @@ import StudentViewEventModal from './StudentViewEventModal';
 import Lightbox from 'react-image-lightbox';
 import CommentsModal from '../comments/CommentsModal';
 import {connect} from 'react-redux';
-// import {deleteEvent} from '../../redux/actions/adminEventsAction';
 import {backendUrl} from '../../config';
 
 class StudentEvent extends Component{
@@ -37,23 +36,6 @@ class StudentEvent extends Component{
     hideCommentsModal = e => {
         this.setState({showCommentsModal: false});
     }
-
-    // handleDelete = () => {
-    //     confirmAlert({
-    //         title: 'Delete Event',
-    //         message: 'Are you sure you want to delete this Event?',
-    //         buttons: [
-    //           {
-    //             label: 'Yes',
-    //             onClick: () => {this.props.deleteEvent(this.props.event._id);}
-    //           },
-    //           {
-    //             label: 'No',
-    //             onClick: () => {}
-    //           }
-    //         ]
-    //       });
-    // }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -139,10 +121,6 @@ class StudentEvent extends Component{
                                     </button>
                                     : null
                                 }
-                                {/* <button type="button" className="btn btn-link delete-color"
-                                onClick = {this.handleDelete}>
-                                    <i className="fas fa-trash-alt"/> Delete
-                                </button> */}
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showCommentsModal}>
                                     <i className="fas fa-comment"/> Comments

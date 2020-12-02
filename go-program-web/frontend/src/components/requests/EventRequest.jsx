@@ -8,19 +8,7 @@ import CommentsModal from '../comments/CommentsModal';
 import {backendUrl} from '../../config';
 
 class EventRequest extends Component{
-    // constructor(props){
-    //     super(props);
-    //     this.initialStatus = props.event.status;
-    //     this.state = {
-    //         showViewEventRequestModal: false,
-    //         showCommentsModal: false,
-    //         photoIndex: 0,
-    //         isOpen: false,
-    //         initialStatus: this.initialStatus,
-    //         message: "",
-    //         images: []
-    //     };
-    // }
+
     state = {
         status: this.props.event.status,
         showViewEventRequestModal: false,
@@ -81,11 +69,6 @@ class EventRequest extends Component{
     
     options = ['Pending Approval', 'Approved', 'Rejected', 'Action Required'];
 
-    // handleSelectChange = e => {
-    //     const {value} = e.target;
-    //     this.props.handleSelectChange(this.props.event._id, value);
-    // }
-
     handleSelectChange = e => {
         this.setState({
             status: e.target.value
@@ -127,7 +110,6 @@ class EventRequest extends Component{
     
     render() {
         const { photoIndex, isOpen } = this.state;
-        // const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
@@ -230,7 +212,6 @@ class EventRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        // handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateEventStatus(data)),
         resetCommentsResponseMessage: () => {dispatch(resetAddCommentResponseMessageProps())}
     }

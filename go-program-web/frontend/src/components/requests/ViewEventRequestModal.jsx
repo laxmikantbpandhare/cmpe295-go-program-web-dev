@@ -109,17 +109,6 @@ const ViewEventRequestModal = (props) => {
                                 </div>
                                 {updatedBy}
                                 {updatedDate}
-                                {/* {
-                                    props.event.updatedBy 
-                                    ? <div class="row">
-                                        <label className="col-3"><strong>Updated</strong></label>
-                                        <div className="col-9">
-                                            <p className="text-pre-wrap">{new Date(props.event.updatedDate).toLocaleString()}</p>
-                                        </div>
-                                    </div>
-
-                                } */}
-                                
                         </div>
                         <div className="modal-footer">
                                 <button onClick = {hideModal} className="btn btn-primary btn-style" 

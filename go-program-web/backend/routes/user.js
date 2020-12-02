@@ -374,7 +374,7 @@ router.post('/updateStatus', passport.authenticate("jwt", { session: false }), f
                 const title = "Student Account Status Update on GO Program";
             
                 const emailBody =   '<div>Dear Student,</div><br/>'+
-                                    '<div>The GO Program Admin changes your accoint status to: <b>'+user.status+'</b> </div><br/>'+
+                                    '<div>The GO Program Admin has changed your account status to: <b>'+user.status+'</b> </div><br/>'+
                                     '<div>Please contact SJSU admin for any further queries. </div><br/>'+
                                     '<div>Thank You and Regards,</div>'+
                                     '<div>The GO program</div>'+

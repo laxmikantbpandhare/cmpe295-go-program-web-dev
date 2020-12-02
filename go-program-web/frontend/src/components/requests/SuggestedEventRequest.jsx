@@ -6,15 +6,6 @@ import {updateEventStatus} from '../../redux/actions/suggestedEventsRequestsActi
 import CommentsModal from '../comments/CommentsModal';
 
 class SuggestedEventRequest extends Component{
-    // constructor(props){
-    //     super(props);
-    //     this.initialStatus = props.event.status;
-    //     this.state = {
-    //         showViewSuggestedEventRequestModal: false,
-    //         showCommentsModal: false,
-    //         initialStatus: this.initialStatus
-    //     };
-    // }
 
     state = {
         status: this.props.event.status,
@@ -40,11 +31,6 @@ class SuggestedEventRequest extends Component{
     }
     
     options = ['Pending Approval', 'Approved', 'Rejected'];
-
-    // handleSelectChange = e => {
-    //     const {value} = e.target;
-    //     this.props.handleSelectChange(this.props.event._id, value);
-    // }
 
     handleSelectChange = e => {
         this.setState({
@@ -80,7 +66,6 @@ class SuggestedEventRequest extends Component{
     }
     
     render() {
-        // const updateEnabled = this.state.initialStatus === this.props.event.status ? false : true;
         
         return(
             <div className="row justify-content-center mt-3">
@@ -158,7 +143,6 @@ class SuggestedEventRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        // handleSelectChange: (id, value) => {dispatch(eventSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateEventStatus(data))
     }
 }

@@ -6,14 +6,6 @@ import CommentsModal from '../comments/CommentsModal';
 import {Link} from 'react-router-dom';
 
 class OrderRequest extends Component{
-    // constructor(props){
-    //     super(props);
-    //     this.initialStatus = props.order.status;
-    //     this.state = {
-    //         showCommentsModal: false,
-    //         initialStatus: this.initialStatus
-    //     };
-    // }
 
     state = {
         status: this.props.order.status,
@@ -30,11 +22,6 @@ class OrderRequest extends Component{
     }
     
     options = ['Submitted', 'Pending Delivery', 'Delivered', 'Cancelled'];
-
-    // handleSelectChange = e => {
-    //     const {value} = e.target;
-    //     this.props.handleSelectChange(this.props.order._id, value);
-    // }
 
     handleSelectChange = e => {
         this.setState({
@@ -75,7 +62,6 @@ class OrderRequest extends Component{
     }
     
     render() {
-        // const updateEnabled = this.state.initialStatus === this.props.order.status ? false : true;
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
@@ -150,7 +136,6 @@ class OrderRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        // handleSelectChange: (id, value) => {dispatch(orderSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateOrderStatus(data))
     }
 }

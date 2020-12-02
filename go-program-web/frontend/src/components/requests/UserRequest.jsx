@@ -7,17 +7,6 @@ import {backendUrl} from '../../config';
 import ViewUserModal from './ViewUserModal';
 
 class UserRequest extends Component{
-    // constructor(props){
-    //     super(props);
-    //     this.initialStatus = props.student.user.status;
-    //     this.state = {
-    //         showViewUserModal: false,
-    //         isOpen: false,
-    //         initialStatus: this.initialStatus,
-    //         message: "",
-    //         studentIdCard: ""
-    //     };
-    // }
 
     state = {
         status: this.props.student.user.status,
@@ -64,11 +53,6 @@ class UserRequest extends Component{
     
     options = ['Active', 'Inactive'];
 
-    // handleSelectChange = e => {
-    //     const {value} = e.target;
-    //     this.props.handleSelectChange(this.props.student._id, value);
-    // }
-
     handleSelectChange = e => {
         this.setState({
             status: e.target.value
@@ -104,7 +88,6 @@ class UserRequest extends Component{
     
     render() {
         const { isOpen } = this.state;
-        // const updateEnabled = this.state.initialStatus === this.props.student.user.status ? false : true;
         return(
             <div className="row justify-content-center mt-3">
                 <div className="col-sm-8">
@@ -181,7 +164,6 @@ class UserRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        // handleSelectChange: (id, value) => {dispatch(studentSelectChangeHandler(id, value))},
         handleUpdate: data => dispatch(updateStudentStatus(data))
     }
 }

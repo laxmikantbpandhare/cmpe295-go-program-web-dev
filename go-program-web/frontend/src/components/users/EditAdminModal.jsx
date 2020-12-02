@@ -176,8 +176,12 @@ class EditAdminModal extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
+<<<<<<< HEAD
         updateAdmin: admin => dispatch(updateAdmin(admin)),
         resetUpdateResponseMessage : () => {dispatch(resetUpdateResponseMessage())}
+=======
+        updateAdmin: admin => dispatch(updateAdmin(admin))
+>>>>>>> 01ac41b117e1dba9b685b6a2f482507dd51a5a4e
     };
 };
 
