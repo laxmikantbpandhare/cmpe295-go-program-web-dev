@@ -15,11 +15,11 @@ function Landing() {
       {redirectVar}
     <div className="container-fluid p-0">
       <div className="row landing-height">
-       <div className="col-sm-6">
+       <div className="col-sm-9">
          <img src={mainImage} className="img-fluid landing-image" alt="Landing page Pic"/>
          </div>
-         <div className="col-sm-6 d-flex align-items-center flex-column justify-content-center">
-         <img src={collegeLogo} alt="College Logo" className="img-fluid coe-logo"/>
+         <div className="col-sm-3 d-flex align-items-center flex-column justify-content-center">
+         <img src={collegeLogo} alt="College Logo" className="img-fluid landing-coe-logo"/>
          <br/>
          <div className="landing-left">
            <span className="msg-go-program-landing">Want to know more about GO Program?
