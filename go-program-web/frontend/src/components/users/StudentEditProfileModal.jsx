@@ -95,8 +95,8 @@ class StudentEditProfileModal extends Component{
                                     <div className="col-8">
                                         <select className={`form-control ${this.props.student.major!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             name="major" onChange={this.handleSelectChange} value={this.props.student.major}>
-                                                <option selected value="">Select a Major</option>
-                                                {major.map(item => <option>{item}</option>)}
+                                                <option value="">Select a Major</option>
+                                                {major.map((item, idx) => <option key={idx}>{item}</option>)}
                                         </select>
                                     </div>
                                 </div>
@@ -105,8 +105,8 @@ class StudentEditProfileModal extends Component{
                                     <div className="col-8">
                                         <select className={`form-control ${this.props.student.year!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             name="year" onChange={this.handleSelectChange} value={this.props.student.year}>
-                                                <option selected value="">Select a Year</option>
-                                                {academicYear.map(item => <option>{item}</option>)}
+                                                <option value="">Select a Year</option>
+                                                {academicYear.map((item, idx) => <option key={idx}>{item}</option>)}
                                         </select>
                                     </div>
                                 </div>

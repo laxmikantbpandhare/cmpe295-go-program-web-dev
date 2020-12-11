@@ -69,48 +69,48 @@ class AdminInventory extends Component{
             </div>
             
             <div className="container-fluid below-heading">
-                <div class="row">
-                    <div class="col-sm-4 offset-4 offset-sm-5 mt-2">
+                <div className="row">
+                    <div className="col-sm-4 offset-4 offset-sm-5 mt-2">
                         <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showAdminNewItemModal}>
-                            <i class="fas fa-plus"></i> &nbsp;Add Item
+                            <i className="fas fa-plus"></i> &nbsp;Add Item
                         </button>
                     </div>
                 </div>
                 <div className="entities-search-section">
                     <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Items</h4>
                     <div className="row">
-                        <div  class="col-6 col-sm-2 order-sm-2">
+                        <div  className="col-6 col-sm-2 order-sm-2">
                             <select className="form-control" name="filter" onChange={this.handleChange}
                              value={this.state.filter}>
-                                <option selected value="">Filter by Category</option>
+                                <option value="">Filter by Category</option>
                                 {
                                     this.props.categories.length!==0
-                                    ? this.props.categories.map(category => <option>{category}</option>)
+                                    ? this.props.categories.map((category, idx) => <option key={idx}>{category}</option>)
                                     : null
                                 }
                             </select>
                         </div>
 
-                        <div  class="col-6 col-sm-2 order-sm-3">
+                        <div  className="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
-                                <option selected value="">Sort by Points</option>
+                                <option value="">Sort by Points</option>
                                 <option>Ascending</option>
                                 <option>Descending</option>
                             </select>
                         </div>
 
-                        <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
+                        <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
                         
                         <div className="input-group col-10 col-sm-6 order-sm-1">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            <div className="input-group-prepend">
+                                <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
-                            <input class="form-control py-2" name="search" placeholder="Search by Item Name"
+                            <input className="form-control py-2" name="search" placeholder="Search by Item Name"
                             onChange={this.handleChange} value={this.state.search}></input>
                         </div>
 
-                        <div  class="col-2 col-sm-2 order-sm-4">
+                        <div  className="col-2 col-sm-2 order-sm-4">
                             <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
                                 onClick={this.resetSearchSection}>
                                 <i className="fas fa-sync"></i>

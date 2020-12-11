@@ -23,7 +23,7 @@ function Landing() {
          <br/>
          <div className="landing-left">
            <span className="msg-go-program-landing">Want to know more about GO Program?
-             <a href="https://engineering.sjsu.edu/go"> Click Here!</a>
+             <a target="_blank" rel="noopener noreferrer" href="https://www.sjsu.edu/engineering/student-success/ease/go/index.php"> Click Here!</a>
            </span>
            <br/>
            <br/>

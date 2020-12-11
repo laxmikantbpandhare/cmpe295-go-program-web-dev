@@ -134,7 +134,7 @@ class CommentsModal extends Component {
                         this.props.comments.length > 0  
                         ? this.props.comments.map(comment => {
                             return(
-                                <div>
+                                <div key={comment._id}>
                                     <h6 className="comment-info">{comment.commenter}({comment.commentDate})</h6>
                                     <p className="comment-text">{comment.comment}</p>
                                 </div>

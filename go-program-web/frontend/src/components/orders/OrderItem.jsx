@@ -69,7 +69,7 @@ class OrderItem extends Component{
                             <div className="d-flex flex-row">
                                 <button className="btn btn-link view-details-color btn-padding"
                                 onClick={() => this.setState({ isOpen: true })}>
-                                    <i class="fas fa-search-plus"/> Images
+                                    <i className="fas fa-search-plus"/> Images
                                 </button>
                             </div>
                         </div>

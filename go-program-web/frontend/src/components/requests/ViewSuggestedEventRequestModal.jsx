@@ -7,7 +7,7 @@ const ViewSuggestedEventRequestModal = (props) => {
     var updatedBy = null;
     if(props.event.updatedBy){
         updatedDate = (
-            <div class="row">
+            <div className="row">
                 <label className="col-3"><strong>Last Updated By</strong></label>
                 <div className="col-9">
                     <p className="text-pre-wrap">{props.event.updatedBy}</p>
@@ -15,7 +15,7 @@ const ViewSuggestedEventRequestModal = (props) => {
             </div>
         );
         updatedBy = (
-            <div class="row">
+            <div className="row">
                 <label className="col-3"><strong>Updated</strong></label>
                 <div className="col-9">
                     <p className="text-pre-wrap">{new Date(props.event.updatedDate).toLocaleString()}</p>
@@ -40,56 +40,56 @@ const ViewSuggestedEventRequestModal = (props) => {
                         </div>
                             <div className="modal-body">
                                 <h5 style = {{textDecoration:'underline'}}>Student Details</h5>  
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Name</strong></label>
                                     <div className="col-9">
                                         <p>{`${props.event.student.user.fname} ${props.event.student.user.lname}`}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>SJSU ID</strong></label>
                                     <div className="col-9">
                                         <p>{props.event.student.sjsuId}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Email ID</strong></label>
                                     <div className="col-9">
                                         <p>{props.event.student.user.email}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Major</strong></label>
                                     <div className="col-9">
                                         <p>{props.event.student.major}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Year</strong></label>
                                     <div className="col-9">
                                         <p>{props.event.student.year}</p>
                                     </div>
                                 </div>
                                 <h5 style = {{textDecoration:'underline'}}>Request Details</h5>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Event</strong></label>
                                     <div className="col-9">
                                         <p>{props.event.name}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Description</strong></label>
                                     <div className="col-9">
                                         <p className="text-pre-wrap">{props.event.description}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Status</strong></label>
                                     <div className="col-9">
                                         <p className="text-pre-wrap">{props.event.status}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div className="row">
                                     <label className="col-3"><strong>Suggested</strong></label>
                                     <div className="col-9">
                                         <p className="text-pre-wrap">{new Date(props.event.createdDate).toLocaleString()}</p>

@@ -13,7 +13,8 @@ class StudentCart extends Component{
             pointsUsed: 0,
             cart: [],
             message: "",
-            status: "success"
+            status: "success",
+            loader: false
         };
     }
 
@@ -93,6 +94,7 @@ class StudentCart extends Component{
 
     confirmOrder = () => {
         this.prepareOrderItems((orderItems, inventoryItems) => {
+            this.setState({loader: true});
             const data = {
                 student: {
 
@@ -123,7 +125,8 @@ class StudentCart extends Component{
                             pointsUsed: 0,
                             cart: [],
                             message: resData.message,
-                            status: "success"
+                            status: "success",
+                            loader: false
                         });
                         localStorage.removeItem('cart');
                         localStorage.removeItem('pointsUsed');
@@ -132,7 +135,8 @@ class StudentCart extends Component{
                     res.json().then(resData => {
                         this.setState({
                             message: resData.message,
-                            status: "failed"
+                            status: "failed",
+                            loader: false
                         })
                     })
                 }
@@ -140,7 +144,8 @@ class StudentCart extends Component{
             .catch(err => {
                 this.setState({
                     message: err.message,
-                    status: "failed"
+                    status: "failed",
+                    loader: false
                 })
             });
         })
@@ -174,10 +179,15 @@ class StudentCart extends Component{
                                         onClick={() => this.props.history.push("/student/redeem")}>
                                             Add More Item
                                     </button>
-                                    <button className="btn btn-primary btn-sm btn-style"
+                                    <button className="btn btn-primary btn-sm btn-style mr-2"
                                         onClick={this.confirmOrder}>
                                             Confirm Order
                                     </button>
+                                    {
+                                        this.state.loader
+                                        ? <div className="spinner-border text-primary" role="status"/>
+                                        : null
+                                    }
                                 </div>
                             </div>
                         </div>

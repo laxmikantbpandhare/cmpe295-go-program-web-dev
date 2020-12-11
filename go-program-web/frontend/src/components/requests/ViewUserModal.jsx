@@ -69,7 +69,7 @@ class ViewUserModal extends Component {
         var updatedBy = null;
         if(this.props.student.user.updatedBy){
             updatedDate = (
-                <div class="row">
+                <div className="row">
                     <label className="col-3"><strong>Last Updated By</strong></label>
                     <div className="col-9">
                         <p className="text-pre-wrap">{this.props.student.user.updatedBy}</p>
@@ -77,7 +77,7 @@ class ViewUserModal extends Component {
                 </div>
             );
             updatedBy = (
-                <div class="row">
+                <div className="row">
                     <label className="col-3"><strong>Updated</strong></label>
                     <div className="col-9">
                         <p className="text-pre-wrap">{new Date(this.props.student.user.updatedDate).toLocaleString()}</p>
@@ -100,38 +100,38 @@ class ViewUserModal extends Component {
                                         {this.props.responseMessage}
                                     </div>
                                     <h5 style = {{textDecoration:'underline'}}>Student Details</h5>  
-                                    <div class="row">
+                                    <div className="row">
                                         <label className="col-3"><strong>Name</strong></label>
                                         <div className="col-9">
                                             <p>{`${this.props.student.user.fname} ${this.props.student.user.lname}`}</p>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <label className="col-3"><strong>SJSU ID</strong></label>
                                         <div className="col-9">
                                             <p>{this.props.student.sjsuId}</p>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <label className="col-3"><strong>Email ID</strong></label>
                                         <div className="col-9">
                                             <p>{this.props.student.user.email}</p>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <label className="col-3"><strong>Major</strong></label>
                                         <div className="col-9">
                                             <p>{this.props.student.major}</p>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <label className="col-3"><strong>Year</strong></label>
                                         <div className="col-9">
                                             <p>{this.props.student.year}</p>
                                         </div>
                                     </div>
     
-                                    <div class="row">
+                                    <div className="row">
                                         <label className="col-3"><strong>Points</strong></label>
                                         <div className="col-3">
                                             {
@@ -162,7 +162,7 @@ class ViewUserModal extends Component {
                                         </div>
                                     </div>
     
-                                    <div class="row">
+                                    <div className="row">
                                         <label className="col-3"><strong>Created</strong></label>
                                         <div className="col-9">
                                             <p className="text-pre-wrap">{new Date(this.props.student.user.createdDate).toLocaleString()}</p>

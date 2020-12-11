@@ -44,7 +44,7 @@ const StudentItem = (props) => {
             var images = blobs.map(blob => URL.createObjectURL(blob));
             setImages(images);
         })
-    }, [])
+    }, [props.item.images])
 
     return(
         <div className="col-sm-6 my-1">

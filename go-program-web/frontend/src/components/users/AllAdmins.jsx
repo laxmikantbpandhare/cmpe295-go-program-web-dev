@@ -79,26 +79,26 @@ class AllAdmins extends Component{
                 <div className="row">
                     <div className="col-sm-4 offset-4 offset-sm-5 mt-2">
                         <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showNewAdminModal}>
-                            <i class="fas fa-plus"></i> &nbsp;Admin User
+                            <i className="fas fa-plus"></i> &nbsp;Admin User
                         </button>
                     </div>
                 </div>
                 <div className="entities-search-section">
                     <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Admin Users</h4>
                     <div className="row">
-                    <div  class="col-6 col-sm-2 order-sm-3">
+                    <div  className="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}
                              value={this.state.filter}>
-                                <option selected value="">Filter by Status</option>
+                                <option value="">Filter by Status</option>
                                 <option>Active</option>
                                 <option>Inactive</option>
                             </select>
                         </div>
 
-                        <div  class="col-6 col-sm-2 order-sm-4">
+                        <div  className="col-6 col-sm-2 order-sm-4">
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
-                                <option selected value="">Sort by</option>
+                                <option value="">Sort by</option>
                                 <option>Created Date Ascending</option>
                                 <option>Created Date Descending</option>
                                 <option>Updated Date Ascending</option>
@@ -106,27 +106,27 @@ class AllAdmins extends Component{
                             </select>
                         </div>
 
-                        <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
+                        <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
 
                         <div className="input-group col-12 col-sm-3 order-sm-2">
-                            <div class="input-group-prepend">
+                            <div className="input-group-prepend">
                                 <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
                             <input className="form-control py-2" name="searchAdminName" placeholder="Search by Admin Name"
                             onChange={this.handleChange} value={this.state.searchAdminName}></input>
                         </div>
 
-                        <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
+                        <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
 
                         <div className="input-group col-10 col-sm-3 order-sm-1">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            <div className="input-group-prepend">
+                                <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
                             <input type = "number" className="form-control py-2" name="searchAdminId" placeholder="Search by Admin Id"
                             onChange={this.handleChange} value={this.state.searchAdminId}></input>
                         </div> 
 
-                        <div  class="col-2 col-sm-2 order-sm-4">
+                        <div  className="col-2 col-sm-2 order-sm-4">
                             <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
                                 onClick={this.resetSearchSection}>
                                 <i className="fas fa-sync"></i>

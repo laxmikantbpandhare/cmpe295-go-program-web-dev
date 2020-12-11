@@ -228,16 +228,16 @@ class Signup extends Component{
                             <div className="form-group input-wrapper mb-4">
                                 <select className={`form-control form-input ${this.state.major !== ""?'input-valid':'input-invalid'}`} 
                                 name="major" onChange={this.handleChange}>
-                                    <option selected value="">Select a Major</option>
-                                    {major.map(item => <option>{item}</option>)}
+                                    <option value="">Select a Major</option>
+                                    {major.map((item, idx) => <option key={idx}>{item}</option>)}
                                 </select>
                                 <label className="form-label">Major</label>
                             </div>
                             <div className="form-group input-wrapper mb-4">
                                 <select className={`form-control form-input ${this.state.year !== ""?'input-valid':'input-invalid'}`} 
                                 name="year" onChange={this.handleChange}>
-                                    <option selected value="">Select an Academic Year</option>
-                                    {academicYear.map(item => <option>{item}</option>)}
+                                    <option value="">Select an Academic Year</option>
+                                    {academicYear.map((item, idx) => <option key={idx}>{item}</option>)}
                                 </select>
                                 <label className="form-label">Academic Year</label>
                             </div> 

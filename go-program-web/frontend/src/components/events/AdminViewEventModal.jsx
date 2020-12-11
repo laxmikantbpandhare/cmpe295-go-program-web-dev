@@ -144,7 +144,7 @@ class AdminViewEventModal extends Component{
                                 <div className={`status-msg ${this.props.responseStatus}`}>
                                     {this.props.responseMessage}
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-4">Name</label>
                                     <div className="col-8">
                                         {
@@ -168,7 +168,7 @@ class AdminViewEventModal extends Component{
                                         }
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-4">Points</label>
                                     <div className="col-8">
                                         {
@@ -180,7 +180,7 @@ class AdminViewEventModal extends Component{
                                         }  
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-4">Expiry Date</label>
                                     <div className="col-8">
                                         {

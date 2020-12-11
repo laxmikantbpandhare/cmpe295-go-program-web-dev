@@ -76,6 +76,9 @@ class StudentDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Approved Events</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getApprovedEventsResponseStatus}`}>
+                                {this.props.getApprovedEventsResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -84,20 +87,17 @@ class StudentDashboard extends Component{
                                         <th>Date Added</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getApprovedEventsResponseStatus}`}>
-                                    {this.props.getApprovedEventsResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.approvedEvents.length !==0 
                                         ? this.props.approvedEvents.map(event => (
-                                            <tr>
+                                            <tr key={event._id}>
                                                 <td>{event.event.name}</td>
                                                 <td>{event.event.points}</td>
                                                 <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Approved Event.</h6>
+                                        : <tr><td>No Approved Event.</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -106,6 +106,9 @@ class StudentDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Events</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getEventsResponseStatus}`}>
+                                {this.props.getEventsResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -115,21 +118,18 @@ class StudentDashboard extends Component{
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getEventsResponseStatus}`}>
-                                    {this.props.getEventsResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.events.length !==0 
                                         ? this.props.events.map(event => (
-                                            <tr>
+                                            <tr key={event._id}>
                                                 <td>{event.event.name}</td>
                                                 <td>{event.event.points}</td>
                                                 <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                                 <td>{event.status}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Event is Submitted by you.</h6>
+                                        : <tr><td>No Event is Submitted by you.</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -140,6 +140,9 @@ class StudentDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Delivered Orders</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getDeliveredOrdersResponseStatus}`}>
+                                {this.props.getDeliveredOrdersResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -148,20 +151,17 @@ class StudentDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getDeliveredOrdersResponseStatus}`}>
-                                    {this.props.getDeliveredOrdersResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.deliveredOrders.length !==0 
                                         ? this.props.deliveredOrders.map(order => (
-                                            <tr>
+                                            <tr key={order._id}>
                                                 <td>{order.id}</td>
                                                 <td>{order.points}</td>
                                                 <td>{new Date(order.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Delivered Order.</h6>
+                                        : <tr><td>No Delivered Order.</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -170,6 +170,9 @@ class StudentDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Orders</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getOrdersResponseStatus}`}>
+                                {this.props.getOrdersResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -179,21 +182,18 @@ class StudentDashboard extends Component{
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getOrdersResponseStatus}`}>
-                                    {this.props.getOrdersResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.orders.length !==0 
                                         ? this.props.orders.map(order => (
-                                            <tr>
+                                            <tr key={order._id}>
                                                 <td>{order.id}</td>
                                                 <td>{order.points}</td>
                                                 <td>{new Date(order.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                                 <td>{order.status}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Order is Submitted by you.</h6>
+                                        : <tr><td>No Order is Submitted by you.</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -204,6 +204,9 @@ class StudentDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Approved Suggested Events</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getApprovedSuggestedEventsResponseStatus}`}>
+                                {this.props.getApprovedSuggestedEventsResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -211,19 +214,16 @@ class StudentDashboard extends Component{
                                         <th>Date Suggested</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getApprovedSuggestedEventsResponseStatus}`}>
-                                    {this.props.getApprovedSuggestedEventsResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.approvedSuggestedEvents.length !==0 
                                         ? this.props.approvedSuggestedEvents.map(event => (
-                                            <tr>
+                                            <tr key={event._id}>
                                                 <td>{event.name}</td>
                                                 <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Approved Suggested Event.</h6>
+                                        : <tr><td>No Approved Suggested Event.</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -232,6 +232,9 @@ class StudentDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Suggested Events</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getSuggestedEventsResponseStatus}`}>
+                                {this.props.getSuggestedEventsResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -240,20 +243,17 @@ class StudentDashboard extends Component{
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getSuggestedEventsResponseStatus}`}>
-                                    {this.props.getSuggestedEventsResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.suggestedEvents.length !==0 
                                         ? this.props.suggestedEvents.map(event => (
-                                            <tr>
+                                            <tr key={event._id}>
                                                 <td>{event.name}</td>
                                                 <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                                 <td>{event.status}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Event is Suggested by you.</h6>
+                                        : <tr><td>No Event is Suggested by you.</td></tr>
                                     }
                                 </tbody>
                             </table>

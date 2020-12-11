@@ -5,6 +5,7 @@ import Lightbox from 'react-image-lightbox';
 import CommentsModal from '../comments/CommentsModal';
 import {connect} from 'react-redux';
 import {backendUrl} from '../../config';
+import {resetAddCommentResponseMessageProps} from '../../redux/actions/studentEventsAction';
 
 class StudentEvent extends Component{
     constructor(props){
@@ -34,6 +35,7 @@ class StudentEvent extends Component{
     }
     
     hideCommentsModal = e => {
+        this.props.resetCommentsResponseMessage();
         this.setState({showCommentsModal: false});
     }
 
@@ -111,7 +113,7 @@ class StudentEvent extends Component{
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
-                                    <i class="fas fa-search-plus"/> Images
+                                    <i className="fas fa-search-plus"/> Images
                                 </button>
                                 {
                                     this.props.event.status === "Action Required"
@@ -165,8 +167,14 @@ class StudentEvent extends Component{
 const mapStateToProps = state => {
     return {
         commentsResponseMessage: state.studentEvents.addCommentResponseMessage,
-        commentsResponseStatus: state.studentEvents.commentsResponseStatus
+        commentsResponseStatus: state.studentEvents.addCommentResponseStatus
     }
 }
 
-export default connect(mapStateToProps)(StudentEvent);
+const mapDispatchToProps = dispatch => {
+    return {
+        resetCommentsResponseMessage: () => {dispatch(resetAddCommentResponseMessageProps())}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentEvent);

@@ -86,7 +86,7 @@ const adminEventsReducer = (state = initialState, action) => {
                     //Return a new object
                     return{
                         ...event, //copy the existing event
-                        ["expiryDate"]: action.payload.date //replace the name with new name
+                        expiryDate: action.payload.date //replace the name with new name
                     }
                 }
                 // Leave every other menu unchanged

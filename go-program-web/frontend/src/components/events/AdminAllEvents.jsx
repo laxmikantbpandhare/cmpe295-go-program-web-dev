@@ -70,10 +70,10 @@ class AdminAllEvents extends Component{
             </div>
             
             <div className="container-fluid below-heading">
-                <div class="row">
-                    <div class="col-sm-4 offset-4 offset-sm-5 mt-2">
+                <div className="row">
+                    <div className="col-sm-4 offset-4 offset-sm-5 mt-2">
                         <button className="btn btn-primary btn-style font-weight-bold" onClick = {this.showAdminNewEventModal}>
-                            <i class="fas fa-plus"></i> &nbsp;Add Event
+                            <i className="fas fa-plus"></i> &nbsp;Add Event
                         </button>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ class AdminAllEvents extends Component{
                         <div className="col-sm-2 order-sm-3">
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
-                                <option selected value="">Sort by</option>
+                                <option value="">Sort by</option>
                                 <option>Points Asc</option>
                                 <option>Points Desc</option>
                                 <option>Created Date Asc</option>
@@ -94,10 +94,10 @@ class AdminAllEvents extends Component{
                         <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
                         
                         <div className="input-group col-10 col-sm-6 order-sm-1">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            <div className="input-group-prepend">
+                                <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
-                            <input class="form-control py-2" name="search" placeholder="Search by Event Name"
+                            <input className="form-control py-2" name="search" placeholder="Search by Event Name"
                             onChange={this.handleChange} value={this.state.search}></input>
                         </div>
 

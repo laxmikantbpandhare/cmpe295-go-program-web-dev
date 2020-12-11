@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../../Common.css';
 import CommentsModal from '../comments/CommentsModal';
 import {connect} from 'react-redux';
+import {resetAddCommentResponseMessageProps} from '../../redux/actions/suggestedEventsAction';
 
 class StudentSuggestion extends Component{
     constructor(props){
@@ -16,6 +17,7 @@ class StudentSuggestion extends Component{
     }
     
     hideCommentsModal = e => {
+        this.props.resetCommentsResponseMessage();
         this.setState({showCommentsModal: false});
     }
 
@@ -80,4 +82,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(StudentSuggestion);
+const mapDispatchToProps = dispatch => {
+    return {
+        resetCommentsResponseMessage: () => {dispatch(resetAddCommentResponseMessageProps())}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentSuggestion);

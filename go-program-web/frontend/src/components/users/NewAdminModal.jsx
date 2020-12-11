@@ -98,28 +98,28 @@ class NewAdminModal extends Component{
                             <div className={`status-msg ${this.props.responseStatus}`}>
                                 {this.props.responseMessage}
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">SJSU ID</label>
                                 <div className="col-8">
                                     <input type="number" name="id" placeholder="Enter SJSU ID" onChange={this.handleChange}
                                     className={`form-control ${this.state.id.match(idPattern)?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">First Name</label>
                                 <div className="col-8">
                                     <input type="text" name="fname" placeholder="Enter First Name" onChange={this.handleChange}
                                     className={`form-control ${this.state.fname!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">Last Name</label>
                                 <div className="col-8">
                                     <input type="text" name="lname" placeholder="Enter Last Name" onChange={this.handleChange}
                                     className={`form-control ${this.state.lname!==""?'orig-inp-valid':'orig-inp-invalid'}`}/>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">Email ID</label>
                                 <div className="col-8">
                                     <input type="email" name="email" placeholder="Enter SJSU Email ID" onChange={this.handleChange}

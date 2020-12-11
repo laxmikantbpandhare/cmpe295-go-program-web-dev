@@ -247,7 +247,7 @@ class AdminNewItemModal extends Component{
                             <div ref={el => { this.el = el; }} className={`status-msg ${this.props.responseStatus}`}>
                                 {this.props.responseMessage}
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">Name</label>
                                 <div className="col-8">
                                     <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
@@ -267,12 +267,12 @@ class AdminNewItemModal extends Component{
                                 <div className="col-8">
                                     <select className={`form-control ${this.state.category!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                     name="category" onChange={this.handleInputChange}>
-                                        <option selected value="">Select a Category</option>
-                                        {itemCategories.map(category => <option>{category}</option>)}
+                                        <option value="">Select a Category</option>
+                                        {itemCategories.map((category, idx) => <option key={idx}>{category}</option>)}
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">Points</label>
                                 <div className="col-8">
                                     <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}

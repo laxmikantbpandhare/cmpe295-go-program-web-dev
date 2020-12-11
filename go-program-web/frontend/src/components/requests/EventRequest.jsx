@@ -63,7 +63,7 @@ class EventRequest extends Component{
     }
     
     hideCommentsModal = e => {
-        this.props.resetCommentsResponseMessage()
+        this.props.resetCommentsResponseMessage();
         this.setState({showCommentsModal: false});
     }
     
@@ -135,19 +135,13 @@ class EventRequest extends Component{
                             {
                                 this.props.event.status === "Approved" 
                                 ? <p className="card-text"><strong>Status: </strong>{this.props.event.status}</p>
-                                : <div class="row">
+                                : <div className="row">
                                 <div className="col-sm-3 col-6">
-                                    <select className="form-control-sm"
+                                    <select className="form-control-sm" value={this.state.status}
                                         name="status" onChange={this.handleSelectChange}>
                                         {
-                                            this.options.map( option => {
-                                                if(option === this.state.status){
-                                                    return <option selected key={option}>{option}</option> ;
-                                                } else {
-                                                    return <option key={option}>{option}</option> ;
-                                                }
-                                            }
-                                            )}
+                                            this.options.map( option => <option key={option}>{option}</option>)
+                                        }
                                     </select>
                                 </div>
                                 <div className="col-sm-3 col-6">
@@ -163,7 +157,7 @@ class EventRequest extends Component{
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
-                                    <i class="fas fa-search-plus"/> View Images
+                                    <i className="fas fa-search-plus"/> View Images
                                 </button>
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showViewEventRequestModal}>

@@ -4,6 +4,7 @@ import './Orders.css'
 import CommentsModal from '../comments/CommentsModal';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {resetAddCommentResponseMessageProps} from '../../redux/actions/studentOrdersAction';
 
 class StudentOrder extends Component{
     constructor(props){
@@ -18,6 +19,7 @@ class StudentOrder extends Component{
     }
     
     hideCommentsModal = e => {
+        this.props.resetCommentsResponseMessage();
         this.setState({showCommentsModal: false});
     }
 
@@ -65,4 +67,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(StudentOrder);
+const mapDispatchToProps = dispatch => {
+    return {
+        resetCommentsResponseMessage: () => {dispatch(resetAddCommentResponseMessageProps())}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentOrder);

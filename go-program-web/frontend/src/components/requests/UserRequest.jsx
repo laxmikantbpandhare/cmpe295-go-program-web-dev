@@ -111,19 +111,13 @@ class UserRequest extends Component{
                             <p className="card-text"><strong>Updated Date: </strong>
                                 {new Date(this.props.student.user.createdDate).toLocaleString()}
                             </p>
-                            <div class="row">
+                            <div className="row">
                                 <div className="col-sm-2 col-3">
-                                    <select className="form-control-sm"
+                                    <select className="form-control-sm" value={this.state.status}
                                     name="status" onChange={this.handleSelectChange}>
                                         {
-                                            this.options.map( option => {
-                                                if(option === this.state.status){
-                                                    return <option selected key={option}>{option}</option> ;
-                                                } else {
-                                                    return <option key={option}>{option}</option> ;
-                                                }
-                                            }
-                                            )}
+                                            this.options.map( option => <option key={option}>{option}</option>)
+                                        }
                                     </select>
                                 </div>
                                 <div className="col-sm-3 col-6">
@@ -138,7 +132,7 @@ class UserRequest extends Component{
                             <div className="d-flex flex-row">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
-                                    <i class="fas fa-search-plus"/> Zoom Student ID Card
+                                    <i className="fas fa-search-plus"/> Zoom Student ID Card
                                 </button>
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick = {this.showViewUserModal}>

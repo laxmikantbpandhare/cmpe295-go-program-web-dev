@@ -73,7 +73,7 @@ const studentEventsReducer = (state = initialState, action) => {
                 if(event._id === action.payload.id){
                     return{
                         ...event, //copy the existing event
-                        ["description"]: action.payload.description //replace the name with new name
+                        description: action.payload.description //replace the name with new name
                     }
                 }
                 // Leave every other event unchanged

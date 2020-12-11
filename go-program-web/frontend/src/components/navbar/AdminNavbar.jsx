@@ -8,11 +8,11 @@ function AdminNavbar() {
     return (
     <div>
         <nav className="navbar navbar-dark navbar-custom navbar-expand-sm fixed-top">
-            <a class="navbar-brand" href="/admin/dashboard">
+            <a className="navbar-brand" href="/admin/dashboard">
                 <img src={collegeLogo} className="navbar-logo" alt="Logo"/>
             </a>
             <button className="navbar-toggler" data-toggle="collapse" data-target="#menu">
-                <span><i class="fas fa-bars"></i></span>
+                <span><i className="fas fa-bars"></i></span>
             </button>
             <div className="collapse navbar-collapse" id="menu">
                 <ul className="navbar-nav">

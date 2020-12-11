@@ -106,7 +106,7 @@ class EditAdminModal extends Component{
                             <div className={`status-msg ${this.props.responseStatus}`}>
                                 {this.props.responseMessage}
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">SJSU ID</label>
                                 <div className="col-8">
                                     <input type="number" name="id" placeholder="Enter SJSU ID" onChange={this.handleChange}
@@ -114,7 +114,7 @@ class EditAdminModal extends Component{
                                     value={this.state.id}/>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">First Name</label>
                                 <div className="col-8">
                                     <input type="text" name="fname" placeholder="Enter First Name" onChange={this.handleChange}
@@ -122,7 +122,7 @@ class EditAdminModal extends Component{
                                     value={this.state.fname}/>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">Last Name</label>
                                 <div className="col-8">
                                     <input type="text" name="lname" placeholder="Enter Last Name" onChange={this.handleChange}
@@ -130,7 +130,7 @@ class EditAdminModal extends Component{
                                     value={this.state.lname}/>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">Email ID</label>
                                 <div className="col-8">
                                     <input type="email" name="email" placeholder="Enter SJSU Email ID" onChange={this.handleChange}
@@ -138,19 +138,14 @@ class EditAdminModal extends Component{
                                     value={this.state.email}/>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-4">Status</label>
                                 <div className="col-8">
-                                    <select className="form-control orig-inp-valid" name="status" onChange={this.handleChange}>
+                                    <select className="form-control orig-inp-valid" name="status" 
+                                        value={this.state.status} onChange={this.handleChange}>
                                         {
-                                            this.options.map( option => {
-                                                if(option === this.state.status){
-                                                    return <option selected key={option}>{option}</option> ;
-                                                } else {
-                                                    return <option key={option}>{option}</option> ;
-                                                }
-                                            }
-                                            )}
+                                            this.options.map( option => <option key={option}>{option}</option>)
+                                        }
                                     </select>
                                 </div>
                             </div>

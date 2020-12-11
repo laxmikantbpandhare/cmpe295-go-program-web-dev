@@ -21,7 +21,8 @@ class StudentItemDetails extends Component{
                 description: "",
                 attributes: [],
                 name: "",
-                category: ""
+                category: "",
+                imagesBlob: []
             },
             photoIndex: 0,
             isOpen: false,
@@ -29,7 +30,8 @@ class StudentItemDetails extends Component{
             insufficientPointsInfo: "",
             originalQuantity: 0,
             attributeId: "",
-            getImagesResponsemessage: ""
+            getImagesResponsemessage: "",
+            images: []
         }
     }
 
@@ -73,7 +75,7 @@ class StudentItemDetails extends Component{
                     Promise.all(imagePromises)
                     .then(blobs => {
                         var images = blobs.map(blob => URL.createObjectURL(blob));
-                        data.item.images = images;
+                        this.state.images = images;
                         this.setState({
                             ...this.state,
                             item: data.item,
@@ -149,7 +151,7 @@ class StudentItemDetails extends Component{
             }
             let newTotalPoints = parseInt(item.points) * parseInt(item.quantity);
             this.pointsUsed = parseInt(this.pointsUsed) + newTotalPoints - pointsAdjusted;
-        } else {            
+        } else {      
             this.cart = [item, ...this.cart];
             let newTotalPoints = parseInt(item.points) * parseInt(item.quantity);
             this.pointsUsed = parseInt(this.pointsUsed) + newTotalPoints;
@@ -188,11 +190,11 @@ class StudentItemDetails extends Component{
                 <h2 className="text-center">{this.state.item.name}</h2>
                 <div className="row">
                     <div className="col-sm-4 text-center">
-                        <img src={this.state.item.images[0]} alt="" className="item-details-image img-fluid"/>
+                        <img src={this.state.images[0]} alt="" className="item-details-image img-fluid"/>
                         <div className="row justify-content-center" >
                         {
-                            this.state.item.images.length > 0 
-                            ? this.state.item.images.filter((image,index)=> index>0).map((image,index) => 
+                            this.state.images.length > 0 
+                            ? this.state.images.filter((image,index)=> index>0).map((image,index) => 
                                 (<div className="col-3 m-1" key ={index}>
                                         <img className="rounded img-thumbnail" src= {image} 
                                         alt="Responsive Pic"style={{cursor:"pointer"}}
@@ -251,18 +253,18 @@ class StudentItemDetails extends Component{
             </div>
             {isOpen && (
                 <Lightbox
-                    mainSrc={this.state.item.images[photoIndex]}
-                    nextSrc={this.state.item.images[(photoIndex + 1) % this.state.item.images.length]}
-                    prevSrc={this.state.item.images[(photoIndex + this.state.item.images.length - 1) % this.state.item.images]}
+                    mainSrc={this.state.images[photoIndex]}
+                    nextSrc={this.state.images[(photoIndex + 1) % this.state.images.length]}
+                    prevSrc={this.state.images[(photoIndex + this.state.images.length - 1) % this.state.images]}
                     onCloseRequest={() => this.setState({ isOpen: false })}
                     onMovePrevRequest={() =>
                     this.setState({
-                        photoIndex: (photoIndex + this.state.item.images.length - 1) % this.state.item.images.length,
+                        photoIndex: (photoIndex + this.state.images.length - 1) % this.state.images.length,
                     })
                     }
                     onMoveNextRequest={() =>
                     this.setState({
-                        photoIndex: (photoIndex + 1) % this.state.item.images.length,
+                        photoIndex: (photoIndex + 1) % this.state.images.length,
                     })
                     }
                 />

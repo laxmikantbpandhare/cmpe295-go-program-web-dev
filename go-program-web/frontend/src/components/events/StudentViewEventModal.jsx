@@ -47,7 +47,6 @@ class StudentViewEventModal extends Component{
     maxSelectFile=(event)=>{
         let files = event.target.files // create file object
         if (files.length + this.state.images.length > 4) {
-            const msg = 'Only 4 images can be uploaded at a time';
             event.target.value = null // discard selected file   
             return false;
         }
@@ -97,7 +96,7 @@ class StudentViewEventModal extends Component{
             alert("Please upload png/jpeg/jpg file only");
         }
         if(!this.maxSelectFile(e)){
-            alert("Total 4 images are allowed");
+            alert("Only 4 images can be uploaded at a time");
         }
         if(!this.checkFileSize(e)){
             alert("A file size should not exceed 500 KB");
@@ -207,13 +206,13 @@ class StudentViewEventModal extends Component{
                                 <div ref={el => { this.el = el; }} className={`status-msg ${this.props.responseStatus}`}>
                                     {this.props.responseMessage}
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-3">Event</label>
                                     <div className="col-9">
                                         <p>{this.props.event.event.name}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-3">Points</label>
                                     <div className="col-9">
                                         <p>{this.props.event.event.points}</p>
@@ -227,13 +226,13 @@ class StudentViewEventModal extends Component{
                                             name="description" value = {this.props.event.description}/>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-3">Status</label>
                                     <div className="col-9">
                                         <p>{this.props.event.status}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-3">Completed</label>
                                     <div className="col-9">
                                         <p>{new Date(this.props.event.completedDate).toLocaleDateString()}</p>

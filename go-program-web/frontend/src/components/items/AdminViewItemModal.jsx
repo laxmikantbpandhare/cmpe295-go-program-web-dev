@@ -216,7 +216,7 @@ class AdminViewItemModal extends Component{
                                 <div className={`status-msg ${this.props.responseStatus}`}>
                                     {this.props.responseMessage}
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-4">Name</label>
                                     <div className="col-8">
                                         {
@@ -248,14 +248,14 @@ class AdminViewItemModal extends Component{
                                             this.state.isEdited
                                             ? <select className={`form-control ${this.state.category!==""?'orig-inp-valid':'orig-inp-invalid'}`}
                                             name="category" onChange={this.handleStateInputChange} value={this.state.category}>
-                                                <option selected value="">Select a Category</option>
-                                                {itemCategories.map(category => <option>{category}</option>)}
+                                                <option value="">Select a Category</option>
+                                                {itemCategories.map((category, idx) => <option key={idx}>{category}</option>)}
                                             </select>
                                             : <p>{this.props.item.category}</p>
                                         }                                        
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-4">Points</label>
                                     <div className="col-8">
                                         {

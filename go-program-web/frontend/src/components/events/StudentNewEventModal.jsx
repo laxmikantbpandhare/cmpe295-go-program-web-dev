@@ -47,7 +47,6 @@ class StudentNewEventModal extends Component{
     maxSelectFile=(event)=>{
         let files = event.target.files // create file object
         if (files.length + this.state.images.length > 4) {
-            const msg = 'Only 4 images can be uploaded at a time';
             event.target.value = null // discard selected file   
             return false;
         }
@@ -97,7 +96,7 @@ class StudentNewEventModal extends Component{
             alert("Please upload png/jpeg/jpg file only");
         }
         if(!this.maxSelectFile(e)){
-            alert("Total 4 images are allowed");
+            alert("Only 4 images can be uploaded at a time");
         }
         if(!this.checkFileSize(e)){
             alert("A file size should not exceed 500 KB");
@@ -196,12 +195,12 @@ class StudentNewEventModal extends Component{
                             <div ref={el => { this.el = el; }} className={`status-msg ${this.props.responseStatus}`}>
                                 {this.props.responseMessage}
                             </div>
-                            <div class="form-group row">
+                            <div className="form-group row">
                                 <label className="col-3">Event</label>
                                 <div className="col-9">
                                     <select className={`form-control ${this.state.eventId?'orig-inp-valid':'orig-inp-invalid'}`}
                                     name="event" onChange={this.handleSelectChange}>
-                                        <option selected value="">Select an Event</option>
+                                        <option value="">Select an Event</option>
                                         {this.props.events.map((event,index) => <option key={index} id={event._id}>
                                             {`${event.points} Points - ${event.name}`}
                                         </option>)}

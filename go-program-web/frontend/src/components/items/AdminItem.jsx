@@ -77,7 +77,7 @@ class AdminItem extends Component{
                             <div className="d-flex flex-row justify-content-around justify-content-sm-start">
                                 <button type="button" className="btn btn-link view-details-color"
                                 onClick={() => this.setState({ isOpen: true })}>
-                                    <i class="fas fa-search-plus"/> 
+                                    <i className="fas fa-search-plus"/> 
                                     <span className="d-none d-sm-inline"> Images</span>
                                 </button>
                                 <button type="button" className="btn btn-link view-details-color"

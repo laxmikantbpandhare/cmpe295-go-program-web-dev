@@ -95,7 +95,7 @@ class AdminNewEventModal extends Component{
                                 <div className={`status-msg ${this.props.responseStatus}`}>
                                     {this.props.responseMessage}
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-3">Name</label>
                                     <div className="col-9">
                                         <input type="text" name="name" placeholder="Enter Name" onChange={this.handleInputChange}
@@ -110,7 +110,7 @@ class AdminNewEventModal extends Component{
                                         name="description"/>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div className="form-group row">
                                     <label className="col-3">Points</label>
                                     <div className="col-9">
                                         <input type="number" min="1" name="points" placeholder="Enter Points" onChange={this.handleInputChange}

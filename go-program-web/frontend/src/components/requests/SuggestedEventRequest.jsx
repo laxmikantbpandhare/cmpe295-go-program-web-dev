@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../../Common.css';
 import ViewSuggestedEventRequestModal from './ViewSuggestedEventRequestModal';
 import {connect} from 'react-redux';
-import {updateEventStatus} from '../../redux/actions/suggestedEventsRequestsAction';
+import {updateEventStatus, resetAddCommentResponseMessageProps} from '../../redux/actions/suggestedEventsRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
 
 class SuggestedEventRequest extends Component{
@@ -23,6 +23,7 @@ class SuggestedEventRequest extends Component{
     }
 
     showCommentsModal = e => {
+        this.props.resetCommentsResponseMessage();
         this.setState({showCommentsModal: true});
     }
     
@@ -88,19 +89,13 @@ class SuggestedEventRequest extends Component{
                             {
                                 this.props.event.status === "Approved" 
                                 ? <p className="card-text"><strong>Status: </strong>{this.props.event.status}</p>
-                                : <div class="row">
+                                : <div className="row">
                                 <div className="col-sm-3 col-6">
-                                    <select className="form-control-sm"
+                                    <select className="form-control-sm" value={this.state.status}
                                     name="status" onChange={this.handleSelectChange}>
                                         {
-                                            this.options.map( option => {
-                                                if(option === this.state.status){
-                                                    return <option selected>{option}</option> ;
-                                                } else {
-                                                    return <option>{option}</option> ;
-                                                }
-                                            }
-                                            )}
+                                            this.options.map( option => <option key={option}>{option}</option>)
+                                        }
                                     </select>
                                 </div>
                                 <div className="col-sm-3 col-6">
@@ -143,7 +138,8 @@ class SuggestedEventRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleUpdate: data => dispatch(updateEventStatus(data))
+        handleUpdate: data => dispatch(updateEventStatus(data)),
+        resetCommentsResponseMessage: () => {dispatch(resetAddCommentResponseMessageProps())}
     }
 }
 

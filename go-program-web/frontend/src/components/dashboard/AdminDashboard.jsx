@@ -24,6 +24,9 @@ class AdminDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Pending Approval Events Requests</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getPendingApprovalEventsResponseStatus}`}>
+                                {this.props.getPendingApprovalEventsResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -33,21 +36,18 @@ class AdminDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getPendingApprovalEventsResponseStatus}`}>
-                                    {this.props.getPendingApprovalEventsResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.pendingApprovalEvents.length !==0 
                                         ? this.props.pendingApprovalEvents.map(event => (
-                                            <tr>
+                                            <tr key={event._id}>
                                                 <td>{event.student.sjsuId}</td>
                                                 <td>{event.event.name}</td>
                                                 <td>{event.event.points}</td>
                                                 <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Event requires Approval.</h6>
+                                        : <tr><td>No Event requires Approval.</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -56,6 +56,9 @@ class AdminDashboard extends Component{
                     <div className="col-sm-6">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Submitted Orders Requests</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getSubmittedOrdersResponseStatus}`}>
+                                {this.props.getSubmittedOrdersResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -65,21 +68,18 @@ class AdminDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getSubmittedOrdersResponseStatus}`}>
-                                    {this.props.getSubmittedOrdersResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.submittedOrders.length !==0 
                                         ? this.props.submittedOrders.map(order => (
-                                            <tr>
+                                            <tr key={order._id}>
                                                 <td>{order.student.sjsuId}</td>
                                                 <td>{order.id}</td>
                                                 <td>{order.points}</td>
                                                 <td>{new Date(order.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Submitted Order.</h6>
+                                        : <tr><td>No Submitted Order.</td></tr>
                                     }
                                 </tbody>
                             </table>
@@ -90,6 +90,9 @@ class AdminDashboard extends Component{
                     <div className="col-sm-8">
                         <h2 className="text-white text-center p-1 events-table-heading">Last 5 Pending Approval Suggested Events Requests</h2>
                         <div className="container">
+                            <div className={`status-msg ${this.props.getPendingApprovalSuggestedEventsResponseStatus}`}>
+                                {this.props.getPendingApprovalSuggestedEventsResponseMessage}
+                            </div>
                             <table className="table">
                                 <thead className="events-table-attributes">
                                     <tr>
@@ -98,20 +101,17 @@ class AdminDashboard extends Component{
                                         <th>Date Submitted</th>
                                     </tr>
                                 </thead>
-                                <div className={`status-msg ${this.props.getPendingApprovalSuggestedEventsResponseStatus}`}>
-                                    {this.props.getPendingApprovalSuggestedEventsResponseMessage}
-                                </div>
                                 <tbody>
                                     {
                                         this.props.pendingApprovalSuggestedEvents.length !==0 
                                         ? this.props.pendingApprovalSuggestedEvents.map(event => (
-                                            <tr>
+                                            <tr key={event._id}>
                                                 <td>{event.student.sjsuId}</td>
                                                 <td>{event.name}</td>
                                                 <td>{new Date(event.createdDate).toLocaleString('en-US', { hour12: false })}</td>
                                             </tr>
                                         ))
-                                        : <h6>No Suggested Event requires Approval.</h6>
+                                        : <tr><td>No Suggested Event requires Approval.</td></tr>
                                     }
                                 </tbody>
                             </table>

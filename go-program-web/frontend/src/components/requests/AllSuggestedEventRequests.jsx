@@ -67,46 +67,46 @@ class AllSuggestedEventRequests extends Component{
                 <div className="entities-search-section">
                     <h4 className="text-center text-white all-entity-heading p-1 mt-2">All Submitted Events</h4>
                     <div className="row">
-                        <div  class="col-6 col-sm-2 order-sm-3">
+                        <div className="col-6 col-sm-2 order-sm-3">
                             <select className="form-control" name="filter" onChange={this.handleChange}
                              value={this.state.filter}>
-                                <option selected value="">Filter by Status</option>
+                                <option value="">Filter by Status</option>
                                 {
-                                    this.statusOptions.map(option => <option>{option}</option>)
+                                    this.statusOptions.map(option => <option key={option}>{option}</option>)
                                 }
                             </select>
                         </div>
 
-                        <div  class="col-6 col-sm-2 order-sm-4">
+                        <div className="col-6 col-sm-2 order-sm-4">
                             <select className="form-control" name="sort" onChange={this.handleChange}
                              value={this.state.sort}>
-                                <option selected value="">Sort by</option>
+                                <option value="">Sort by</option>
                                 <option>Submitted Date Ascending</option>
                                 <option>Submitted Date Descending</option>
                             </select>
                         </div>
 
-                        <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
+                        <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
 
                         <div className="input-group col-12 col-sm-3 order-sm-2">
-                            <div class="input-group-prepend">
+                            <div className="input-group-prepend">
                                 <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
                             <input className="form-control py-2" name="searchEventName" placeholder="Search by Event Name"
                             onChange={this.handleChange} value={this.state.searchEventName}></input>
                         </div>
 
-                        <div class="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
+                        <div className="w-100 d-block d-sm-none mt-2 mt-sm-0"></div>
 
                         <div className="input-group col-10 col-sm-3 order-sm-1">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                            <div className="input-group-prepend">
+                                <div className="input-group-text"><i className="fas fa-search"></i></div>
                             </div>
                             <input type = "number" className="form-control py-2" name="searchStudentId" placeholder="Search by Student Id"
                             onChange={this.handleChange} value={this.state.searchStudentId}></input>
                         </div> 
 
-                        <div  class="col-2 col-sm-2 order-sm-4">
+                        <div className="col-2 col-sm-2 order-sm-4">
                             <button className="btn btn-primary" style={{backgroundColor:"#0056a3"}}
                                 onClick={this.resetSearchSection}>
                                 <i className="fas fa-sync"></i>

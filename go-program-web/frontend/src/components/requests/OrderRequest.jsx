@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../Common.css';
 import {connect} from 'react-redux';
-import {updateOrderStatus} from '../../redux/actions/ordersRequestsAction';
+import {updateOrderStatus, resetAddCommentResponseMessageProps} from '../../redux/actions/ordersRequestsAction';
 import CommentsModal from '../comments/CommentsModal';
 import {Link} from 'react-router-dom';
 
@@ -18,6 +18,7 @@ class OrderRequest extends Component{
     }
     
     hideCommentsModal = e => {
+        this.props.resetCommentsResponseMessage();
         this.setState({showCommentsModal: false});
     }
     
@@ -84,19 +85,13 @@ class OrderRequest extends Component{
                             {
                                 this.props.order.status === "Delivered" || this.state.initialStatus === "Cancelled"
                                 ? <p><strong>Status: </strong>{this.props.order.status}</p>
-                                : <div class="row">
+                                : <div className="row">
                                 <div className="col-sm-3 col-6">
-                                    <select className="form-control-sm"
+                                    <select className="form-control-sm" value={this.state.status}
                                     name="status" onChange={this.handleSelectChange}>
                                         {
-                                            this.options.map( option => {
-                                                if(option === this.state.status){
-                                                    return <option selected>{option}</option> ;
-                                                } else {
-                                                    return <option>{option}</option> ;
-                                                }
-                                            }
-                                            )}
+                                            this.options.map( option => <option key={option}>{option}</option>)
+                                        }
                                     </select>
                                 </div>
                                 <div className="col-sm-3 col-6">
@@ -136,7 +131,8 @@ class OrderRequest extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleUpdate: data => dispatch(updateOrderStatus(data))
+        handleUpdate: data => dispatch(updateOrderStatus(data)),
+        resetCommentsResponseMessage: () => {dispatch(resetAddCommentResponseMessageProps())}
     }
 }
 
